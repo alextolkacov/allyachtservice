@@ -2,4 +2,4 @@ User-agent: *
 Disallow: /admin/
 Disallow: /login/
 Allow: /
-Sitemap: https://www.allyachtservice.com/sitemap.xml
+Sitemap: https://github.com/alextolkacov/allyachtservice/blob/main/sitemap.xml
