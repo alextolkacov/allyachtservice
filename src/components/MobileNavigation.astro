@@ -1,0 +1,149 @@
+---
+import type { Locale } from '../data/languages';
+import {
+  getRoutePath,
+  primaryNavigation,
+  type RouteId,
+} from '../data/navigation';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+interface Props {
+  currentLocale: Locale;
+  currentPath: string;
+  routeId: RouteId;
+}
+
+const { currentLocale, currentPath, routeId } = Astro.props;
+---
+
+<div class="mobile-navigation" data-mobile-navigation>
+  <button
+    class="menu-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="mobile-navigation-panel"
+    aria-label="Open navigation menu"
+    data-menu-toggle
+  >
+    <span class="menu-toggle-lines" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+    <span class="menu-toggle-label">Menu</span>
+  </button>
+
+  <div
+    class="mobile-menu-panel"
+    id="mobile-navigation-panel"
+    data-mobile-menu
+    hidden
+  >
+    <nav aria-label="Primary navigation">
+      <ul class="mobile-menu-links" role="list">
+        {
+          primaryNavigation.map((item) => {
+            const href = getRoutePath(item.routeId, currentLocale);
+            const isCurrent = href === currentPath;
+
+            return (
+              <li>
+                <a href={href} aria-current={isCurrent ? 'page' : undefined}>
+                  {item.labels[currentLocale]}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+
+    <div class="mobile-language-block">
+      <p>Language</p>
+      <LanguageSwitcher
+        currentLocale={currentLocale}
+        routeId={routeId}
+        mode="full"
+      />
+    </div>
+  </div>
+</div>
+
+<script>
+  const navigation = document.querySelector<HTMLElement>(
+    '[data-mobile-navigation]',
+  );
+  const toggle =
+    navigation?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const panel = navigation?.querySelector<HTMLElement>('[data-mobile-menu]');
+
+  if (navigation && toggle && panel) {
+    const focusableSelector =
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    const setOpen = (isOpen: boolean, restoreFocus = false) => {
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      toggle.setAttribute(
+        'aria-label',
+        isOpen ? 'Close navigation menu' : 'Open navigation menu',
+      );
+      panel.hidden = !isOpen;
+      document.body.classList.toggle('menu-is-open', isOpen);
+
+      if (isOpen) {
+        panel.querySelector<HTMLElement>(focusableSelector)?.focus();
+      } else if (restoreFocus) {
+        toggle.focus();
+      }
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    panel.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setOpen(false, true);
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+
+      const focusableElements = Array.from(
+        panel.querySelectorAll<HTMLElement>(focusableSelector),
+      );
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements.at(-1);
+
+      if (!firstElement || !lastElement) return;
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (
+        event.key === 'Escape' &&
+        toggle.getAttribute('aria-expanded') === 'true'
+      ) {
+        setOpen(false, true);
+      }
+    });
+
+    panel.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) setOpen(false);
+    });
+
+    window
+      .matchMedia('(min-width: 80rem)')
+      .addEventListener('change', (event) => {
+        if (event.matches) setOpen(false);
+      });
+  }
+</script>

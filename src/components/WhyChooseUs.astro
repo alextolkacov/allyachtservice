@@ -1,0 +1,44 @@
+---
+import type { HomeImage } from '../data/home';
+
+interface Props {
+  heading: string;
+  introduction: string;
+  points: readonly string[];
+  image: HomeImage;
+}
+
+const { heading, introduction, points, image } = Astro.props;
+---
+
+<section class="section why-section" aria-labelledby="why-heading">
+  <div class="site-container split-section">
+    <div class="split-section-image">
+      <img
+        src={image.src}
+        alt={image.alt}
+        width={image.width}
+        height={image.height}
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    <div class="split-section-content">
+      <p class="eyebrow">Independent marine expertise</p>
+      <h2 id="why-heading" class="section-heading">{heading}</h2>
+      <p class="section-lead">{introduction}</p>
+      <ul class="check-list" role="list">
+        {
+          points.map((point) => (
+            <li>
+              <>
+                <span aria-hidden="true">✓</span>
+                <span>{point}</span>
+              </>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

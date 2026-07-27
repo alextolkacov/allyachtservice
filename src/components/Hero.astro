@@ -1,0 +1,32 @@
+---
+import type { HomeImage } from '../data/home';
+
+interface Props {
+  heading: string;
+  supportingText: string;
+  serviceLine: string;
+  image: HomeImage;
+}
+
+const { heading, supportingText, serviceLine, image } = Astro.props;
+---
+
+<section class="home-hero" aria-labelledby="home-hero-title">
+  <img
+    class="home-hero-image"
+    src={image.src}
+    alt={image.alt}
+    width={image.width}
+    height={image.height}
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div class="home-hero-overlay" aria-hidden="true"></div>
+  <div class="site-container home-hero-content">
+    <div class="home-hero-title-frame">
+      <h1 id="home-hero-title">{heading}</h1>
+    </div>
+    <p class="home-hero-supporting">{supportingText}</p>
+    <p class="home-hero-service-line">{serviceLine}</p>
+  </div>
+</section>

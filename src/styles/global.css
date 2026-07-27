@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 
+/*noinspection CssInvalidAtRule*/
 @theme {
   --color-navy: #0a1d2f;
   --color-graphite: #252b31;

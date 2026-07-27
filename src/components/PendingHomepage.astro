@@ -1,0 +1,24 @@
+---
+interface Props {
+  heading: string;
+  notice: string;
+}
+
+const { heading, notice } = Astro.props;
+---
+
+<section class="pending-home" aria-labelledby="pending-home-heading">
+  <img
+    src="/images/hero-sailing-yacht.webp"
+    alt="Sailing yacht underway at sea"
+    width="1277"
+    height="618"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div aria-hidden="true"></div>
+  <div class="site-container pending-home-content">
+    <h1 id="pending-home-heading">{heading}</h1>
+    <p class="development-notice" role="status">{notice}</p>
+  </div>
+</section>

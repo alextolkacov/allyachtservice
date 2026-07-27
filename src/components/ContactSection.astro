@@ -1,0 +1,65 @@
+---
+import { siteConfig } from '../data/site';
+import SocialLinks from './SocialLinks.astro';
+---
+
+<section class="contact-section" aria-labelledby="contact-heading">
+  <div class="site-container contact-section-inner">
+    <div class="contact-introduction">
+      <p class="eyebrow eyebrow-light">Contact</p>
+      <h2 id="contact-heading">All Yacht Service</h2>
+      <p>
+        Based at Marina Greenwich in Altea and available throughout Spain and
+        the Mediterranean.
+      </p>
+      <SocialLinks theme="light" showLabels={true} />
+    </div>
+
+    <div class="contact-details">
+      <div>
+        <h3>Office</h3>
+        <address>
+          {siteConfig.address.lines.map((line) => <span>{line}</span>)}
+        </address>
+      </div>
+      <div>
+        <h3>Direct contact</h3>
+        <dl>
+          <div>
+            <dt>Phone</dt>
+            <dd>
+              <a href={siteConfig.contact.phoneHref}
+                >{siteConfig.contact.phone}</a
+              >
+            </dd>
+          </div>
+          <div>
+            <dt>WhatsApp</dt>
+            <dd>
+              <a
+                href={siteConfig.contact.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {siteConfig.contact.whatsapp}
+              </a>
+            </dd>
+          </div>
+          <div>
+            <dt>Email</dt>
+            <dd>
+              <a href={siteConfig.contact.emailHref}
+                >{siteConfig.contact.email}</a
+              >
+            </dd>
+          </div>
+        </dl>
+      </div>
+      <div>
+        <h3>Opening hours</h3>
+        <p>{siteConfig.workingHours.label}</p>
+        <p>{siteConfig.officeVisits}</p>
+      </div>
+    </div>
+  </div>
+</section>

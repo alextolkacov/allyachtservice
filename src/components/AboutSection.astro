@@ -1,0 +1,36 @@
+---
+import type { HomeImage } from '../data/home';
+
+interface Props {
+  heading: string;
+  paragraphs: readonly string[];
+  image: HomeImage;
+}
+
+const { heading, paragraphs, image } = Astro.props;
+---
+
+<section class="section about-section" aria-labelledby="about-heading">
+  <div class="site-container split-section split-section-reverse">
+    <div class="split-section-image">
+      <img
+        src={image.src}
+        alt={image.alt}
+        width={image.width}
+        height={image.height}
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    <div class="split-section-content">
+      <p class="eyebrow">About All Yacht Service</p>
+      <h2 id="about-heading" class="section-heading">{heading}</h2>
+      <div class="about-copy">
+        {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+      <a class="text-arrow-link" href="/about-us"
+        >More info <span aria-hidden="true">→</span></a
+      >
+    </div>
+  </div>
+</section>

@@ -1,0 +1,28 @@
+---
+import type { HomeService } from '../data/home';
+import ServiceCard from './ServiceCard.astro';
+
+interface Props {
+  heading: string;
+  services: readonly HomeService[];
+  linkLabel?: string;
+}
+
+const { heading, services, linkLabel = 'More info' } = Astro.props;
+---
+
+<section class="section services-section" aria-labelledby="services-heading">
+  <div class="site-container">
+    <div class="section-heading-wrap section-heading-centered">
+      <p class="eyebrow">Surveying &amp; technical support</p>
+      <h2 id="services-heading" class="section-heading">{heading}</h2>
+    </div>
+    <div class="services-grid">
+      {
+        services.map((service) => (
+          <ServiceCard {...service} linkLabel={linkLabel} />
+        ))
+      }
+    </div>
+  </div>
+</section>
