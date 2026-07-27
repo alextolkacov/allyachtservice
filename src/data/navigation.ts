@@ -5,6 +5,7 @@ export type RouteId =
   | 'prePurchaseSurvey'
   | 'insuranceSurvey'
   | 'buyerRepresentation'
+  | 'aboutUs'
   | 'yachtDelivery';
 
 /**
@@ -33,6 +34,9 @@ export const translatedRoutes: Record<
   buyerRepresentation: {
     en: '/buyer-representation',
   },
+  aboutUs: {
+    en: '/about-us',
+  },
   yachtDelivery: {
     en: '/yacht-delivery',
   },
@@ -44,6 +48,7 @@ export interface NavigationItem {
     | 'prePurchaseSurvey'
     | 'insuranceSurvey'
     | 'buyerRepresentation'
+    | 'aboutUs'
     | 'yachtDelivery'
     | 'contact';
   routeId?: RouteId;
@@ -110,6 +115,18 @@ export const primaryNavigation = [
       fr: 'Convoyage de yacht',
       it: 'Trasferimento yacht',
       gr: 'Μεταφορά σκαφών',
+    },
+  },
+  {
+    id: 'aboutUs',
+    routeId: 'aboutUs',
+    labels: {
+      en: 'About Us',
+      es: 'Sobre nosotros',
+      ru: 'О нас',
+      fr: 'À propos',
+      it: 'Chi siamo',
+      gr: 'Σχετικά με εμάς',
     },
   },
   {

@@ -1,0 +1,18 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 120 120"
+  role="img"
+  aria-label="All Yacht Service sail emblem"
+>
+  <rect width="120" height="120" rx="12" fill="#f5f3ed" />
+  <g
+    transform="translate(-30 0)"
+    fill="none"
+    stroke="#0a1d2f"
+    stroke-width="6"
+    stroke-linejoin="miter"
+  >
+    <polygon points="80,20 35,105 80,105" />
+    <polygon points="90,15 145,105 90,105" />
+  </g>
+</svg>

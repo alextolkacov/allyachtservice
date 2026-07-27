@@ -51,6 +51,9 @@ export const siteConfig = {
     instagram: 'https://www.instagram.com/allyachtservice/',
     linkedin: 'https://www.linkedin.com/company/all-yacht-service/',
   },
+  businessProfiles: {
+    google: 'https://share.google/WAqh1CRvuS0ogCGWO',
+  },
 } as const;
 
 export type SiteConfig = typeof siteConfig;

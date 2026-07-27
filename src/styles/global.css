@@ -1181,6 +1181,92 @@
     line-height: 1.7;
   }
 
+  .about-profile-grid {
+    display: grid;
+    margin-top: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .about-profile-copy > p {
+    margin: 0;
+  }
+
+  .about-profile-copy > p + p,
+  .about-profile-copy > p + ul,
+  .about-profile-copy > ul + p {
+    margin-top: 1.25rem;
+  }
+
+  .about-profile-image {
+    min-height: 18rem;
+    margin: 0;
+    overflow: hidden;
+    background: var(--color-navy);
+  }
+
+  .about-profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+  }
+
+  .about-services-grid .text-arrow-link {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    margin-top: 0.75rem;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .about-office-card {
+    display: grid;
+    margin-top: 1.5rem;
+    border: 1px solid rgb(10 29 47 / 14%);
+    background: white;
+  }
+
+  .about-office-card > div {
+    padding: 1.35rem;
+  }
+
+  .about-office-card > div + div {
+    border-top: 1px solid rgb(10 29 47 / 14%);
+  }
+
+  .about-office-card h3,
+  .about-office-card p {
+    margin: 0;
+  }
+
+  .about-office-card p + p {
+    margin-top: 0.75rem;
+  }
+
+  .about-office-card address {
+    display: grid;
+    margin-top: 0.75rem;
+    font-style: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .about-office-links {
+    display: grid;
+    margin: 1rem 0 0;
+    padding: 0;
+    gap: 0.75rem;
+    list-style: none;
+  }
+
+  .about-office-links .button {
+    width: 100%;
+    overflow-wrap: anywhere;
+    text-align: center;
+  }
+
   .related-services {
     background: white;
     padding-block: 4.75rem;
@@ -1375,6 +1461,16 @@
   .defect-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .about-office-card,
+  .about-office-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-office-card > div + div {
+    border-top: 0;
+    border-left: 1px solid rgb(10 29 47 / 14%);
+  }
 }
 
 @media (min-width: 48rem) {
@@ -1457,6 +1553,12 @@
 
   .service-final-cta-actions .button {
     width: 100%;
+  }
+
+  .about-profile-grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.9fr);
+    align-items: stretch;
+    gap: 2.5rem;
   }
 }
 

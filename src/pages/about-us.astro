@@ -1,0 +1,330 @@
+---
+import { aboutUsPage } from '../data/about-us';
+import { siteConfig } from '../data/site';
+import ServiceLayout from '../layouts/ServiceLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../utils/seo';
+
+const pageUrl = toAbsoluteUrl(aboutUsPage.pathname);
+const personId = new URL(aboutUsPage.person.id, siteConfig.url).toString();
+const aboutPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: 'About All Yacht Service',
+  description: aboutUsPage.summary,
+  about: {
+    '@id': businessEntityId,
+  },
+  mainEntity: {
+    '@id': personId,
+  },
+};
+const personSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': personId,
+  name: aboutUsPage.person.name,
+  jobTitle: aboutUsPage.person.jobTitle,
+  worksFor: {
+    '@id': businessEntityId,
+  },
+  knowsAbout: aboutUsPage.person.knowsAbout,
+};
+---
+
+<ServiceLayout
+  title={aboutUsPage.title}
+  description={aboutUsPage.description}
+  locale="en"
+  routeId="aboutUs"
+  pathname={aboutUsPage.pathname}
+  heading={aboutUsPage.heading}
+  eyebrow={aboutUsPage.eyebrow}
+  summary={aboutUsPage.summary}
+  heroImage={aboutUsPage.heroImage}
+  socialImageAlt={aboutUsPage.socialImageAlt}
+  breadcrumbs={aboutUsPage.breadcrumbs}
+  primaryCta={aboutUsPage.primaryCta}
+  secondaryCta={aboutUsPage.secondaryCta}
+  relatedServices={aboutUsPage.relatedServices}
+  finalCta={aboutUsPage.finalCta}
+  structuredData={[aboutPageSchema, personSchema]}
+>
+  <section aria-labelledby="independent-services-heading">
+    <h2 id="independent-services-heading">
+      Independent Yacht Services Based in Altea
+    </h2>
+    <p>
+      All Yacht Service provides independent yacht surveying, buyer
+      representation and professional yacht delivery services throughout Spain
+      and the Mediterranean.
+    </p>
+    <p>
+      Based at Marina Greenwich in Altea, Alicante, the business supports yacht
+      buyers, owners, insurers and brokers with clear technical information and
+      practical assistance.
+    </p>
+    <p>
+      Services are available for sailing yachts, motor yachts and catamarans up
+      to 24 metres.
+    </p>
+    <p>
+      The objective is to help clients understand a vessel’s observed condition,
+      technical risks, maintenance priorities and practical requirements so they
+      can make better-informed decisions.
+    </p>
+  </section>
+
+  <section aria-labelledby="professional-profile-heading">
+    <h2 id="professional-profile-heading">Aleksandrs Tolkacovs</h2>
+    <div class="about-profile-grid">
+      <div class="about-profile-copy">
+        <p>
+          All Yacht Service is led by Aleksandrs Tolkacovs, an IIMS-Certified
+          Yacht and Small Craft Marine Surveyor and licensed captain.
+        </p>
+        <p>
+          His professional background combines practical yacht operation with
+          more than 20 years of experience in engineering, quality assurance and
+          management.
+        </p>
+        <p>
+          This combination supports a structured approach to inspections, defect
+          assessment, reporting, risk evaluation and communication with buyers,
+          owners, brokers, insurers, boatyards and technical specialists.
+        </p>
+        <p>
+          Aleksandrs has practical experience operating sailing yachts and motor
+          yachts in:
+        </p>
+        <ul class="defect-grid">
+          {aboutUsPage.operatingAreas.map((area) => <li>{area}</li>)}
+        </ul>
+        <p>
+          His maritime experience also includes yacht delivery and regatta
+          participation.
+        </p>
+      </div>
+      <figure class="about-profile-image">
+        <img
+          src={aboutUsPage.profileImage.src}
+          alt={aboutUsPage.profileImage.alt}
+          width={aboutUsPage.profileImage.width}
+          height={aboutUsPage.profileImage.height}
+          loading="lazy"
+        />
+      </figure>
+    </div>
+  </section>
+
+  <section aria-labelledby="qualifications-heading">
+    <h2 id="qualifications-heading">
+      Qualifications and Professional Background
+    </h2>
+    <div class="inspection-grid">
+      {
+        aboutUsPage.qualifications.map((item) => (
+          <article>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))
+      }
+    </div>
+    <!-- TODO: Add an approved IIMS certificate image or qualification document here when publication permission and the asset are available. -->
+  </section>
+
+  <section aria-labelledby="professional-services-heading">
+    <h2 id="professional-services-heading">Professional Yacht Services</h2>
+    <p>All Yacht Service focuses on the following areas:</p>
+    <div class="inspection-grid about-services-grid">
+      {
+        aboutUsPage.services.map((service) => (
+          <article>
+            <h3>{service.title}</h3>
+            <p>{service.description}</p>
+            {'href' in service && service.href && (
+              <a class="text-arrow-link" href={service.href}>
+                View service <span aria-hidden="true">→</span>
+              </a>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section aria-labelledby="approach-heading">
+    <h2 id="approach-heading">A Clear and Practical Approach</h2>
+    <p>
+      Yacht surveys and technical assignments are approached systematically,
+      with attention to the agreed scope, vessel access, inspection conditions
+      and the intended purpose of the work.
+    </p>
+    <p>Clients can expect:</p>
+    <ul class="service-check-list">
+      {aboutUsPage.approachPoints.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="service-note">
+      Surveying is normally non-destructive and limited to areas, systems and
+      equipment that are safely accessible at the time of inspection. No survey
+      can guarantee that every existing defect will be identified.
+    </p>
+  </section>
+
+  <section aria-labelledby="independence-heading">
+    <h2 id="independence-heading">
+      Independence and Professional Responsibility
+    </h2>
+    <p>
+      The purpose of an independent yacht survey is to provide the commissioning
+      client with objective technical information based on the vessel’s observed
+      condition and the agreed inspection scope.
+    </p>
+    <p>
+      All Yacht Service does not undertake repairs as part of an independent
+      survey assignment and does not allow repair interests to influence survey
+      findings.
+    </p>
+    <p>
+      Any commercial relationship or potential conflict of interest connected
+      with a vessel will be disclosed before an appointment is accepted.
+    </p>
+    <p>
+      Where a conflict could prevent an appropriately independent service from
+      being provided, the assignment may be declined or its limitations agreed
+      clearly with the client.
+    </p>
+  </section>
+
+  <section aria-labelledby="premium-yachts-heading">
+    <h2 id="premium-yachts-heading">Relationship with Premium Yachts Spain</h2>
+    <p>
+      Aleksandrs Tolkacovs also serves as Chief Operating Officer of Premium
+      Yachts Spain, a separate yacht-sales and marine-services business.
+    </p>
+    <p>
+      This relationship provides practical insight into yacht transactions,
+      buyer requirements, dealer communication and the wider yacht market.
+    </p>
+    <p>However, yacht surveying assignments must remain transparent.</p>
+    <p>
+      Where a vessel, seller, buyer, broker, manufacturer or transaction has a
+      commercial connection with Premium Yachts Spain, that relationship will be
+      disclosed before All Yacht Service accepts an independent survey or
+      buyer-support assignment.
+    </p>
+    <p>
+      The client will be informed of any relevant limitation or potential
+      conflict so they can decide whether to proceed.
+    </p>
+    <p class="service-note">
+      All Yacht Service and Premium Yachts Spain must not be presented as the
+      same legal entity unless that position is confirmed later.
+    </p>
+  </section>
+
+  <section aria-labelledby="clients-heading">
+    <h2 id="clients-heading">Who We Support</h2>
+    <p>
+      All Yacht Service works with clients who need clear and practical
+      technical support, including:
+    </p>
+    <ul class="defect-grid">
+      {aboutUsPage.supportedClients.map((client) => <li>{client}</li>)}
+    </ul>
+    <p class="service-note">
+      The commissioning client, report purpose and permitted reliance must be
+      agreed for each assignment.
+    </p>
+  </section>
+
+  <section aria-labelledby="coverage-heading">
+    <h2 id="coverage-heading">Yacht Survey Coverage</h2>
+    <p>
+      Based at Marina Greenwich in Altea, All Yacht Service carries out yacht
+      surveys and related services throughout:
+    </p>
+    <ul class="defect-grid">
+      {aboutUsPage.coverage.map((area) => <li>{area}</li>)}
+    </ul>
+    <p>
+      Services in France, Italy, Greece and other European or international
+      locations can also be arranged according to the vessel’s location, travel
+      requirements and agreed scope.
+    </p>
+    <p class="service-note">
+      Travel, accommodation, haul-out and other location-related costs are not
+      automatically included unless stated in the quotation.
+    </p>
+  </section>
+
+  <section aria-labelledby="office-heading">
+    <h2 id="office-heading">Based at Marina Greenwich in Altea</h2>
+    <p>
+      All Yacht Service is based at Marina Greenwich, also known as Puerto
+      Deportivo Luis Campomanes, in Altea, Alicante.
+    </p>
+    <div class="about-office-card">
+      <div>
+        <h3>Office address</h3>
+        <address>
+          <strong>{siteConfig.name}</strong>
+          {siteConfig.address.lines.map((line) => <span>{line}</span>)}
+        </address>
+      </div>
+      <div>
+        <h3>Opening hours</h3>
+        <p>{siteConfig.workingHours.label}</p>
+        <p>
+          Office visits are welcome during working days, although appointments
+          are recommended because survey and yacht-delivery work frequently
+          takes place away from the office.
+        </p>
+      </div>
+    </div>
+    <ul class="about-office-links" role="list">
+      <li>
+        <a
+          class="button button-outline-navy"
+          href={siteConfig.contact.phoneHref}>Call {siteConfig.contact.phone}</a
+        >
+      </li>
+      <li>
+        <a
+          class="button button-outline-navy"
+          href={siteConfig.contact.whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer">WhatsApp {siteConfig.contact.whatsapp}</a
+        >
+      </li>
+      <li>
+        <a
+          class="button button-outline-navy"
+          href={siteConfig.contact.emailHref}
+          >Email {siteConfig.contact.email}</a
+        >
+      </li>
+      <li>
+        <a
+          class="button button-outline-navy"
+          href={siteConfig.businessProfiles.google}
+          target="_blank"
+          rel="noopener noreferrer">View All Yacht Service on Google</a
+        >
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="why-choose-heading">
+    <h2 id="why-choose-heading">Why Choose All Yacht Service?</h2>
+    <ul class="service-check-list">
+      {aboutUsPage.whyChoose.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+</ServiceLayout>

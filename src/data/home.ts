@@ -96,6 +96,7 @@ export const homeContent = {
       title: 'About All Yacht Service',
       description:
         'Independent yacht surveying and technical support based at Marina Greenwich in Altea.',
+      href: '/about-us',
       image: {
         src: '/images/about-all-yacht-service.webp',
         alt: 'Teamwork supporting a coordinated technical service',
