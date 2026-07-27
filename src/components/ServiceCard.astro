@@ -4,7 +4,7 @@ import type { HomeImage } from '../data/home';
 interface Props {
   title: string;
   description: string;
-  href: string;
+  href?: string;
   linkLabel: string;
   image: HomeImage;
 }
@@ -13,27 +13,45 @@ const { title, description, href, linkLabel, image } = Astro.props;
 ---
 
 <article class="service-card">
-  <a
-    class="service-card-image-link"
-    href={href}
-    tabindex="-1"
-    aria-hidden="true"
-  >
-    <img
-      src={image.src}
-      alt=""
-      width={image.width}
-      height={image.height}
-      loading="lazy"
-      decoding="async"
-    />
-  </a>
+  {
+    href ? (
+      <a
+        class="service-card-image-link"
+        href={href}
+        aria-label={`${linkLabel}: ${title}`}
+      >
+        <img
+          src={image.src}
+          alt=""
+          width={image.width}
+          height={image.height}
+          loading="lazy"
+          decoding="async"
+        />
+      </a>
+    ) : (
+      <div class="service-card-image-link">
+        <img
+          src={image.src}
+          alt={image.alt}
+          width={image.width}
+          height={image.height}
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    )
+  }
   <div class="service-card-content">
     <h3>{title}</h3>
     <p>{description}</p>
-    <a class="service-card-link" href={href}>
-      {linkLabel}
-      <span aria-hidden="true">→</span>
-    </a>
+    {
+      href && (
+        <a class="service-card-link" href={href}>
+          {linkLabel}
+          <span aria-hidden="true">→</span>
+        </a>
+      )
+    }
   </div>
 </article>

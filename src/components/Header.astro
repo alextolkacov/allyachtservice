@@ -1,6 +1,8 @@
 ---
 import {
-  getRoutePath,
+  getNavigationHref,
+  getNavigationLinkLanguage,
+  getRequiredRoutePath,
   primaryNavigation,
   type RouteId,
 } from '../data/navigation';
@@ -11,18 +13,21 @@ import MobileNavigation from './MobileNavigation.astro';
 
 interface Props {
   currentLocale: Locale;
-  currentPath: string;
-  routeId: RouteId;
+  routeId?: RouteId;
 }
 
-const { currentLocale, currentPath, routeId } = Astro.props;
+const { currentLocale, routeId } = Astro.props;
+const navigationProps = {
+  currentLocale,
+  ...(routeId ? { routeId } : {}),
+};
 ---
 
 <header class="site-header">
   <div class="header-inner site-container">
     <a
       class="brand-link"
-      href={getRoutePath('home', currentLocale)}
+      href={getRequiredRoutePath('home', currentLocale)}
       aria-label={`${siteConfig.name} home`}
     >
       <img
@@ -40,14 +45,19 @@ const { currentLocale, currentPath, routeId } = Astro.props;
         <ul class="desktop-navigation" role="list">
           {
             primaryNavigation.map((item) => {
-              const href = getRoutePath(item.routeId, currentLocale);
-              const isCurrent = href === currentPath;
+              const href = getNavigationHref(item, currentLocale);
+              const linkLanguage = getNavigationLinkLanguage(
+                item,
+                currentLocale,
+              );
+              const isCurrent = 'routeId' in item && item.routeId === routeId;
 
               return (
                 <li>
                   <a
                     class="desktop-navigation-link"
                     href={href}
+                    lang={linkLanguage}
                     aria-current={isCurrent ? 'page' : undefined}
                   >
                     {item.labels[currentLocale]}
@@ -58,17 +68,9 @@ const { currentLocale, currentPath, routeId } = Astro.props;
           }
         </ul>
       </nav>
-      <LanguageSwitcher
-        currentLocale={currentLocale}
-        routeId={routeId}
-        mode="compact"
-      />
+      <LanguageSwitcher {...navigationProps} mode="compact" />
     </div>
 
-    <MobileNavigation
-      currentLocale={currentLocale}
-      currentPath={currentPath}
-      routeId={routeId}
-    />
+    <MobileNavigation {...navigationProps} />
   </div>
 </header>

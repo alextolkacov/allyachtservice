@@ -4,10 +4,11 @@ Multilingual website for All Yacht Service. The site uses Astro, strict
 TypeScript, Tailwind CSS, static generation, and npm. It is configured for
 deployment to Cloudflare Pages.
 
-The English homepage contains the first production-ready visual implementation.
+The English homepage and Yacht Delivery service page contain the first
+production-ready visual implementations.
 The Spanish, Russian, French, Italian, and Greek homepages retain localized
 development placeholders inside the same shared header, visual system, and
-footer. Final service pages, redirects, legal-page content, reviews, and a
+footer. Other service pages, redirects, legal-page content, reviews, and a
 contact form backend are not part of the current sprint.
 
 ## Local setup
@@ -63,6 +64,13 @@ Connect the GitHub repository
 | Root directory         | `/`             |
 | Node.js version        | `24`            |
 
+For the current pre-launch deployment, add this build-time environment variable
+in Cloudflare Pages:
+
+```text
+PUBLIC_SITE_INDEXABLE=false
+```
+
 This is a fully static Astro project, so it does not require the Cloudflare
 adapter or Pages Functions. Cloudflare should publish the generated `dist`
 directory as static assets.
@@ -72,8 +80,29 @@ Keep the Cloudflare URL-normalization settings aligned with that policy.
 
 ## Environment-variable strategy
 
-No environment variables are required by the initial codebase. Copy
-`.env.example` to `.env` only when future work introduces local configuration.
+Copy `.env.example` to `.env` for local builds that should mirror the current
+pre-launch deployment:
+
+```sh
+cp .env.example .env
+```
+
+`PUBLIC_SITE_INDEXABLE` controls the robots meta tag at build time:
+
+- `false` or unset: normal pages output `noindex, nofollow`.
+- `true`: normal pages output `index, follow`.
+- Explicit error pages such as `404.astro` remain `noindex, nofollow` in both
+  modes.
+
+Keep `PUBLIC_SITE_INDEXABLE=false` in the Cloudflare Pages production
+environment while the site is in pre-launch review. Immediately before
+connecting or launching `https://www.allyachtservice.com`, change the production
+value to `true` and trigger a fresh build. Hostname detection is not used because
+the `pages.dev` hostname and a custom domain may serve the same static build.
+
+After launch, redirect the `pages.dev` hostname to the custom domain or prevent
+it from becoming a duplicate public version through the Cloudflare project
+configuration.
 
 - Prefix a value with `PUBLIC_` only when it is safe to expose in browser code.
 - Keep secrets unprefixed and use them only in server-side code or a separate
@@ -94,7 +123,7 @@ src/
   components/       Reusable navigation, SEO, breadcrumb, card, and CTA UI
   data/             Confirmed site data, languages, and translated route maps
   layouts/          Base, service, and article page shells
-  pages/            File-based English and translated routes
+  pages/            File-based English, translated, service, and 404 routes
   styles/           Global Tailwind theme and shared accessible UI styles
   utils/            Canonical URL, schema, and hreflang helpers
 public/
@@ -120,10 +149,11 @@ fallback.
 - Do not add trailing slashes to internal links or canonical URLs.
 - Do not add browser-language redirects.
 
-Every translatable page must be added to `src/data/navigation.ts` with the
-equivalent URL for each published language. `LanguageSwitcher.astro` reads this
-mapping, so it links to the same page in another language rather than sending
-visitors to a language homepage.
+Every published translation must be added to `src/data/navigation.ts`.
+`LanguageSwitcher.astro` links to the exact equivalent when one exists. When a
+service translation is not yet published, the visible selector may link to that
+language's homepage, but its accessible label identifies it as a homepage and
+the destination is not emitted as an SEO alternate.
 
 Each page must also provide:
 
@@ -132,11 +162,16 @@ Each page must also provide:
 - a canonical pathname that matches its route;
 - complete translated content before publication.
 
-`SeoHead.astro` generates the self-referencing canonical URL, all six hreflang
-alternates, `x-default`, Open Graph metadata, Twitter card metadata, and optional
-`noindex` output. `BaseLayout.astro` adds `ProfessionalService` structured data
-using only confirmed information. `Breadcrumbs.astro` adds `BreadcrumbList`
-structured data when used.
+`SeoHead.astro` generates the self-referencing canonical URL, only the published
+hreflang equivalents, `x-default`, Open Graph metadata, Twitter card metadata,
+and environment-controlled robots output. `BaseLayout.astro` adds
+`ProfessionalService` structured data using only confirmed information.
+`Breadcrumbs.astro` adds `BreadcrumbList` structured data when used, and service
+pages may add page-specific `Service` data.
+
+Astro generates a top-level `404.html` from `src/pages/404.astro`. Do not add a
+SPA fallback such as `/* /index.html 200`; Cloudflare Pages must serve the custom
+404 document with a 404 response for unknown routes.
 
 Do not add ratings or review schema. Do not state a company registration or VAT
 number, registered-company status, or professional-liability-insurance claims.

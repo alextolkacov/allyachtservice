@@ -1,0 +1,166 @@
+---
+import { yachtDeliveryPage } from '../data/yacht-delivery';
+import ServiceLayout from '../layouts/ServiceLayout.astro';
+import { createServiceSchema } from '../utils/seo';
+
+const serviceSchema = createServiceSchema({
+  name: 'Professional Yacht Delivery',
+  serviceType: 'Yacht delivery and relocation',
+  pathname: yachtDeliveryPage.pathname,
+  description: yachtDeliveryPage.description,
+  areaServed: yachtDeliveryPage.areaServed,
+});
+---
+
+<ServiceLayout
+  title={yachtDeliveryPage.title}
+  description={yachtDeliveryPage.description}
+  locale="en"
+  routeId="yachtDelivery"
+  pathname={yachtDeliveryPage.pathname}
+  heading={yachtDeliveryPage.heading}
+  eyebrow={yachtDeliveryPage.eyebrow}
+  summary={yachtDeliveryPage.summary}
+  heroImage={yachtDeliveryPage.heroImage}
+  breadcrumbs={yachtDeliveryPage.breadcrumbs}
+  primaryCta={yachtDeliveryPage.primaryCta}
+  secondaryCta={yachtDeliveryPage.secondaryCta}
+  relatedServices={yachtDeliveryPage.relatedServices}
+  finalCta={yachtDeliveryPage.finalCta}
+  structuredData={serviceSchema}
+>
+  <section aria-labelledby="professional-delivery-heading">
+    <h2 id="professional-delivery-heading">Professional Yacht Delivery</h2>
+    <p>
+      All Yacht Service provides professional yacht delivery and relocation
+      services throughout Spain and the Mediterranean. Every passage is planned
+      around the yacht’s condition, route, weather, crew requirements and
+      handover arrangements.
+    </p>
+    <p>
+      Deliveries are led by Aleksandrs Tolkacovs, an IIMS-Certified Yacht and
+      Small Craft Marine Surveyor and licensed captain with practical experience
+      operating sailing and motor yachts in the Mediterranean, Baltic Sea,
+      English Channel and Bay of Biscay.
+    </p>
+  </section>
+
+  <section aria-labelledby="delivery-includes-heading">
+    <h2 id="delivery-includes-heading">
+      What the Yacht Delivery Service Includes
+    </h2>
+    <p>
+      The exact scope is agreed for each vessel and passage. Depending on the
+      delivery requirements, the service may include:
+    </p>
+    <ul class="service-check-list">
+      <li>Initial review of the yacht, route and delivery requirements</li>
+      <li>Passage planning and weather routing</li>
+      <li>Pre-departure operational and safety checks</li>
+      <li>Fuel, provisioning and marina coordination</li>
+      <li>Crew coordination when required</li>
+      <li>Progress communication during the passage</li>
+      <li>Arrival checks and handover coordination</li>
+      <li>A clear handover report on arrival</li>
+    </ul>
+    <p class="service-note">
+      Pre-departure operational checks are intended to prepare the yacht for the
+      passage. They do not replace an independent pre-purchase or condition
+      survey.
+    </p>
+  </section>
+
+  <section aria-labelledby="delivery-process-heading">
+    <h2 id="delivery-process-heading">How the Delivery Process Works</h2>
+    <ol class="process-list">
+      <li>
+        <div><span aria-hidden="true">01</span></div>
+        <div>
+          <h3>Scope and quotation</h3>
+          <p>
+            We review the yacht type, length, current location, destination,
+            preferred dates and any known technical concerns.
+          </p>
+        </div>
+      </li>
+      <li>
+        <div><span aria-hidden="true">02</span></div>
+        <div>
+          <h3>Passage preparation</h3>
+          <p>
+            The route, weather, fuel, equipment, marina arrangements and crew
+            requirements are assessed before departure.
+          </p>
+        </div>
+      </li>
+      <li>
+        <div><span aria-hidden="true">03</span></div>
+        <div>
+          <h3>Yacht delivery</h3>
+          <p>
+            The passage is completed with appropriate operational checks,
+            communication and practical care for the vessel.
+          </p>
+        </div>
+      </li>
+      <li>
+        <div><span aria-hidden="true">04</span></div>
+        <div>
+          <h3>Arrival and handover</h3>
+          <p>
+            The yacht is checked on arrival and handed over at the agreed
+            destination with a clear summary of the passage.
+          </p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="delivery-areas-heading">
+    <h2 id="delivery-areas-heading">Yachts and Delivery Areas</h2>
+    <p>
+      Delivery services are available for sailing yachts, motor yachts and
+      catamarans up to 24 metres.
+    </p>
+    <p>
+      Based at Marina Greenwich in Altea, All Yacht Service arranges yacht
+      deliveries throughout mainland Spain, the Spanish Mediterranean coast and
+      the Balearic Islands.
+    </p>
+    <p>
+      Deliveries in France, Italy, Greece and other European or international
+      locations can also be arranged according to the vessel’s location, route
+      and operational requirements.
+    </p>
+  </section>
+
+  <section aria-labelledby="combined-service-heading">
+    <h2 id="combined-service-heading">
+      Combining Delivery with a Pre-Purchase Survey
+    </h2>
+    <p>
+      When a yacht is being purchased, delivery can be arranged after an
+      independent pre-purchase survey. Combining the services provides
+      continuity from the technical inspection through to the vessel’s arrival
+      at its new location and may reduce duplicated travel and preparation.
+    </p>
+  </section>
+
+  <section aria-labelledby="why-delivery-heading">
+    <h2 id="why-delivery-heading">Why Choose All Yacht Service?</h2>
+    <ul class="service-check-list">
+      <li>IIMS-Certified Yacht and Small Craft Marine Surveyor</li>
+      <li>Licensed captain with practical delivery experience</li>
+      <li>
+        Experience operating sailing and motor yachts in several European sea
+        areas
+      </li>
+      <li>Engineering and quality-assurance background</li>
+      <li>Careful passage preparation</li>
+      <li>Clear communication and practical handover reporting</li>
+      <li>
+        Based in Altea and operating throughout Spain and the Mediterranean
+      </li>
+    </ul>
+  </section>
+</ServiceLayout>

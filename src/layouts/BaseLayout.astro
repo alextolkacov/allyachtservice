@@ -15,11 +15,14 @@ interface Props {
   title: string;
   description: string;
   locale: Locale;
-  routeId: RouteId;
+  routeId?: RouteId;
   pathname?: string;
   noindex?: boolean;
   imagePath?: string;
+  imageAlt?: string;
   structuredData?: StructuredData | readonly StructuredData[];
+  includeAlternates?: boolean;
+  includeBusinessSchema?: boolean;
 }
 
 const {
@@ -30,7 +33,10 @@ const {
   pathname = Astro.url.pathname,
   noindex = false,
   imagePath,
+  imageAlt,
   structuredData,
+  includeAlternates = true,
+  includeBusinessSchema = true,
 } = Astro.props;
 const language = getLanguage(locale);
 const normalizedPath = normalizePathname(pathname);
@@ -39,16 +45,25 @@ const pageSchemas = structuredData
     ? structuredData
     : [structuredData]
   : [];
-const schemas = [createProfessionalServiceSchema(), ...pageSchemas];
+const schemas = [
+  ...(includeBusinessSchema ? [createProfessionalServiceSchema()] : []),
+  ...pageSchemas,
+];
 const seoProps = {
   title,
   description,
   locale,
-  routeId,
   pathname: normalizedPath,
   noindex,
-  structuredData: schemas,
+  includeAlternates,
+  ...(routeId ? { routeId } : {}),
+  ...(schemas.length > 0 ? { structuredData: schemas } : {}),
   ...(imagePath ? { imagePath } : {}),
+  ...(imageAlt ? { imageAlt } : {}),
+};
+const headerProps = {
+  currentLocale: locale,
+  ...(routeId ? { routeId } : {}),
 };
 ---
 
@@ -65,11 +80,7 @@ const seoProps = {
   <body class="min-h-screen bg-ivory text-graphite antialiased">
     <a class="skip-link" href="#main-content">Skip to content</a>
     <div class="flex min-h-screen flex-col">
-      <Header
-        currentLocale={locale}
-        currentPath={normalizedPath}
-        routeId={routeId}
-      />
+      <Header {...headerProps} />
       <main id="main-content" class="grow">
         <slot />
       </main>

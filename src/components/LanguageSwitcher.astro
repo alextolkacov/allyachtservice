@@ -1,10 +1,14 @@
 ---
 import { languages, type Locale } from '../data/languages';
-import { getRoutePath, type RouteId } from '../data/navigation';
+import {
+  getRequiredRoutePath,
+  getRoutePath,
+  type RouteId,
+} from '../data/navigation';
 
 interface Props {
   currentLocale: Locale;
-  routeId: RouteId;
+  routeId?: RouteId;
   mode?: 'compact' | 'full';
 }
 
@@ -17,21 +21,36 @@ const { currentLocale, routeId, mode = 'compact' } = Astro.props;
 >
   <ul role="list">
     {
-      languages.map((language) => (
-        <li>
-          <a
-            href={getRoutePath(routeId, language.code)}
-            hreflang={language.hreflang}
-            lang={language.htmlLang}
-            aria-current={language.code === currentLocale ? 'page' : undefined}
-            aria-label={`${language.label}: ${language.nativeLabel}`}
-          >
-            {mode === 'compact'
-              ? language.code.toUpperCase()
-              : language.nativeLabel}
-          </a>
-        </li>
-      ))
+      languages.map((language) => {
+        const equivalentPath = routeId
+          ? getRoutePath(routeId, language.code)
+          : undefined;
+        const isEquivalent = Boolean(equivalentPath);
+        const href =
+          equivalentPath ?? getRequiredRoutePath('home', language.code);
+        const isCurrent = isEquivalent && language.code === currentLocale;
+        const ariaLabel = isEquivalent
+          ? isCurrent
+            ? `${language.label}, current page`
+            : `${language.label} version`
+          : `${language.label} homepage`;
+
+        return (
+          <li>
+            <a
+              href={href}
+              hreflang={language.hreflang}
+              lang={language.htmlLang}
+              aria-current={isCurrent ? 'page' : undefined}
+              aria-label={ariaLabel}
+            >
+              {mode === 'compact'
+                ? language.code.toUpperCase()
+                : language.nativeLabel}
+            </a>
+          </li>
+        );
+      })
     }
   </ul>
 </nav>

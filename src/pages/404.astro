@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page not found | All Yacht Service"
+  description="The requested page could not be found."
+  locale="en"
+  pathname="/404"
+  noindex={true}
+  includeAlternates={false}
+  includeBusinessSchema={false}
+>
+  <section class="not-found" aria-labelledby="not-found-heading">
+    <div class="site-container not-found-inner">
+      <p class="eyebrow">404 error</p>
+      <h1 id="not-found-heading">Page not found</h1>
+      <p>
+        The page may have moved or the address may be incorrect. Use one of the
+        links below to continue.
+      </p>
+      <nav aria-label="Page not found options">
+        <ul role="list">
+          <li><a class="button button-navy" href="/">Go to homepage</a></li>
+          <li>
+            <a class="button button-outline-navy" href="/yacht-delivery"
+              >Yacht Delivery</a
+            >
+          </li>
+          <li>
+            <a class="button button-outline-navy" href="/#services"
+              >Main services</a
+            >
+          </li>
+          <li>
+            <a class="button button-outline-navy" href="/#contact">Contact</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+</BaseLayout>

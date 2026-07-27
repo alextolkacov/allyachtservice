@@ -11,7 +11,11 @@ interface Props {
 const { heading, services, linkLabel = 'More info' } = Astro.props;
 ---
 
-<section class="section services-section" aria-labelledby="services-heading">
+<section
+  id="services"
+  class="section services-section"
+  aria-labelledby="services-heading"
+>
   <div class="site-container">
     <div class="section-heading-wrap section-heading-centered">
       <p class="eyebrow">Surveying &amp; technical support</p>

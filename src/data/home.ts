@@ -8,7 +8,7 @@ export interface HomeImage {
 export interface HomeService {
   title: string;
   description: string;
-  href: string;
+  href?: string;
   image: HomeImage;
 }
 
@@ -37,7 +37,6 @@ export const homeContent = {
       title: 'Pre-Purchase Yacht Survey',
       description:
         'Independent inspection of the hull, structure, systems, machinery and safety equipment before purchase.',
-      href: '/pre-purchase-survey',
       image: {
         src: '/images/pre-purchase-survey.webp',
         alt: 'Moisture meter used during a yacht hull inspection',
@@ -49,7 +48,6 @@ export const homeContent = {
       title: 'Insurance Condition Survey',
       description:
         'Condition assessment and professional reporting prepared for insurance applications and policy renewals.',
-      href: '/insurance-survey',
       image: {
         src: '/images/insurance-condition-survey.webp',
         alt: 'Sailing yachts being assessed after storm damage',
@@ -73,7 +71,6 @@ export const homeContent = {
       title: 'Buyer Representation',
       description:
         'Independent technical support before, during and after the purchase of a yacht.',
-      href: '/buyer-representation',
       image: {
         src: '/images/buyer-representation.webp',
         alt: 'Buyer completing documentation with independent support',
@@ -85,7 +82,6 @@ export const homeContent = {
       title: 'Yachts for Sale',
       description:
         'View selected new and pre-owned yachts available through Premium Yachts Spain.',
-      href: '/yachts-for-sale',
       image: {
         src: '/images/yachts-for-sale.webp',
         alt: 'Motor yacht underway near a marina',
@@ -97,7 +93,6 @@ export const homeContent = {
       title: 'About All Yacht Service',
       description:
         'Independent yacht surveying and technical support based at Marina Greenwich in Altea.',
-      href: '/about-us',
       image: {
         src: '/images/about-all-yacht-service.webp',
         alt: 'Teamwork supporting a coordinated technical service',

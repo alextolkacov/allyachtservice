@@ -1,7 +1,8 @@
 ---
 import type { Locale } from '../data/languages';
 import {
-  getRoutePath,
+  getNavigationHref,
+  getNavigationLinkLanguage,
   primaryNavigation,
   type RouteId,
 } from '../data/navigation';
@@ -9,11 +10,14 @@ import LanguageSwitcher from './LanguageSwitcher.astro';
 
 interface Props {
   currentLocale: Locale;
-  currentPath: string;
-  routeId: RouteId;
+  routeId?: RouteId;
 }
 
-const { currentLocale, currentPath, routeId } = Astro.props;
+const { currentLocale, routeId } = Astro.props;
+const languageSwitcherProps = {
+  currentLocale,
+  ...(routeId ? { routeId } : {}),
+};
 ---
 
 <div class="mobile-navigation" data-mobile-navigation>
@@ -43,12 +47,17 @@ const { currentLocale, currentPath, routeId } = Astro.props;
       <ul class="mobile-menu-links" role="list">
         {
           primaryNavigation.map((item) => {
-            const href = getRoutePath(item.routeId, currentLocale);
-            const isCurrent = href === currentPath;
+            const href = getNavigationHref(item, currentLocale);
+            const linkLanguage = getNavigationLinkLanguage(item, currentLocale);
+            const isCurrent = 'routeId' in item && item.routeId === routeId;
 
             return (
               <li>
-                <a href={href} aria-current={isCurrent ? 'page' : undefined}>
+                <a
+                  href={href}
+                  lang={linkLanguage}
+                  aria-current={isCurrent ? 'page' : undefined}
+                >
                   {item.labels[currentLocale]}
                 </a>
               </li>
@@ -60,11 +69,7 @@ const { currentLocale, currentPath, routeId } = Astro.props;
 
     <div class="mobile-language-block">
       <p>Language</p>
-      <LanguageSwitcher
-        currentLocale={currentLocale}
-        routeId={routeId}
-        mode="full"
-      />
+      <LanguageSwitcher {...languageSwitcherProps} mode="full" />
     </div>
   </div>
 </div>

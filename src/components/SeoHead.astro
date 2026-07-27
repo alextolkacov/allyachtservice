@@ -1,6 +1,6 @@
 ---
 import type { Locale } from '../data/languages';
-import { languages } from '../data/languages';
+import { getLanguage } from '../data/languages';
 import type { RouteId } from '../data/navigation';
 import { siteConfig } from '../data/site';
 import { getRouteAlternates } from '../utils/hreflang';
@@ -11,9 +11,11 @@ interface Props {
   description: string;
   locale: Locale;
   pathname: string;
-  routeId: RouteId;
+  routeId?: RouteId;
+  includeAlternates?: boolean;
   noindex?: boolean;
   imagePath?: string;
+  imageAlt?: string;
   structuredData?: StructuredData | readonly StructuredData[];
 }
 
@@ -23,8 +25,10 @@ const {
   locale,
   pathname,
   routeId,
+  includeAlternates = true,
   noindex = false,
   imagePath,
+  imageAlt,
   structuredData,
 } = Astro.props;
 
@@ -36,10 +40,14 @@ const metadata = createSeoMetadata({
   noindex,
   ...(imagePath ? { imagePath } : {}),
 });
-const alternates = getRouteAlternates(routeId);
-const alternateOpenGraphLocales = languages
-  .filter((language) => language.code !== locale)
-  .map((language) => language.openGraphLocale);
+const alternates =
+  includeAlternates && routeId ? getRouteAlternates(routeId) : [];
+const alternateOpenGraphLocales = alternates
+  .filter(
+    (alternate) =>
+      alternate.locale !== 'x-default' && alternate.locale !== locale,
+  )
+  .map((alternate) => getLanguage(alternate.locale as Locale).openGraphLocale);
 const schemas = structuredData
   ? Array.isArray(structuredData)
     ? structuredData
@@ -76,7 +84,7 @@ const serializedSchemas = schemas.map((schema) =>
   metadata.imageUrl && (
     <>
       <meta property="og:image" content={metadata.imageUrl} />
-      <meta property="og:image:alt" content={siteConfig.name} />
+      <meta property="og:image:alt" content={imageAlt ?? siteConfig.name} />
     </>
   )
 }

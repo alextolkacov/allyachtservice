@@ -13,20 +13,31 @@ export interface AlternateLink {
 }
 
 export function getRouteAlternates(routeId: RouteId): AlternateLink[] {
-  const localizedAlternates = languages.map((language) => ({
-    hreflang: language.hreflang,
-    href: toAbsoluteUrl(getRoutePath(routeId, language.code)),
-    locale: language.code,
-  }));
+  const localizedAlternates = languages.flatMap((language) => {
+    const routePath = getRoutePath(routeId, language.code);
 
-  return [
-    ...localizedAlternates,
-    {
-      hreflang: 'x-default',
-      href: toAbsoluteUrl(getRoutePath(routeId, defaultLocale)),
-      locale: 'x-default',
-    },
-  ];
+    return routePath
+      ? [
+          {
+            hreflang: language.hreflang,
+            href: toAbsoluteUrl(routePath),
+            locale: language.code,
+          },
+        ]
+      : [];
+  });
+  const defaultPath = getRoutePath(routeId, defaultLocale);
+
+  return defaultPath
+    ? [
+        ...localizedAlternates,
+        {
+          hreflang: 'x-default',
+          href: toAbsoluteUrl(defaultPath),
+          locale: 'x-default',
+        },
+      ]
+    : localizedAlternates;
 }
 
 export function findRouteId(pathname: string): RouteId | undefined {
@@ -35,7 +46,8 @@ export function findRouteId(pathname: string): RouteId | undefined {
 
   return routeIds.find((routeId) =>
     Object.values(translatedRoutes[routeId]).some(
-      (routePath) => normalizePathname(routePath) === normalizedPath,
+      (routePath) =>
+        routePath && normalizePathname(routePath) === normalizedPath,
     ),
   );
 }

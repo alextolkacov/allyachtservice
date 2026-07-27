@@ -22,6 +22,8 @@ export interface SeoMetadata {
   imageUrl?: string;
 }
 
+export const businessEntityId = `${siteConfig.url}/#business`;
+
 export function normalizePathname(pathname: string): string {
   const pathOnly = pathname.split(/[?#]/u, 1)[0] ?? '/';
   const withLeadingSlash = pathOnly.startsWith('/') ? pathOnly : `/${pathOnly}`;
@@ -54,12 +56,14 @@ export function toAbsoluteUrl(pathname: string): string {
 export function createSeoMetadata(input: SeoInput): SeoMetadata {
   const language = getLanguage(input.locale);
   const imageUrl = input.imagePath ? toAbsoluteUrl(input.imagePath) : undefined;
+  const siteIsIndexable = import.meta.env.PUBLIC_SITE_INDEXABLE === 'true';
 
   return {
     title: input.title,
     description: input.description,
     canonicalUrl: toAbsoluteUrl(input.pathname),
-    robots: input.noindex ? 'noindex, nofollow' : 'index, follow',
+    robots:
+      input.noindex || !siteIsIndexable ? 'noindex, nofollow' : 'index, follow',
     openGraphLocale: language.openGraphLocale,
     ...(imageUrl ? { imageUrl } : {}),
   };
@@ -69,6 +73,7 @@ export function createProfessionalServiceSchema(): StructuredData {
   return {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
+    '@id': businessEntityId,
     name: siteConfig.name,
     url: siteConfig.url,
     telephone: siteConfig.contact.phone,
@@ -100,5 +105,32 @@ export function createProfessionalServiceSchema(): StructuredData {
       name,
     })),
     sameAs: [siteConfig.social.instagram, siteConfig.social.linkedin],
+  };
+}
+
+interface ServiceSchemaInput {
+  name: string;
+  serviceType: string;
+  pathname: string;
+  description: string;
+  areaServed: readonly string[];
+}
+
+export function createServiceSchema(input: ServiceSchemaInput): StructuredData {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${toAbsoluteUrl(input.pathname)}#service`,
+    name: input.name,
+    serviceType: input.serviceType,
+    url: toAbsoluteUrl(input.pathname),
+    description: input.description,
+    provider: {
+      '@id': businessEntityId,
+    },
+    areaServed: input.areaServed.map((name) => ({
+      '@type': 'Place',
+      name,
+    })),
   };
 }

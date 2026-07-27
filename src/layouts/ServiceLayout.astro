@@ -2,17 +2,34 @@
 import Breadcrumbs, {
   type BreadcrumbItem,
 } from '../components/Breadcrumbs.astro';
-import ContactCTA from '../components/ContactCTA.astro';
 import type { Locale } from '../data/languages';
 import type { RouteId } from '../data/navigation';
+import type { StructuredData } from '../utils/seo';
 import BaseLayout from './BaseLayout.astro';
 
-interface ContactCtaContent {
+interface CtaLink {
+  label: string;
+  href: string;
+  external?: boolean;
+}
+
+interface ServiceImage {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+interface RelatedService {
+  title: string;
+  description: string;
+  href?: string;
+}
+
+interface FinalCta {
   heading: string;
-  body?: string;
-  phoneLabel: string;
-  emailLabel: string;
-  whatsappLabel: string;
+  body: string;
+  links: readonly CtaLink[];
 }
 
 interface Props {
@@ -20,12 +37,19 @@ interface Props {
   description: string;
   locale: Locale;
   routeId: RouteId;
-  pathname?: string;
+  pathname: string;
   heading: string;
+  eyebrow?: string;
+  summary: string;
+  heroImage: ServiceImage;
   breadcrumbs: readonly BreadcrumbItem[];
   breadcrumbLabel?: string;
+  primaryCta?: CtaLink;
+  secondaryCta?: CtaLink;
+  relatedServices?: readonly RelatedService[];
+  finalCta?: FinalCta;
+  structuredData?: StructuredData | readonly StructuredData[];
   noindex?: boolean;
-  contactCta?: ContactCtaContent;
 }
 
 const {
@@ -35,42 +59,142 @@ const {
   routeId,
   pathname,
   heading,
+  eyebrow,
+  summary,
+  heroImage,
   breadcrumbs,
   breadcrumbLabel,
+  primaryCta,
+  secondaryCta,
+  relatedServices = [],
+  finalCta,
+  structuredData,
   noindex = false,
-  contactCta,
 } = Astro.props;
 const baseProps = {
   title,
   description,
   locale,
   routeId,
+  pathname,
   noindex,
-  ...(pathname ? { pathname } : {}),
+  imagePath: heroImage.src,
+  imageAlt: heroImage.alt,
+  ...(structuredData ? { structuredData } : {}),
 };
 ---
 
 <BaseLayout {...baseProps}>
-  <article class="site-container py-12 sm:py-16 lg:py-20">
-    <Breadcrumbs
-      items={breadcrumbs}
-      {...breadcrumbLabel ? { ariaLabel: breadcrumbLabel } : {}}
-    />
-    <header class="mt-8 max-w-4xl border-l-4 border-navy pl-5 sm:pl-7">
-      <h1
-        class="font-display text-4xl leading-tight font-bold text-navy sm:text-5xl"
-      >
-        {heading}
-      </h1>
-    </header>
-    <div class="content-flow mt-10 max-w-4xl">
-      <slot />
-    </div>
-    {
-      contactCta && (
-        <div class="mt-14">
-          <ContactCTA {...contactCta} />
+  <article class="service-page">
+    <header class="service-hero">
+      <img
+        class="service-hero-image"
+        src={heroImage.src}
+        alt={heroImage.alt}
+        width={heroImage.width}
+        height={heroImage.height}
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="service-hero-overlay" aria-hidden="true"></div>
+      <div class="service-hero-content site-container">
+        <Breadcrumbs
+          items={breadcrumbs}
+          theme="light"
+          {...breadcrumbLabel ? { ariaLabel: breadcrumbLabel } : {}}
+        />
+        <div class="service-hero-copy">
+          {eyebrow && <p class="eyebrow eyebrow-light">{eyebrow}</p>}
+          <h1>{heading}</h1>
+          <p>{summary}</p>
+          {
+            (primaryCta || secondaryCta) && (
+              <div class="service-hero-actions">
+                {primaryCta && (
+                  <a class="button button-light" href={primaryCta.href}>
+                    {primaryCta.label}
+                  </a>
+                )}
+                {secondaryCta && (
+                  <a
+                    class="button button-outline-light"
+                    href={secondaryCta.href}
+                    target={secondaryCta.external ? '_blank' : undefined}
+                    rel={
+                      secondaryCta.external ? 'noopener noreferrer' : undefined
+                    }
+                  >
+                    {secondaryCta.label}
+                  </a>
+                )}
+              </div>
+            )
+          }
         </div>
+      </div>
+    </header>
+
+    <div class="service-content site-container">
+      <div class="service-main content-flow">
+        <slot />
+      </div>
+    </div>
+
+    {
+      relatedServices.length > 0 && (
+        <section
+          class="related-services"
+          aria-labelledby="related-services-heading"
+        >
+          <div class="site-container">
+            <p class="eyebrow">Further support</p>
+            <h2 id="related-services-heading" class="section-heading">
+              Related Services
+            </h2>
+            <div class="related-services-grid">
+              {relatedServices.map((service) => (
+                <article>
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
+                  {service.href && (
+                    <a class="text-arrow-link" href={service.href}>
+                      View services <span aria-hidden="true">→</span>
+                    </a>
+                  )}
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      finalCta && (
+        <section class="service-final-cta" aria-labelledby="final-cta-heading">
+          <div class="site-container service-final-cta-inner">
+            <div>
+              <p class="eyebrow eyebrow-light">Contact</p>
+              <h2 id="final-cta-heading">{finalCta.heading}</h2>
+              <p>{finalCta.body}</p>
+            </div>
+            <div class="service-final-cta-actions">
+              {finalCta.links.map((link, index) => (
+                <a
+                  class:list={[
+                    'button',
+                    index === 0 ? 'button-light' : 'button-outline-light',
+                  ]}
+                  href={link.href}
+                  target={link.external ? '_blank' : undefined}
+                  rel={link.external ? 'noopener noreferrer' : undefined}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
       )
     }
   </article>

@@ -1,7 +1,12 @@
 ---
 import type { Locale } from '../data/languages';
 import { languages } from '../data/languages';
-import { getRoutePath, primaryNavigation } from '../data/navigation';
+import {
+  getNavigationHref,
+  getNavigationLinkLanguage,
+  getRequiredRoutePath,
+  primaryNavigation,
+} from '../data/navigation';
 import { siteConfig } from '../data/site';
 import SocialLinks from './SocialLinks.astro';
 
@@ -17,9 +22,6 @@ const labels = {
     navigation: 'Navigation',
     contact: 'Contact',
     languages: 'Languages',
-    privacy: 'Privacy Policy',
-    cookies: 'Cookie Policy',
-    terms: 'Terms of Use',
   },
   es: {
     description:
@@ -27,9 +29,6 @@ const labels = {
     navigation: 'Navegación',
     contact: 'Contacto',
     languages: 'Idiomas',
-    privacy: 'Política de privacidad',
-    cookies: 'Política de cookies',
-    terms: 'Condiciones de uso',
   },
   ru: {
     description:
@@ -37,9 +36,6 @@ const labels = {
     navigation: 'Навигация',
     contact: 'Контакты',
     languages: 'Языки',
-    privacy: 'Политика конфиденциальности',
-    cookies: 'Политика cookie',
-    terms: 'Условия использования',
   },
   fr: {
     description:
@@ -47,9 +43,6 @@ const labels = {
     navigation: 'Navigation',
     contact: 'Contact',
     languages: 'Langues',
-    privacy: 'Politique de confidentialité',
-    cookies: 'Politique des cookies',
-    terms: "Conditions d'utilisation",
   },
   it: {
     description:
@@ -57,9 +50,6 @@ const labels = {
     navigation: 'Navigazione',
     contact: 'Contatti',
     languages: 'Lingue',
-    privacy: 'Informativa sulla privacy',
-    cookies: 'Informativa sui cookie',
-    terms: 'Condizioni di utilizzo',
   },
   gr: {
     description:
@@ -67,14 +57,9 @@ const labels = {
     navigation: 'Πλοήγηση',
     contact: 'Επικοινωνία',
     languages: 'Γλώσσες',
-    privacy: 'Πολιτική απορρήτου',
-    cookies: 'Πολιτική cookies',
-    terms: 'Όροι χρήσης',
   },
 } as const;
 const text = labels[currentLocale];
-const legalPath = (slug: string) =>
-  currentLocale === 'en' ? `/${slug}` : `/${currentLocale}/${slug}`;
 ---
 
 <footer class="site-footer">
@@ -82,7 +67,7 @@ const legalPath = (slug: string) =>
     <div class="footer-brand">
       <a
         class="footer-brand-link"
-        href={getRoutePath('home', currentLocale)}
+        href={getRequiredRoutePath('home', currentLocale)}
         aria-label={`${siteConfig.name} home`}
       >
         <img
@@ -116,13 +101,20 @@ const legalPath = (slug: string) =>
       <h2>{text.navigation}</h2>
       <ul class="footer-link-list footer-navigation" role="list">
         {
-          primaryNavigation.map((item) => (
-            <li>
-              <a href={getRoutePath(item.routeId, currentLocale)}>
-                {item.labels[currentLocale]}
-              </a>
-            </li>
-          ))
+          primaryNavigation.map((item) => {
+            const linkLanguage = getNavigationLinkLanguage(item, currentLocale);
+
+            return (
+              <li>
+                <a
+                  href={getNavigationHref(item, currentLocale)}
+                  lang={linkLanguage}
+                >
+                  {item.labels[currentLocale]}
+                </a>
+              </li>
+            );
+          })
         }
       </ul>
     </div>
@@ -134,7 +126,7 @@ const legalPath = (slug: string) =>
           languages.map((language) => (
             <li>
               <a
-                href={getRoutePath('home', language.code)}
+                href={getRequiredRoutePath('home', language.code)}
                 lang={language.htmlLang}
                 hreflang={language.hreflang}
                 aria-current={
@@ -153,11 +145,6 @@ const legalPath = (slug: string) =>
   <div class="footer-legal">
     <div class="site-container footer-legal-inner">
       <p>&copy; {`${new Date().getFullYear()} ${siteConfig.name}`}</p>
-      <ul role="list">
-        <li><a href={legalPath('privacy-policy')}>{text.privacy}</a></li>
-        <li><a href={legalPath('cookie-policy')}>{text.cookies}</a></li>
-        <li><a href={legalPath('terms-of-use')}>{text.terms}</a></li>
-      </ul>
     </div>
   </div>
 </footer>

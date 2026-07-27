@@ -9,9 +9,10 @@ export interface BreadcrumbItem {
 interface Props {
   items: readonly BreadcrumbItem[];
   ariaLabel?: string;
+  theme?: 'light' | 'dark';
 }
 
-const { items, ariaLabel = 'Breadcrumb' } = Astro.props;
+const { items, ariaLabel = 'Breadcrumb', theme = 'dark' } = Astro.props;
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
@@ -25,21 +26,20 @@ const schema = {
 const serializedSchema = JSON.stringify(schema).replace(/</gu, '\\u003c');
 ---
 
-<nav aria-label={ariaLabel} class="text-sm text-graphite/75">
+<nav
+  aria-label={ariaLabel}
+  class:list={['breadcrumbs', `breadcrumbs-${theme}`]}
+>
   <ol class="flex flex-wrap items-center gap-2" role="list">
     {
       items.map((item, index) => (
         <li class="flex items-center gap-2">
           {index === items.length - 1 ? (
-            <span aria-current="page" class="font-semibold text-navy">
-              {item.label}
-            </span>
+            <span aria-current="page">{item.label}</span>
           ) : (
-            <a class="text-link" href={item.href}>
-              {item.label}
-            </a>
+            <a href={item.href}>{item.label}</a>
           )}
-          {index < items.length - 1 && <span aria-hidden="true">/</span>}
+          {index < items.length - 1 && <span aria-hidden="true">›</span>}
         </li>
       ))
     }
