@@ -1,5 +1,0 @@
-User-agent: *
-Disallow: /admin/
-Disallow: /login/
-Allow: /
-Sitemap: https://github.com/alextolkacov/allyachtservice/blob/main/sitemap.xml

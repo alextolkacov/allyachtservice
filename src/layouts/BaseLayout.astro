@@ -1,0 +1,78 @@
+---
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import SeoHead from '../components/SeoHead.astro';
+import { getLanguage, type Locale } from '../data/languages';
+import type { RouteId } from '../data/navigation';
+import {
+  createProfessionalServiceSchema,
+  normalizePathname,
+  type StructuredData,
+} from '../utils/seo';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  routeId: RouteId;
+  pathname?: string;
+  noindex?: boolean;
+  imagePath?: string;
+  structuredData?: StructuredData | readonly StructuredData[];
+}
+
+const {
+  title,
+  description,
+  locale,
+  routeId,
+  pathname = Astro.url.pathname,
+  noindex = false,
+  imagePath,
+  structuredData,
+} = Astro.props;
+const language = getLanguage(locale);
+const normalizedPath = normalizePathname(pathname);
+const pageSchemas = structuredData
+  ? Array.isArray(structuredData)
+    ? structuredData
+    : [structuredData]
+  : [];
+const schemas = [createProfessionalServiceSchema(), ...pageSchemas];
+const seoProps = {
+  title,
+  description,
+  locale,
+  routeId,
+  pathname: normalizedPath,
+  noindex,
+  structuredData: schemas,
+  ...(imagePath ? { imagePath } : {}),
+};
+---
+
+<!doctype html>
+<html lang={language.htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#0A1D2F" />
+    <SeoHead {...seoProps} />
+  </head>
+  <body class="min-h-screen bg-ivory text-graphite antialiased">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="flex min-h-screen flex-col">
+      <Header
+        currentLocale={locale}
+        currentPath={normalizedPath}
+        routeId={routeId}
+      />
+      <main id="main-content" class="grow">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>

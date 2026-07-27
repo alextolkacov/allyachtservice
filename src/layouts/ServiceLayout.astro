@@ -1,0 +1,77 @@
+---
+import Breadcrumbs, {
+  type BreadcrumbItem,
+} from '../components/Breadcrumbs.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import type { Locale } from '../data/languages';
+import type { RouteId } from '../data/navigation';
+import BaseLayout from './BaseLayout.astro';
+
+interface ContactCtaContent {
+  heading: string;
+  body?: string;
+  phoneLabel: string;
+  emailLabel: string;
+  whatsappLabel: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  routeId: RouteId;
+  pathname?: string;
+  heading: string;
+  breadcrumbs: readonly BreadcrumbItem[];
+  breadcrumbLabel?: string;
+  noindex?: boolean;
+  contactCta?: ContactCtaContent;
+}
+
+const {
+  title,
+  description,
+  locale,
+  routeId,
+  pathname,
+  heading,
+  breadcrumbs,
+  breadcrumbLabel,
+  noindex = false,
+  contactCta,
+} = Astro.props;
+const baseProps = {
+  title,
+  description,
+  locale,
+  routeId,
+  noindex,
+  ...(pathname ? { pathname } : {}),
+};
+---
+
+<BaseLayout {...baseProps}>
+  <article class="site-container py-12 sm:py-16 lg:py-20">
+    <Breadcrumbs
+      items={breadcrumbs}
+      {...breadcrumbLabel ? { ariaLabel: breadcrumbLabel } : {}}
+    />
+    <header class="mt-8 max-w-4xl border-l-4 border-navy pl-5 sm:pl-7">
+      <h1
+        class="font-display text-4xl leading-tight font-bold text-navy sm:text-5xl"
+      >
+        {heading}
+      </h1>
+    </header>
+    <div class="content-flow mt-10 max-w-4xl">
+      <slot />
+    </div>
+    {
+      contactCta && (
+        <div class="mt-14">
+          <ContactCTA {...contactCta} />
+        </div>
+      )
+    }
+  </article>
+</BaseLayout>

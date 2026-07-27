@@ -1,0 +1,49 @@
+---
+import { toAbsoluteUrl } from '../utils/seo';
+
+export interface BreadcrumbItem {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  items: readonly BreadcrumbItem[];
+  ariaLabel?: string;
+}
+
+const { items, ariaLabel = 'Breadcrumb' } = Astro.props;
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.label,
+    item: toAbsoluteUrl(item.href),
+  })),
+};
+const serializedSchema = JSON.stringify(schema).replace(/</gu, '\\u003c');
+---
+
+<nav aria-label={ariaLabel} class="text-sm text-graphite/75">
+  <ol class="flex flex-wrap items-center gap-2" role="list">
+    {
+      items.map((item, index) => (
+        <li class="flex items-center gap-2">
+          {index === items.length - 1 ? (
+            <span aria-current="page" class="font-semibold text-navy">
+              {item.label}
+            </span>
+          ) : (
+            <a class="text-link" href={item.href}>
+              {item.label}
+            </a>
+          )}
+          {index < items.length - 1 && <span aria-hidden="true">/</span>}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<script is:inline type="application/ld+json" set:html={serializedSchema} />

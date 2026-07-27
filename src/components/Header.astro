@@ -1,0 +1,85 @@
+---
+import { existsSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
+
+import {
+  getRoutePath,
+  primaryNavigation,
+  type RouteId,
+} from '../data/navigation';
+import type { Locale } from '../data/languages';
+import { siteConfig } from '../data/site';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+interface Props {
+  currentLocale: Locale;
+  currentPath: string;
+  routeId: RouteId;
+}
+
+const { currentLocale, currentPath, routeId } = Astro.props;
+const logoDirectory = join(process.cwd(), 'public', 'logo');
+const logoFilename = existsSync(logoDirectory)
+  ? readdirSync(logoDirectory)
+      .filter((filename) => filename.toLowerCase().endsWith('.svg'))
+      .sort((first, second) => first.localeCompare(second))[0]
+  : undefined;
+const logoPath = logoFilename
+  ? `/logo/${encodeURIComponent(logoFilename)}`
+  : undefined;
+---
+
+<header class="border-b border-white/10 bg-navy text-ivory">
+  <div
+    class="site-container flex flex-col gap-5 py-5 lg:flex-row lg:items-center lg:justify-between"
+  >
+    <div class="flex items-center justify-between gap-6">
+      <a
+        class="inline-flex min-h-11 items-center font-display text-xl font-bold tracking-[0.08em] text-white uppercase"
+        href={getRoutePath('home', currentLocale)}
+        aria-label={`${siteConfig.name} home`}
+      >
+        {
+          logoPath ? (
+            <img
+              class="h-12 w-auto max-w-56"
+              src={logoPath}
+              width="224"
+              height="48"
+              alt={siteConfig.name}
+            />
+          ) : (
+            <span>{siteConfig.name}</span>
+          )
+        }
+      </a>
+    </div>
+
+    <div class="flex flex-col gap-4 lg:items-end">
+      <LanguageSwitcher currentLocale={currentLocale} routeId={routeId} />
+
+      <nav aria-label="Primary navigation">
+        <ul class="flex flex-wrap items-center gap-2" role="list">
+          {
+            primaryNavigation.map((item) => {
+              const href = getRoutePath(item.routeId, currentLocale);
+              const isCurrent = href === currentPath;
+
+              return (
+                <li>
+                  <a
+                    class="inline-flex min-h-11 items-center border-b-2 border-transparent px-3 text-sm font-semibold text-ivory/80 transition-colors hover:border-ivory hover:text-white"
+                    href={href}
+                    aria-current={isCurrent ? 'page' : undefined}
+                  >
+                    {item.labels[currentLocale]}
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
