@@ -110,6 +110,7 @@ export const aboutUsPage = {
       title: 'Valuation and Damage Assessment',
       description:
         'Independent valuation and assessment of vessel condition or damage where included in the agreed professional scope.',
+      href: '/valuation-damage-survey',
     },
   ],
   approachPoints: [

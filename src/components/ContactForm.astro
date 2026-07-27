@@ -250,7 +250,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         <select
           id="contact-service"
           name="service"
-          aria-describedby="contact-service-error"
+          aria-describedby="contact-service-error contact-valuation-damage-help"
         >
           <option value="">Select a service</option>
           {
@@ -283,6 +283,15 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
           <a href="/yacht-delivery-calculator">
             Calculate an approximate delivery cost first
           </a>
+        </p>
+        <p
+          id="contact-valuation-damage-help"
+          class="form-field-help contact-service-helper"
+          hidden
+          data-valuation-damage-helper
+        >
+          Please state whether you require a valuation, damage assessment or a
+          combined assignment.
         </p>
       </div>
 
@@ -585,6 +594,9 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
     const deliveryCalculatorSuggestion = form.querySelector<HTMLElement>(
       '[data-delivery-calculator-suggestion]',
     );
+    const valuationDamageHelper = form.querySelector<HTMLElement>(
+      '[data-valuation-damage-helper]',
+    );
     const removeSurveyEstimateButton = form.querySelector<HTMLButtonElement>(
       '[data-remove-survey-estimate]',
     );
@@ -745,6 +757,11 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
     const updateCalculatorSuggestions = () => {
       updateSurveyCalculatorSuggestion();
       updateDeliveryCalculatorSuggestion();
+      if (valuationDamageHelper) {
+        valuationDamageHelper.hidden =
+          !(serviceField instanceof HTMLSelectElement) ||
+          serviceField.value !== 'valuation-damage-survey';
+      }
     };
 
     const resetEstimateMetadataIfEmpty = () => {

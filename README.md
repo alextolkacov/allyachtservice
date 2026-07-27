@@ -6,9 +6,10 @@ deployment to Cloudflare Pages.
 
 The English homepage, Contact page, Pre-Purchase Yacht Survey page, Insurance
 Condition Yacht Survey page, Yacht Buyer Representation page, Yacht Delivery
-page, About Us page, and Pre-Purchase Yacht Survey Cost Calculator contain the
-first production-ready implementations. The Yacht Delivery Cost Calculator is
-also available as a native English planning tool.
+page, Yacht Valuation and Damage Assessment page, About Us page, and
+Pre-Purchase Yacht Survey Cost Calculator contain the first production-ready
+implementations. The Yacht Delivery Cost Calculator is also available as a
+native English planning tool.
 The Contact page uses a Cloudflare Pages Function, Turnstile, and the existing
 Google Workspace mailbox to validate and deliver enquiries securely.
 The Spanish, Russian, French, Italian, and Greek homepages retain localized
@@ -136,6 +137,47 @@ DKIM records.
 The endpoint accepts up to three PDF, JPEG, PNG, or WebP attachments. Each file
 may be at most 2 MB and their combined size may be at most 3 MB. This keeps the
 encoded email well within Gmail's message-size limit.
+
+The Contact service value `valuation-damage-survey` selects the visible label
+“Yacht Valuation or Damage Assessment”. Both the browser form and the
+Cloudflare Pages Function validate this value, and submitted emails use the
+same service label. Selecting it also asks the client to state whether the
+required assignment is a valuation, damage assessment, or a combined scope.
+
+## Yacht valuation and damage assessment
+
+The English service page is generated at:
+
+```text
+/valuation-damage-survey
+```
+
+The page keeps valuation and damage assessment as two related but distinct
+professional scopes. A valuation is a condition- and evidence-based opinion of
+value for an agreed purpose and date; it is not a guaranteed selling price,
+insured value, offer, tax assessment, legal or financial advice, or warranty of
+condition. A damage assessment records accessible observed damage, apparent
+extent, safety concerns, and supported technical observations. It does not
+decide legal liability, insurance cover, claim settlement, or repair
+authorisation.
+
+Inspections are normally visual and non-destructive. Concealed areas,
+restricted access, unavailable systems, lack of haul-out, missing
+documentation, previous repairs, and changes before inspection may limit the
+findings. Specialist testing, dismantling, laboratory work, repair quotations,
+and final repair methods are included only when expressly agreed or supplied
+by the appropriate specialist.
+
+The page emits one `WebPage` entity and two separate `Service` entities:
+`#valuation-service` and `#damage-service`. Both services reference the stable
+global provider entity `https://www.allyachtservice.com/#business`; the visible
+breadcrumb component emits the matching `BreadcrumbList`.
+
+The hero currently reuses the closest approved technical-survey photograph,
+and the contextual image shows yachts damaged ashore after severe weather.
+Replace the reused hero image with approved original valuation or
+damage-assessment inspection photography when it becomes available, preserving
+the current dimensions, responsive behaviour, and accurate alternative text.
 
 ## Environment-variable strategy
 

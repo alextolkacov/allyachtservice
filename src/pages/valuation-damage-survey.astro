@@ -1,0 +1,416 @@
+---
+import { valuationDamageSurveyPage } from '../data/valuation-damage-survey';
+import ServiceLayout from '../layouts/ServiceLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../utils/seo';
+
+const pageUrl = toAbsoluteUrl(valuationDamageSurveyPage.pathname);
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: valuationDamageSurveyPage.title,
+  description: valuationDamageSurveyPage.description,
+  inLanguage: 'en',
+};
+const serviceSchemas: StructuredData[] =
+  valuationDamageSurveyPage.serviceSchemas.map((service) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${pageUrl}#${service.id}`,
+    name: service.name,
+    serviceType: service.serviceType,
+    url: pageUrl,
+    description: service.description,
+    provider: {
+      '@id': businessEntityId,
+    },
+    areaServed: valuationDamageSurveyPage.areaServed.map((name) => ({
+      '@type': 'Place',
+      name,
+    })),
+  }));
+---
+
+<ServiceLayout
+  title={valuationDamageSurveyPage.title}
+  description={valuationDamageSurveyPage.description}
+  locale="en"
+  routeId="valuationDamageSurvey"
+  pathname={valuationDamageSurveyPage.pathname}
+  heading={valuationDamageSurveyPage.heading}
+  eyebrow={valuationDamageSurveyPage.eyebrow}
+  summary={valuationDamageSurveyPage.summary}
+  heroImage={valuationDamageSurveyPage.heroImage}
+  socialImageAlt={valuationDamageSurveyPage.socialImageAlt}
+  breadcrumbs={valuationDamageSurveyPage.breadcrumbs}
+  primaryCta={valuationDamageSurveyPage.primaryCta}
+  secondaryCta={valuationDamageSurveyPage.secondaryCta}
+  relatedServices={valuationDamageSurveyPage.relatedServices}
+  finalCta={valuationDamageSurveyPage.finalCta}
+  structuredData={[webPageSchema, ...serviceSchemas]}
+>
+  <section aria-labelledby="independent-assessment-heading">
+    <h2 id="independent-assessment-heading">
+      Independent Yacht Valuation and Damage Assessment
+    </h2>
+    <p>
+      All Yacht Service provides independent yacht valuation and
+      damage-assessment services for sailing yachts, motor yachts and catamarans
+      up to 40 metres.
+    </p>
+    <p>
+      A valuation provides a professional opinion of a yacht’s value at a stated
+      date and for an agreed purpose.
+    </p>
+    <p>
+      A damage assessment records the observed nature, location and extent of
+      damage and may provide an opinion on apparent cause, repair priorities and
+      the need for further specialist investigation.
+    </p>
+    <p>
+      The exact scope is agreed before the inspection according to the yacht,
+      its location, the intended use of the report and the information required
+      by the commissioning client.
+    </p>
+    <p>
+      Services are carried out by Aleksandrs Tolkacovs, an IIMS-Certified Yacht
+      and Small Craft Marine Surveyor and licensed captain.
+    </p>
+  </section>
+
+  <section aria-labelledby="professional-valuation-heading">
+    <h2 id="professional-valuation-heading">Professional Yacht Valuation</h2>
+    <p>
+      A yacht valuation is an informed professional opinion based on the
+      available vessel information, observed condition, equipment,
+      specifications, maintenance history and relevant market evidence.
+    </p>
+    <p>
+      The valuation is stated for a particular date and purpose. It should not
+      be treated as a guarantee of the price the yacht will achieve in a future
+      sale.
+    </p>
+    <p class="service-note">
+      A valuation may be commissioned as a standalone assignment or included
+      within another agreed survey scope.
+    </p>
+  </section>
+
+  <section aria-labelledby="valuation-required-heading">
+    <h2 id="valuation-required-heading">
+      When a Yacht Valuation May Be Required
+    </h2>
+    <div class="inspection-grid">
+      {
+        valuationDamageSurveyPage.valuationUseCases.map((item) => (
+          <article>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))
+      }
+    </div>
+    <p class="service-note">
+      The commissioning purpose, value basis and permitted users of the report
+      must be confirmed before the assignment is accepted.
+    </p>
+  </section>
+
+  <section aria-labelledby="valuation-development-heading">
+    <h2 id="valuation-development-heading">
+      How a Yacht Valuation Is Developed
+    </h2>
+    <p>Where included in the agreed scope, the valuation may consider:</p>
+    <ul class="service-check-list">
+      {
+        valuationDamageSurveyPage.valuationFactors.map((factor) => (
+          <li>{factor}</li>
+        ))
+      }
+    </ul>
+    <p class="service-note">
+      The available evidence varies between yachts. Any assumptions, information
+      gaps or limitations affecting the opinion of value will be stated in the
+      report.
+    </p>
+  </section>
+
+  <section aria-labelledby="valuation-opinion-heading">
+    <h2 id="valuation-opinion-heading">Understanding the Valuation Opinion</h2>
+    <p>
+      The report must identify the intended valuation basis and the date at
+      which the opinion applies.
+    </p>
+    <p>
+      Depending on the agreed assignment, this may involve an opinion of current
+      market value or another clearly defined value basis requested by the
+      client or insurer.
+    </p>
+    <p>A valuation is not:</p>
+    <ul class="defect-grid">
+      {valuationDamageSurveyPage.valuationIsNot.map((item) => <li>{item}</li>)}
+    </ul>
+    <p>
+      The final sale price may be influenced by negotiation, urgency, location,
+      documentation, market exposure, buyer demand and changes occurring after
+      the valuation date.
+    </p>
+  </section>
+
+  <section aria-labelledby="damage-assessment-heading">
+    <h2 id="damage-assessment-heading">Independent Yacht Damage Assessment</h2>
+    <p>
+      A yacht damage assessment documents the observed damage and its effect on
+      accessible structures, systems, machinery or equipment within the agreed
+      inspection scope.
+    </p>
+    <p>
+      The purpose may be to help an owner, buyer, insurer, broker, repair yard
+      or other commissioning party understand:
+    </p>
+    <ul class="service-check-list">
+      {
+        valuationDamageSurveyPage.damagePurposes.map((purpose) => (
+          <li>{purpose}</li>
+        ))
+      }
+    </ul>
+    <p class="service-note">
+      The surveyor records observed evidence and provides professional technical
+      observations. Decisions concerning insurance cover, liability, claim
+      settlement and repair authorisation remain with the relevant parties.
+    </p>
+    <figure class="technical-evidence-figure">
+      <img
+        src={valuationDamageSurveyPage.contextualImage.src}
+        alt={valuationDamageSurveyPage.contextualImage.alt}
+        width={valuationDamageSurveyPage.contextualImage.width}
+        height={valuationDamageSurveyPage.contextualImage.height}
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption>
+        {valuationDamageSurveyPage.contextualImage.caption}
+      </figcaption>
+    </figure>
+  </section>
+
+  <section aria-labelledby="damage-types-heading">
+    <h2 id="damage-types-heading">Damage That May Be Assessed</h2>
+    <div class="inspection-grid">
+      {
+        valuationDamageSurveyPage.damageTypes.map((item) => (
+          <article>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))
+      }
+    </div>
+    <p class="service-note">
+      The extent to which any category can be investigated depends on safe
+      access, the agreed scope and whether specialist inspection or testing is
+      required.
+    </p>
+  </section>
+
+  <section aria-labelledby="damage-inspection-heading">
+    <h2 id="damage-inspection-heading">What a Damage Assessment May Include</h2>
+    <p>
+      The exact inspection scope depends on the event, the yacht and the
+      client’s requirements.
+    </p>
+    <p>A typical assignment may include:</p>
+    <ul class="service-check-list">
+      {
+        valuationDamageSurveyPage.damageInspectionItems.map((item) => (
+          <li>{item}</li>
+        ))
+      }
+    </ul>
+    <p class="service-note">
+      An opinion on apparent or probable cause will only be provided where the
+      available evidence supports it and where it falls within the agreed survey
+      scope.
+    </p>
+  </section>
+
+  <section aria-labelledby="specialist-investigation-heading">
+    <h2 id="specialist-investigation-heading">
+      When Specialist Investigation May Be Required
+    </h2>
+    <p>
+      Some damage cannot be fully assessed through a visual, non-destructive
+      survey alone.
+    </p>
+    <p>Further investigation may be recommended, including:</p>
+    <ul class="service-check-list">
+      {
+        valuationDamageSurveyPage.specialistInvestigations.map((item) => (
+          <li>{item}</li>
+        ))
+      }
+    </ul>
+    <p class="service-note">
+      Specialist services, dismantling, laboratory testing and repair quotations
+      are not automatically included unless stated in the agreed scope.
+    </p>
+  </section>
+
+  <section aria-labelledby="repair-cost-heading">
+    <h2 id="repair-cost-heading">Repair Scope and Cost Information</h2>
+    <p>
+      A damage report may identify areas requiring repair and may provide an
+      initial technical outline of the work that should be considered.
+    </p>
+    <p>
+      Where agreed, All Yacht Service may review repair proposals or quotations
+      supplied by boatyards and specialist contractors.
+    </p>
+    <p class="service-note">
+      A surveyor’s preliminary repair observations are not a fixed repair
+      specification or guaranteed repair cost. Final methods, materials, labour
+      and prices must be confirmed by the appropriately qualified repair
+      professionals carrying out the work.
+    </p>
+  </section>
+
+  <section aria-labelledby="assessment-process-heading">
+    <h2 id="assessment-process-heading">How the Assessment Process Works</h2>
+    <ol class="process-list">
+      {
+        valuationDamageSurveyPage.processSteps.map((step, index) => (
+          <li>
+            <div>
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section aria-labelledby="reporting-heading">
+    <h2 id="reporting-heading">Clear Professional Reporting</h2>
+    <p>Depending on the agreed assignment, the report may include:</p>
+    <ul class="service-check-list">
+      {valuationDamageSurveyPage.reportItems.map((item) => <li>{item}</li>)}
+    </ul>
+    <p>
+      Reports are normally issued within 48 hours after completion of the
+      inspection, subject to the assignment scope, documentation, market
+      research and any specialist information required.
+    </p>
+  </section>
+
+  <section aria-labelledby="limitations-heading">
+    <h2 id="limitations-heading">Inspection and Report Limitations</h2>
+    <p>
+      The inspection is normally visual and non-destructive and is limited to
+      areas, structures, systems and equipment that are safely accessible at the
+      time of the appointment.
+    </p>
+    <p>
+      The report does not guarantee that every defect, damage mechanism or
+      hidden condition will be identified.
+    </p>
+    <p>The assessment may be limited by:</p>
+    <ul class="defect-grid">
+      {
+        valuationDamageSurveyPage.limitations.map((limitation) => (
+          <li>{limitation}</li>
+        ))
+      }
+    </ul>
+    <p class="service-note">
+      Any significant limitation affecting the conclusions will be identified in
+      the report.
+    </p>
+  </section>
+
+  <section aria-labelledby="survey-comparison-heading">
+    <h2 id="survey-comparison-heading">
+      Valuation, Damage, Insurance or Pre-Purchase Survey?
+    </h2>
+    <p>
+      A valuation focuses on providing an opinion of value for an agreed purpose
+      and date.
+    </p>
+    <p>
+      A damage assessment focuses on the nature, location and apparent extent of
+      reported or observed damage.
+    </p>
+    <p>
+      An
+      {' '}<a class="text-link" href="/insurance-survey"
+        >insurance condition yacht survey</a
+      >{' '}
+      provides an insurer with information about the yacht’s general condition, safety
+      and insurability-related risks.
+    </p>
+    <p>
+      A
+      {' '}<a class="text-link" href="/pre-purchase-survey"
+        >pre-purchase yacht survey</a
+      >{' '}
+      provides a prospective buyer with a broader assessment to support the purchase
+      decision.
+    </p>
+    <p class="service-note">
+      These services may overlap in certain assignments, but one should not
+      automatically be treated as a substitute for another. The required scope
+      should be agreed before inspection.
+    </p>
+  </section>
+
+  <section aria-labelledby="commissioning-clients-heading">
+    <h2 id="commissioning-clients-heading">Who May Commission the Service?</h2>
+    <ul class="service-check-list">
+      {valuationDamageSurveyPage.clients.map((client) => <li>{client}</li>)}
+    </ul>
+    <p class="service-note">
+      The commissioning client, intended purpose, report recipients and
+      permitted reliance must be agreed for each assignment.
+    </p>
+  </section>
+
+  <section aria-labelledby="coverage-heading">
+    <h2 id="coverage-heading">
+      Yacht Valuation and Damage Surveys Across Spain and the Mediterranean
+    </h2>
+    <p>
+      Based at Marina Greenwich in Altea, All Yacht Service provides yacht
+      valuation and damage-assessment services throughout Alicante, Costa
+      Blanca, Valencia, Barcelona, mainland Spain and the Spanish Mediterranean
+      coast.
+    </p>
+    <p>
+      Assignments in the Balearic Islands, France, Italy, Greece and other
+      European or international locations may also be arranged according to the
+      yacht’s location, access requirements and agreed scope.
+    </p>
+    <p class="service-note">
+      Travel, accommodation, haul-out, marina access, specialist services and
+      other third-party costs are not automatically included unless stated in
+      the quotation.
+    </p>
+  </section>
+
+  <section aria-labelledby="why-choose-heading">
+    <h2 id="why-choose-heading">Why Choose All Yacht Service?</h2>
+    <ul class="service-check-list">
+      {valuationDamageSurveyPage.whyChoose.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+</ServiceLayout>

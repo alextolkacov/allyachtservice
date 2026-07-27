@@ -16,8 +16,8 @@ export const contactServiceOptions = [
     label: 'Yacht Delivery',
   },
   {
-    value: 'valuation-damage-assessment',
-    label: 'Valuation or Damage Assessment',
+    value: 'valuation-damage-survey',
+    label: 'Yacht Valuation or Damage Assessment',
   },
   {
     value: 'general-enquiry',

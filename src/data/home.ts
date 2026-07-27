@@ -58,6 +58,18 @@ export const homeContent = {
       },
     },
     {
+      title: 'Yacht Valuation and Damage Assessment',
+      description:
+        'Independent condition-based valuation and damage reporting for an agreed purpose and inspection scope.',
+      href: '/valuation-damage-survey',
+      image: {
+        src: '/images/pre-purchase-survey.webp',
+        alt: 'Moisture measurement during a technical yacht inspection',
+        width: 1200,
+        height: 674,
+      },
+    },
+    {
       title: 'Yacht Delivery',
       description:
         'Professional delivery of sailing yachts, motor yachts and catamarans throughout Spain and the Mediterranean.',

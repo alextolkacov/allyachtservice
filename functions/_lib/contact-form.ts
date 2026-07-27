@@ -11,7 +11,7 @@ const serviceLabels = {
   'insurance-survey': 'Insurance Condition Yacht Survey',
   'buyer-representation': 'Yacht Buyer Representation',
   'yacht-delivery': 'Yacht Delivery',
-  'valuation-damage-assessment': 'Valuation or Damage Assessment',
+  'valuation-damage-survey': 'Yacht Valuation or Damage Assessment',
   'general-enquiry': 'General Enquiry',
 } as const;
 
