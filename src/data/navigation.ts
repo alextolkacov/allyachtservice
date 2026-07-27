@@ -1,6 +1,7 @@
 import type { Locale } from './languages';
 
-export type RouteId = 'home' | 'prePurchaseSurvey' | 'yachtDelivery';
+export type RouteId =
+  'home' | 'prePurchaseSurvey' | 'insuranceSurvey' | 'yachtDelivery';
 
 /**
  * Add a locale only after that translated page exists. SEO alternates and the
@@ -22,13 +23,21 @@ export const translatedRoutes: Record<
   prePurchaseSurvey: {
     en: '/pre-purchase-survey',
   },
+  insuranceSurvey: {
+    en: '/insurance-survey',
+  },
   yachtDelivery: {
     en: '/yacht-delivery',
   },
 };
 
 export interface NavigationItem {
-  id: 'home' | 'prePurchaseSurvey' | 'yachtDelivery' | 'contact';
+  id:
+    | 'home'
+    | 'prePurchaseSurvey'
+    | 'insuranceSurvey'
+    | 'yachtDelivery'
+    | 'contact';
   routeId?: RouteId;
   href?: string;
   labels: Record<Locale, string>;
@@ -57,6 +66,18 @@ export const primaryNavigation = [
       fr: 'Expertise pré-achat',
       it: 'Perizia pre-acquisto',
       gr: 'Έλεγχος προ αγοράς',
+    },
+  },
+  {
+    id: 'insuranceSurvey',
+    routeId: 'insuranceSurvey',
+    labels: {
+      en: 'Insurance Survey',
+      es: 'Inspección de seguro',
+      ru: 'Страховой осмотр',
+      fr: "Expertise d'assurance",
+      it: 'Perizia assicurativa',
+      gr: 'Έλεγχος ασφάλισης',
     },
   },
   {

@@ -1,0 +1,298 @@
+---
+import { insuranceSurveyPage } from '../data/insurance-survey';
+import ServiceLayout from '../layouts/ServiceLayout.astro';
+import { createServiceSchema } from '../utils/seo';
+
+const serviceSchema = createServiceSchema({
+  name: 'Insurance Condition Yacht Survey',
+  serviceType: 'Insurance condition yacht survey',
+  pathname: insuranceSurveyPage.pathname,
+  description: insuranceSurveyPage.schemaDescription,
+  areaServed: insuranceSurveyPage.areaServed,
+});
+---
+
+<ServiceLayout
+  title={insuranceSurveyPage.title}
+  description={insuranceSurveyPage.description}
+  locale="en"
+  routeId="insuranceSurvey"
+  pathname={insuranceSurveyPage.pathname}
+  heading={insuranceSurveyPage.heading}
+  eyebrow={insuranceSurveyPage.eyebrow}
+  summary={insuranceSurveyPage.summary}
+  heroImage={insuranceSurveyPage.heroImage}
+  socialImageAlt={insuranceSurveyPage.socialImageAlt}
+  breadcrumbs={insuranceSurveyPage.breadcrumbs}
+  primaryCta={insuranceSurveyPage.primaryCta}
+  secondaryCta={insuranceSurveyPage.secondaryCta}
+  relatedServices={insuranceSurveyPage.relatedServices}
+  finalCta={insuranceSurveyPage.finalCta}
+  structuredData={serviceSchema}
+>
+  <section aria-labelledby="independent-insurance-survey-heading">
+    <h2 id="independent-insurance-survey-heading">
+      Independent Insurance Condition Yacht Survey
+    </h2>
+    <p>
+      An insurance condition survey provides an independent assessment of a
+      yacht’s general condition, safety arrangements and visible defects for
+      consideration by an insurance underwriter.
+    </p>
+    <p>
+      Insurers may request a current survey before offering cover, renewing an
+      existing policy or accepting a change of ownership. The exact requirements
+      vary between insurers and may depend on the yacht’s age, value,
+      construction, use, cruising area and claims history.
+    </p>
+    <p>
+      All Yacht Service carries out insurance condition surveys for sailing
+      yachts, motor yachts and catamarans up to 24 metres.
+    </p>
+    <p>
+      Surveys are carried out by Aleksandrs Tolkacovs, an IIMS-Certified Yacht
+      and Small Craft Marine Surveyor and licensed captain, supported by more
+      than 20 years of experience in engineering, quality assurance and
+      management.
+    </p>
+  </section>
+
+  <section aria-labelledby="survey-required-heading">
+    <h2 id="survey-required-heading">
+      When an Insurance Survey May Be Required
+    </h2>
+    <p>
+      An insurer or broker may request a condition survey in situations
+      including:
+    </p>
+    <div class="inspection-grid">
+      {
+        insuranceSurveyPage.suitabilityItems.map((item) => (
+          <article>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))
+      }
+    </div>
+    <p class="service-note">
+      The insurer decides whether a survey is required and what information must
+      be included. Owners should obtain the insurer’s written survey
+      requirements before the inspection is arranged whenever possible.
+    </p>
+  </section>
+
+  <section aria-labelledby="insurance-survey-includes-heading">
+    <h2 id="insurance-survey-includes-heading">
+      What an Insurance Condition Survey Includes
+    </h2>
+    <p>
+      The exact scope is agreed according to the vessel and the insurer’s
+      requirements. A typical insurance condition survey may include:
+    </p>
+    <div class="inspection-grid">
+      {
+        insuranceSurveyPage.inspectionItems.map((item) => (
+          <article>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))
+      }
+    </div>
+    <p class="service-note">
+      The survey is a non-destructive inspection and is limited to areas,
+      systems and equipment that are safely accessible at the time of the
+      inspection. The survey does not guarantee that every existing defect will
+      be identified, particularly where components or areas are inaccessible,
+      concealed or not operating during the inspection.
+    </p>
+  </section>
+
+  <section aria-labelledby="condition-findings-heading">
+    <h2 id="condition-findings-heading">
+      Condition, Safety and Insurability-Related Findings
+    </h2>
+    <p>
+      The survey identifies visible defects and safety concerns that may be
+      relevant to an insurer’s assessment of the yacht.
+    </p>
+    <p>Findings may include:</p>
+    <ul class="defect-grid">
+      {insuranceSurveyPage.findings.map((finding) => <li>{finding}</li>)}
+    </ul>
+    <p class="service-note">
+      The report records the observed condition and provides recommendations.
+      The insurer remains solely responsible for deciding whether to offer
+      cover, impose conditions, require repairs or decline the risk.
+    </p>
+  </section>
+
+  <section aria-labelledby="insurer-requirements-heading">
+    <h2 id="insurer-requirements-heading">
+      Confirming the Insurer’s Requirements
+    </h2>
+    <p>
+      Insurance companies do not all request the same survey format or
+      inspection scope.
+    </p>
+    <p>
+      Before arranging the survey, the owner should ask the insurer or broker
+      whether they require:
+    </p>
+    <ul class="service-check-list">
+      {
+        insuranceSurveyPage.insurerRequirements.map((requirement) => (
+          <li>{requirement}</li>
+        ))
+      }
+    </ul>
+    <p>
+      Any insurer-provided form or written instructions should be supplied to
+      All Yacht Service before the survey appointment. This helps ensure that
+      the agreed inspection scope addresses the underwriter’s stated
+      requirements.
+    </p>
+    <p class="service-note">
+      Forms that request testing, certification or specialist work outside the
+      agreed surveyor’s competence or inspection scope may require input from
+      another appropriately qualified professional.
+    </p>
+  </section>
+
+  <section aria-labelledby="insurance-process-heading">
+    <h2 id="insurance-process-heading">
+      How the Insurance Survey Process Works
+    </h2>
+    <ol class="process-list">
+      {
+        insuranceSurveyPage.processSteps.map((step, index) => (
+          <li>
+            <div>
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section aria-labelledby="afloat-haul-out-heading">
+    <h2 id="afloat-haul-out-heading">
+      Afloat and Hauled-Out Insurance Surveys
+    </h2>
+    <p>
+      Some insurers accept an afloat condition inspection, while others require
+      the underwater hull and appendages to be examined with the yacht out of
+      the water.
+    </p>
+    <p>
+      A hauled-out inspection allows assessment of the underwater hull, keel,
+      rudder, propellers, shafts, saildrives, skin fittings and other underwater
+      components.
+    </p>
+    <p>
+      The appropriate arrangement should be confirmed with the insurer before
+      the survey wherever possible.
+    </p>
+    <p>
+      Haul-out, marina, cleaning and vessel-operating costs are normally
+      arranged separately and are not automatically included in the survey fee
+      unless specifically stated in the quotation.
+    </p>
+  </section>
+
+  <section aria-labelledby="insurance-valuation-heading">
+    <h2 id="insurance-valuation-heading">Insurance Valuation</h2>
+    <p>
+      An insurer may request an opinion of the yacht’s current market value or
+      an agreed insured value as part of the reporting process.
+    </p>
+    <p>
+      Where valuation is included in the agreed scope, it is based on available
+      vessel information, observed condition, specifications, equipment and
+      relevant market evidence.
+    </p>
+    <p>
+      A valuation is an informed professional opinion at the date of inspection.
+      It is not a guarantee of the price the yacht will achieve if sold.
+    </p>
+  </section>
+
+  <section aria-labelledby="insurance-report-heading">
+    <h2 id="insurance-report-heading">
+      Clear Report for the Owner and Insurer
+    </h2>
+    <p>
+      The insurance survey report describes the yacht’s observed condition in
+      clear and practical language.
+    </p>
+    <p>It may include:</p>
+    <ul class="service-check-list">
+      {insuranceSurveyPage.reportItems.map((item) => <li>{item}</li>)}
+    </ul>
+    <p>
+      Reports are normally issued within 48 hours after completion of the
+      inspection, subject to the vessel, survey scope, insurer’s documentation
+      and any additional information required.
+    </p>
+    <p class="service-note">
+      The report is prepared for the commissioning client and the stated
+      insurance purpose. It should not be treated as a warranty, guarantee of
+      condition or confirmation that insurance cover will be provided.
+    </p>
+  </section>
+
+  <section aria-labelledby="insurance-versus-purchase-heading">
+    <h2 id="insurance-versus-purchase-heading">
+      Insurance Survey or Pre-Purchase Survey?
+    </h2>
+    <p>
+      An insurance condition survey is prepared primarily to provide an insurer
+      with information about the yacht’s general condition, safety and
+      insurability-related risks.
+    </p>
+    <p>
+      A
+      {' '}<a class="text-link" href="/pre-purchase-survey"
+        >pre-purchase yacht survey</a
+      >{' '}
+      is commissioned by a prospective buyer and normally involves a broader assessment
+      intended to support the purchase decision.
+    </p>
+    <p>
+      An insurance survey should not automatically be treated as a substitute
+      for a comprehensive pre-purchase survey.
+    </p>
+  </section>
+
+  <section aria-labelledby="insurance-coverage-heading">
+    <h2 id="insurance-coverage-heading">
+      Insurance Yacht Surveys Across Spain and the Mediterranean
+    </h2>
+    <p>
+      Based at Marina Greenwich in Altea, All Yacht Service carries out
+      insurance condition yacht surveys throughout Alicante, Costa Blanca,
+      Valencia, Barcelona, the Spanish Mediterranean coast and other locations
+      across mainland Spain.
+    </p>
+    <p>
+      Surveys in the Balearic Islands, France, Italy, Greece and other European
+      or international locations can also be arranged according to the vessel’s
+      location, access requirements and insurer’s survey scope.
+    </p>
+  </section>
+
+  <section aria-labelledby="why-insurance-survey-heading">
+    <h2 id="why-insurance-survey-heading">Why Choose All Yacht Service?</h2>
+    <ul class="service-check-list">
+      {insuranceSurveyPage.whyChoose.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+</ServiceLayout>

@@ -29,6 +29,7 @@ interface RelatedService {
 interface FinalCta {
   heading: string;
   body: string;
+  note?: string;
   links: readonly CtaLink[];
 }
 
@@ -42,6 +43,7 @@ interface Props {
   eyebrow?: string;
   summary: string;
   heroImage: ServiceImage;
+  socialImageAlt?: string;
   breadcrumbs: readonly BreadcrumbItem[];
   breadcrumbLabel?: string;
   primaryCta?: CtaLink;
@@ -62,6 +64,7 @@ const {
   eyebrow,
   summary,
   heroImage,
+  socialImageAlt,
   breadcrumbs,
   breadcrumbLabel,
   primaryCta,
@@ -79,7 +82,7 @@ const baseProps = {
   pathname,
   noindex,
   imagePath: heroImage.src,
-  imageAlt: heroImage.alt,
+  imageAlt: socialImageAlt ?? heroImage.alt,
   ...(structuredData ? { structuredData } : {}),
 };
 ---
@@ -177,6 +180,9 @@ const baseProps = {
               <p class="eyebrow eyebrow-light">Contact</p>
               <h2 id="final-cta-heading">{finalCta.heading}</h2>
               <p>{finalCta.body}</p>
+              {finalCta.note && (
+                <p class="service-final-cta-note">{finalCta.note}</p>
+              )}
             </div>
             <div class="service-final-cta-actions">
               {finalCta.links.map((link, index) => (

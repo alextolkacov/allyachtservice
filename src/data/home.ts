@@ -49,6 +49,7 @@ export const homeContent = {
       title: 'Insurance Condition Survey',
       description:
         'Condition assessment and professional reporting prepared for insurance applications and policy renewals.',
+      href: '/insurance-survey',
       image: {
         src: '/images/insurance-condition-survey.webp',
         alt: 'Sailing yachts being assessed after storm damage',

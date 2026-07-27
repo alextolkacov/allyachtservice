@@ -4,8 +4,9 @@ Multilingual website for All Yacht Service. The site uses Astro, strict
 TypeScript, Tailwind CSS, static generation, and npm. It is configured for
 deployment to Cloudflare Pages.
 
-The English homepage, Pre-Purchase Yacht Survey page, and Yacht Delivery page
-contain the first production-ready visual implementations.
+The English homepage, Pre-Purchase Yacht Survey page, Insurance Condition Yacht
+Survey page, and Yacht Delivery page contain the first production-ready visual
+implementations.
 The Spanish, Russian, French, Italian, and Greek homepages retain localized
 development placeholders inside the same shared header, visual system, and
 footer. Other service pages, redirects, legal-page content, reviews, and a
