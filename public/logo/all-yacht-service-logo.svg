@@ -1,0 +1,15 @@
+<svg width="180" height="120" viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Jib (forward sail) -->
+  <polygon points="80,20 35,105 80,105"
+           fill="none"
+           stroke="black"
+           stroke-width="4"
+           stroke-linejoin="miter"/>
+
+  <!-- Main sail (aft sail) -->
+  <polygon points="90,15 145,105 90,105"
+           fill="none"
+           stroke="black"
+           stroke-width="4"
+           stroke-linejoin="miter"/>
+</svg>
