@@ -1,9 +1,11 @@
 ---
 import {
+  desktopStandaloneNavigation,
   getNavigationHref,
   getNavigationLinkLanguage,
   getRequiredRoutePath,
-  primaryNavigation,
+  isServiceRoute,
+  serviceNavigation,
   type RouteId,
 } from '../data/navigation';
 import type { Locale } from '../data/languages';
@@ -21,6 +23,13 @@ const navigationProps = {
   currentLocale,
   ...(routeId ? { routeId } : {}),
 };
+const homeNavigationItem = desktopStandaloneNavigation.find(
+  (item) => item.id === 'home',
+);
+const secondaryNavigationItems = desktopStandaloneNavigation.filter(
+  (item) => item.id !== 'home',
+);
+const servicesAreCurrent = isServiceRoute(routeId);
 ---
 
 <header class="site-header">
@@ -44,7 +53,84 @@ const navigationProps = {
       <nav aria-label="Primary navigation">
         <ul class="desktop-navigation" role="list">
           {
-            primaryNavigation.map((item) => {
+            homeNavigationItem &&
+              (() => {
+                const item = homeNavigationItem;
+                const href = getNavigationHref(item, currentLocale);
+                const linkLanguage = getNavigationLinkLanguage(
+                  item,
+                  currentLocale,
+                );
+                const isCurrent = 'routeId' in item && item.routeId === routeId;
+
+                return (
+                  <li>
+                    <a
+                      class="desktop-navigation-link"
+                      href={href}
+                      lang={linkLanguage}
+                      aria-current={isCurrent ? 'page' : undefined}
+                    >
+                      {item.labels[currentLocale]}
+                    </a>
+                  </li>
+                );
+              })()
+          }
+          <li class="desktop-services-item" data-services-menu>
+            <button
+              class="desktop-navigation-link desktop-services-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="desktop-services-dropdown"
+              aria-haspopup="true"
+              aria-current={servicesAreCurrent ? 'page' : undefined}
+              data-services-trigger
+            >
+              Services
+            </button>
+            <ul
+              class="desktop-services-dropdown"
+              id="desktop-services-dropdown"
+              role="list"
+              hidden
+              data-services-dropdown
+            >
+              {
+                serviceNavigation.map((item) => {
+                  const href = getNavigationHref(item, currentLocale);
+                  const linkLanguage = getNavigationLinkLanguage(
+                    item,
+                    currentLocale,
+                  );
+                  const isCurrent =
+                    'routeId' in item && item.routeId === routeId;
+
+                  return (
+                    <li>
+                      <a
+                        href={href}
+                        lang={linkLanguage}
+                        aria-current={isCurrent ? 'page' : undefined}
+                      >
+                        {item.labels[currentLocale]}
+                      </a>
+                    </li>
+                  );
+                })
+              }
+            </ul>
+            <noscript>
+              <style>
+                .desktop-services-trigger {
+                  display: none;
+                }
+              </style>
+              <a class="desktop-navigation-link" href="/#services">Services</a>
+            </noscript>
+          </li>
+          {
+            secondaryNavigationItems.map((item) => {
               const href = getNavigationHref(item, currentLocale);
               const linkLanguage = getNavigationLinkLanguage(
                 item,
@@ -74,3 +160,101 @@ const navigationProps = {
     <MobileNavigation {...navigationProps} />
   </div>
 </header>
+
+<script>
+  const servicesMenus = document.querySelectorAll<HTMLElement>(
+    '[data-services-menu]',
+  );
+
+  servicesMenus.forEach((menu) => {
+    const trigger = menu.querySelector<HTMLButtonElement>(
+      '[data-services-trigger]',
+    );
+    const dropdown = menu.querySelector<HTMLElement>(
+      '[data-services-dropdown]',
+    );
+
+    if (!trigger || !dropdown) return;
+
+    const links = () =>
+      Array.from(dropdown.querySelectorAll<HTMLAnchorElement>('a[href]'));
+
+    const closeMenu = (restoreFocus = false) => {
+      trigger.setAttribute('aria-expanded', 'false');
+      dropdown.hidden = true;
+      if (restoreFocus) trigger.focus();
+    };
+
+    const openMenu = (focusFirstLink = false) => {
+      trigger.setAttribute('aria-expanded', 'true');
+      dropdown.hidden = false;
+      if (focusFirstLink) links()[0]?.focus();
+    };
+
+    trigger.addEventListener('click', () => {
+      const shouldOpen = trigger.getAttribute('aria-expanded') !== 'true';
+      if (shouldOpen) openMenu();
+      else closeMenu();
+    });
+
+    trigger.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        const shouldOpen = trigger.getAttribute('aria-expanded') !== 'true';
+        if (shouldOpen) openMenu();
+        else closeMenu();
+      } else if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        openMenu(true);
+      } else if (event.key === 'Escape') {
+        event.preventDefault();
+        closeMenu(true);
+      }
+    });
+
+    dropdown.addEventListener('keydown', (event) => {
+      const menuLinks = links();
+      const currentIndex = menuLinks.indexOf(
+        document.activeElement as HTMLAnchorElement,
+      );
+
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeMenu(true);
+        return;
+      }
+
+      if (
+        (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') ||
+        currentIndex < 0
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      const direction = event.key === 'ArrowDown' ? 1 : -1;
+      const nextIndex =
+        (currentIndex + direction + menuLinks.length) % menuLinks.length;
+      menuLinks[nextIndex]?.focus();
+    });
+
+    menu.addEventListener('focusout', () => {
+      queueMicrotask(() => {
+        if (!menu.contains(document.activeElement)) closeMenu();
+      });
+    });
+
+    document.addEventListener('pointerdown', (event) => {
+      if (
+        trigger.getAttribute('aria-expanded') === 'true' &&
+        !menu.contains(event.target as Node)
+      ) {
+        closeMenu();
+      }
+    });
+
+    dropdown.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) closeMenu();
+    });
+  });
+</script>

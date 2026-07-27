@@ -63,6 +63,7 @@ export interface NavigationItem {
     | 'home'
     | 'prePurchaseSurvey'
     | 'insuranceSurvey'
+    | 'valuationDamageSurvey'
     | 'buyerRepresentation'
     | 'aboutUs'
     | 'yachtDelivery'
@@ -107,6 +108,18 @@ export const primaryNavigation = [
       fr: "Expertise d'assurance",
       it: 'Perizia assicurativa',
       gr: 'Έλεγχος ασφάλισης',
+    },
+  },
+  {
+    id: 'valuationDamageSurvey',
+    routeId: 'valuationDamageSurvey',
+    labels: {
+      en: 'Valuation & Damage',
+      es: 'Valuation & Damage',
+      ru: 'Valuation & Damage',
+      fr: 'Valuation & Damage',
+      it: 'Valuation & Damage',
+      gr: 'Valuation & Damage',
     },
   },
   {
@@ -158,6 +171,37 @@ export const primaryNavigation = [
     },
   },
 ] as const satisfies readonly NavigationItem[];
+
+const serviceNavigationIds = new Set<NavigationItem['id']>([
+  'prePurchaseSurvey',
+  'insuranceSurvey',
+  'valuationDamageSurvey',
+  'buyerRepresentation',
+  'yachtDelivery',
+]);
+
+export const serviceNavigation = primaryNavigation.filter((item) =>
+  serviceNavigationIds.has(item.id),
+);
+
+export const desktopStandaloneNavigation = primaryNavigation.filter(
+  (item) =>
+    item.id === 'home' || item.id === 'aboutUs' || item.id === 'contact',
+);
+
+const serviceRouteIds = new Set<RouteId>([
+  'prePurchaseSurvey',
+  'prePurchaseSurveyCalculator',
+  'insuranceSurvey',
+  'valuationDamageSurvey',
+  'buyerRepresentation',
+  'yachtDelivery',
+  'yachtDeliveryCalculator',
+]);
+
+export function isServiceRoute(routeId?: RouteId): boolean {
+  return routeId ? serviceRouteIds.has(routeId) : false;
+}
 
 export function getRoutePath(
   routeId: RouteId,
