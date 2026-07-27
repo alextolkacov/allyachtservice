@@ -1,7 +1,11 @@
 import type { Locale } from './languages';
 
 export type RouteId =
-  'home' | 'prePurchaseSurvey' | 'insuranceSurvey' | 'yachtDelivery';
+  | 'home'
+  | 'prePurchaseSurvey'
+  | 'insuranceSurvey'
+  | 'buyerRepresentation'
+  | 'yachtDelivery';
 
 /**
  * Add a locale only after that translated page exists. SEO alternates and the
@@ -26,6 +30,9 @@ export const translatedRoutes: Record<
   insuranceSurvey: {
     en: '/insurance-survey',
   },
+  buyerRepresentation: {
+    en: '/buyer-representation',
+  },
   yachtDelivery: {
     en: '/yacht-delivery',
   },
@@ -36,6 +43,7 @@ export interface NavigationItem {
     | 'home'
     | 'prePurchaseSurvey'
     | 'insuranceSurvey'
+    | 'buyerRepresentation'
     | 'yachtDelivery'
     | 'contact';
   routeId?: RouteId;
@@ -78,6 +86,18 @@ export const primaryNavigation = [
       fr: "Expertise d'assurance",
       it: 'Perizia assicurativa',
       gr: 'Έλεγχος ασφάλισης',
+    },
+  },
+  {
+    id: 'buyerRepresentation',
+    routeId: 'buyerRepresentation',
+    labels: {
+      en: 'Buyer Representation',
+      es: 'Representación del comprador',
+      ru: 'Представительство покупателя',
+      fr: "Représentation de l'acheteur",
+      it: "Rappresentanza dell'acquirente",
+      gr: 'Εκπροσώπηση αγοραστή',
     },
   },
   {

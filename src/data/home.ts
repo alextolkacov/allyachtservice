@@ -73,6 +73,7 @@ export const homeContent = {
       title: 'Buyer Representation',
       description:
         'Independent technical support before, during and after the purchase of a yacht.',
+      href: '/buyer-representation',
       image: {
         src: '/images/buyer-representation.webp',
         alt: 'Buyer completing documentation with independent support',

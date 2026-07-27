@@ -1,0 +1,320 @@
+---
+import { buyerRepresentationPage } from '../data/buyer-representation';
+import ServiceLayout from '../layouts/ServiceLayout.astro';
+import { createServiceSchema } from '../utils/seo';
+
+const serviceSchema = createServiceSchema({
+  name: 'Yacht Buyer Representation',
+  serviceType: 'Yacht buyer representation and technical purchase support',
+  pathname: buyerRepresentationPage.pathname,
+  description: buyerRepresentationPage.schemaDescription,
+  areaServed: buyerRepresentationPage.areaServed,
+});
+---
+
+<ServiceLayout
+  title={buyerRepresentationPage.title}
+  description={buyerRepresentationPage.description}
+  locale="en"
+  routeId="buyerRepresentation"
+  pathname={buyerRepresentationPage.pathname}
+  heading={buyerRepresentationPage.heading}
+  eyebrow={buyerRepresentationPage.eyebrow}
+  summary={buyerRepresentationPage.summary}
+  heroImage={buyerRepresentationPage.heroImage}
+  socialImageAlt={buyerRepresentationPage.heroImage.alt}
+  breadcrumbs={buyerRepresentationPage.breadcrumbs}
+  primaryCta={buyerRepresentationPage.primaryCta}
+  secondaryCta={buyerRepresentationPage.secondaryCta}
+  relatedServices={buyerRepresentationPage.relatedServices}
+  finalCta={buyerRepresentationPage.finalCta}
+  structuredData={serviceSchema}
+>
+  <section aria-labelledby="independent-support-heading">
+    <h2 id="independent-support-heading">
+      Independent Support for Yacht Buyers
+    </h2>
+    <p>
+      Buying a yacht can involve technical, financial and practical decisions
+      that are difficult to evaluate from sales information alone.
+    </p>
+    <p>
+      All Yacht Service provides independent technical support for buyers
+      before, during and after the purchase of sailing yachts, motor yachts and
+      catamarans.
+    </p>
+    <p>
+      The service is particularly valuable for international buyers purchasing
+      yachts in Spain or elsewhere in the Mediterranean, as well as buyers who
+      cannot personally attend every viewing, inspection, sea trial or
+      repair-yard appointment.
+    </p>
+    <p>
+      Support is provided by Aleksandrs Tolkacovs, an IIMS-Certified Yacht and
+      Small Craft Marine Surveyor and licensed captain, with more than 20 years
+      of experience in engineering, quality assurance and management.
+    </p>
+    <p class="service-note">
+      The exact scope is agreed individually according to the yacht, location,
+      purchase stage and level of support required.
+    </p>
+  </section>
+
+  <section aria-labelledby="buyer-types-heading">
+    <h2 id="buyer-types-heading">Who Can Benefit from Buyer Representation?</h2>
+    <p>Yacht buyer representation may be useful when:</p>
+    <div class="inspection-grid">
+      {
+        buyerRepresentationPage.buyerTypes.map((item) => (
+          <article>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))
+      }
+    </div>
+    <p class="service-note">
+      The service provides technical and practical support. It does not
+      guarantee that a suitable yacht will be found or purchased.
+    </p>
+  </section>
+
+  <section aria-labelledby="service-scope-heading">
+    <h2 id="service-scope-heading">
+      What Yacht Buyer Representation Can Include
+    </h2>
+    <p>
+      The service can be adapted to the stage of the purchase and the buyer’s
+      requirements. Depending on the agreed scope, support may include:
+    </p>
+    <div class="inspection-grid">
+      {
+        buyerRepresentationPage.serviceItems.map((item) => (
+          <article>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))
+      }
+    </div>
+    <p class="service-note">
+      Services are limited to the agreed technical and practical scope. Legal,
+      tax, financial, registration and contractual matters should be reviewed by
+      appropriately qualified professional advisers.
+    </p>
+  </section>
+
+  <section aria-labelledby="before-offer-heading">
+    <h2 id="before-offer-heading">Technical Support Before Making an Offer</h2>
+    <p>
+      Before making an offer, a buyer may want an initial understanding of the
+      yacht’s apparent condition and major technical risks.
+    </p>
+    <p>
+      A pre-offer technical inspection can help identify obvious concerns before
+      the buyer commits to the time and cost of a comprehensive survey.
+    </p>
+    <p>Depending on the agreed scope, this may include:</p>
+    <ul class="service-check-list">
+      {buyerRepresentationPage.preOfferItems.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="service-note">
+      A pre-offer inspection is limited in scope and does not replace a
+      {' '}
+      <a class="text-link" href="/pre-purchase-survey"
+        >comprehensive pre-purchase yacht survey</a
+      >.
+    </p>
+  </section>
+
+  <section aria-labelledby="survey-purchase-heading">
+    <h2 id="survey-purchase-heading">
+      Support During the Survey and Purchase Process
+    </h2>
+    <p>
+      A full survey can produce a substantial amount of technical information.
+      Buyer representation helps the client understand which findings are most
+      significant and how they may affect safety, maintenance, repair planning
+      and the decision to proceed.
+    </p>
+    <p>Support may include:</p>
+    <ul class="service-check-list">
+      {
+        buyerRepresentationPage.surveySupportItems.map((item) => (
+          <li>{item}</li>
+        ))
+      }
+    </ul>
+    <p class="service-note">
+      All commercial decisions remain with the buyer. All Yacht Service does not
+      guarantee the outcome of negotiations or the completion of the purchase.
+    </p>
+  </section>
+
+  <section aria-labelledby="negotiation-support-heading">
+    <h2 id="negotiation-support-heading">
+      Using Survey Findings During Negotiations
+    </h2>
+    <p>
+      Survey findings may provide the buyer with a clearer basis for discussing
+      repairs, completion conditions or the purchase price.
+    </p>
+    <p>
+      All Yacht Service can explain the technical significance and likely
+      priority of identified defects so the buyer can make informed decisions
+      and communicate more effectively with the seller or broker.
+    </p>
+    <p>Where requested and appropriate, support may include:</p>
+    <ul class="service-check-list">
+      {buyerRepresentationPage.negotiationItems.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="service-note">
+      The service provides technical information and practical support. It does
+      not provide legal advice, contractual representation or any guarantee that
+      the seller will agree to repairs, discounts or other requested terms.
+    </p>
+  </section>
+
+  <section aria-labelledby="after-purchase-heading">
+    <h2 id="after-purchase-heading">Technical Support After the Purchase</h2>
+    <p>Support can continue after the purchase is completed.</p>
+    <p>Depending on the buyer’s requirements, this may include:</p>
+    <ul class="service-check-list">
+      {buyerRepresentationPage.postPurchaseItems.map((item) => <li>{item}</li>)}
+      <li>
+        <a class="text-link" href="/yacht-delivery"
+          >Professional yacht delivery</a
+        > to the new marina or destination
+      </li>
+    </ul>
+    <p class="service-note">
+      All Yacht Service can coordinate agreed work and technical specialists but
+      does not imply that it directly performs every repair or specialist
+      technical task.
+    </p>
+  </section>
+
+  <section aria-labelledby="international-buyers-heading">
+    <h2 id="international-buyers-heading">
+      Support for International Yacht Buyers
+    </h2>
+    <p>
+      Purchasing a yacht in another country can create additional challenges,
+      including travel, language, marina access, local contractors,
+      documentation and coordination between several parties.
+    </p>
+    <p>
+      Based at Marina Greenwich in Altea, All Yacht Service can act as the
+      buyer’s independent technical contact in Spain and other Mediterranean
+      locations.
+    </p>
+    <p>The service may help international buyers:</p>
+    <ul class="service-check-list">
+      {
+        buyerRepresentationPage.internationalBuyerItems.map((item) => (
+          <li>{item}</li>
+        ))
+      }
+    </ul>
+    <p class="service-note">
+      Legal ownership, registration, tax, customs and contractual matters remain
+      the responsibility of the buyer and their appropriately qualified
+      professional advisers.
+    </p>
+  </section>
+
+  <section aria-labelledby="independence-heading">
+    <h2 id="independence-heading">
+      Independent Advice and Conflict Disclosure
+    </h2>
+    <p>
+      Buyer representation is intended to provide clear technical information in
+      the interests of the commissioning client.
+    </p>
+    <p>
+      Any commercial relationship or potential conflict of interest connected
+      with a vessel will be disclosed before an appointment is accepted.
+    </p>
+    <p>
+      Where a conflict could prevent an independent service from being provided,
+      the assignment may be declined or its limitations agreed clearly with the
+      client.
+    </p>
+    <p class="service-note">
+      All Yacht Service does not receive authority to make the final purchase
+      decision on behalf of the client unless a separate and legally appropriate
+      written arrangement has been established.
+    </p>
+  </section>
+
+  <section aria-labelledby="brokerage-heading">
+    <h2 id="brokerage-heading">Buyer Representation and Yacht Brokerage</h2>
+    <p>
+      A yacht broker normally assists with marketing, introducing buyers and
+      sellers, arranging viewings and progressing the commercial transaction.
+    </p>
+    <p>
+      Yacht buyer representation from All Yacht Service focuses on independent
+      technical support, vessel condition, survey findings, repair priorities
+      and practical purchase decisions.
+    </p>
+    <p>
+      The service does not replace the buyer’s legal adviser, tax adviser,
+      registration specialist or other appropriately qualified professional.
+    </p>
+    <p>
+      Where a yacht has a commercial connection with All Yacht Service, Premium
+      Yachts Spain or another associated party, that relationship will be
+      disclosed before the assignment is accepted.
+    </p>
+  </section>
+
+  <section aria-labelledby="buyer-process-heading">
+    <h2 id="buyer-process-heading">How Yacht Buyer Representation Works</h2>
+    <ol class="process-list">
+      {
+        buyerRepresentationPage.processSteps.map((step, index) => (
+          <li>
+            <div>
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section aria-labelledby="coverage-heading">
+    <h2 id="coverage-heading">
+      Yacht Buyer Representation Across Spain and the Mediterranean
+    </h2>
+    <p>
+      Based at Marina Greenwich in Altea, All Yacht Service provides yacht buyer
+      representation and technical purchase support throughout Alicante, Costa
+      Blanca, Valencia, Barcelona, the Spanish Mediterranean coast and other
+      locations across mainland Spain.
+    </p>
+    <p>
+      Support in the Balearic Islands, France, Italy, Greece and other European
+      or international locations can also be arranged according to the yacht’s
+      location and the required scope.
+    </p>
+    <p>
+      Remote document review and technical consultation may also be available
+      where an immediate physical inspection is not required.
+    </p>
+  </section>
+
+  <section aria-labelledby="why-buyer-representation-heading">
+    <h2 id="why-buyer-representation-heading">Why Choose All Yacht Service?</h2>
+    <ul class="service-check-list">
+      {buyerRepresentationPage.whyChoose.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+</ServiceLayout>

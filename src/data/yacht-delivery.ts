@@ -38,7 +38,8 @@ export const yachtDeliveryPage = {
     {
       title: 'Buyer Representation',
       description:
-        'Independent technical support can be arranged during a yacht purchase. The dedicated service page is being prepared.',
+        'Independent technical support before, during and after the purchase of a yacht.',
+      href: '/buyer-representation',
     },
   ],
   finalCta: {
