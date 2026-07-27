@@ -1,6 +1,6 @@
 import type { Locale } from './languages';
 
-export type RouteId = 'home' | 'yachtDelivery';
+export type RouteId = 'home' | 'prePurchaseSurvey' | 'yachtDelivery';
 
 /**
  * Add a locale only after that translated page exists. SEO alternates and the
@@ -19,13 +19,16 @@ export const translatedRoutes: Record<
     it: '/it',
     gr: '/gr',
   },
+  prePurchaseSurvey: {
+    en: '/pre-purchase-survey',
+  },
   yachtDelivery: {
     en: '/yacht-delivery',
   },
 };
 
 export interface NavigationItem {
-  id: 'home' | 'yachtDelivery' | 'contact';
+  id: 'home' | 'prePurchaseSurvey' | 'yachtDelivery' | 'contact';
   routeId?: RouteId;
   href?: string;
   labels: Record<Locale, string>;
@@ -42,6 +45,18 @@ export const primaryNavigation = [
       fr: 'Accueil',
       it: 'Home',
       gr: 'Αρχική',
+    },
+  },
+  {
+    id: 'prePurchaseSurvey',
+    routeId: 'prePurchaseSurvey',
+    labels: {
+      en: 'Pre-Purchase Survey',
+      es: 'Inspección precompra',
+      ru: 'Осмотр перед покупкой',
+      fr: 'Expertise pré-achat',
+      it: 'Perizia pre-acquisto',
+      gr: 'Έλεγχος προ αγοράς',
     },
   },
   {

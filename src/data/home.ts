@@ -37,6 +37,7 @@ export const homeContent = {
       title: 'Pre-Purchase Yacht Survey',
       description:
         'Independent inspection of the hull, structure, systems, machinery and safety equipment before purchase.',
+      href: '/pre-purchase-survey',
       image: {
         src: '/images/pre-purchase-survey.webp',
         alt: 'Moisture meter used during a yacht hull inspection',

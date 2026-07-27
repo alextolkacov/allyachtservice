@@ -1045,7 +1045,8 @@
   .service-main section > h2 + p,
   .service-main section > p + p,
   .service-main section > p + ul,
-  .service-main section > h2 + ol {
+  .service-main section > h2 + ol,
+  .service-main section > p + .inspection-grid {
     margin-top: 1.25rem;
   }
 
@@ -1077,6 +1078,62 @@
     padding: 1rem 1.15rem;
     color: rgb(37 43 49 / 84%);
     font-size: 0.98rem;
+  }
+
+  .inspection-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .inspection-grid article {
+    border: 1px solid rgb(10 29 47 / 14%);
+    border-left: 3px solid var(--color-navy);
+    background: white;
+    padding: 1.25rem;
+  }
+
+  .inspection-grid h3,
+  .inspection-grid p {
+    margin: 0;
+  }
+
+  .inspection-grid h3 {
+    font-size: 1.12rem;
+  }
+
+  .inspection-grid p {
+    margin-top: 0.55rem;
+    color: rgb(37 43 49 / 78%);
+    font-size: 0.96rem;
+    line-height: 1.65;
+  }
+
+  .inspection-grid + .service-note {
+    margin-top: 1.25rem;
+  }
+
+  .defect-grid {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    gap: 0.75rem;
+    list-style: none;
+  }
+
+  .defect-grid li {
+    position: relative;
+    border-bottom: 1px solid rgb(10 29 47 / 12%);
+    padding: 0 0 0.75rem 1.35rem;
+  }
+
+  .defect-grid li::before {
+    position: absolute;
+    top: 0.65em;
+    left: 0;
+    width: 0.38rem;
+    height: 0.38rem;
+    background: var(--color-navy);
+    content: '';
   }
 
   .process-list {
@@ -1304,6 +1361,11 @@
   }
 
   .related-services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .inspection-grid,
+  .defect-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

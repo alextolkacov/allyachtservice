@@ -32,7 +32,8 @@ export const yachtDeliveryPage = {
     {
       title: 'Pre-Purchase Yacht Survey',
       description:
-        'Independent inspection support is available before a yacht purchase. The dedicated service page is being prepared.',
+        'Independent inspection of a yacht’s condition before completing a purchase.',
+      href: '/pre-purchase-survey',
     },
     {
       title: 'Buyer Representation',

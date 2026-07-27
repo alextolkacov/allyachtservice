@@ -1,0 +1,242 @@
+---
+import { prePurchaseSurveyPage } from '../data/pre-purchase-survey';
+import ServiceLayout from '../layouts/ServiceLayout.astro';
+import { createServiceSchema } from '../utils/seo';
+
+const serviceSchema = createServiceSchema({
+  name: 'Pre-Purchase Yacht Survey',
+  serviceType: 'Pre-purchase yacht survey and condition inspection',
+  pathname: prePurchaseSurveyPage.pathname,
+  description: prePurchaseSurveyPage.description,
+  areaServed: prePurchaseSurveyPage.areaServed,
+});
+---
+
+<ServiceLayout
+  title={prePurchaseSurveyPage.title}
+  description={prePurchaseSurveyPage.description}
+  locale="en"
+  routeId="prePurchaseSurvey"
+  pathname={prePurchaseSurveyPage.pathname}
+  heading={prePurchaseSurveyPage.heading}
+  eyebrow={prePurchaseSurveyPage.eyebrow}
+  summary={prePurchaseSurveyPage.summary}
+  heroImage={prePurchaseSurveyPage.heroImage}
+  breadcrumbs={prePurchaseSurveyPage.breadcrumbs}
+  primaryCta={prePurchaseSurveyPage.primaryCta}
+  secondaryCta={prePurchaseSurveyPage.secondaryCta}
+  relatedServices={prePurchaseSurveyPage.relatedServices}
+  finalCta={prePurchaseSurveyPage.finalCta}
+  structuredData={serviceSchema}
+>
+  <section aria-labelledby="independent-survey-heading">
+    <h2 id="independent-survey-heading">
+      Independent Pre-Purchase Yacht Survey
+    </h2>
+    <p>
+      Buying a yacht is a significant financial commitment. A professional
+      pre-purchase yacht survey provides an independent assessment of the
+      vessel’s condition before the buyer completes the purchase.
+    </p>
+    <p>
+      All Yacht Service carries out pre-purchase surveys for sailing yachts,
+      motor yachts and catamarans up to 24 metres. The inspection is intended to
+      identify visible defects, safety concerns, maintenance requirements and
+      areas that may require further specialist investigation.
+    </p>
+    <p>
+      Surveys are carried out by Aleksandrs Tolkacovs, an IIMS-Certified Yacht
+      and Small Craft Marine Surveyor and licensed captain, supported by more
+      than 20 years of experience in engineering, quality assurance and
+      management.
+    </p>
+  </section>
+
+  <section aria-labelledby="survey-includes-heading">
+    <h2 id="survey-includes-heading">
+      What a Pre-Purchase Yacht Survey Includes
+    </h2>
+    <p>
+      The exact scope depends on the vessel, its construction, equipment,
+      location and accessibility. A typical pre-purchase survey may include:
+    </p>
+    <div class="inspection-grid">
+      {
+        prePurchaseSurveyPage.inspectionItems.map((item) => (
+          <article>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))
+      }
+    </div>
+    <p class="service-note">
+      The survey is a non-destructive inspection and is limited to areas and
+      equipment that are safely accessible at the time of the survey. Where
+      specialist mechanical, electrical, rigging or laboratory investigation is
+      recommended, this will be identified in the report.
+    </p>
+  </section>
+
+  <section aria-labelledby="survey-importance-heading">
+    <h2 id="survey-importance-heading">
+      Why a Professional Yacht Survey Is Important Before Buying
+    </h2>
+    <p>
+      Many serious yacht defects are not obvious during a casual viewing. A
+      yacht may appear well maintained while still containing structural,
+      mechanical, electrical or safety-related problems that could lead to
+      substantial repair costs.
+    </p>
+    <p>
+      An independent survey helps the buyer understand the vessel’s actual
+      condition, prioritise necessary work and make a better-informed decision
+      before completing the purchase.
+    </p>
+    <p>The report may also support:</p>
+    <ul class="service-check-list">
+      {prePurchaseSurveyPage.reportUses.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+
+  <section aria-labelledby="common-defects-heading">
+    <h2 id="common-defects-heading">
+      Common Defects Identified During Yacht Surveys
+    </h2>
+    <p>
+      Even apparently well-maintained yachts may contain defects or undocumented
+      work. Common findings can include:
+    </p>
+    <ul class="defect-grid">
+      {prePurchaseSurveyPage.commonDefects.map((defect) => <li>{defect}</li>)}
+    </ul>
+  </section>
+
+  <section aria-labelledby="survey-process-heading">
+    <h2 id="survey-process-heading">
+      How the Pre-Purchase Survey Process Works
+    </h2>
+    <ol class="process-list">
+      {
+        prePurchaseSurveyPage.processSteps.map((step, index) => (
+          <li>
+            <div>
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section aria-labelledby="haul-out-heading">
+    <h2 id="haul-out-heading">Haul-Out and Sea Trial</h2>
+    <p>
+      A comprehensive pre-purchase survey is normally most effective when the
+      yacht can be inspected both afloat and out of the water.
+    </p>
+    <p>
+      Haul-out allows inspection of the underwater hull, keel, rudder,
+      propellers, shafts, saildrives and underwater fittings.
+    </p>
+    <p>
+      A sea trial provides an opportunity to assess propulsion, steering,
+      instrumentation and selected onboard systems under realistic operating
+      conditions.
+    </p>
+    <p>
+      Haul-out, marina, fuel and vessel-operating costs are normally arranged
+      separately and are not automatically included in the survey fee unless
+      specifically stated in the quotation.
+    </p>
+  </section>
+
+  <section aria-labelledby="survey-report-heading">
+    <h2 id="survey-report-heading">
+      Clear Survey Report and Practical Recommendations
+    </h2>
+    <p>
+      The survey report explains the vessel’s observed condition in clear and
+      practical language. Findings are supported by photographs and prioritised
+      so the buyer can distinguish between significant safety concerns,
+      important maintenance items and less urgent observations.
+    </p>
+    <p>
+      Reports are normally issued within 48 hours after completion of the
+      inspection, subject to the vessel, survey scope and any additional
+      information required.
+    </p>
+    <p>
+      The report is prepared for the commissioning client and should not be
+      presented as a guarantee of future condition or freedom from defects.
+    </p>
+  </section>
+
+  <section aria-labelledby="pre-offer-heading">
+    <h2 id="pre-offer-heading">Walkthrough and Pre-Offer Inspection</h2>
+    <p>
+      For buyers who are not yet ready to commission a full survey, All Yacht
+      Service can provide a shorter walkthrough or pre-offer inspection.
+    </p>
+    <p>
+      This service is intended to identify obvious concerns and major warning
+      signs before the buyer submits an offer or arranges a comprehensive
+      survey.
+    </p>
+    <p>Depending on the agreed scope, it may include:</p>
+    <ul class="service-check-list">
+      {prePurchaseSurveyPage.preOfferItems.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="service-note">
+      A walkthrough or pre-offer inspection is limited in scope and does not
+      replace a full pre-purchase yacht survey.
+    </p>
+  </section>
+
+  <section aria-labelledby="survey-coverage-heading">
+    <h2 id="survey-coverage-heading">
+      Pre-Purchase Yacht Surveys Across Spain and the Mediterranean
+    </h2>
+    <p>
+      Based at Marina Greenwich in Altea, All Yacht Service carries out
+      pre-purchase yacht surveys throughout Alicante, Costa Blanca, Valencia,
+      Barcelona, the Spanish Mediterranean coast and other locations across
+      mainland Spain.
+    </p>
+    <p>
+      Surveys in the Balearic Islands, France, Italy, Greece and other European
+      or international locations can also be arranged according to the vessel’s
+      location, access requirements and survey scope.
+    </p>
+  </section>
+
+  <section aria-labelledby="combined-delivery-heading">
+    <h2 id="combined-delivery-heading">
+      Combining a Survey with Yacht Delivery
+    </h2>
+    <p>
+      When the purchase is completed, All Yacht Service can also arrange
+      {' '}<a class="text-link" href="/yacht-delivery"
+        >professional yacht delivery</a
+      >{' '}
+      to the vessel’s new marina or destination.
+    </p>
+    <p>
+      Combining the survey and delivery services provides continuity from the
+      technical inspection through to passage preparation, arrival and handover.
+    </p>
+  </section>
+
+  <section aria-labelledby="why-survey-heading">
+    <h2 id="why-survey-heading">Why Choose All Yacht Service?</h2>
+    <ul class="service-check-list">
+      {prePurchaseSurveyPage.whyChoose.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+</ServiceLayout>
