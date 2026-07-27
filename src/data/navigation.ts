@@ -4,6 +4,7 @@ export type RouteId =
   | 'home'
   | 'prePurchaseSurvey'
   | 'prePurchaseSurveyCalculator'
+  | 'yachtDeliveryCalculator'
   | 'insuranceSurvey'
   | 'buyerRepresentation'
   | 'aboutUs'
@@ -32,6 +33,9 @@ export const translatedRoutes: Record<
   },
   prePurchaseSurveyCalculator: {
     en: '/pre-purchase-survey-calculator',
+  },
+  yachtDeliveryCalculator: {
+    en: '/yacht-delivery-calculator',
   },
   insuranceSurvey: {
     en: '/insurance-survey',

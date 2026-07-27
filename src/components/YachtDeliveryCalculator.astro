@@ -1,0 +1,923 @@
+---
+import { siteConfig } from '../data/site';
+---
+
+<section
+  id="delivery-calculator"
+  class="delivery-calculator"
+  aria-labelledby="delivery-calculator-heading"
+  data-delivery-calculator
+>
+  <div class="delivery-calculator-heading">
+    <p class="eyebrow">Initial route and fee estimate</p>
+    <h2 id="delivery-calculator-heading">Calculate Your Yacht Delivery Cost</h2>
+    <p>
+      Select a genuine departure and destination from the supported port list,
+      then add the yacht and delivery conditions. The result is approximate and
+      non-binding.
+    </p>
+  </div>
+
+  <form
+    class="delivery-calculator-form"
+    novalidate
+    data-delivery-calculator-form
+  >
+    <fieldset class="delivery-route-fields">
+      <legend>Route</legend>
+      <div class="delivery-route-grid">
+        <div class="form-field delivery-port-field" data-port-combobox>
+          <label for="delivery-departure">Departure port</label>
+          <input
+            id="delivery-departure"
+            name="departurePort"
+            type="text"
+            role="combobox"
+            aria-autocomplete="list"
+            aria-controls="delivery-departure-listbox"
+            aria-expanded="false"
+            aria-describedby="delivery-departure-help delivery-departure-error"
+            autocomplete="off"
+            placeholder="Search a port, for example Altea, Barcelona or Cannes"
+            data-port-input
+          />
+          <div
+            id="delivery-departure-listbox"
+            class="delivery-port-listbox"
+            role="listbox"
+            aria-label="Departure ports"
+            hidden
+            data-port-listbox
+          >
+          </div>
+          <p id="delivery-departure-help" class="form-field-help">
+            Start typing and choose a departure port from the list.
+          </p>
+          <p
+            id="delivery-departure-error"
+            class="form-field-error"
+            role="alert"
+            data-port-error
+          >
+          </p>
+        </div>
+
+        <button
+          class="delivery-swap-button"
+          type="button"
+          aria-label="Swap departure and destination"
+          data-swap-ports
+          data-analytics-event="delivery-calculator-swap"
+        >
+          <span aria-hidden="true">⇄</span>
+          <span>Swap ports</span>
+        </button>
+
+        <div class="form-field delivery-port-field" data-port-combobox>
+          <label for="delivery-destination">Destination port</label>
+          <input
+            id="delivery-destination"
+            name="destinationPort"
+            type="text"
+            role="combobox"
+            aria-autocomplete="list"
+            aria-controls="delivery-destination-listbox"
+            aria-expanded="false"
+            aria-describedby="delivery-destination-help delivery-destination-error"
+            autocomplete="off"
+            placeholder="Search a port, for example Palma, Genoa or Athens"
+            data-port-input
+          />
+          <div
+            id="delivery-destination-listbox"
+            class="delivery-port-listbox"
+            role="listbox"
+            aria-label="Destination ports"
+            hidden
+            data-port-listbox
+          >
+          </div>
+          <p id="delivery-destination-help" class="form-field-help">
+            Start typing and choose a destination port from the list.
+          </p>
+          <p
+            id="delivery-destination-error"
+            class="form-field-error"
+            role="alert"
+            data-port-error
+          >
+          </p>
+        </div>
+      </div>
+      <p class="delivery-port-coverage">
+        The calculator currently supports the listed Mediterranean and nearby
+        Atlantic ports. For a port not shown,
+        {' '}<a
+          class="text-link"
+          href="/contact?service=yacht-delivery&source=delivery-calculator"
+          >please request an individual route quotation</a
+        >.
+      </p>
+    </fieldset>
+
+    <div class="delivery-yacht-fields">
+      <div class="form-field">
+        <label for="delivery-yacht-type">Yacht type</label>
+        <select id="delivery-yacht-type" name="yachtType">
+          <option value="sailing" selected>Sailing yacht</option>
+          <option value="motor">Motor yacht</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="delivery-length-band">Yacht length band</label>
+        <select
+          id="delivery-length-band"
+          name="lengthBand"
+          aria-describedby="delivery-length-help"
+        >
+          <option value="small" selected>Up to 12 m</option>
+          <option value="medium">Over 12 m to 18 m</option>
+          <option value="large">Over 18 m to 24 m</option>
+          <option value="xlarge">Over 24 m</option>
+        </select>
+        <p id="delivery-length-help" class="form-field-help">
+          The final quotation will be based on the yacht’s exact dimensions,
+          displacement, systems and condition.
+        </p>
+      </div>
+    </div>
+
+    <fieldset class="delivery-choice-group">
+      <legend>Delivery complexity</legend>
+      <div class="delivery-choice-grid">
+        <label class="delivery-choice">
+          <input type="radio" name="complexity" value="standard" checked />
+          <span>
+            <strong>Standard Mediterranean Delivery</strong>
+            <small
+              >A normally planned coastal or Mediterranean delivery without
+              unusual formalities identified at the initial enquiry stage.</small
+            >
+          </span>
+        </label>
+        <label class="delivery-choice">
+          <input type="radio" name="complexity" value="offshore" />
+          <span>
+            <strong>Long Passage / Offshore Delivery</strong>
+            <small
+              >A longer or offshore passage requiring additional planning and
+              operational consideration.</small
+            >
+          </span>
+        </label>
+        <label class="delivery-choice">
+          <input type="radio" name="complexity" value="complex" />
+          <span>
+            <strong>Complex Delivery / Multiple Formalities</strong>
+            <small
+              >A delivery involving additional borders, formalities, route
+              constraints or other operational complexity.</small
+            >
+          </span>
+        </label>
+      </div>
+      <p class="form-field-help">
+        The selected category provides an initial estimate only. The final
+        delivery classification will be confirmed after route and vessel review.
+      </p>
+    </fieldset>
+
+    <fieldset class="delivery-choice-group">
+      <legend>Timing</legend>
+      <div class="delivery-timing-grid">
+        <label class="delivery-choice">
+          <input type="radio" name="urgency" value="standard" checked />
+          <span><strong>Standard planning</strong></span>
+        </label>
+        <label class="delivery-choice">
+          <input type="radio" name="urgency" value="urgent" />
+          <span><strong>Urgent delivery</strong></span>
+        </label>
+      </div>
+      <p class="form-field-help">
+        Urgent delivery means a request requiring accelerated preparation or
+        mobilisation and remains subject to availability.
+      </p>
+    </fieldset>
+
+    <p
+      class="form-field-error delivery-route-error"
+      role="alert"
+      tabindex="-1"
+      data-delivery-route-error
+    >
+    </p>
+
+    <button
+      class="button button-navy delivery-calculator-submit"
+      type="submit"
+      data-analytics-event="delivery-calculator-start"
+    >
+      Calculate Estimate
+    </button>
+  </form>
+
+  <p
+    class="sr-only"
+    aria-live="polite"
+    aria-atomic="true"
+    data-delivery-calculator-live
+  >
+  </p>
+
+  <section
+    class="delivery-calculator-result"
+    aria-labelledby="delivery-result-heading"
+    hidden
+    data-delivery-result
+    data-analytics-event="delivery-calculator-complete"
+  >
+    <div class="delivery-result-heading">
+      <p class="eyebrow">Initial estimate</p>
+      <h2
+        id="delivery-result-heading"
+        tabindex="-1"
+        data-delivery-result-heading
+      >
+        Your Estimated Yacht Delivery Cost
+      </h2>
+    </div>
+
+    <div class="delivery-result-principals">
+      <div>
+        <p>Approximate sea-route distance</p>
+        <strong data-result-distance></strong>
+      </div>
+      <div>
+        <p>Estimated starting professional delivery fee</p>
+        <strong data-result-price></strong>
+      </div>
+    </div>
+
+    <dl class="delivery-result-details">
+      <div>
+        <dt>Departure port</dt>
+        <dd data-result-departure></dd>
+      </div>
+      <div>
+        <dt>Destination port</dt>
+        <dd data-result-destination></dd>
+      </div>
+      <div class="delivery-result-corridor">
+        <dt>Approximate marine corridor</dt>
+        <dd data-result-corridor></dd>
+      </div>
+      <div>
+        <dt>Yacht type</dt>
+        <dd data-result-yacht-type></dd>
+      </div>
+      <div>
+        <dt>Yacht length band</dt>
+        <dd data-result-length-band></dd>
+      </div>
+      <div>
+        <dt>Delivery complexity</dt>
+        <dd data-result-complexity></dd>
+      </div>
+      <div>
+        <dt>Timing selection</dt>
+        <dd data-result-urgency></dd>
+      </div>
+      <div>
+        <dt>Estimate reference</dt>
+        <dd data-result-reference></dd>
+      </div>
+      <div>
+        <dt>Estimate date</dt>
+        <dd data-result-date></dd>
+      </div>
+    </dl>
+
+    <div class="delivery-result-notes">
+      <section aria-labelledby="marine-route-assumptions-heading">
+        <h3 id="marine-route-assumptions-heading">
+          Important Route Assumptions
+        </h3>
+        <p>
+          The distance is an approximate sea-route distance calculated from a
+          simplified marine route graph. It is not a navigational route, passage
+          plan or substitute for current marine charts.
+        </p>
+        <p>
+          Final passage planning must be confirmed using current marine charts,
+          Notices to Mariners, weather routing, port and border restrictions,
+          the yacht’s actual condition, equipment, range, performance and crew
+          requirements.
+        </p>
+      </section>
+      <section aria-labelledby="delivery-exclusions-heading">
+        <h3 id="delivery-exclusions-heading">Excluded Costs</h3>
+        <p>
+          The estimated starting professional delivery fee does not
+          automatically include fuel, lubricants, provisions, marina or berthing
+          fees, flights, crew travel, local transport, accommodation, customs or
+          agent fees, canal or lock charges, permits, repairs, spare parts,
+          surveys, haul-out, weather waiting, owner-requested waiting time or
+          third-party services unless confirmed in writing.
+        </p>
+        <p>Any applicable taxes will be confirmed in the formal quotation.</p>
+      </section>
+      <section aria-labelledby="delivery-estimate-disclaimer-heading">
+        <h3 id="delivery-estimate-disclaimer-heading">Non-Binding Estimate</h3>
+        <p>
+          This calculator provides an initial estimate only and does not
+          constitute a quotation, contract or invoice. The final quotation
+          depends on the yacht’s exact specifications, condition, location,
+          route, required crew, preparation requirements, operational
+          complexity, timing and the agreed delivery scope.
+        </p>
+      </section>
+    </div>
+
+    <div class="delivery-result-actions">
+      <a
+        class="button button-navy"
+        href="/contact?service=yacht-delivery"
+        data-analytics-event="delivery-calculator-quote-request"
+        data-delivery-quote-link
+      >
+        Request a Formal Quotation
+      </a>
+      <a
+        class="button button-outline-navy"
+        href={siteConfig.contact.whatsappHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-delivery-whatsapp
+        data-analytics-event="delivery-calculator-whatsapp"
+      >
+        WhatsApp Your Enquiry
+      </a>
+      <button
+        class="button button-outline-navy"
+        type="button"
+        data-edit-route
+        data-analytics-event="delivery-calculator-edit"
+      >
+        Edit Route
+      </button>
+      <button
+        class="button survey-reset-button"
+        type="button"
+        data-reset-route
+        data-analytics-event="delivery-calculator-reset"
+      >
+        Start a New Route
+      </button>
+    </div>
+    <p class="delivery-result-privacy">
+      Your route calculation remains in this browser session and is transferred
+      to the enquiry form only when you request a quotation.
+    </p>
+  </section>
+</section>
+
+<script>
+  import {
+    deliveryPorts,
+    type DeliveryNodeKey,
+    type DeliveryPort,
+  } from '../data/calculators/mediterraneanDeliveryRoutes';
+  import {
+    calculateDeliveryEstimate,
+    deliveryLabels,
+    normalisePortSearch,
+    type DeliveryCalculatorInput,
+    type DeliveryComplexity,
+    type DeliveryUrgency,
+    type YachtLengthBand,
+    type YachtType,
+  } from '../lib/calculators/yachtDelivery';
+  import {
+    DELIVERY_ESTIMATE_STORAGE_KEY,
+    formatDeliveryDistance,
+    formatDeliveryEstimatePrice,
+    type StoredDeliveryEstimate,
+  } from '../lib/calculators/yachtDeliveryEstimate';
+
+  interface PortCombobox {
+    readonly input: HTMLInputElement;
+    getSelectedKey: () => DeliveryNodeKey | null;
+    setSelection: (key: DeliveryNodeKey | null, announce?: boolean) => void;
+    clearError: () => void;
+    showError: (message: string) => void;
+    close: () => void;
+  }
+
+  const calculator = document.querySelector<HTMLElement>(
+    '[data-delivery-calculator]',
+  );
+
+  if (calculator) {
+    const form = calculator.querySelector<HTMLFormElement>(
+      '[data-delivery-calculator-form]',
+    );
+    const comboboxContainers = Array.from(
+      calculator.querySelectorAll<HTMLElement>('[data-port-combobox]'),
+    );
+    const yachtTypeSelect = calculator.querySelector<HTMLSelectElement>(
+      '#delivery-yacht-type',
+    );
+    const lengthBandSelect = calculator.querySelector<HTMLSelectElement>(
+      '#delivery-length-band',
+    );
+    const swapButton =
+      calculator.querySelector<HTMLButtonElement>('[data-swap-ports]');
+    const routeError = calculator.querySelector<HTMLElement>(
+      '[data-delivery-route-error]',
+    );
+    const result = calculator.querySelector<HTMLElement>(
+      '[data-delivery-result]',
+    );
+    const resultHeading = calculator.querySelector<HTMLElement>(
+      '[data-delivery-result-heading]',
+    );
+    const liveRegion = calculator.querySelector<HTMLElement>(
+      '[data-delivery-calculator-live]',
+    );
+    const whatsappLink = calculator.querySelector<HTMLAnchorElement>(
+      '[data-delivery-whatsapp]',
+    );
+    const editButton =
+      calculator.querySelector<HTMLButtonElement>('[data-edit-route]');
+    const resetButton =
+      calculator.querySelector<HTMLButtonElement>('[data-reset-route]');
+
+    const sortedPorts = [...deliveryPorts].sort((a, b) =>
+      a.name.localeCompare(b.name),
+    );
+    const departureComboboxContainer = comboboxContainers.at(0);
+    const destinationComboboxContainer = comboboxContainers.at(1);
+    const portsByKey = new Map<DeliveryNodeKey, DeliveryPort>(
+      sortedPorts.map((port) => [port.key, port]),
+    );
+
+    const createPortCombobox = (
+      container: HTMLElement,
+      onValueChange: () => void,
+    ): PortCombobox | null => {
+      const input =
+        container.querySelector<HTMLInputElement>('[data-port-input]');
+      const listbox = container.querySelector<HTMLElement>(
+        '[data-port-listbox]',
+      );
+      const error = container.querySelector<HTMLElement>('[data-port-error]');
+      if (!input || !listbox || !error) return null;
+
+      let selectedKey: DeliveryNodeKey | null = null;
+      let matches: DeliveryPort[] = [];
+      let activeIndex = -1;
+
+      const close = () => {
+        listbox.hidden = true;
+        input.setAttribute('aria-expanded', 'false');
+        input.removeAttribute('aria-activedescendant');
+        activeIndex = -1;
+      };
+
+      const updateActiveOption = () => {
+        const options = Array.from(
+          listbox.querySelectorAll<HTMLElement>('[role="option"]'),
+        );
+        options.forEach((option, index) => {
+          const active = index === activeIndex;
+          option.classList.toggle('is-active', active);
+          option.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        const activeOption = options[activeIndex];
+        if (activeOption) {
+          input.setAttribute('aria-activedescendant', activeOption.id);
+          activeOption.scrollIntoView({ block: 'nearest' });
+        } else {
+          input.removeAttribute('aria-activedescendant');
+        }
+      };
+
+      const setSelection = (key: DeliveryNodeKey | null, announce = false) => {
+        const port = key ? portsByKey.get(key) : undefined;
+        selectedKey = port?.key ?? null;
+        input.value = port?.name ?? '';
+        if (selectedKey) {
+          input.dataset.selectedPortKey = selectedKey;
+        } else {
+          delete input.dataset.selectedPortKey;
+        }
+        input.removeAttribute('aria-invalid');
+        error.textContent = '';
+        close();
+        if (announce) onValueChange();
+      };
+
+      const selectActive = () => {
+        const selected = matches[activeIndex];
+        if (selected) setSelection(selected.key, true);
+      };
+
+      const render = () => {
+        const query = normalisePortSearch(input.value);
+        matches = sortedPorts.filter((port) =>
+          normalisePortSearch(port.name).includes(query),
+        );
+        activeIndex = -1;
+        const content: HTMLElement[] = [];
+
+        if (!query) {
+          const hint = document.createElement('p');
+          hint.className = 'delivery-combobox-message';
+          hint.textContent = 'Start typing to filter ports';
+          content.push(hint);
+        }
+
+        if (matches.length === 0) {
+          const empty = document.createElement('p');
+          empty.className = 'delivery-combobox-message';
+          empty.textContent = 'No ports found';
+          content.push(empty);
+        } else {
+          matches.forEach((port, index) => {
+            const option = document.createElement('button');
+            option.type = 'button';
+            option.id = `${input.id}-option-${port.key}`;
+            option.className = 'delivery-combobox-option';
+            option.setAttribute('role', 'option');
+            option.setAttribute('aria-selected', 'false');
+            option.tabIndex = -1;
+            option.textContent = port.name;
+            option.addEventListener('pointerenter', () => {
+              activeIndex = index;
+              updateActiveOption();
+            });
+            option.addEventListener('click', () => {
+              activeIndex = index;
+              selectActive();
+            });
+            content.push(option);
+          });
+        }
+
+        listbox.replaceChildren(...content);
+        listbox.hidden = false;
+        input.setAttribute('aria-expanded', 'true');
+      };
+
+      input.addEventListener('focus', render);
+      input.addEventListener('input', () => {
+        const selectedPort = selectedKey ? portsByKey.get(selectedKey) : null;
+        if (!selectedPort || input.value !== selectedPort.name) {
+          selectedKey = null;
+          delete input.dataset.selectedPortKey;
+        }
+        input.removeAttribute('aria-invalid');
+        error.textContent = '';
+        onValueChange();
+        render();
+      });
+      input.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowDown') {
+          event.preventDefault();
+          if (listbox.hidden) render();
+          activeIndex = Math.min(activeIndex + 1, matches.length - 1);
+          updateActiveOption();
+        } else if (event.key === 'ArrowUp') {
+          event.preventDefault();
+          if (listbox.hidden) render();
+          activeIndex =
+            activeIndex < 0
+              ? Math.max(matches.length - 1, 0)
+              : Math.max(activeIndex - 1, 0);
+          updateActiveOption();
+        } else if (event.key === 'Enter' && activeIndex >= 0) {
+          event.preventDefault();
+          selectActive();
+        } else if (event.key === 'Escape') {
+          event.preventDefault();
+          close();
+        } else if (event.key === 'Tab') {
+          close();
+        }
+      });
+
+      document.addEventListener('pointerdown', (event) => {
+        if (event.target instanceof Node && !container.contains(event.target)) {
+          close();
+        }
+      });
+
+      return {
+        input,
+        getSelectedKey: () => selectedKey,
+        setSelection,
+        clearError: () => {
+          input.removeAttribute('aria-invalid');
+          error.textContent = '';
+        },
+        showError: (message: string) => {
+          input.setAttribute('aria-invalid', 'true');
+          error.textContent = message;
+        },
+        close,
+      };
+    };
+
+    if (
+      form &&
+      comboboxContainers.length === 2 &&
+      departureComboboxContainer &&
+      destinationComboboxContainer &&
+      yachtTypeSelect &&
+      lengthBandSelect &&
+      swapButton &&
+      routeError &&
+      result &&
+      resultHeading &&
+      liveRegion &&
+      whatsappLink &&
+      editButton &&
+      resetButton
+    ) {
+      const clearStoredEstimate = () => {
+        try {
+          sessionStorage.removeItem(DELIVERY_ESTIMATE_STORAGE_KEY);
+        } catch {
+          // Storage can be unavailable without preventing calculation.
+        }
+      };
+
+      const setQuotationLinks = (reference?: string) => {
+        const destination = reference
+          ? `/contact?service=yacht-delivery&source=delivery-calculator&estimateReference=${encodeURIComponent(reference)}`
+          : '/contact?service=yacht-delivery';
+        document
+          .querySelectorAll<HTMLAnchorElement>('[data-delivery-quote-link]')
+          .forEach((link) => {
+            link.href = destination;
+          });
+      };
+
+      const hideResult = (clearStorage = true) => {
+        result.hidden = true;
+        liveRegion.textContent = '';
+        if (clearStorage) clearStoredEstimate();
+        setQuotationLinks();
+      };
+
+      const handleValueChange = () => {
+        routeError.textContent = '';
+        if (!result.hidden) hideResult();
+      };
+
+      const departureCombobox = createPortCombobox(
+        departureComboboxContainer,
+        handleValueChange,
+      );
+      const destinationCombobox = createPortCombobox(
+        destinationComboboxContainer,
+        handleValueChange,
+      );
+
+      if (departureCombobox && destinationCombobox) {
+        const setText = (selector: string, value: string) => {
+          const element = result.querySelector<HTMLElement>(selector);
+          if (element) element.textContent = value;
+        };
+
+        const selectedRadioValue = <Value extends string>(
+          name: string,
+        ): Value => {
+          const selected = form.querySelector<HTMLInputElement>(
+            `input[name="${name}"]:checked`,
+          );
+          return (selected?.value ?? '') as Value;
+        };
+
+        const createReference = (createdAt: Date) => {
+          const date = createdAt.toISOString().slice(0, 10).replaceAll('-', '');
+          const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+          const randomValues = crypto.getRandomValues(new Uint8Array(4));
+          const suffix = Array.from(
+            randomValues,
+            (value) => characters[value % characters.length],
+          ).join('');
+          return `AYS-DELIVERY-${date}-${suffix}`;
+        };
+
+        const showInputError = (combobox: PortCombobox, message: string) => {
+          hideResult();
+          combobox.showError(message);
+          combobox.input.focus();
+        };
+
+        const showEstimate = (input: DeliveryCalculatorInput) => {
+          const calculation = calculateDeliveryEstimate(input);
+          const createdAt = new Date();
+          const reference = createReference(createdAt);
+          const departure = portsByKey.get(input.departurePortKey);
+          const destination = portsByKey.get(input.destinationPortKey);
+          if (!departure || !destination) return;
+
+          const storedEstimate: StoredDeliveryEstimate = {
+            version: 1,
+            reference,
+            createdAt: createdAt.toISOString(),
+            service: 'yacht-delivery',
+            source: 'delivery-calculator',
+            departurePortKey: input.departurePortKey,
+            departurePortName: departure.name,
+            destinationPortKey: input.destinationPortKey,
+            destinationPortName: destination.name,
+            yachtType: input.yachtType,
+            lengthBand: input.lengthBand,
+            complexity: input.complexity,
+            urgency: input.urgency,
+            distanceNm: calculation.route.roundedDistanceNm,
+            estimatedStartingFeeEur: calculation.price.estimatedStartingFeeEur,
+            routePathKeys: [...calculation.route.path],
+            routeDisplayNames: [...calculation.route.displayNames],
+          };
+
+          setText(
+            '[data-result-distance]',
+            formatDeliveryDistance(calculation.route.roundedDistanceNm),
+          );
+          setText(
+            '[data-result-price]',
+            formatDeliveryEstimatePrice(
+              calculation.price.estimatedStartingFeeEur,
+            ),
+          );
+          setText('[data-result-departure]', departure.name);
+          setText('[data-result-destination]', destination.name);
+          setText('[data-result-corridor]', calculation.route.corridor);
+          setText(
+            '[data-result-yacht-type]',
+            deliveryLabels.yachtType[input.yachtType],
+          );
+          setText(
+            '[data-result-length-band]',
+            deliveryLabels.lengthBand[input.lengthBand],
+          );
+          setText(
+            '[data-result-complexity]',
+            deliveryLabels.complexity[input.complexity],
+          );
+          setText(
+            '[data-result-urgency]',
+            deliveryLabels.urgency[input.urgency],
+          );
+          setText('[data-result-reference]', reference);
+          setText(
+            '[data-result-date]',
+            new Intl.DateTimeFormat('en-GB', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+              timeZone: 'UTC',
+            }).format(createdAt),
+          );
+
+          try {
+            sessionStorage.setItem(
+              DELIVERY_ESTIMATE_STORAGE_KEY,
+              JSON.stringify(storedEstimate),
+            );
+          } catch {
+            // The result remains usable when browser storage is unavailable.
+          }
+
+          setQuotationLinks(reference);
+          const whatsappMessage = [
+            `Yacht delivery estimate ${reference}`,
+            `Departure: ${departure.name}`,
+            `Destination: ${destination.name}`,
+            `Approximate distance: ${formatDeliveryDistance(calculation.route.roundedDistanceNm)}`,
+            `Approximate starting fee: ${formatDeliveryEstimatePrice(calculation.price.estimatedStartingFeeEur)}`,
+          ].join('\n');
+          whatsappLink.href = `https://wa.me/34695718540?text=${encodeURIComponent(whatsappMessage)}`;
+
+          result.hidden = false;
+          liveRegion.textContent = `Approximate sea-route distance ${formatDeliveryDistance(calculation.route.roundedDistanceNm)}. Estimated starting professional delivery fee ${formatDeliveryEstimatePrice(calculation.price.estimatedStartingFeeEur)}. Estimate reference ${reference}.`;
+          resultHeading.focus({ preventScroll: true });
+          result.scrollIntoView({
+            block: 'start',
+            behavior: window.matchMedia('(prefers-reduced-motion: reduce)')
+              .matches
+              ? 'auto'
+              : 'smooth',
+          });
+        };
+
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+          departureCombobox.clearError();
+          destinationCombobox.clearError();
+          routeError.textContent = '';
+
+          const departurePortKey = departureCombobox.getSelectedKey();
+          if (!departurePortKey) {
+            showInputError(
+              departureCombobox,
+              'Please select a valid departure port from the list.',
+            );
+            return;
+          }
+          const destinationPortKey = destinationCombobox.getSelectedKey();
+          if (!destinationPortKey) {
+            showInputError(
+              destinationCombobox,
+              'Please select a valid destination port from the list.',
+            );
+            return;
+          }
+          if (departurePortKey === destinationPortKey) {
+            showInputError(
+              destinationCombobox,
+              'Departure and destination cannot be the same port.',
+            );
+            return;
+          }
+
+          const input: DeliveryCalculatorInput = {
+            departurePortKey,
+            destinationPortKey,
+            yachtType: yachtTypeSelect.value as YachtType,
+            lengthBand: lengthBandSelect.value as YachtLengthBand,
+            complexity: selectedRadioValue<DeliveryComplexity>('complexity'),
+            urgency: selectedRadioValue<DeliveryUrgency>('urgency'),
+          };
+
+          try {
+            showEstimate(input);
+          } catch {
+            hideResult();
+            routeError.textContent =
+              'No approximate sea route was found for this combination. Please contact us for an individual route quotation.';
+            routeError.focus();
+          }
+        });
+
+        form.addEventListener('change', (event) => {
+          if (
+            event.target !== departureCombobox.input &&
+            event.target !== destinationCombobox.input
+          ) {
+            handleValueChange();
+          }
+        });
+
+        swapButton.addEventListener('click', () => {
+          const departureKey = departureCombobox.getSelectedKey();
+          const destinationKey = destinationCombobox.getSelectedKey();
+          departureCombobox.setSelection(destinationKey);
+          destinationCombobox.setSelection(departureKey);
+          departureCombobox.clearError();
+          destinationCombobox.clearError();
+          handleValueChange();
+        });
+
+        editButton.addEventListener('click', () => {
+          hideResult();
+          departureCombobox.input.focus();
+          calculator.scrollIntoView({
+            block: 'start',
+            behavior: window.matchMedia('(prefers-reduced-motion: reduce)')
+              .matches
+              ? 'auto'
+              : 'smooth',
+          });
+        });
+
+        resetButton.addEventListener('click', () => {
+          form.reset();
+          departureCombobox.setSelection(null);
+          destinationCombobox.setSelection(null);
+          departureCombobox.clearError();
+          destinationCombobox.clearError();
+          routeError.textContent = '';
+          whatsappLink.href = 'https://wa.me/34695718540';
+          hideResult();
+          departureCombobox.input.focus();
+          calculator.scrollIntoView({
+            block: 'start',
+            behavior: window.matchMedia('(prefers-reduced-motion: reduce)')
+              .matches
+              ? 'auto'
+              : 'smooth',
+          });
+        });
+
+        setQuotationLinks();
+      }
+    }
+  }
+</script>

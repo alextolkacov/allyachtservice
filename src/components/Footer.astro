@@ -24,6 +24,7 @@ const labels = {
     navigation: 'Navigation',
     contact: 'Contact',
     languages: 'Languages',
+    tools: 'Online Tools',
   },
   es: {
     description:
@@ -31,6 +32,7 @@ const labels = {
     navigation: 'Navegación',
     contact: 'Contacto',
     languages: 'Idiomas',
+    tools: 'Herramientas',
   },
   ru: {
     description:
@@ -38,6 +40,7 @@ const labels = {
     navigation: 'Навигация',
     contact: 'Контакты',
     languages: 'Языки',
+    tools: 'Инструменты',
   },
   fr: {
     description:
@@ -45,6 +48,7 @@ const labels = {
     navigation: 'Navigation',
     contact: 'Contact',
     languages: 'Langues',
+    tools: 'Outils',
   },
   it: {
     description:
@@ -52,6 +56,7 @@ const labels = {
     navigation: 'Navigazione',
     contact: 'Contatti',
     languages: 'Lingue',
+    tools: 'Strumenti',
   },
   gr: {
     description:
@@ -59,6 +64,7 @@ const labels = {
     navigation: 'Πλοήγηση',
     contact: 'Επικοινωνία',
     languages: 'Γλώσσες',
+    tools: 'Εργαλεία',
   },
 } as const;
 const text = labels[currentLocale];
@@ -120,6 +126,22 @@ const text = labels[currentLocale];
             );
           })
         }
+      </ul>
+    </div>
+
+    <div>
+      <h2>{text.tools}</h2>
+      <ul class="footer-link-list" role="list">
+        <li>
+          <a href="/pre-purchase-survey-calculator" lang="en">
+            Survey Cost Calculator
+          </a>
+        </li>
+        <li>
+          <a href="/yacht-delivery-calculator" lang="en">
+            Yacht Delivery Cost Calculator
+          </a>
+        </li>
       </ul>
     </div>
 

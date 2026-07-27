@@ -117,6 +117,13 @@ export const homeContent = {
         label: 'Calculate Your Survey Cost',
         href: '/pre-purchase-survey-calculator',
       },
+      {
+        title: 'Yacht Delivery Cost Calculator',
+        description:
+          'Calculate an approximate sea-route distance and starting professional delivery fee.',
+        label: 'Calculate Your Delivery Cost',
+        href: '/yacht-delivery-calculator',
+      },
     ],
   },
   whyChooseUs: {

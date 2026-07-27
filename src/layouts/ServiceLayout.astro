@@ -13,6 +13,7 @@ interface CtaLink {
   external?: boolean;
   analyticsEvent?: string;
   surveyQuoteLink?: boolean;
+  deliveryQuoteLink?: boolean;
 }
 
 interface ServiceImage {
@@ -26,6 +27,7 @@ interface RelatedService {
   title: string;
   description: string;
   href?: string;
+  linkLabel?: string;
 }
 
 interface FinalCta {
@@ -51,6 +53,7 @@ interface Props {
   primaryCta?: CtaLink;
   secondaryCta?: CtaLink;
   relatedServices?: readonly RelatedService[];
+  relatedHeading?: string;
   finalCta?: FinalCta;
   structuredData?: StructuredData | readonly StructuredData[];
   noindex?: boolean;
@@ -72,6 +75,7 @@ const {
   primaryCta,
   secondaryCta,
   relatedServices = [],
+  relatedHeading = 'Related Services',
   finalCta,
   structuredData,
   noindex = false,
@@ -123,6 +127,9 @@ const baseProps = {
                     data-survey-quote-link={
                       primaryCta.surveyQuoteLink ? '' : undefined
                     }
+                    data-delivery-quote-link={
+                      primaryCta.deliveryQuoteLink ? '' : undefined
+                    }
                   >
                     {primaryCta.label}
                   </a>
@@ -138,6 +145,9 @@ const baseProps = {
                     data-analytics-event={secondaryCta.analyticsEvent}
                     data-survey-quote-link={
                       secondaryCta.surveyQuoteLink ? '' : undefined
+                    }
+                    data-delivery-quote-link={
+                      secondaryCta.deliveryQuoteLink ? '' : undefined
                     }
                   >
                     {secondaryCta.label}
@@ -165,7 +175,7 @@ const baseProps = {
           <div class="site-container">
             <p class="eyebrow">Further support</p>
             <h2 id="related-services-heading" class="section-heading">
-              Related Services
+              {relatedHeading}
             </h2>
             <div class="related-services-grid">
               {relatedServices.map((service) => (
@@ -174,7 +184,8 @@ const baseProps = {
                   <p>{service.description}</p>
                   {service.href && (
                     <a class="text-arrow-link" href={service.href}>
-                      View services <span aria-hidden="true">→</span>
+                      {service.linkLabel ?? 'View services'}{' '}
+                      <span aria-hidden="true">→</span>
                     </a>
                   )}
                 </article>
@@ -209,6 +220,9 @@ const baseProps = {
                   rel={link.external ? 'noopener noreferrer' : undefined}
                   data-analytics-event={link.analyticsEvent}
                   data-survey-quote-link={link.surveyQuoteLink ? '' : undefined}
+                  data-delivery-quote-link={
+                    link.deliveryQuoteLink ? '' : undefined
+                  }
                 >
                   {link.label}
                 </a>

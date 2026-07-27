@@ -97,6 +97,80 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       </button>
     </section>
 
+    <section
+      class="contact-survey-estimate contact-delivery-estimate"
+      aria-labelledby="contact-delivery-estimate-heading"
+      hidden
+      data-delivery-estimate-summary
+    >
+      <p class="eyebrow">Transferred estimate</p>
+      <h3 id="contact-delivery-estimate-heading">
+        Approximate Yacht Delivery Estimate
+      </h3>
+      <p>
+        Review the route calculation transferred from the delivery calculator
+        before sending your enquiry.
+      </p>
+      <dl>
+        <div>
+          <dt>Estimate reference</dt>
+          <dd data-contact-delivery-reference></dd>
+        </div>
+        <div>
+          <dt>Created</dt>
+          <dd data-contact-delivery-date></dd>
+        </div>
+        <div>
+          <dt>Departure port</dt>
+          <dd data-contact-delivery-departure></dd>
+        </div>
+        <div>
+          <dt>Destination port</dt>
+          <dd data-contact-delivery-destination></dd>
+        </div>
+        <div>
+          <dt>Approximate sea-route distance</dt>
+          <dd data-contact-delivery-distance></dd>
+        </div>
+        <div>
+          <dt>Approximate starting professional fee</dt>
+          <dd data-contact-delivery-price></dd>
+        </div>
+        <div>
+          <dt>Yacht type</dt>
+          <dd data-contact-delivery-yacht-type></dd>
+        </div>
+        <div>
+          <dt>Yacht length band</dt>
+          <dd data-contact-delivery-length-band></dd>
+        </div>
+        <div>
+          <dt>Delivery complexity</dt>
+          <dd data-contact-delivery-complexity></dd>
+        </div>
+        <div>
+          <dt>Timing</dt>
+          <dd data-contact-delivery-urgency></dd>
+        </div>
+        <div class="contact-delivery-corridor">
+          <dt>Approximate marine corridor</dt>
+          <dd data-contact-delivery-corridor></dd>
+        </div>
+      </dl>
+      <p class="contact-survey-estimate-note">
+        This route and fee estimate is approximate and non-binding. It is not a
+        navigational route or passage plan. The final scope and quotation
+        require review by All Yacht Service.
+      </p>
+      <button
+        class="button button-outline-navy"
+        type="button"
+        data-remove-delivery-estimate
+      >
+        Remove Transferred Estimate
+      </button>
+    </section>
+
     <div class="form-field form-field-honeypot" aria-hidden="true">
       <label for="contact-website">Leave this field empty</label>
       <input
@@ -199,6 +273,15 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         >
           <a href="/pre-purchase-survey-calculator">
             Calculate an approximate survey cost first
+          </a>
+        </p>
+        <p
+          class="contact-calculator-suggestion"
+          hidden
+          data-delivery-calculator-suggestion
+        >
+          <a href="/yacht-delivery-calculator">
+            Calculate an approximate delivery cost first
           </a>
         </p>
       </div>
@@ -450,6 +533,18 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
     validateStoredSurveyEstimate,
     type StoredSurveyEstimate,
   } from '../lib/calculators/prePurchaseSurveyEstimate';
+  import {
+    deliveryLabels,
+    formatRouteCorridor,
+  } from '../lib/calculators/yachtDelivery';
+  import {
+    createDeliveryEstimateSummary,
+    DELIVERY_ESTIMATE_STORAGE_KEY,
+    formatDeliveryDistance,
+    formatDeliveryEstimatePrice,
+    validateDeliveryEstimatePayload,
+    type StoredDeliveryEstimate,
+  } from '../lib/calculators/yachtDeliveryEstimate';
 
   interface ContactApiResponse {
     ok: boolean;
@@ -484,10 +579,20 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
     const surveyCalculatorSuggestion = form.querySelector<HTMLElement>(
       '[data-survey-calculator-suggestion]',
     );
+    const deliveryEstimatePanel = form.querySelector<HTMLElement>(
+      '[data-delivery-estimate-summary]',
+    );
+    const deliveryCalculatorSuggestion = form.querySelector<HTMLElement>(
+      '[data-delivery-calculator-suggestion]',
+    );
     const removeSurveyEstimateButton = form.querySelector<HTMLButtonElement>(
       '[data-remove-survey-estimate]',
     );
+    const removeDeliveryEstimateButton = form.querySelector<HTMLButtonElement>(
+      '[data-remove-delivery-estimate]',
+    );
     let activeSurveyEstimate: StoredSurveyEstimate | null = null;
+    let activeDeliveryEstimate: StoredDeliveryEstimate | null = null;
     const allowedServices = new Set(
       Array.from(
         form.querySelectorAll<HTMLOptionElement>(
@@ -582,9 +687,10 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       );
       setFieldValue('message', query.get('message') ?? stored.message);
 
-      const isSurveyCalculatorRequest =
-        query.get('source') === 'survey-calculator';
-      if (isSurveyCalculatorRequest) {
+      const isCalculatorRequest =
+        query.get('source') === 'survey-calculator' ||
+        query.get('source') === 'delivery-calculator';
+      if (isCalculatorRequest) {
         setHiddenValue('source', 'contact-page');
         setHiddenValue('estimateReference', '');
         setHiddenValue('calculatorSummary', '');
@@ -628,13 +734,38 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         activeSurveyEstimate !== null;
     };
 
-    const hideSurveyEstimate = () => {
-      if (surveyEstimatePanel) surveyEstimatePanel.hidden = true;
-      activeSurveyEstimate = null;
+    const updateDeliveryCalculatorSuggestion = () => {
+      if (!deliveryCalculatorSuggestion) return;
+      deliveryCalculatorSuggestion.hidden =
+        !(serviceField instanceof HTMLSelectElement) ||
+        serviceField.value !== 'yacht-delivery' ||
+        activeDeliveryEstimate !== null;
+    };
+
+    const updateCalculatorSuggestions = () => {
+      updateSurveyCalculatorSuggestion();
+      updateDeliveryCalculatorSuggestion();
+    };
+
+    const resetEstimateMetadataIfEmpty = () => {
+      if (activeSurveyEstimate || activeDeliveryEstimate) return;
       setHiddenValue('estimateReference', '');
       setHiddenValue('calculatorSummary', '');
       setHiddenValue('source', 'contact-page');
-      updateSurveyCalculatorSuggestion();
+    };
+
+    const hideSurveyEstimate = () => {
+      if (surveyEstimatePanel) surveyEstimatePanel.hidden = true;
+      activeSurveyEstimate = null;
+      resetEstimateMetadataIfEmpty();
+      updateCalculatorSuggestions();
+    };
+
+    const hideDeliveryEstimate = () => {
+      if (deliveryEstimatePanel) deliveryEstimatePanel.hidden = true;
+      activeDeliveryEstimate = null;
+      resetEstimateMetadataIfEmpty();
+      updateCalculatorSuggestions();
     };
 
     const readSurveyEstimate = (): StoredSurveyEstimate | null => {
@@ -669,7 +800,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       hideSurveyEstimate();
       const estimate = readSurveyEstimate();
       if (!estimate || !surveyEstimatePanel) {
-        updateSurveyCalculatorSuggestion();
+        updateCalculatorSuggestions();
         return;
       }
 
@@ -757,7 +888,117 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       }
 
       surveyEstimatePanel.hidden = false;
-      updateSurveyCalculatorSuggestion();
+      updateCalculatorSuggestions();
+    };
+
+    const setDeliveryEstimateText = (selector: string, value: string) => {
+      const element =
+        deliveryEstimatePanel?.querySelector<HTMLElement>(selector);
+      if (element) element.textContent = value;
+    };
+
+    const readDeliveryEstimate = (): StoredDeliveryEstimate | null => {
+      const query = new URLSearchParams(window.location.search);
+      const reference = query.get('estimateReference');
+      if (
+        query.get('source') !== 'delivery-calculator' ||
+        query.get('service') !== 'yacht-delivery' ||
+        !reference
+      ) {
+        return null;
+      }
+
+      const storedRaw = readSessionValue(DELIVERY_ESTIMATE_STORAGE_KEY);
+      if (!storedRaw) return null;
+
+      try {
+        const parsed: unknown = JSON.parse(storedRaw);
+        const validation = validateDeliveryEstimatePayload(parsed, reference);
+        if (!validation.isValid) {
+          removeSessionValue(DELIVERY_ESTIMATE_STORAGE_KEY);
+          return null;
+        }
+        return validation.payload;
+      } catch {
+        removeSessionValue(DELIVERY_ESTIMATE_STORAGE_KEY);
+        return null;
+      }
+    };
+
+    const applyDeliveryEstimate = () => {
+      hideDeliveryEstimate();
+      const estimate = readDeliveryEstimate();
+      if (!estimate || !deliveryEstimatePanel) {
+        updateCalculatorSuggestions();
+        return;
+      }
+
+      activeDeliveryEstimate = estimate;
+      setFieldValue('service', estimate.service);
+      setFieldValue(
+        'vesselType',
+        estimate.yachtType === 'sailing' ? 'sailing-yacht' : 'motor-yacht',
+      );
+      setFieldValue('vesselLocation', estimate.departurePortName);
+      setHiddenValue('source', estimate.source);
+      setHiddenValue('estimateReference', estimate.reference);
+      setHiddenValue(
+        'calculatorSummary',
+        createDeliveryEstimateSummary(estimate).slice(0, 4000),
+      );
+
+      setDeliveryEstimateText(
+        '[data-contact-delivery-reference]',
+        estimate.reference,
+      );
+      setDeliveryEstimateText(
+        '[data-contact-delivery-date]',
+        new Intl.DateTimeFormat('en-GB', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+          timeZone: 'UTC',
+        }).format(new Date(estimate.createdAt)),
+      );
+      setDeliveryEstimateText(
+        '[data-contact-delivery-departure]',
+        estimate.departurePortName,
+      );
+      setDeliveryEstimateText(
+        '[data-contact-delivery-destination]',
+        estimate.destinationPortName,
+      );
+      setDeliveryEstimateText(
+        '[data-contact-delivery-distance]',
+        formatDeliveryDistance(estimate.distanceNm),
+      );
+      setDeliveryEstimateText(
+        '[data-contact-delivery-price]',
+        formatDeliveryEstimatePrice(estimate.estimatedStartingFeeEur),
+      );
+      setDeliveryEstimateText(
+        '[data-contact-delivery-yacht-type]',
+        deliveryLabels.yachtType[estimate.yachtType],
+      );
+      setDeliveryEstimateText(
+        '[data-contact-delivery-length-band]',
+        deliveryLabels.lengthBand[estimate.lengthBand],
+      );
+      setDeliveryEstimateText(
+        '[data-contact-delivery-complexity]',
+        deliveryLabels.complexity[estimate.complexity],
+      );
+      setDeliveryEstimateText(
+        '[data-contact-delivery-urgency]',
+        deliveryLabels.urgency[estimate.urgency],
+      );
+      setDeliveryEstimateText(
+        '[data-contact-delivery-corridor]',
+        formatRouteCorridor(estimate.routePathKeys),
+      );
+
+      deliveryEstimatePanel.hidden = false;
+      updateCalculatorSuggestions();
     };
 
     const clearErrors = () => {
@@ -854,8 +1095,14 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         ) {
           removeSessionValue(SURVEY_ESTIMATE_STORAGE_KEY);
           hideSurveyEstimate();
+        } else if (
+          activeDeliveryEstimate &&
+          serviceField.value !== 'yacht-delivery'
+        ) {
+          removeSessionValue(DELIVERY_ESTIMATE_STORAGE_KEY);
+          hideDeliveryEstimate();
         } else {
-          updateSurveyCalculatorSuggestion();
+          updateCalculatorSuggestions();
         }
       });
     }
@@ -866,10 +1113,18 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         ?.querySelector<HTMLAnchorElement>('a')
         ?.focus();
     });
+    removeDeliveryEstimateButton?.addEventListener('click', () => {
+      removeSessionValue(DELIVERY_ESTIMATE_STORAGE_KEY);
+      hideDeliveryEstimate();
+      deliveryCalculatorSuggestion
+        ?.querySelector<HTMLAnchorElement>('a')
+        ?.focus();
+    });
     updateMessageCount();
     resetRequestMetadata();
     applyPrefill();
     applySurveyEstimate();
+    applyDeliveryEstimate();
     updateMessageCount();
 
     form.addEventListener('submit', async (event) => {
@@ -929,9 +1184,11 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         form.reset();
         removeSessionValue('ays:contact-prefill');
         removeSessionValue(SURVEY_ESTIMATE_STORAGE_KEY);
+        removeSessionValue(DELIVERY_ESTIMATE_STORAGE_KEY);
         resetRequestMetadata();
         applyPrefill();
         applySurveyEstimate();
+        applyDeliveryEstimate();
         updateMessageCount();
       } catch {
         if (status) {

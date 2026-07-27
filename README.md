@@ -7,7 +7,8 @@ deployment to Cloudflare Pages.
 The English homepage, Contact page, Pre-Purchase Yacht Survey page, Insurance
 Condition Yacht Survey page, Yacht Buyer Representation page, Yacht Delivery
 page, About Us page, and Pre-Purchase Yacht Survey Cost Calculator contain the
-first production-ready implementations.
+first production-ready implementations. The Yacht Delivery Cost Calculator is
+also available as a native English planning tool.
 The Contact page uses a Cloudflare Pages Function, Turnstile, and the existing
 Google Workspace mailbox to validate and deliver enquiries securely.
 The Spanish, Russian, French, Italian, and Greek homepages retain localized
@@ -227,6 +228,69 @@ The website-wide public service scope was corrected from 24 to 40 metres where
 the old number described the maximum vessel size handled by All Yacht Service.
 The calculator still retains its distinct 18–24 metre and above 24–40 metre
 pricing bands.
+
+## Yacht delivery calculator
+
+The English calculator is generated at:
+
+```text
+/yacht-delivery-calculator
+```
+
+The Mediterranean port graph, shortest-route behaviour, and pricing logic were
+ported into this repository from the approved source calculator:
+
+| Source detail                    | Value                                             |
+| -------------------------------- | ------------------------------------------------- |
+| Repository                       | `https://github.com/alextolkacov/pys-calculators` |
+| Source file                      | `yacht-delivery/index.html`                       |
+| Source repository-state commit   | `5ce07c0123f26fd46bd0dec0896b1c21d67df18a`        |
+| Delivery-specific implementation | `73779c13947d18abe6bc78150de5184ec0b3426e`        |
+| Source-file blob SHA             | `3a6e0323717f05df97ea61d457894ea712860b9c`        |
+| Storage key                      | `ays:yacht-delivery-estimate:v1`                  |
+| Payload version                  | `1`                                               |
+| Stored-payload validity          | 24 hours                                          |
+
+The `pys-calculators` repository remains unchanged. Its graph and pricing code
+were ported into `allyachtservice`; there is no runtime import, iframe,
+submodule, routing API, mapping API, client-side secret, or API key.
+
+The graph is a simplified network of approved Mediterranean and nearby Atlantic
+ports and internal route waypoints. It calculates an approximate marine
+corridor only. It is not a navigational route, passage plan, or substitute for
+current charts, Notices to Mariners, weather routing, port restrictions, and a
+vessel-specific passage review.
+
+The displayed amount is an estimated starting professional delivery fee. It is
+non-binding and is not a quotation, contract, invoice, or complete delivery
+cost. Fuel, crew expenses, marina fees, formalities, waiting time, repairs, and
+other exclusions are reviewed for the formal quotation.
+
+Completing a calculation stores only the versioned, non-personal estimate
+payload in `sessionStorage`. Requesting a quotation sends only the service,
+source, and estimate reference in the URL. The Contact form loads the matching
+session payload, validates its age and complete shape, recomputes the route and
+fee, then shows the approximate summary for review. Yacht Delivery and the
+vessel type are preselected, and the departure port prefills the editable
+vessel-location field. No exact yacht length is inferred from a length band.
+The visitor can remove the summary, and invalid, expired, mismatched, or
+modified payloads are ignored safely.
+
+To update ports or graph connections, edit
+`src/data/calculators/mediterraneanDeliveryRoutes.ts` only after comparing the
+approved source node and edge sets. Preserve node keys, coordinates, types,
+route factors, and bidirectional behaviour, record the new source commit and
+blob SHA, and rerun route-parity checks in both directions.
+
+Pricing coefficients are defined in
+`src/lib/calculators/yachtDelivery.ts`. Changes to the base fee, minimum fee,
+per-mile rates, complexity multipliers, urgency multiplier, or rounding rule
+require explicit business approval and representative recalculation before
+release.
+
+Passage-duration and fuel estimation remain future backlog items. They must not
+be added until validated business formulas and appropriate route assumptions
+are approved.
 
 ## General calculator prefill contract
 

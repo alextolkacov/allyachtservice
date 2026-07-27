@@ -1,0 +1,115 @@
+---
+import YachtDeliveryCalculator from '../components/YachtDeliveryCalculator.astro';
+import { yachtDeliveryCalculatorPage as page } from '../data/yacht-delivery-calculator';
+import ServiceLayout from '../layouts/ServiceLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../utils/seo';
+
+const pageUrl = toAbsoluteUrl(page.pathname);
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: page.title,
+  description: page.description,
+  about: {
+    '@id': businessEntityId,
+  },
+};
+---
+
+<ServiceLayout
+  title={page.title}
+  description={page.description}
+  locale="en"
+  routeId="yachtDeliveryCalculator"
+  pathname={page.pathname}
+  heading={page.heading}
+  eyebrow={page.eyebrow}
+  summary={page.summary}
+  heroImage={page.heroImage}
+  socialImageAlt={page.socialImageAlt}
+  breadcrumbs={page.breadcrumbs}
+  primaryCta={page.primaryCta}
+  secondaryCta={page.secondaryCta}
+  relatedServices={page.relatedServices}
+  relatedHeading={page.relatedHeading}
+  finalCta={page.finalCta}
+  structuredData={webPageSchema}
+>
+  <section aria-labelledby="initial-delivery-estimate-heading">
+    <h2 id="initial-delivery-estimate-heading">
+      Calculate an Initial Yacht Delivery Estimate
+    </h2>
+    <p>
+      Select the departure port, destination port, yacht type, length band and
+      expected delivery conditions to calculate an approximate sea-route
+      distance and starting professional delivery fee.
+    </p>
+    <p>
+      The result is intended for initial planning. A formal quotation will be
+      prepared after reviewing the yacht, route, timing, required crew and
+      operational requirements.
+    </p>
+  </section>
+
+  <YachtDeliveryCalculator />
+
+  <section aria-labelledby="route-estimate-heading">
+    <h2 id="route-estimate-heading">How the Route Estimate Works</h2>
+    <p>
+      The calculator uses a simplified graph of Mediterranean and nearby
+      Atlantic ports and marine corridors. Distances are calculated between
+      connected route points and combined to find an approximate sea-route
+      corridor.
+    </p>
+    <p>The result is not a passage plan and must not be used for navigation.</p>
+  </section>
+
+  <section aria-labelledby="delivery-quotation-factors-heading">
+    <h2 id="delivery-quotation-factors-heading">
+      What Affects the Final Quotation?
+    </h2>
+    <ul class="defect-grid">
+      {page.quotationFactors.map((factor) => <li>{factor}</li>)}
+    </ul>
+  </section>
+
+  <section aria-labelledby="separately-quoted-heading">
+    <h2 id="separately-quoted-heading">What Is Normally Quoted Separately?</h2>
+    <ul class="service-check-list">
+      {page.separatelyQuoted.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+
+  <section aria-labelledby="delivery-next-steps-heading">
+    <h2 id="delivery-next-steps-heading">What Happens Next?</h2>
+    <ol class="process-list">
+      {
+        page.nextSteps.map((step, index) => (
+          <li>
+            <div>
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+    <p>
+      Read more about the
+      {' '}<a class="text-link" href="/yacht-delivery"
+        >professional Yacht Delivery service</a
+      >.
+    </p>
+  </section>
+</ServiceLayout>
