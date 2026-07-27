@@ -1,4 +1,5 @@
 import { siteConfig } from './site';
+import { createContactHref } from '../utils/contact';
 
 export const yachtDeliveryPage = {
   title: 'Yacht Delivery in Spain & the Mediterranean | All Yacht Service',
@@ -21,7 +22,10 @@ export const yachtDeliveryPage = {
   ],
   primaryCta: {
     label: 'Request a Yacht Delivery Quote',
-    href: '/#contact',
+    href: createContactHref({
+      service: 'yacht-delivery',
+      source: 'yacht-delivery-hero',
+    }),
   },
   secondaryCta: {
     label: 'WhatsApp Us',
@@ -48,7 +52,10 @@ export const yachtDeliveryPage = {
     links: [
       {
         label: 'Request a Yacht Delivery Quote',
-        href: '/#contact',
+        href: createContactHref({
+          service: 'yacht-delivery',
+          source: 'yacht-delivery-final-cta',
+        }),
       },
       {
         label: `WhatsApp ${siteConfig.contact.whatsapp}`,

@@ -1,0 +1,9 @@
+# Cloudflare Turnstile's official always-pass test secret for local development.
+# Never use this test key in production.
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
+
+# Configure these values to exercise real local delivery through the existing
+# Google Workspace mailbox. Authorize only the gmail.send scope.
+GOOGLE_OAUTH_CLIENT_ID=replace-with-your-google-oauth-client-id
+GOOGLE_OAUTH_CLIENT_SECRET=replace-with-your-google-oauth-client-secret
+GOOGLE_OAUTH_REFRESH_TOKEN=replace-with-your-offline-refresh-token

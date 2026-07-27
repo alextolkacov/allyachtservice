@@ -65,6 +65,10 @@ const headerProps = {
   currentLocale: locale,
   ...(routeId ? { routeId } : {}),
 };
+const footerProps = {
+  currentLocale: locale,
+  ...(routeId ? { routeId } : {}),
+};
 ---
 
 <!doctype html>
@@ -90,7 +94,7 @@ const headerProps = {
       <main id="main-content" class="grow">
         <slot />
       </main>
-      <Footer currentLocale={locale} />
+      <Footer {...footerProps} />
     </div>
   </body>
 </html>

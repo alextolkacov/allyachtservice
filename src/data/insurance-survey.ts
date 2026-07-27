@@ -1,4 +1,5 @@
 import { siteConfig } from './site';
+import { createContactHref } from '../utils/contact';
 
 export const insuranceSurveyPage = {
   title: 'Insurance Yacht Survey in Spain | All Yacht Service',
@@ -27,7 +28,10 @@ export const insuranceSurveyPage = {
   ],
   primaryCta: {
     label: 'Request an Insurance Survey Quote',
-    href: '/#contact',
+    href: createContactHref({
+      service: 'insurance-survey',
+      source: 'insurance-survey-hero',
+    }),
   },
   secondaryCta: {
     label: 'WhatsApp Us',
@@ -245,7 +249,10 @@ export const insuranceSurveyPage = {
     links: [
       {
         label: 'Request an Insurance Survey Quote',
-        href: '/#contact',
+        href: createContactHref({
+          service: 'insurance-survey',
+          source: 'insurance-survey-final-cta',
+        }),
       },
       {
         label: `WhatsApp ${siteConfig.contact.whatsapp}`,

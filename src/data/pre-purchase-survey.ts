@@ -1,4 +1,5 @@
 import { siteConfig } from './site';
+import { createContactHref } from '../utils/contact';
 
 export const prePurchaseSurveyPage = {
   title: 'Pre-Purchase Yacht Survey in Spain | All Yacht Service',
@@ -24,7 +25,10 @@ export const prePurchaseSurveyPage = {
   ],
   primaryCta: {
     label: 'Request a Survey Quote',
-    href: '/#contact',
+    href: createContactHref({
+      service: 'pre-purchase-survey',
+      source: 'pre-purchase-survey-hero',
+    }),
   },
   secondaryCta: {
     label: 'WhatsApp Us',
@@ -180,7 +184,10 @@ export const prePurchaseSurveyPage = {
     links: [
       {
         label: 'Request a Survey Quote',
-        href: '/#contact',
+        href: createContactHref({
+          service: 'pre-purchase-survey',
+          source: 'pre-purchase-survey-final-cta',
+        }),
       },
       {
         label: `WhatsApp ${siteConfig.contact.whatsapp}`,

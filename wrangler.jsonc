@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "all-yacht-service",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-07-27",
+  "vars": {
+    "CONTACT_TO_EMAIL": "info@allyachtservice.com",
+    "CONTACT_FROM_EMAIL": "info@allyachtservice.com",
+    "TURNSTILE_EXPECTED_HOSTNAMES": "www.allyachtservice.com,allyachtservice.com,allyachtservice.pages.dev,localhost,127.0.0.1",
+  },
+  "secrets": {
+    "required": [
+      "GOOGLE_OAUTH_CLIENT_ID",
+      "GOOGLE_OAUTH_CLIENT_SECRET",
+      "GOOGLE_OAUTH_REFRESH_TOKEN",
+      "TURNSTILE_SECRET_KEY",
+    ],
+  },
+}

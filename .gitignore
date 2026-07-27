@@ -4,11 +4,15 @@ node_modules/
 # Astro build output and generated types
 .astro/
 dist/
+.wrangler/
 
 # Local environment files
 .env
 .env.*
 !.env.example
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
 
 # Logs and editor files
 *.log

@@ -6,15 +6,17 @@ import {
   getNavigationLinkLanguage,
   getRequiredRoutePath,
   primaryNavigation,
+  type RouteId,
 } from '../data/navigation';
 import { siteConfig } from '../data/site';
 import SocialLinks from './SocialLinks.astro';
 
 interface Props {
   currentLocale: Locale;
+  routeId?: RouteId;
 }
 
-const { currentLocale } = Astro.props;
+const { currentLocale, routeId } = Astro.props;
 const labels = {
   en: {
     description:
@@ -103,12 +105,14 @@ const text = labels[currentLocale];
         {
           primaryNavigation.map((item) => {
             const linkLanguage = getNavigationLinkLanguage(item, currentLocale);
+            const isCurrent = 'routeId' in item && item.routeId === routeId;
 
             return (
               <li>
                 <a
                   href={getNavigationHref(item, currentLocale)}
                   lang={linkLanguage}
+                  aria-current={isCurrent ? 'page' : undefined}
                 >
                   {item.labels[currentLocale]}
                 </a>

@@ -1,4 +1,5 @@
 import { siteConfig } from './site';
+import { createContactHref } from '../utils/contact';
 
 export const aboutUsPage = {
   title: 'About All Yacht Service | Yacht Surveyor in Spain',
@@ -31,7 +32,7 @@ export const aboutUsPage = {
   ],
   primaryCta: {
     label: 'Discuss Your Requirements',
-    href: '/#contact',
+    href: createContactHref({ source: 'about-us-hero' }),
   },
   secondaryCta: {
     label: 'WhatsApp Us',
@@ -194,7 +195,7 @@ export const aboutUsPage = {
     links: [
       {
         label: 'Contact All Yacht Service',
-        href: '/#contact',
+        href: createContactHref({ source: 'about-us-final-cta' }),
       },
       {
         label: `WhatsApp ${siteConfig.contact.whatsapp}`,

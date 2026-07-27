@@ -1,4 +1,5 @@
 import { siteConfig } from './site';
+import { createContactHref } from '../utils/contact';
 
 export const buyerRepresentationPage = {
   title: 'Yacht Buyer Representation in Spain | All Yacht Service',
@@ -26,7 +27,10 @@ export const buyerRepresentationPage = {
   ],
   primaryCta: {
     label: 'Discuss Your Yacht Purchase',
-    href: '/#contact',
+    href: createContactHref({
+      service: 'buyer-representation',
+      source: 'buyer-representation-hero',
+    }),
   },
   secondaryCta: {
     label: 'WhatsApp Us',
@@ -231,7 +235,10 @@ export const buyerRepresentationPage = {
     links: [
       {
         label: 'Discuss Your Yacht Purchase',
-        href: '/#contact',
+        href: createContactHref({
+          service: 'buyer-representation',
+          source: 'buyer-representation-final-cta',
+        }),
       },
       {
         label: `WhatsApp ${siteConfig.contact.whatsapp}`,

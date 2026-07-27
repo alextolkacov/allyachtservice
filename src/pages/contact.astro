@@ -1,0 +1,154 @@
+---
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ContactForm from '../components/ContactForm.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import { contactPage } from '../data/contact';
+import { siteConfig } from '../data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../utils/seo';
+
+const pageUrl = toAbsoluteUrl(contactPage.pathname);
+const contactPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: 'Contact All Yacht Service',
+  description: contactPage.description,
+  mainEntity: {
+    '@id': businessEntityId,
+  },
+};
+---
+
+<BaseLayout
+  title={contactPage.title}
+  description={contactPage.description}
+  locale="en"
+  routeId="contact"
+  pathname={contactPage.pathname}
+  imagePath={contactPage.heroImage.src}
+  imageAlt={contactPage.heroImage.alt}
+  structuredData={contactPageSchema}
+>
+  <header class="service-hero contact-page-hero">
+    <img
+      class="service-hero-image"
+      src={contactPage.heroImage.src}
+      alt={contactPage.heroImage.alt}
+      width={contactPage.heroImage.width}
+      height={contactPage.heroImage.height}
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="service-hero-overlay" aria-hidden="true"></div>
+    <div class="service-hero-content site-container">
+      <Breadcrumbs items={contactPage.breadcrumbs} theme="light" />
+      <div class="service-hero-copy">
+        <p class="eyebrow eyebrow-light">{contactPage.eyebrow}</p>
+        <h1>{contactPage.heading}</h1>
+        <p>{contactPage.summary}</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="contact-page-main site-container">
+    <div class="contact-page-grid">
+      <ContactForm />
+
+      <aside
+        class="contact-sidebar"
+        aria-label="All Yacht Service contact details"
+      >
+        <section aria-labelledby="direct-contact-heading">
+          <p class="eyebrow">Direct contact</p>
+          <h2 id="direct-contact-heading">Speak with All Yacht Service</h2>
+          <dl class="contact-sidebar-list">
+            <div>
+              <dt>Phone</dt>
+              <dd>
+                <a href={siteConfig.contact.phoneHref}
+                  >{siteConfig.contact.phone}</a
+                >
+              </dd>
+            </div>
+            <div>
+              <dt>WhatsApp</dt>
+              <dd>
+                <a
+                  href={siteConfig.contact.whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {siteConfig.contact.whatsapp}
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt>Email</dt>
+              <dd>
+                <a href={siteConfig.contact.emailHref}
+                  >{siteConfig.contact.email}</a
+                >
+              </dd>
+            </div>
+          </dl>
+          <SocialLinks theme="dark" showLabels={true} />
+        </section>
+
+        <section aria-labelledby="office-heading">
+          <p class="eyebrow">Office</p>
+          <h2 id="office-heading">Marina Greenwich, Altea</h2>
+          <address>
+            {siteConfig.address.lines.map((line) => <span>{line}</span>)}
+          </address>
+          <p>{siteConfig.workingHours.label}</p>
+          <p>{siteConfig.officeVisits}</p>
+          <a
+            class="text-arrow-link"
+            href={siteConfig.businessProfiles.google}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View on Google <span aria-hidden="true">→</span>
+          </a>
+        </section>
+
+        <section aria-labelledby="include-heading">
+          <p class="eyebrow">Helpful details</p>
+          <h2 id="include-heading">What to Include</h2>
+          <ul class="service-check-list">
+            {contactPage.whatToInclude.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+      </aside>
+    </div>
+
+    <section
+      id="privacy-notice"
+      class="contact-privacy-notice"
+      aria-labelledby="privacy-notice-heading"
+    >
+      <p class="eyebrow">Privacy</p>
+      <h2 id="privacy-notice-heading">Enquiry Privacy Notice</h2>
+      <p>
+        All Yacht Service uses the information submitted through this form only
+        to review your enquiry, prepare a quotation and communicate about the
+        requested service. The form is protected by Cloudflare Turnstile, and
+        the enquiry is delivered securely to
+        <a href={siteConfig.contact.emailHref}>{siteConfig.contact.email}</a>.
+      </p>
+      <p>
+        Do not upload passports, payment details, medical information or other
+        highly sensitive documents. Enquiry information is retained only for as
+        long as reasonably necessary to respond and maintain relevant business
+        records. To request access, correction or deletion, contact
+        <a href={siteConfig.contact.emailHref}>{siteConfig.contact.email}</a>.
+      </p>
+    </section>
+  </div>
+</BaseLayout>

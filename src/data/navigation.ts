@@ -6,6 +6,7 @@ export type RouteId =
   | 'insuranceSurvey'
   | 'buyerRepresentation'
   | 'aboutUs'
+  | 'contact'
   | 'yachtDelivery';
 
 /**
@@ -36,6 +37,9 @@ export const translatedRoutes: Record<
   },
   aboutUs: {
     en: '/about-us',
+  },
+  contact: {
+    en: '/contact',
   },
   yachtDelivery: {
     en: '/yacht-delivery',
@@ -131,7 +135,7 @@ export const primaryNavigation = [
   },
   {
     id: 'contact',
-    href: '/#contact',
+    routeId: 'contact',
     labels: {
       en: 'Contact',
       es: 'Contacto',
