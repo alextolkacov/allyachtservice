@@ -32,6 +32,71 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
     <input type="hidden" name="estimateReference" value="" />
     <input type="hidden" name="calculatorSummary" value="" />
 
+    <section
+      class="contact-survey-estimate"
+      aria-labelledby="contact-survey-estimate-heading"
+      hidden
+      data-survey-estimate-summary
+    >
+      <p class="eyebrow">Transferred estimate</p>
+      <h3 id="contact-survey-estimate-heading">Approximate Survey Estimate</h3>
+      <p>
+        Review the calculation transferred from the survey calculator before
+        sending your enquiry.
+      </p>
+      <dl>
+        <div>
+          <dt>Estimate reference</dt>
+          <dd data-contact-estimate-reference></dd>
+        </div>
+        <div>
+          <dt>Approximate estimate</dt>
+          <dd data-contact-estimate-price></dd>
+        </div>
+        <div>
+          <dt>Created</dt>
+          <dd data-contact-estimate-date></dd>
+        </div>
+        <div>
+          <dt>Yacht LOA</dt>
+          <dd data-contact-estimate-loa></dd>
+        </div>
+        <div>
+          <dt>Vessel type</dt>
+          <dd data-contact-estimate-vessel></dd>
+        </div>
+        <div>
+          <dt>Survey package</dt>
+          <dd data-contact-estimate-package></dd>
+        </div>
+        <div>
+          <dt>Hull inspection</dt>
+          <dd data-contact-estimate-hull></dd>
+        </div>
+        <div hidden data-contact-estimate-location-row>
+          <dt>Yacht location</dt>
+          <dd data-contact-estimate-location></dd>
+        </div>
+        <div hidden data-contact-estimate-discount-row>
+          <dt>Full-package discount</dt>
+          <dd data-contact-estimate-discount></dd>
+        </div>
+      </dl>
+      <h4>Included inspection items</h4>
+      <ul class="service-check-list" data-contact-estimate-items></ul>
+      <p class="contact-survey-estimate-note">
+        This estimate is approximate and non-binding. The final scope and
+        quotation require review by All Yacht Service.
+      </p>
+      <button
+        class="button button-outline-navy"
+        type="button"
+        data-remove-survey-estimate
+      >
+        Remove Transferred Estimate
+      </button>
+    </section>
+
     <div class="form-field form-field-honeypot" aria-hidden="true">
       <label for="contact-website">Leave this field empty</label>
       <input
@@ -126,6 +191,15 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
           data-field-error="service"
           aria-live="polite"
         >
+        </p>
+        <p
+          class="contact-calculator-suggestion"
+          hidden
+          data-survey-calculator-suggestion
+        >
+          <a href="/pre-purchase-survey-calculator">
+            Calculate an approximate survey cost first
+          </a>
         </p>
       </div>
 
@@ -368,6 +442,15 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
 }
 
 <script>
+  import { surveyLabels } from '../lib/calculators/prePurchaseSurvey';
+  import {
+    createSurveyEstimateSummary,
+    formatSurveyEstimatePrice,
+    SURVEY_ESTIMATE_STORAGE_KEY,
+    validateStoredSurveyEstimate,
+    type StoredSurveyEstimate,
+  } from '../lib/calculators/prePurchaseSurveyEstimate';
+
   interface ContactApiResponse {
     ok: boolean;
     message: string;
@@ -394,6 +477,17 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       '[data-message-count]',
     );
     const attachments = form.elements.namedItem('attachments');
+    const serviceField = form.elements.namedItem('service');
+    const surveyEstimatePanel = form.querySelector<HTMLElement>(
+      '[data-survey-estimate-summary]',
+    );
+    const surveyCalculatorSuggestion = form.querySelector<HTMLElement>(
+      '[data-survey-calculator-suggestion]',
+    );
+    const removeSurveyEstimateButton = form.querySelector<HTMLButtonElement>(
+      '[data-remove-survey-estimate]',
+    );
+    let activeSurveyEstimate: StoredSurveyEstimate | null = null;
     const allowedServices = new Set(
       Array.from(
         form.querySelectorAll<HTMLOptionElement>(
@@ -431,10 +525,26 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       }
     };
 
+    const removeSessionValue = (key: string) => {
+      try {
+        sessionStorage.removeItem(key);
+      } catch {
+        // Storage may be unavailable without preventing normal contact use.
+      }
+    };
+
+    const readSessionValue = (key: string): string | null => {
+      try {
+        return sessionStorage.getItem(key);
+      } catch {
+        return null;
+      }
+    };
+
     const applyPrefill = () => {
       const query = new URLSearchParams(window.location.search);
       const queryService = query.get('service');
-      const storedRaw = sessionStorage.getItem('ays:contact-prefill');
+      const storedRaw = readSessionValue('ays:contact-prefill');
       let stored: Record<string, unknown> = {};
 
       if (storedRaw) {
@@ -444,7 +554,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
             stored = parsed as Record<string, unknown>;
           }
         } catch {
-          sessionStorage.removeItem('ays:contact-prefill');
+          removeSessionValue('ays:contact-prefill');
         }
       }
 
@@ -472,10 +582,18 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       );
       setFieldValue('message', query.get('message') ?? stored.message);
 
+      const isSurveyCalculatorRequest =
+        query.get('source') === 'survey-calculator';
+      if (isSurveyCalculatorRequest) {
+        setHiddenValue('source', 'contact-page');
+        setHiddenValue('estimateReference', '');
+        setHiddenValue('calculatorSummary', '');
+        return;
+      }
+
       const source =
         query.get('source') ??
-        (typeof stored.source === 'string' ? stored.source : '') ??
-        '';
+        (typeof stored.source === 'string' ? stored.source : '');
       setHiddenValue('source', source.slice(0, 100) || 'contact-page');
       setHiddenValue(
         'estimateReference',
@@ -495,6 +613,151 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
             : '')
         ).slice(0, 4000),
       );
+    };
+
+    const setSurveyEstimateText = (selector: string, value: string) => {
+      const element = surveyEstimatePanel?.querySelector<HTMLElement>(selector);
+      if (element) element.textContent = value;
+    };
+
+    const updateSurveyCalculatorSuggestion = () => {
+      if (!surveyCalculatorSuggestion) return;
+      surveyCalculatorSuggestion.hidden =
+        !(serviceField instanceof HTMLSelectElement) ||
+        serviceField.value !== 'pre-purchase-survey' ||
+        activeSurveyEstimate !== null;
+    };
+
+    const hideSurveyEstimate = () => {
+      if (surveyEstimatePanel) surveyEstimatePanel.hidden = true;
+      activeSurveyEstimate = null;
+      setHiddenValue('estimateReference', '');
+      setHiddenValue('calculatorSummary', '');
+      setHiddenValue('source', 'contact-page');
+      updateSurveyCalculatorSuggestion();
+    };
+
+    const readSurveyEstimate = (): StoredSurveyEstimate | null => {
+      const query = new URLSearchParams(window.location.search);
+      const reference = query.get('estimateReference');
+      if (
+        query.get('source') !== 'survey-calculator' ||
+        query.get('service') !== 'pre-purchase-survey' ||
+        !reference
+      ) {
+        return null;
+      }
+
+      const storedRaw = readSessionValue(SURVEY_ESTIMATE_STORAGE_KEY);
+      if (!storedRaw) return null;
+
+      try {
+        const parsed: unknown = JSON.parse(storedRaw);
+        const validation = validateStoredSurveyEstimate(parsed, reference);
+        if (!validation.isValid) {
+          removeSessionValue(SURVEY_ESTIMATE_STORAGE_KEY);
+          return null;
+        }
+        return validation.payload;
+      } catch {
+        removeSessionValue(SURVEY_ESTIMATE_STORAGE_KEY);
+        return null;
+      }
+    };
+
+    const applySurveyEstimate = () => {
+      hideSurveyEstimate();
+      const estimate = readSurveyEstimate();
+      if (!estimate || !surveyEstimatePanel) {
+        updateSurveyCalculatorSuggestion();
+        return;
+      }
+
+      activeSurveyEstimate = estimate;
+      setFieldValue('service', estimate.service);
+      setFieldValue(
+        'vesselType',
+        estimate.vesselType === 'sailing' ? 'sailing-yacht' : 'motor-yacht',
+      );
+      setFieldValue('vesselLength', String(estimate.loaMetres));
+      setFieldValue('vesselLocation', estimate.location);
+      setHiddenValue('source', estimate.source);
+      setHiddenValue('estimateReference', estimate.reference);
+      setHiddenValue(
+        'calculatorSummary',
+        createSurveyEstimateSummary(estimate).slice(0, 4000),
+      );
+
+      setSurveyEstimateText(
+        '[data-contact-estimate-reference]',
+        estimate.reference,
+      );
+      setSurveyEstimateText(
+        '[data-contact-estimate-price]',
+        formatSurveyEstimatePrice(estimate.estimatedPriceEur),
+      );
+      setSurveyEstimateText(
+        '[data-contact-estimate-date]',
+        new Intl.DateTimeFormat('en-GB', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+          timeZone: 'UTC',
+        }).format(new Date(estimate.createdAt)),
+      );
+      setSurveyEstimateText(
+        '[data-contact-estimate-loa]',
+        `${estimate.loaMetres.toLocaleString('en-GB', {
+          maximumFractionDigits: 1,
+        })} metres`,
+      );
+      setSurveyEstimateText(
+        '[data-contact-estimate-vessel]',
+        surveyLabels.vesselType[estimate.vesselType],
+      );
+      setSurveyEstimateText(
+        '[data-contact-estimate-package]',
+        surveyLabels.packageType[estimate.packageType],
+      );
+      setSurveyEstimateText(
+        '[data-contact-estimate-hull]',
+        surveyLabels.hullInspection[estimate.hullInspection],
+      );
+      setSurveyEstimateText(
+        '[data-contact-estimate-location]',
+        estimate.location,
+      );
+      setSurveyEstimateText(
+        '[data-contact-estimate-discount]',
+        formatSurveyEstimatePrice(estimate.packageDiscountEur),
+      );
+
+      const locationRow = surveyEstimatePanel.querySelector<HTMLElement>(
+        '[data-contact-estimate-location-row]',
+      );
+      if (locationRow) locationRow.hidden = estimate.location.length === 0;
+      const discountRow = surveyEstimatePanel.querySelector<HTMLElement>(
+        '[data-contact-estimate-discount-row]',
+      );
+      if (discountRow) {
+        discountRow.hidden = estimate.packageDiscountEur === 0;
+      }
+
+      const items = surveyEstimatePanel.querySelector<HTMLUListElement>(
+        '[data-contact-estimate-items]',
+      );
+      if (items) {
+        items.replaceChildren(
+          ...estimate.includedItems.map((item) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = item;
+            return listItem;
+          }),
+        );
+      }
+
+      surveyEstimatePanel.hidden = false;
+      updateSurveyCalculatorSuggestion();
     };
 
     const clearErrors = () => {
@@ -583,9 +846,30 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
     if (message instanceof HTMLTextAreaElement) {
       message.addEventListener('input', updateMessageCount);
     }
+    if (serviceField instanceof HTMLSelectElement) {
+      serviceField.addEventListener('change', () => {
+        if (
+          activeSurveyEstimate &&
+          serviceField.value !== 'pre-purchase-survey'
+        ) {
+          removeSessionValue(SURVEY_ESTIMATE_STORAGE_KEY);
+          hideSurveyEstimate();
+        } else {
+          updateSurveyCalculatorSuggestion();
+        }
+      });
+    }
+    removeSurveyEstimateButton?.addEventListener('click', () => {
+      removeSessionValue(SURVEY_ESTIMATE_STORAGE_KEY);
+      hideSurveyEstimate();
+      surveyCalculatorSuggestion
+        ?.querySelector<HTMLAnchorElement>('a')
+        ?.focus();
+    });
     updateMessageCount();
     resetRequestMetadata();
     applyPrefill();
+    applySurveyEstimate();
     updateMessageCount();
 
     form.addEventListener('submit', async (event) => {
@@ -643,9 +927,11 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         }
 
         form.reset();
-        sessionStorage.removeItem('ays:contact-prefill');
+        removeSessionValue('ays:contact-prefill');
+        removeSessionValue(SURVEY_ESTIMATE_STORAGE_KEY);
         resetRequestMetadata();
         applyPrefill();
+        applySurveyEstimate();
         updateMessageCount();
       } catch {
         if (status) {

@@ -6,7 +6,8 @@ deployment to Cloudflare Pages.
 
 The English homepage, Contact page, Pre-Purchase Yacht Survey page, Insurance
 Condition Yacht Survey page, Yacht Buyer Representation page, Yacht Delivery
-page, and About Us page contain the first production-ready implementations.
+page, About Us page, and Pre-Purchase Yacht Survey Cost Calculator contain the
+first production-ready implementations.
 The Contact page uses a Cloudflare Pages Function, Turnstile, and the existing
 Google Workspace mailbox to validate and deliver enquiries securely.
 The Spanish, Russian, French, Italian, and Greek homepages retain localized
@@ -181,10 +182,56 @@ npm run preview:cloudflare
 The example Turnstile sitekey and secret are Cloudflare's official always-pass
 test pair. They must never be used in production.
 
-## Calculator prefill contract
+## Pre-purchase survey calculator
 
-Future survey and delivery calculators can prefill `/contact` with query
-parameters or session storage.
+The English calculator is generated at:
+
+```text
+/pre-purchase-survey-calculator
+```
+
+The pricing logic was ported into this repository from the approved source
+calculator without creating a runtime dependency:
+
+| Source detail   | Value                                             |
+| --------------- | ------------------------------------------------- |
+| Repository      | `https://github.com/alextolkacov/pys-calculators` |
+| Source file     | `survey/index.html`                               |
+| Source commit   | `5ce07c0123f26fd46bd0dec0896b1c21d67df18a`        |
+| Pricing version | `survey-2026-07-27`                               |
+| Automatic range | 5–40 metres                                       |
+| Storage key     | `ays:pre-purchase-survey-estimate:v1`             |
+| Payload version | `1`                                               |
+
+The `pys-calculators` repository remains unchanged. All runtime code is stored
+inside `allyachtservice`, uses no client-side API key, and does not load scripts,
+iframes, modules, or other assets from the source repository.
+
+The result is explicitly approximate and non-binding. Completing a calculation
+stores a versioned, non-personal payload in `sessionStorage`. Requesting a
+formal quotation navigates to `/contact` with only the service, source, and
+estimate reference in the URL. The Contact form validates the stored payload,
+shows the complete transferred summary for review, prefills the service, LOA
+and yacht location, and includes that visible summary in the submitted email.
+The visitor may remove it before submission. Malformed, mismatched, expired or
+unsupported payloads are ignored safely.
+
+Pricing formulas live in
+`src/lib/calculators/prePurchaseSurvey.ts`. Any later coefficient, minimum,
+discount, rounding, package or range change requires business approval. Record
+the approved source commit and assign a new pricing version when the logic is
+updated, then rerun representative boundary and package calculations before
+release.
+
+The website-wide public service scope was corrected from 24 to 40 metres where
+the old number described the maximum vessel size handled by All Yacht Service.
+The calculator still retains its distinct 18–24 metre and above 24–40 metre
+pricing bands.
+
+## General calculator prefill contract
+
+Other future calculators can continue to prefill `/contact` with query
+parameters or the existing general-purpose session storage contract.
 
 Supported query parameters include:
 
@@ -211,6 +258,7 @@ src/
   components/       Reusable navigation, SEO, contact, card, and CTA UI
   data/             Confirmed site data, languages, and translated route maps
   layouts/          Base, service, and article page shells
+  lib/calculators/  Pure pricing logic and validated estimate payload contracts
   pages/            File-based English, translated, service, and 404 routes
   styles/           Global Tailwind theme and shared accessible UI styles
   utils/            Canonical URL, schema, contact, and hreflang helpers

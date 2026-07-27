@@ -3,6 +3,7 @@ import type { Locale } from './languages';
 export type RouteId =
   | 'home'
   | 'prePurchaseSurvey'
+  | 'prePurchaseSurveyCalculator'
   | 'insuranceSurvey'
   | 'buyerRepresentation'
   | 'aboutUs'
@@ -28,6 +29,9 @@ export const translatedRoutes: Record<
   },
   prePurchaseSurvey: {
     en: '/pre-purchase-survey',
+  },
+  prePurchaseSurveyCalculator: {
+    en: '/pre-purchase-survey-calculator',
   },
   insuranceSurvey: {
     en: '/insurance-survey',

@@ -30,6 +30,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </section>
 
   <ServicesGrid heading="Yacht Services" services={homeContent.services} />
+  <section class="online-tools-section" aria-labelledby="online-tools-heading">
+    <div class="site-container">
+      <div class="online-tools-heading">
+        <div>
+          <p class="eyebrow">Planning support</p>
+          <h2 id="online-tools-heading" class="section-heading">
+            {homeContent.onlineTools.heading}
+          </h2>
+        </div>
+        <p>{homeContent.onlineTools.introduction}</p>
+      </div>
+      <div class="online-tools-grid">
+        {
+          homeContent.onlineTools.items.map((tool) => (
+            <article>
+              <div>
+                <h3>{tool.title}</h3>
+                <p>{tool.description}</p>
+              </div>
+              <a class="button button-outline-navy" href={tool.href}>
+                {tool.label}
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
   <WhyChooseUs {...homeContent.whyChooseUs} />
   <AboutSection {...homeContent.about} />
   <ContactSection />

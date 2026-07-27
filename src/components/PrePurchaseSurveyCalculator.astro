@@ -1,0 +1,697 @@
+---
+import { siteConfig } from '../data/site';
+---
+
+<section
+  id="survey-calculator"
+  class="survey-calculator"
+  aria-labelledby="survey-calculator-heading"
+  data-survey-calculator
+>
+  <div class="survey-calculator-heading">
+    <p class="eyebrow">Initial fee estimate</p>
+    <h2 id="survey-calculator-heading">Calculate Your Survey Cost</h2>
+    <p>
+      Enter the yacht details and select the inspection scope. The result is an
+      approximate professional fee, not a binding quotation.
+    </p>
+  </div>
+
+  <form class="survey-calculator-form" novalidate data-survey-calculator-form>
+    <div class="survey-calculator-fields">
+      <div class="form-field">
+        <label for="survey-loa">Yacht length overall, metres</label>
+        <input
+          id="survey-loa"
+          name="loa"
+          type="number"
+          min="5"
+          max="40"
+          step="0.1"
+          inputmode="decimal"
+          placeholder="Example: 12.5"
+          aria-describedby="survey-loa-help survey-loa-error"
+          required
+        />
+        <p id="survey-loa-help" class="form-field-help">
+          Automatic estimates are available for yachts from 5 to 40 metres.
+        </p>
+        <p
+          id="survey-loa-error"
+          class="form-field-error"
+          role="alert"
+          data-survey-loa-error
+        >
+        </p>
+        <a
+          class="text-arrow-link survey-calculator-contact-link"
+          href="/contact?service=pre-purchase-survey&source=survey-calculator"
+          hidden
+          data-over-limit-contact
+        >
+          Request an individual quotation <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="form-field">
+        <label for="survey-vessel-type">Vessel type</label>
+        <select
+          id="survey-vessel-type"
+          name="vesselType"
+          aria-describedby="survey-vessel-type-help"
+        >
+          <option value="sailing" selected>Sailing yacht</option>
+          <option value="motor">Motor yacht</option>
+        </select>
+        <p id="survey-vessel-type-help" class="form-field-help">
+          For catamarans, multihulls and unusual vessel configurations, the
+          result provides only an initial indication. The final quotation will
+          be confirmed after reviewing the vessel.
+        </p>
+      </div>
+
+      <div class="form-field">
+        <label for="survey-package">Survey package</label>
+        <select
+          id="survey-package"
+          name="packageType"
+          aria-describedby="survey-package-description"
+        >
+          <option
+            value="base"
+            data-description="Core pre-purchase condition survey with the selected afloat or hull-out arrangement."
+            selected
+          >
+            Base Survey
+          </option>
+          <option
+            value="custom"
+            data-description="Base survey with individually selected additional inspections."
+          >
+            Custom Survey
+          </option>
+          <option
+            value="full"
+            data-description="Base survey, hull-out inspection, sea trial, engine inspection and rigging inspection where applicable, including the approved package discount."
+          >
+            Full Inspection Package
+          </option>
+        </select>
+        <p
+          id="survey-package-description"
+          class="form-field-help"
+          data-package-description
+        >
+          Core pre-purchase condition survey with the selected afloat or
+          hull-out arrangement.
+        </p>
+      </div>
+
+      <div class="form-field">
+        <label for="survey-hull-inspection">Hull inspection</label>
+        <select
+          id="survey-hull-inspection"
+          name="hullInspection"
+          aria-describedby="survey-hull-help survey-full-hull-note"
+        >
+          <option value="afloat" selected>Afloat inspection only</option>
+          <option value="hull-out">Hull-out inspection</option>
+        </select>
+        <p id="survey-hull-help" class="form-field-help">
+          Select the access arrangement expected for the survey.
+        </p>
+        <p
+          id="survey-full-hull-note"
+          class="form-field-help survey-full-hull-note"
+          hidden
+          data-full-hull-note
+        >
+          Hull-out inspection is included in the Full Inspection Package, so
+          this selection is fixed while that package is active.
+        </p>
+      </div>
+
+      <fieldset class="survey-options" hidden data-additional-inspections>
+        <legend>Additional inspections</legend>
+        <p class="form-field-help">
+          Select any additional inspections required for the Custom Survey.
+        </p>
+        <label class="survey-option">
+          <input type="checkbox" name="surveyOption" value="sea-trial" />
+          <span>
+            <strong>Sea trial</strong>
+            <small
+              >Operational assessment under way where conditions permit.</small
+            >
+          </span>
+        </label>
+        <label class="survey-option">
+          <input
+            type="checkbox"
+            name="surveyOption"
+            value="engine-inspection"
+          />
+          <span>
+            <strong>Engine inspection</strong>
+            <small>Accessible machinery and propulsion inspection.</small>
+          </span>
+        </label>
+        <label class="survey-option" data-rigging-option>
+          <input
+            type="checkbox"
+            name="surveyOption"
+            value="rigging-sails-inspection"
+          />
+          <span>
+            <strong>Rigging and sails inspection</strong>
+            <small>Available for sailing yachts only.</small>
+          </span>
+        </label>
+      </fieldset>
+
+      <div class="form-field">
+        <label for="survey-location">Yacht location</label>
+        <input
+          id="survey-location"
+          name="location"
+          type="text"
+          maxlength="120"
+          autocomplete="off"
+          placeholder="Marina, city and country"
+          aria-describedby="survey-location-help"
+        />
+        <p id="survey-location-help" class="form-field-help">
+          Travel and location-related expenses are confirmed separately in the
+          formal quotation.
+        </p>
+      </div>
+    </div>
+
+    <button
+      class="button button-navy survey-calculator-submit"
+      type="submit"
+      data-analytics-event="survey-calculator-complete"
+    >
+      Calculate Estimate
+    </button>
+  </form>
+
+  <p
+    class="sr-only"
+    aria-live="polite"
+    aria-atomic="true"
+    data-survey-calculator-live
+  >
+  </p>
+
+  <section
+    class="survey-calculator-result"
+    aria-labelledby="survey-result-heading"
+    hidden
+    data-survey-result
+  >
+    <div class="survey-result-heading">
+      <p class="eyebrow">Initial estimate</p>
+      <h2 id="survey-result-heading" tabindex="-1" data-survey-result-heading>
+        Your Estimated Survey Cost
+      </h2>
+      <p>Approximate professional survey fee</p>
+      <p class="survey-result-price" data-result-price></p>
+    </div>
+
+    <dl class="survey-result-details">
+      <div>
+        <dt>Yacht LOA</dt>
+        <dd data-result-loa></dd>
+      </div>
+      <div>
+        <dt>Vessel type</dt>
+        <dd data-result-vessel></dd>
+      </div>
+      <div>
+        <dt>Survey package</dt>
+        <dd data-result-package></dd>
+      </div>
+      <div>
+        <dt>Hull inspection</dt>
+        <dd data-result-hull></dd>
+      </div>
+      <div hidden data-result-location-row>
+        <dt>Yacht location</dt>
+        <dd data-result-location></dd>
+      </div>
+      <div>
+        <dt>Estimate reference</dt>
+        <dd data-result-reference></dd>
+      </div>
+      <div>
+        <dt>Estimate creation date</dt>
+        <dd data-result-date></dd>
+      </div>
+    </dl>
+
+    <div class="survey-result-included">
+      <h3>Included inspection items</h3>
+      <ul class="service-check-list" data-result-items></ul>
+    </div>
+
+    <div class="survey-result-discount" hidden data-result-discount-panel>
+      <h3>Full package discount included</h3>
+      <p>
+        The Full Inspection Package includes a 15% discount compared with
+        booking its included survey components separately.
+      </p>
+      <p>
+        Rounded discount: <strong data-result-discount></strong>
+      </p>
+    </div>
+
+    <div class="survey-result-notes">
+      <h3>Important exclusions</h3>
+      <p>
+        Boatyard and haul-out fees, marina charges, fuel, vessel operation,
+        skipper or crew required for a sea trial, travel expenses,
+        accommodation, oil analysis, specialist diagnostics, repairs and
+        third-party services are not included unless confirmed in writing.
+      </p>
+      <p>Any applicable taxes will be confirmed in the formal quotation.</p>
+      <p>
+        This calculator provides an initial estimate only and does not
+        constitute a quotation, contract or invoice. The final quotation depends
+        on the yacht’s specifications, age, construction, systems, location,
+        accessibility, haul-out arrangements, sea-trial requirements and the
+        final agreed inspection scope.
+      </p>
+    </div>
+
+    <div class="survey-result-actions">
+      <a
+        class="button button-navy"
+        href="/contact?service=pre-purchase-survey"
+        data-analytics-event="survey-calculator-quote-request"
+        data-survey-quote-link
+      >
+        Request a Formal Quotation
+      </a>
+      <a
+        class="button button-outline-navy"
+        href={siteConfig.contact.whatsappHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-analytics-event="survey-calculator-whatsapp"
+      >
+        WhatsApp Your Enquiry
+      </a>
+      <button
+        class="button button-outline-navy"
+        type="button"
+        data-edit-calculation
+        data-analytics-event="survey-calculator-edit"
+      >
+        Edit Calculation
+      </button>
+      <button
+        class="button survey-reset-button"
+        type="button"
+        data-reset-calculation
+        data-analytics-event="survey-calculator-reset"
+      >
+        Start a New Calculation
+      </button>
+    </div>
+    <p class="survey-result-privacy">
+      Your calculation remains in this browser session and is transferred to the
+      enquiry form only when you request a quotation.
+    </p>
+  </section>
+</section>
+
+<script>
+  import {
+    calculateSurveyEstimate,
+    surveyLabels,
+    validateSurveyInput,
+    type HullInspection,
+    type SurveyCalculatorInput,
+    type SurveyInspectionOption,
+    type SurveyPackage,
+    type VesselType,
+  } from '../lib/calculators/prePurchaseSurvey';
+  import {
+    formatSurveyEstimatePrice,
+    SURVEY_ESTIMATE_STORAGE_KEY,
+    type StoredSurveyEstimate,
+  } from '../lib/calculators/prePurchaseSurveyEstimate';
+
+  const calculator = document.querySelector<HTMLElement>(
+    '[data-survey-calculator]',
+  );
+
+  if (calculator) {
+    const form = calculator.querySelector<HTMLFormElement>(
+      '[data-survey-calculator-form]',
+    );
+    const loaInput = calculator.querySelector<HTMLInputElement>('#survey-loa');
+    const vesselSelect = calculator.querySelector<HTMLSelectElement>(
+      '#survey-vessel-type',
+    );
+    const packageSelect =
+      calculator.querySelector<HTMLSelectElement>('#survey-package');
+    const hullSelect = calculator.querySelector<HTMLSelectElement>(
+      '#survey-hull-inspection',
+    );
+    const locationInput =
+      calculator.querySelector<HTMLInputElement>('#survey-location');
+    const additionalInspections = calculator.querySelector<HTMLElement>(
+      '[data-additional-inspections]',
+    );
+    const riggingOption = calculator.querySelector<HTMLElement>(
+      '[data-rigging-option]',
+    );
+    const fullHullNote = calculator.querySelector<HTMLElement>(
+      '[data-full-hull-note]',
+    );
+    const packageDescription = calculator.querySelector<HTMLElement>(
+      '[data-package-description]',
+    );
+    const loaError = calculator.querySelector<HTMLElement>(
+      '[data-survey-loa-error]',
+    );
+    const overLimitContact = calculator.querySelector<HTMLAnchorElement>(
+      '[data-over-limit-contact]',
+    );
+    const result = calculator.querySelector<HTMLElement>(
+      '[data-survey-result]',
+    );
+    const resultHeading = calculator.querySelector<HTMLElement>(
+      '[data-survey-result-heading]',
+    );
+    const liveRegion = calculator.querySelector<HTMLElement>(
+      '[data-survey-calculator-live]',
+    );
+    const editButton = calculator.querySelector<HTMLButtonElement>(
+      '[data-edit-calculation]',
+    );
+    const resetButton = calculator.querySelector<HTMLButtonElement>(
+      '[data-reset-calculation]',
+    );
+
+    if (
+      form &&
+      loaInput &&
+      vesselSelect &&
+      packageSelect &&
+      hullSelect &&
+      locationInput &&
+      additionalInspections &&
+      riggingOption &&
+      fullHullNote &&
+      packageDescription &&
+      loaError &&
+      overLimitContact &&
+      result &&
+      resultHeading &&
+      liveRegion &&
+      editButton &&
+      resetButton
+    ) {
+      let previousHullInspection: HullInspection = 'afloat';
+
+      const getOptionCheckboxes = () =>
+        Array.from(
+          form.querySelectorAll<HTMLInputElement>('input[name="surveyOption"]'),
+        );
+
+      const clearStoredEstimate = () => {
+        try {
+          sessionStorage.removeItem(SURVEY_ESTIMATE_STORAGE_KEY);
+        } catch {
+          // Storage can be unavailable without preventing calculation.
+        }
+      };
+
+      const setQuotationLinks = (reference?: string) => {
+        const destination = reference
+          ? `/contact?service=pre-purchase-survey&source=survey-calculator&estimateReference=${encodeURIComponent(reference)}`
+          : '/contact?service=pre-purchase-survey';
+
+        document
+          .querySelectorAll<HTMLAnchorElement>('[data-survey-quote-link]')
+          .forEach((link) => {
+            link.href = destination;
+          });
+      };
+
+      const hideResult = (clearStorage = true) => {
+        result.hidden = true;
+        liveRegion.textContent = '';
+        if (clearStorage) clearStoredEstimate();
+        setQuotationLinks();
+      };
+
+      const updatePackageDescription = () => {
+        const selectedOption =
+          packageSelect.options[packageSelect.selectedIndex];
+        packageDescription.textContent =
+          selectedOption?.dataset.description ?? '';
+      };
+
+      const updateControls = () => {
+        const packageType = packageSelect.value as SurveyPackage;
+        const vesselType = vesselSelect.value as VesselType;
+        const fullPackageSelected = packageType === 'full';
+
+        if (fullPackageSelected) {
+          if (!hullSelect.disabled) {
+            previousHullInspection = hullSelect.value as HullInspection;
+          }
+          hullSelect.value = 'hull-out';
+          hullSelect.disabled = true;
+          fullHullNote.hidden = false;
+        } else {
+          if (hullSelect.disabled) {
+            hullSelect.disabled = false;
+            hullSelect.value = previousHullInspection;
+          }
+          fullHullNote.hidden = true;
+        }
+
+        additionalInspections.hidden = packageType !== 'custom';
+        const riggingCheckbox = riggingOption.querySelector<HTMLInputElement>(
+          'input[type="checkbox"]',
+        );
+        const hideRigging = vesselType === 'motor';
+        riggingOption.hidden = hideRigging;
+        if (hideRigging && riggingCheckbox) riggingCheckbox.checked = false;
+
+        updatePackageDescription();
+      };
+
+      const formatMetres = (value: number) =>
+        `${value.toLocaleString('en-GB', {
+          maximumFractionDigits: 1,
+        })} metres`;
+
+      const createReference = (createdAt: Date) => {
+        const date = createdAt.toISOString().slice(0, 10).replaceAll('-', '');
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const randomValues = crypto.getRandomValues(new Uint8Array(4));
+        const suffix = Array.from(
+          randomValues,
+          (value) => characters[value % characters.length],
+        ).join('');
+
+        return `AYS-SURVEY-${date}-${suffix}`;
+      };
+
+      const readInput = (): SurveyCalculatorInput => ({
+        loaMetres: Number.parseFloat(loaInput.value),
+        vesselType: vesselSelect.value as VesselType,
+        packageType: packageSelect.value as SurveyPackage,
+        hullInspection: hullSelect.value as HullInspection,
+        options: getOptionCheckboxes()
+          .filter(
+            (checkbox) => checkbox.checked && !checkbox.closest('[hidden]'),
+          )
+          .map((checkbox) => checkbox.value as SurveyInspectionOption),
+      });
+
+      const setText = (selector: string, value: string) => {
+        const element = result.querySelector<HTMLElement>(selector);
+        if (element) element.textContent = value;
+      };
+
+      const showEstimate = (input: SurveyCalculatorInput, location: string) => {
+        const calculation = calculateSurveyEstimate(input);
+        const createdAt = new Date();
+        const reference = createReference(createdAt);
+        const includedItems = calculation.includedItems.map(
+          (item) => item.label,
+        );
+        const storedEstimate: StoredSurveyEstimate = {
+          version: 1,
+          reference,
+          createdAt: createdAt.toISOString(),
+          service: 'pre-purchase-survey',
+          source: 'survey-calculator',
+          loaMetres: input.loaMetres,
+          vesselType: input.vesselType,
+          packageType: input.packageType,
+          hullInspection: calculation.hullInspection,
+          options: [...calculation.activeOptions],
+          location,
+          estimatedPriceEur: calculation.estimatedPriceEur,
+          packageDiscountEur: calculation.packageDiscountEur,
+          includedItems,
+        };
+
+        setText(
+          '[data-result-price]',
+          formatSurveyEstimatePrice(calculation.estimatedPriceEur),
+        );
+        setText('[data-result-loa]', formatMetres(input.loaMetres));
+        setText(
+          '[data-result-vessel]',
+          surveyLabels.vesselType[input.vesselType],
+        );
+        setText(
+          '[data-result-package]',
+          surveyLabels.packageType[input.packageType],
+        );
+        setText(
+          '[data-result-hull]',
+          surveyLabels.hullInspection[calculation.hullInspection],
+        );
+        setText('[data-result-reference]', reference);
+        setText(
+          '[data-result-date]',
+          new Intl.DateTimeFormat('en-GB', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            timeZone: 'UTC',
+          }).format(createdAt),
+        );
+
+        const locationRow = result.querySelector<HTMLElement>(
+          '[data-result-location-row]',
+        );
+        if (locationRow) locationRow.hidden = location.length === 0;
+        setText('[data-result-location]', location);
+
+        const itemList = result.querySelector<HTMLUListElement>(
+          '[data-result-items]',
+        );
+        if (itemList) {
+          itemList.replaceChildren(
+            ...includedItems.map((item) => {
+              const listItem = document.createElement('li');
+              listItem.textContent = item;
+              return listItem;
+            }),
+          );
+        }
+
+        const discountPanel = result.querySelector<HTMLElement>(
+          '[data-result-discount-panel]',
+        );
+        if (discountPanel) {
+          discountPanel.hidden = calculation.packageDiscountEur === 0;
+        }
+        setText(
+          '[data-result-discount]',
+          formatSurveyEstimatePrice(calculation.packageDiscountEur),
+        );
+
+        try {
+          sessionStorage.setItem(
+            SURVEY_ESTIMATE_STORAGE_KEY,
+            JSON.stringify(storedEstimate),
+          );
+        } catch {
+          // The result remains usable when browser storage is unavailable.
+        }
+
+        setQuotationLinks(reference);
+        result.hidden = false;
+        liveRegion.textContent = `Estimated survey cost ${formatSurveyEstimatePrice(calculation.estimatedPriceEur)}. Estimate reference ${reference}.`;
+        resultHeading.focus({ preventScroll: true });
+        result.scrollIntoView({
+          block: 'start',
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)')
+            .matches
+            ? 'auto'
+            : 'smooth',
+        });
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        loaError.textContent = '';
+        loaInput.removeAttribute('aria-invalid');
+        overLimitContact.hidden = true;
+
+        const input = readInput();
+        const validation = validateSurveyInput(input);
+        if (!validation.isValid) {
+          hideResult();
+          loaError.textContent = validation.message;
+          loaInput.setAttribute('aria-invalid', 'true');
+          overLimitContact.hidden = validation.code !== 'above-maximum-loa';
+          loaInput.focus();
+          return;
+        }
+
+        showEstimate(input, locationInput.value.trim());
+      });
+
+      const handleInputChange = (event: Event) => {
+        if (event.target === packageSelect || event.target === vesselSelect) {
+          updateControls();
+        }
+        if (!result.hidden) hideResult();
+        if (event.target === loaInput) {
+          loaInput.removeAttribute('aria-invalid');
+          loaError.textContent = '';
+          overLimitContact.hidden = true;
+        }
+      };
+
+      form.addEventListener('input', handleInputChange);
+      form.addEventListener('change', handleInputChange);
+
+      editButton.addEventListener('click', () => {
+        hideResult();
+        loaInput.focus();
+        calculator.scrollIntoView({
+          block: 'start',
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)')
+            .matches
+            ? 'auto'
+            : 'smooth',
+        });
+      });
+
+      resetButton.addEventListener('click', () => {
+        form.reset();
+        previousHullInspection = 'afloat';
+        loaError.textContent = '';
+        loaInput.removeAttribute('aria-invalid');
+        overLimitContact.hidden = true;
+        updateControls();
+        hideResult();
+        loaInput.focus();
+        calculator.scrollIntoView({
+          block: 'start',
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)')
+            .matches
+            ? 'auto'
+            : 'smooth',
+        });
+      });
+
+      updateControls();
+      setQuotationLinks();
+    }
+  }
+</script>

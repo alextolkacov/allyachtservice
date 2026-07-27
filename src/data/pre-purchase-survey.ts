@@ -9,7 +9,7 @@ export const prePurchaseSurveyPage = {
   eyebrow: 'Independent yacht surveying',
   heading: 'Pre-Purchase Yacht Survey in Spain',
   summary:
-    'Independent inspection of sailing yachts, motor yachts and catamarans up to 24 metres before purchase.',
+    'Independent inspection of sailing yachts, motor yachts and catamarans up to 40 metres before purchase.',
   heroImage: {
     src: '/images/pre-purchase-survey.webp',
     alt: 'Yacht undergoing an independent pre-purchase inspection',

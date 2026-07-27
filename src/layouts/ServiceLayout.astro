@@ -11,6 +11,8 @@ interface CtaLink {
   label: string;
   href: string;
   external?: boolean;
+  analyticsEvent?: string;
+  surveyQuoteLink?: boolean;
 }
 
 interface ServiceImage {
@@ -114,7 +116,14 @@ const baseProps = {
             (primaryCta || secondaryCta) && (
               <div class="service-hero-actions">
                 {primaryCta && (
-                  <a class="button button-light" href={primaryCta.href}>
+                  <a
+                    class="button button-light"
+                    href={primaryCta.href}
+                    data-analytics-event={primaryCta.analyticsEvent}
+                    data-survey-quote-link={
+                      primaryCta.surveyQuoteLink ? '' : undefined
+                    }
+                  >
                     {primaryCta.label}
                   </a>
                 )}
@@ -125,6 +134,10 @@ const baseProps = {
                     target={secondaryCta.external ? '_blank' : undefined}
                     rel={
                       secondaryCta.external ? 'noopener noreferrer' : undefined
+                    }
+                    data-analytics-event={secondaryCta.analyticsEvent}
+                    data-survey-quote-link={
+                      secondaryCta.surveyQuoteLink ? '' : undefined
                     }
                   >
                     {secondaryCta.label}
@@ -194,6 +207,8 @@ const baseProps = {
                   href={link.href}
                   target={link.external ? '_blank' : undefined}
                   rel={link.external ? 'noopener noreferrer' : undefined}
+                  data-analytics-event={link.analyticsEvent}
+                  data-survey-quote-link={link.surveyQuoteLink ? '' : undefined}
                 >
                   {link.label}
                 </a>

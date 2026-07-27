@@ -9,7 +9,7 @@ export const yachtDeliveryPage = {
   eyebrow: 'Yacht delivery and relocation',
   heading: 'Professional Yacht Delivery in Spain & the Mediterranean',
   summary:
-    'Safe, carefully planned transfers for sailing yachts, motor yachts and catamarans up to 24 metres.',
+    'Safe, carefully planned transfers for sailing yachts, motor yachts and catamarans up to 40 metres.',
   heroImage: {
     src: '/images/yacht-delivery.webp',
     alt: 'Sailing yacht under way during a professional yacht delivery',

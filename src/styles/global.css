@@ -1334,6 +1334,86 @@
     gap: 1.35rem;
   }
 
+  .contact-survey-estimate {
+    border: 1px solid rgb(10 29 47 / 22%);
+    border-top: 4px solid var(--color-navy);
+    background: var(--color-ivory);
+    padding: 1.25rem;
+  }
+
+  .contact-survey-estimate h3,
+  .contact-survey-estimate h4 {
+    margin: 0;
+    color: var(--color-navy);
+    font-family: var(--font-display);
+  }
+
+  .contact-survey-estimate h3 {
+    font-size: 1.45rem;
+  }
+
+  .contact-survey-estimate h4 {
+    margin-top: 1.25rem;
+    font-size: 1.05rem;
+  }
+
+  .contact-survey-estimate > p:not(.eyebrow) {
+    margin: 0.65rem 0 0;
+    color: rgb(37 43 49 / 76%);
+    font-size: 0.92rem;
+  }
+
+  .contact-survey-estimate dl {
+    display: grid;
+    margin: 1.25rem 0 0;
+    border-top: 1px solid rgb(10 29 47 / 15%);
+  }
+
+  .contact-survey-estimate dl > div {
+    display: grid;
+    grid-template-columns: minmax(7rem, 0.85fr) minmax(0, 1.15fr);
+    border-bottom: 1px solid rgb(10 29 47 / 15%);
+    padding-block: 0.65rem;
+    gap: 0.75rem;
+  }
+
+  .contact-survey-estimate dt {
+    color: rgb(37 43 49 / 65%);
+    font-size: 0.86rem;
+  }
+
+  .contact-survey-estimate dd {
+    min-width: 0;
+    margin: 0;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+  }
+
+  .contact-survey-estimate .service-check-list {
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .contact-survey-estimate .button {
+    width: 100%;
+    margin-top: 1.15rem;
+    cursor: pointer;
+  }
+
+  .contact-calculator-suggestion {
+    margin: 0.35rem 0 0;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .contact-calculator-suggestion a {
+    color: var(--color-navy);
+    font-weight: 750;
+    text-underline-offset: 0.2em;
+  }
+
   .contact-form-grid {
     display: grid;
     gap: 1.35rem;
@@ -1600,6 +1680,331 @@
     color: rgb(37 43 49 / 78%);
   }
 
+  .online-tools-section {
+    border-block: 1px solid rgb(10 29 47 / 12%);
+    background: white;
+    padding-block: 4.75rem;
+  }
+
+  .online-tools-heading {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .online-tools-heading > p {
+    max-width: 40rem;
+    margin: 0;
+    color: rgb(37 43 49 / 74%);
+  }
+
+  .online-tools-grid {
+    display: grid;
+    margin-top: 2rem;
+    gap: 1rem;
+  }
+
+  .online-tools-grid article {
+    display: grid;
+    align-items: center;
+    border: 1px solid rgb(10 29 47 / 16%);
+    border-left: 4px solid var(--color-navy);
+    padding: 1.35rem;
+    gap: 1.25rem;
+  }
+
+  .online-tools-grid h3,
+  .online-tools-grid p {
+    margin: 0;
+  }
+
+  .online-tools-grid h3 {
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+  }
+
+  .online-tools-grid p {
+    margin-top: 0.5rem;
+    color: rgb(37 43 49 / 74%);
+  }
+
+  .online-tools-grid .button {
+    width: 100%;
+  }
+
+  .service-tool-cta {
+    display: grid;
+    align-items: center;
+    border: 1px solid rgb(10 29 47 / 18%);
+    border-left: 4px solid var(--color-navy);
+    background: white;
+    padding: 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .service-main section.service-tool-cta > h2 {
+    font-size: inherit;
+  }
+
+  .service-tool-cta h2,
+  .service-tool-cta p {
+    margin: 0;
+  }
+
+  .service-tool-cta h2 {
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    line-height: 1.2;
+  }
+
+  .service-tool-cta h2 + p {
+    margin-top: 0.65rem;
+    color: rgb(37 43 49 / 74%);
+  }
+
+  .service-tool-cta .button {
+    width: 100%;
+  }
+
+  .survey-calculator {
+    scroll-margin-top: 6rem;
+    border: 1px solid rgb(10 29 47 / 18%);
+    background: white;
+    padding: clamp(1.25rem, 4vw, 2.25rem);
+  }
+
+  .service-main section.survey-calculator {
+    margin-top: 4.75rem;
+    padding-top: clamp(1.25rem, 4vw, 2.25rem);
+  }
+
+  .survey-calculator-heading h2,
+  .survey-result-heading h2 {
+    margin: 0;
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+  }
+
+  .survey-calculator-heading h2 {
+    font-size: clamp(1.85rem, 6vw, 2.55rem);
+  }
+
+  .survey-calculator-heading > p:not(.eyebrow) {
+    max-width: 44rem;
+    margin: 0.85rem 0 0;
+    color: rgb(37 43 49 / 76%);
+  }
+
+  .survey-calculator-form {
+    display: grid;
+    margin-top: 2rem;
+    gap: 1.5rem;
+  }
+
+  .survey-calculator-fields {
+    display: grid;
+    gap: 1.35rem;
+  }
+
+  .survey-calculator .form-field-error:empty {
+    min-height: 0;
+    margin: 0;
+  }
+
+  .survey-calculator-contact-link {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    margin-top: 0.5rem;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .survey-full-hull-note {
+    border-left: 2px solid var(--color-navy);
+    padding-left: 0.75rem;
+  }
+
+  .survey-options {
+    min-width: 0;
+    margin: 0;
+    border: 1px solid rgb(10 29 47 / 20%);
+    padding: 1rem;
+  }
+
+  .survey-options legend {
+    padding-inline: 0.25rem;
+    color: var(--color-navy);
+    font-size: 0.93rem;
+    font-weight: 750;
+  }
+
+  .survey-options > .form-field-help {
+    margin-top: 0;
+  }
+
+  .survey-option {
+    display: grid;
+    min-height: 3.25rem;
+    grid-template-columns: 1.35rem minmax(0, 1fr);
+    align-items: start;
+    margin-top: 0.9rem;
+    gap: 0.7rem;
+    cursor: pointer;
+  }
+
+  .survey-option input {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin: 0.15rem 0 0;
+    accent-color: var(--color-navy);
+  }
+
+  .survey-option span,
+  .survey-option strong,
+  .survey-option small {
+    display: block;
+  }
+
+  .survey-option strong {
+    color: var(--color-navy);
+    font-size: 0.95rem;
+  }
+
+  .survey-option small {
+    margin-top: 0.15rem;
+    color: rgb(37 43 49 / 68%);
+    font-size: 0.86rem;
+    line-height: 1.5;
+  }
+
+  .survey-calculator-submit {
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .survey-calculator-result {
+    scroll-margin-top: 6rem;
+    margin-top: 2rem;
+    border-top: 4px solid var(--color-navy);
+    background: var(--color-ivory);
+    padding: clamp(1.25rem, 4vw, 2rem);
+  }
+
+  .survey-result-heading > p:not(.eyebrow) {
+    margin: 0.85rem 0 0;
+    color: rgb(37 43 49 / 72%);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .survey-result-heading .survey-result-price {
+    margin-top: 0.15rem;
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 12vw, 4.5rem);
+    font-variant-numeric: tabular-nums;
+    font-weight: 750;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    overflow-wrap: anywhere;
+    text-transform: none;
+  }
+
+  .survey-result-details {
+    display: grid;
+    margin: 2rem 0 0;
+    border-top: 1px solid rgb(10 29 47 / 16%);
+  }
+
+  .survey-result-details > div {
+    display: grid;
+    grid-template-columns: minmax(7.5rem, 0.8fr) minmax(0, 1.2fr);
+    border-bottom: 1px solid rgb(10 29 47 / 16%);
+    padding-block: 0.8rem;
+    gap: 1rem;
+  }
+
+  .survey-result-details dt {
+    color: rgb(37 43 49 / 66%);
+    font-size: 0.9rem;
+  }
+
+  .survey-result-details dd {
+    min-width: 0;
+    margin: 0;
+    color: var(--color-navy);
+    font-weight: 750;
+    overflow-wrap: anywhere;
+  }
+
+  .survey-result-included,
+  .survey-result-discount,
+  .survey-result-notes {
+    margin-top: 2rem;
+  }
+
+  .survey-result-included h3,
+  .survey-result-discount h3,
+  .survey-result-notes h3 {
+    margin: 0;
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+  }
+
+  .survey-result-included .service-check-list {
+    margin-top: 1rem;
+  }
+
+  .survey-result-discount {
+    border-left: 3px solid var(--color-navy);
+    background: white;
+    padding: 1rem 1.1rem;
+  }
+
+  .survey-result-discount p,
+  .survey-result-notes p {
+    margin: 0.75rem 0 0;
+    color: rgb(37 43 49 / 78%);
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+
+  .survey-result-actions {
+    display: grid;
+    margin-top: 2rem;
+    gap: 0.75rem;
+  }
+
+  .survey-result-actions .button {
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .survey-reset-button {
+    border-color: transparent;
+    background: transparent;
+    color: var(--color-navy);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .survey-result-privacy {
+    margin: 1rem 0 0;
+    color: rgb(37 43 49 / 68%);
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+
   .related-services {
     background: white;
     padding-block: 4.75rem;
@@ -1814,6 +2219,29 @@
 
   .contact-form-actions .button {
     width: auto;
+  }
+
+  .online-tools-heading {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: end;
+  }
+
+  .online-tools-grid article,
+  .service-tool-cta {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .online-tools-grid .button,
+  .service-tool-cta .button {
+    width: auto;
+  }
+
+  .survey-calculator-submit {
+    width: fit-content;
+  }
+
+  .survey-result-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .about-office-card > div + div {

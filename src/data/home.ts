@@ -105,6 +105,20 @@ export const homeContent = {
       },
     },
   ] satisfies readonly HomeService[],
+  onlineTools: {
+    heading: 'Online Tools',
+    introduction:
+      'Use our planning tools to prepare an initial service estimate before contacting All Yacht Service.',
+    items: [
+      {
+        title: 'Pre-Purchase Survey Cost Calculator',
+        description:
+          'Calculate an approximate survey fee based on yacht length, vessel type and inspection scope.',
+        label: 'Calculate Your Survey Cost',
+        href: '/pre-purchase-survey-calculator',
+      },
+    ],
+  },
   whyChooseUs: {
     heading: 'Why Choose All Yacht Service?',
     introduction:
