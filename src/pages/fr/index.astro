@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PendingHomepage from '../../components/PendingHomepage.astro';
 ---
 
 <BaseLayout
@@ -8,15 +9,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   locale="fr"
   routeId="home"
   pathname="/fr"
+  imagePath="/images/hero-sailing-yacht.webp"
 >
-  <section class="site-container py-20 sm:py-28">
-    <h1
-      class="max-w-4xl font-display text-4xl leading-tight font-bold text-navy sm:text-6xl"
-    >
-      Site web d’All Yacht Service
-    </h1>
-    <p class="development-notice mt-10 max-w-2xl" role="status">
-      Contenu en attente
-    </p>
-  </section>
+  <PendingHomepage
+    heading="Site web d’All Yacht Service"
+    notice="Contenu en attente"
+  />
 </BaseLayout>

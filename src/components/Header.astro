@@ -1,7 +1,4 @@
 ---
-import { existsSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
-
 import {
   getRoutePath,
   primaryNavigation,
@@ -10,6 +7,7 @@ import {
 import type { Locale } from '../data/languages';
 import { siteConfig } from '../data/site';
 import LanguageSwitcher from './LanguageSwitcher.astro';
+import MobileNavigation from './MobileNavigation.astro';
 
 interface Props {
   currentLocale: Locale;
@@ -18,48 +16,28 @@ interface Props {
 }
 
 const { currentLocale, currentPath, routeId } = Astro.props;
-const logoDirectory = join(process.cwd(), 'public', 'logo');
-const logoFilename = existsSync(logoDirectory)
-  ? readdirSync(logoDirectory)
-      .filter((filename) => filename.toLowerCase().endsWith('.svg'))
-      .sort((first, second) => first.localeCompare(second))[0]
-  : undefined;
-const logoPath = logoFilename
-  ? `/logo/${encodeURIComponent(logoFilename)}`
-  : undefined;
 ---
 
-<header class="border-b border-white/10 bg-navy text-ivory">
-  <div
-    class="site-container flex flex-col gap-5 py-5 lg:flex-row lg:items-center lg:justify-between"
-  >
-    <div class="flex items-center justify-between gap-6">
-      <a
-        class="inline-flex min-h-11 items-center font-display text-xl font-bold tracking-[0.08em] text-white uppercase"
-        href={getRoutePath('home', currentLocale)}
-        aria-label={`${siteConfig.name} home`}
-      >
-        {
-          logoPath ? (
-            <img
-              class="h-12 w-auto max-w-56"
-              src={logoPath}
-              width="224"
-              height="48"
-              alt={siteConfig.name}
-            />
-          ) : (
-            <span>{siteConfig.name}</span>
-          )
-        }
-      </a>
-    </div>
+<header class="site-header">
+  <div class="header-inner site-container">
+    <a
+      class="brand-link"
+      href={getRoutePath('home', currentLocale)}
+      aria-label={`${siteConfig.name} home`}
+    >
+      <img
+        class="brand-logo"
+        src="/logo/all-yacht-service-logo.svg"
+        width="180"
+        height="120"
+        alt=""
+      />
+      <span class="brand-name">All Yacht <span>Service</span></span>
+    </a>
 
-    <div class="flex flex-col gap-4 lg:items-end">
-      <LanguageSwitcher currentLocale={currentLocale} routeId={routeId} />
-
+    <div class="desktop-header-controls">
       <nav aria-label="Primary navigation">
-        <ul class="flex flex-wrap items-center gap-2" role="list">
+        <ul class="desktop-navigation" role="list">
           {
             primaryNavigation.map((item) => {
               const href = getRoutePath(item.routeId, currentLocale);
@@ -68,7 +46,7 @@ const logoPath = logoFilename
               return (
                 <li>
                   <a
-                    class="inline-flex min-h-11 items-center border-b-2 border-transparent px-3 text-sm font-semibold text-ivory/80 transition-colors hover:border-ivory hover:text-white"
+                    class="desktop-navigation-link"
                     href={href}
                     aria-current={isCurrent ? 'page' : undefined}
                   >
@@ -80,6 +58,17 @@ const logoPath = logoFilename
           }
         </ul>
       </nav>
+      <LanguageSwitcher
+        currentLocale={currentLocale}
+        routeId={routeId}
+        mode="compact"
+      />
     </div>
+
+    <MobileNavigation
+      currentLocale={currentLocale}
+      currentPath={currentPath}
+      routeId={routeId}
+    />
   </div>
 </header>

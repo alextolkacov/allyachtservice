@@ -74,6 +74,10 @@ export function createProfessionalServiceSchema(): StructuredData {
     telephone: siteConfig.contact.phone,
     email: siteConfig.contact.email,
     description: siteConfig.professionalDescription,
+    founder: {
+      '@type': 'Person',
+      name: siteConfig.surveyor,
+    },
     address: {
       '@type': 'PostalAddress',
       streetAddress: siteConfig.address.streetAddress,
@@ -88,6 +92,13 @@ export function createProfessionalServiceSchema(): StructuredData {
       opens: siteConfig.workingHours.opens,
       closes: siteConfig.workingHours.closes,
     },
+    areaServed: [
+      ...siteConfig.primaryServiceAreas,
+      ...siteConfig.additionalServiceAreas,
+    ].map((name) => ({
+      '@type': 'Place',
+      name,
+    })),
     sameAs: [siteConfig.social.instagram, siteConfig.social.linkedin],
   };
 }

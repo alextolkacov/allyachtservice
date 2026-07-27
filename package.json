@@ -14,6 +14,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "check": "astro check",
     "typecheck": "astro check"
   },
   "dependencies": {

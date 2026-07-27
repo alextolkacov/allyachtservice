@@ -1,12 +1,14 @@
 # All Yacht Service
 
-Technical foundation for the multilingual All Yacht Service website. The site
-uses Astro, strict TypeScript, Tailwind CSS, static generation, and npm. It is
-configured for deployment to Cloudflare Pages.
+Multilingual website for All Yacht Service. The site uses Astro, strict
+TypeScript, Tailwind CSS, static generation, and npm. It is configured for
+deployment to Cloudflare Pages.
 
-This repository intentionally contains structure and development placeholders
-only. It does not contain migrated website copy, reviews, redirects, a contact
-form backend, or unconfirmed company and certification claims.
+The English homepage contains the first production-ready visual implementation.
+The Spanish, Russian, French, Italian, and Greek homepages retain localized
+development placeholders inside the same shared header, visual system, and
+footer. Final service pages, redirects, legal-page content, reviews, and a
+contact form backend are not part of the current sprint.
 
 ## Local setup
 
@@ -96,7 +98,7 @@ src/
   styles/           Global Tailwind theme and shared accessible UI styles
   utils/            Canonical URL, schema, and hreflang helpers
 public/
-  images/           Static raster or photographic assets
+  images/           Optimized local WebP assets reused from the existing site
   logo/             Supplied logo artwork
   robots.txt        Crawler rules and sitemap discovery
 ```
@@ -137,5 +139,6 @@ using only confirmed information. `Breadcrumbs.astro` adds `BreadcrumbList`
 structured data when used.
 
 Do not add ratings or review schema. Do not state a company registration or VAT
-number, registered-company status, or IIMS certification unless separately
-confirmed and approved.
+number, registered-company status, or professional-liability-insurance claims.
+The approved professional wording is “IIMS-Certified Yacht and Small Craft
+Marine Surveyor and Licensed Captain.”

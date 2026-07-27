@@ -1,8 +1,10 @@
 export const siteConfig = {
   name: 'All Yacht Service',
   url: 'https://www.allyachtservice.com',
+  surveyor: 'Aleksandrs Tolkacovs',
   professionalDescription:
-    'Yacht and Small Craft Marine Surveyor with a Yacht & Small Craft Professional Qualification and licensed captain.',
+    'IIMS-Certified Yacht and Small Craft Marine Surveyor and Licensed Captain.',
+  qualification: 'Yacht & Small Craft Professional Qualification',
   contact: {
     phone: '+34 695 718 540',
     phoneHref: 'tel:+34695718540',
@@ -12,6 +14,12 @@ export const siteConfig = {
     emailHref: 'mailto:info@allyachtservice.com',
   },
   address: {
+    lines: [
+      'Edificio Timonel, Local 73',
+      'Puerto Deportivo Luis Campomanes',
+      'Marina Greenwich',
+      '03599 Altea, Alicante, Spain',
+    ],
     formatted:
       'Edificio Timonel, Local 73, Puerto Deportivo Luis Campomanes, Marina Greenwich, 03599 Altea, Alicante, Spain',
     streetAddress:
@@ -27,6 +35,18 @@ export const siteConfig = {
     opens: '09:00',
     closes: '18:00',
   },
+  officeVisits: 'Open every working day. Appointments are recommended.',
+  primaryServiceAreas: [
+    'Altea',
+    'Alicante',
+    'Costa Blanca',
+    'Valencia',
+    'Barcelona',
+    'Spanish Mediterranean coast',
+    'Mainland Spain',
+    'Balearic Islands',
+  ],
+  additionalServiceAreas: ['France', 'Italy', 'Greece', 'Europe'],
   social: {
     instagram: 'https://www.instagram.com/allyachtservice/',
     linkedin: 'https://www.linkedin.com/company/all-yacht-service/',

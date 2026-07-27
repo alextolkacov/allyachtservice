@@ -5,33 +5,30 @@ import { getRoutePath, type RouteId } from '../data/navigation';
 interface Props {
   currentLocale: Locale;
   routeId: RouteId;
+  mode?: 'compact' | 'full';
 }
 
-const { currentLocale, routeId } = Astro.props;
+const { currentLocale, routeId, mode = 'compact' } = Astro.props;
 ---
 
-<nav aria-label="Language">
-  <ul
-    class="flex flex-wrap items-center justify-end gap-x-1 gap-y-1"
-    role="list"
-  >
+<nav
+  class:list={['language-switcher', `language-switcher-${mode}`]}
+  aria-label="Language"
+>
+  <ul role="list">
     {
       languages.map((language) => (
         <li>
           <a
-            class:list={[
-              'inline-flex min-h-11 items-center rounded-sm px-2.5 text-sm font-semibold transition-colors',
-              language.code === currentLocale
-                ? 'bg-ivory text-navy'
-                : 'text-ivory/80 hover:bg-white/10 hover:text-white focus-visible:bg-white/10',
-            ]}
             href={getRoutePath(routeId, language.code)}
             hreflang={language.hreflang}
             lang={language.htmlLang}
             aria-current={language.code === currentLocale ? 'page' : undefined}
             aria-label={`${language.label}: ${language.nativeLabel}`}
           >
-            {language.nativeLabel}
+            {mode === 'compact'
+              ? language.code.toUpperCase()
+              : language.nativeLabel}
           </a>
         </li>
       ))

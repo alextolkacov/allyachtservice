@@ -1,22 +1,36 @@
 ---
+import AboutSection from '../components/AboutSection.astro';
+import ContactSection from '../components/ContactSection.astro';
+import Hero from '../components/Hero.astro';
+import ServicesGrid from '../components/ServicesGrid.astro';
+import WhyChooseUs from '../components/WhyChooseUs.astro';
+import { homeContent } from '../data/home';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout
-  title="All Yacht Service | English"
-  description="Temporary English-language homepage for All Yacht Service. Content is pending."
+  title="Yacht Surveyor in Spain | All Yacht Service"
+  description="Independent yacht surveys, yacht delivery and buyer representation throughout Spain and the Mediterranean from Marina Greenwich in Altea."
   locale="en"
   routeId="home"
   pathname="/"
+  imagePath={homeContent.hero.image.src}
 >
-  <section class="site-container py-20 sm:py-28">
-    <h1
-      class="max-w-4xl font-display text-4xl leading-tight font-bold text-navy sm:text-6xl"
-    >
-      All Yacht Service website
-    </h1>
-    <p class="development-notice mt-10 max-w-2xl" role="status">
-      Content pending
-    </p>
+  <Hero {...homeContent.hero} />
+
+  <section class="intro-section" aria-labelledby="intro-heading">
+    <div class="site-container intro-section-inner">
+      <p class="eyebrow">Yacht surveying in Spain</p>
+      <h2 id="intro-heading" class="section-heading">
+        {homeContent.introduction.heading}
+      </h2>
+      <p class="intro-lead">{homeContent.introduction.body}</p>
+      <p class="trust-line">{homeContent.introduction.trustLine}</p>
+    </div>
   </section>
+
+  <ServicesGrid heading="Yacht Services" services={homeContent.services} />
+  <WhyChooseUs {...homeContent.whyChooseUs} />
+  <AboutSection {...homeContent.about} />
+  <ContactSection />
 </BaseLayout>
