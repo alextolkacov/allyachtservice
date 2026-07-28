@@ -1,0 +1,64 @@
+---
+import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import { spanishValuationDamageSurveyPage } from '../../data/es/valuation-damage-survey';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(spanishValuationDamageSurveyPage.pathname);
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: spanishValuationDamageSurveyPage.heading,
+  description: spanishValuationDamageSurveyPage.description,
+  inLanguage: 'es',
+};
+const serviceSchemas: StructuredData[] =
+  spanishValuationDamageSurveyPage.serviceSchemas.map((service) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${pageUrl}#${service.id}`,
+    name: service.name,
+    serviceType: service.serviceType,
+    url: pageUrl,
+    description: service.description,
+    provider: {
+      '@id': businessEntityId,
+    },
+    areaServed: spanishValuationDamageSurveyPage.areaServed.map((name) => ({
+      '@type': 'Place',
+      name,
+    })),
+  }));
+---
+
+<ServiceLayout
+  title={spanishValuationDamageSurveyPage.title}
+  description={spanishValuationDamageSurveyPage.description}
+  locale="es"
+  routeId="valuationDamageSurvey"
+  pathname={spanishValuationDamageSurveyPage.pathname}
+  heading={spanishValuationDamageSurveyPage.heading}
+  eyebrow={spanishValuationDamageSurveyPage.eyebrow}
+  summary={spanishValuationDamageSurveyPage.summary}
+  heroImage={spanishValuationDamageSurveyPage.heroImage}
+  socialImageAlt={spanishValuationDamageSurveyPage.socialImageAlt}
+  breadcrumbs={spanishValuationDamageSurveyPage.breadcrumbs}
+  breadcrumbLabel="Migas de pan"
+  primaryCta={spanishValuationDamageSurveyPage.primaryCta}
+  secondaryCta={spanishValuationDamageSurveyPage.secondaryCta}
+  relatedServices={spanishValuationDamageSurveyPage.relatedServices}
+  relatedHeading="Servicios relacionados"
+  finalCta={spanishValuationDamageSurveyPage.finalCta}
+  finalCtaEyebrow="Contacto"
+  structuredData={[webPageSchema, ...serviceSchemas]}
+>
+  <LocalizedServiceSections
+    sections={spanishValuationDamageSurveyPage.sections}
+  />
+</ServiceLayout>

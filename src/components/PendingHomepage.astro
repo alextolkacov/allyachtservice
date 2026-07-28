@@ -2,15 +2,20 @@
 interface Props {
   heading: string;
   notice: string;
+  imageAlt?: string;
 }
 
-const { heading, notice } = Astro.props;
+const {
+  heading,
+  notice,
+  imageAlt = 'Sailing yacht underway at sea',
+} = Astro.props;
 ---
 
 <section class="pending-home" aria-labelledby="pending-home-heading">
   <img
     src="/images/hero-sailing-yacht.webp"
-    alt="Sailing yacht underway at sea"
+    alt={imageAlt}
     width="1277"
     height="618"
     loading="eager"

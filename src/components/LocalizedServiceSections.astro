@@ -1,0 +1,233 @@
+---
+import { siteConfig } from '../data/site';
+import type {
+  LocalizedContentSection,
+  LocalizedSection,
+} from '../data/es/types';
+import { spanishFooter } from '../i18n/footer';
+import { getSharedUi } from '../i18n/ui';
+import LocalizedRichText from './LocalizedRichText.astro';
+
+interface Props {
+  sections: readonly LocalizedSection[];
+}
+
+const { sections } = Astro.props;
+const ui = getSharedUi('es');
+---
+
+{
+  sections.map((section) =>
+    'type' in section && section.type === 'tool' ? (
+      <section class="service-tool-cta" aria-labelledby={section.id}>
+        <div>
+          {section.eyebrow && <p class="eyebrow">{section.eyebrow}</p>}
+          <h2 id={section.id}>{section.heading}</h2>
+          <p>{section.description}</p>
+        </div>
+        <a
+          class="button button-navy"
+          href={section.link.href}
+          data-analytics-event={section.link.analyticsEvent}
+        >
+          {section.link.label}
+          <span class="navigation-language-note">
+            {' '}
+            — {section.link.languageNote}
+          </span>
+        </a>
+      </section>
+    ) : (
+      <section aria-labelledby={section.id}>
+        <h2 id={section.id}>{section.heading}</h2>
+        {(section as LocalizedContentSection).blocks.map((block) => {
+          if (block.type === 'paragraph') {
+            return (
+              <p class:list={{ 'service-note': block.style === 'note' }}>
+                <LocalizedRichText content={block.content} />
+              </p>
+            );
+          }
+
+          if (block.type === 'cards') {
+            return (
+              <div class:list={['inspection-grid', block.className]}>
+                {block.items.map((item) => (
+                  <article>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                    {item.href && (
+                      <a
+                        class="text-arrow-link"
+                        href={item.href}
+                        lang={item.lang}
+                      >
+                        {item.linkLabel ?? ui.viewService}{' '}
+                        {item.languageNote && (
+                          <span class="navigation-language-note">
+                            — {item.languageNote}
+                          </span>
+                        )}{' '}
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    )}
+                  </article>
+                ))}
+              </div>
+            );
+          }
+
+          if (block.type === 'list') {
+            return (
+              <ul
+                class={
+                  block.style === 'check' ? 'service-check-list' : 'defect-grid'
+                }
+              >
+                {block.items.map((item) => (
+                  <li>
+                    <LocalizedRichText content={item} />
+                  </li>
+                ))}
+              </ul>
+            );
+          }
+
+          if (block.type === 'process') {
+            return (
+              <ol class="process-list">
+                {block.steps.map((step, index) => (
+                  <li>
+                    <div>
+                      <span aria-hidden="true">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                    </div>
+                    <div>
+                      <h3>{step.title}</h3>
+                      <p>{step.description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            );
+          }
+
+          if (block.type === 'figure') {
+            return (
+              <figure class="technical-evidence-figure">
+                <img
+                  src={block.image.src}
+                  alt={block.image.alt}
+                  width={block.image.width}
+                  height={block.image.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+                {block.image.caption && (
+                  <figcaption>{block.image.caption}</figcaption>
+                )}
+              </figure>
+            );
+          }
+
+          if (block.type === 'profile') {
+            return (
+              <div class="about-profile-grid">
+                <div class="about-profile-copy">
+                  {block.paragraphs.map((paragraph) => (
+                    <p>
+                      <LocalizedRichText content={paragraph} />
+                    </p>
+                  ))}
+                  <ul class="defect-grid">
+                    {block.areas.map((area) => (
+                      <li>{area}</li>
+                    ))}
+                  </ul>
+                  <p>{block.closing}</p>
+                </div>
+                <figure class="about-profile-image">
+                  <img
+                    src={block.image.src}
+                    alt={block.image.alt}
+                    width={block.image.width}
+                    height={block.image.height}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              </div>
+            );
+          }
+
+          if (block.type === 'office') {
+            return (
+              <>
+                <p>{block.introduction}</p>
+                <div class="about-office-card">
+                  <div>
+                    <h3>{block.addressHeading}</h3>
+                    <address>
+                      <strong>{siteConfig.name}</strong>
+                      {spanishFooter.address.map((line) => (
+                        <span>{line}</span>
+                      ))}
+                    </address>
+                  </div>
+                  <div>
+                    <h3>{block.hoursHeading}</h3>
+                    <p>{block.hours}</p>
+                    <p>{block.appointments}</p>
+                  </div>
+                </div>
+                <ul class="about-office-links" role="list">
+                  <li>
+                    <a
+                      class="button button-outline-navy"
+                      href={siteConfig.contact.phoneHref}
+                    >
+                      {block.callLabel} {siteConfig.contact.phone}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="button button-outline-navy"
+                      href={siteConfig.contact.whatsappHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {block.whatsappLabel} {siteConfig.contact.whatsapp}
+                      <span class="sr-only">, {ui.opensNewTab}</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="button button-outline-navy"
+                      href={siteConfig.contact.emailHref}
+                    >
+                      {block.emailLabel} {siteConfig.contact.email}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="button button-outline-navy"
+                      href={siteConfig.businessProfiles.google}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {block.googleLabel}
+                      <span class="sr-only">, {ui.opensNewTab}</span>
+                    </a>
+                  </li>
+                </ul>
+              </>
+            );
+          }
+
+          return null;
+        })}
+      </section>
+    ),
+  )
+}

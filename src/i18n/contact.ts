@@ -481,6 +481,30 @@ export const spanishContactPage = {
       'Las fechas preferidas para la inspección o entrega',
       'Cualquier formulario de la aseguradora, anuncio o fotografía relevante',
     ],
+    servicesEyebrow: 'Información del servicio',
+    servicesHeading: 'Consulte el servicio que necesita',
+    services: [
+      {
+        label: 'Inspección precompra',
+        href: '/es/pre-purchase-survey',
+      },
+      {
+        label: 'Inspección de condición para seguro',
+        href: '/es/insurance-survey',
+      },
+      {
+        label: 'Representación del comprador',
+        href: '/es/buyer-representation',
+      },
+      {
+        label: 'Entrega profesional de yates',
+        href: '/es/yacht-delivery',
+      },
+      {
+        label: 'Valoración y evaluación de daños',
+        href: '/es/valuation-damage-survey',
+      },
+    ],
   },
   privacy: {
     eyebrow: 'Privacidad',

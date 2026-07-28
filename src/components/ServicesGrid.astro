@@ -6,9 +6,15 @@ interface Props {
   heading: string;
   services: readonly HomeService[];
   linkLabel?: string;
+  eyebrow?: string;
 }
 
-const { heading, services, linkLabel = 'More info' } = Astro.props;
+const {
+  heading,
+  services,
+  linkLabel = 'More info',
+  eyebrow = 'Surveying & technical support',
+} = Astro.props;
 ---
 
 <section
@@ -18,7 +24,7 @@ const { heading, services, linkLabel = 'More info' } = Astro.props;
 >
   <div class="site-container">
     <div class="section-heading-wrap section-heading-centered">
-      <p class="eyebrow">Surveying &amp; technical support</p>
+      <p class="eyebrow">{eyebrow}</p>
       <h2 id="services-heading" class="section-heading">{heading}</h2>
     </div>
     <div class="services-grid">

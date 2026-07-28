@@ -1,0 +1,44 @@
+---
+import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import { spanishBuyerRepresentationPage } from '../../data/es/buyer-representation';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import { createLocalizedServicePageSchemas } from '../../utils/localizedSeo';
+
+const schemas = createLocalizedServicePageSchemas({
+  pathname: spanishBuyerRepresentationPage.pathname,
+  locale: 'es',
+  pageName: spanishBuyerRepresentationPage.heading,
+  pageDescription: spanishBuyerRepresentationPage.description,
+  serviceName: 'Representación del comprador de yates',
+  serviceType:
+    'Representación del comprador y asistencia técnica durante la compra',
+  serviceDescription: spanishBuyerRepresentationPage.schemaDescription,
+  areaServed: spanishBuyerRepresentationPage.areaServed,
+});
+---
+
+<ServiceLayout
+  title={spanishBuyerRepresentationPage.title}
+  description={spanishBuyerRepresentationPage.description}
+  locale="es"
+  routeId="buyerRepresentation"
+  pathname={spanishBuyerRepresentationPage.pathname}
+  heading={spanishBuyerRepresentationPage.heading}
+  eyebrow={spanishBuyerRepresentationPage.eyebrow}
+  summary={spanishBuyerRepresentationPage.summary}
+  heroImage={spanishBuyerRepresentationPage.heroImage}
+  socialImageAlt={spanishBuyerRepresentationPage.socialImageAlt}
+  breadcrumbs={spanishBuyerRepresentationPage.breadcrumbs}
+  breadcrumbLabel="Migas de pan"
+  primaryCta={spanishBuyerRepresentationPage.primaryCta}
+  secondaryCta={spanishBuyerRepresentationPage.secondaryCta}
+  relatedServices={spanishBuyerRepresentationPage.relatedServices}
+  relatedHeading="Servicios relacionados"
+  finalCta={spanishBuyerRepresentationPage.finalCta}
+  finalCtaEyebrow="Contacto"
+  structuredData={schemas}
+>
+  <LocalizedServiceSections
+    sections={spanishBuyerRepresentationPage.sections}
+  />
+</ServiceLayout>

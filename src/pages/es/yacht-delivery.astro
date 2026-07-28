@@ -1,0 +1,41 @@
+---
+import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import { spanishYachtDeliveryPage } from '../../data/es/yacht-delivery';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import { createLocalizedServicePageSchemas } from '../../utils/localizedSeo';
+
+const schemas = createLocalizedServicePageSchemas({
+  pathname: spanishYachtDeliveryPage.pathname,
+  locale: 'es',
+  pageName: spanishYachtDeliveryPage.heading,
+  pageDescription: spanishYachtDeliveryPage.description,
+  serviceName: 'Entrega profesional de yates',
+  serviceType: 'Entrega y traslado de yates',
+  serviceDescription: spanishYachtDeliveryPage.schemaDescription,
+  areaServed: spanishYachtDeliveryPage.areaServed,
+});
+---
+
+<ServiceLayout
+  title={spanishYachtDeliveryPage.title}
+  description={spanishYachtDeliveryPage.description}
+  locale="es"
+  routeId="yachtDelivery"
+  pathname={spanishYachtDeliveryPage.pathname}
+  heading={spanishYachtDeliveryPage.heading}
+  eyebrow={spanishYachtDeliveryPage.eyebrow}
+  summary={spanishYachtDeliveryPage.summary}
+  heroImage={spanishYachtDeliveryPage.heroImage}
+  socialImageAlt={spanishYachtDeliveryPage.socialImageAlt}
+  breadcrumbs={spanishYachtDeliveryPage.breadcrumbs}
+  breadcrumbLabel="Migas de pan"
+  primaryCta={spanishYachtDeliveryPage.primaryCta}
+  secondaryCta={spanishYachtDeliveryPage.secondaryCta}
+  relatedServices={spanishYachtDeliveryPage.relatedServices}
+  relatedHeading="Servicios relacionados"
+  finalCta={spanishYachtDeliveryPage.finalCta}
+  finalCtaEyebrow="Contacto"
+  structuredData={schemas}
+>
+  <LocalizedServiceSections sections={spanishYachtDeliveryPage.sections} />
+</ServiceLayout>

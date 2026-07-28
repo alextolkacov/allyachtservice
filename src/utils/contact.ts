@@ -30,6 +30,7 @@ export type ContactService = (typeof contactServiceOptions)[number]['value'];
 interface ContactHrefOptions {
   service?: ContactService;
   source?: string;
+  locale?: 'en' | 'es';
 }
 
 export function createContactHref(options: ContactHrefOptions = {}): string {
@@ -39,5 +40,6 @@ export function createContactHref(options: ContactHrefOptions = {}): string {
   if (options.source) search.set('source', options.source);
 
   const query = search.toString();
-  return query ? `/contact?${query}` : '/contact';
+  const pathname = options.locale === 'es' ? '/es/contact' : '/contact';
+  return query ? `${pathname}?${query}` : pathname;
 }

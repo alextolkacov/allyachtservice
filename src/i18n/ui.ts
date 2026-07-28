@@ -68,7 +68,7 @@ export const sharedUi = {
     currentPage: 'página actual',
     version: 'versión',
     languageHomepage: 'página de inicio',
-    englishFallback: 'English',
+    englishFallback: 'inglés',
     englishFallbackLowercase: 'inglés',
     opensNewTab: 'se abre en una pestaña nueva',
     learnMore: 'Más información',

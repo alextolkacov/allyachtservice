@@ -17,13 +17,12 @@ The English Yachts for Sale and Buyer Support referral page is available at
 `/yachts-for-sale`.
 The Contact page uses a Cloudflare Pages Function, Turnstile, and the existing
 Google Workspace mailbox to validate and deliver enquiries securely.
-The Spanish homepage retains its approved localized development placeholder,
-and the Spanish Contact page is the first complete translated commercial
-route. The Russian homepage retains its localized development placeholder
-inside the same shared visual system. Spanish service pages, calculators,
-Survey Tips, Yachts for Sale, legal-policy translations, redirects, and reviews
-remain outside the current localisation batch. French, Italian and Greek are
-deferred and not currently supported.
+Spanish Translation Batch 2 publishes six complete Spanish service and
+business pages alongside the Spanish homepage and Contact page. The Russian
+homepage retains its localized development placeholder inside the same shared
+visual system. Spanish calculators, Survey Tips, Yachts for Sale and legal
+policies remain pending. French, Italian and Greek are deferred and not
+currently supported.
 
 ## Local setup
 
@@ -58,14 +57,19 @@ Spanish formatting uses `es-ES`. French, Italian and Greek are deferred and not
 currently supported; they have no routes, selector entries, hreflang records,
 Open Graph locale alternates or sitemap entries.
 
-Published route equivalents are declared in the typed
-`translatedRoutes` map in `src/data/navigation.ts`. Only these Spanish
-equivalents currently exist:
+Published route equivalents are declared in the typed `translatedRoutes` map
+in `src/data/navigation.ts`. The current Spanish equivalents are:
 
-| Content | English    | Spanish       |
-| ------- | ---------- | ------------- |
-| Home    | `/`        | `/es`         |
-| Contact | `/contact` | `/es/contact` |
+| Content                         | English                    | Spanish                       |
+| ------------------------------- | -------------------------- | ----------------------------- |
+| Home                            | `/`                        | `/es`                         |
+| Contact                         | `/contact`                 | `/es/contact`                 |
+| Pre-Purchase Survey             | `/pre-purchase-survey`     | `/es/pre-purchase-survey`     |
+| Insurance Condition Survey      | `/insurance-survey`        | `/es/insurance-survey`        |
+| Buyer Representation            | `/buyer-representation`    | `/es/buyer-representation`    |
+| Yacht Delivery                  | `/yacht-delivery`          | `/es/yacht-delivery`          |
+| Valuation and Damage Assessment | `/valuation-damage-survey` | `/es/valuation-damage-survey` |
+| About Us                        | `/about-us`                | `/es/about-us`                |
 
 The language switcher uses an equivalent route when the map contains one. If a
 translation is not published, it links to that language's homepage and its
@@ -76,12 +80,19 @@ add a locale to the route map until the corresponding static page genuinely
 exists.
 
 The small typed dictionaries in `src/i18n/` contain shared Spanish interface,
-footer, Contact, validation, and calculator-summary presentation strings.
+footer, Contact, validation and calculator-summary presentation strings.
+Page-specific Spanish content lives in typed modules under `src/data/es/` and
+is rendered through the shared layouts and localized content components. The
+current English page component, data, metadata, schema, CTA destinations,
+limitations, images and internal links are the source of truth for every
+translation; do not translate an earlier draft or add unsupported claims.
+
 Internal Contact service values remain canonical English slugs such as
-`pre-purchase-survey`; only their labels are translated. The Spanish form posts
-to the existing `/api/contact` Function and submits `locale=es`, allowing the
-internal email to identify the website language without translating visitor
-text or changing Reply-To behaviour.
+`pre-purchase-survey`; only their labels are translated. Contact CTAs from
+Spanish pages use `/es/contact?service=<canonical-service-code>`. The Spanish
+form posts to the existing `/api/contact` Function and submits `locale=es`,
+allowing the internal email to identify the website language without
+translating visitor text or changing Reply-To behaviour.
 
 Valid calculator payloads are still read from the existing versioned
 `sessionStorage` keys, matched to their references, limited to 24 hours, and
@@ -89,13 +100,44 @@ recomputed by the original pricing logic. Spanish Contact translates only the
 visible summary and uses `es-ES` date, number, and euro formatting. It does not
 translate enum values, stored payloads, formulas, routes, or amounts.
 
-This is staged localisation. Spanish service pages, both calculators, Survey
-Tips, Yachts for Sale, and all four legal policies remain pending. Temporary
-English fallback links must stay identified until each real translation is
-published. The Spanish version must not be presented as complete until all
-planned batches and a final native-language, accessibility, legal, and SEO
-review have passed. Production indexing also remains blocked by the unresolved
-central legal configuration; keep `PUBLIC_SITE_INDEXABLE=false`.
+For each genuine page pair, SEO alternates contain the English URL, Spanish URL
+and `x-default` pointing to English. The Russian homepage fallback shown in the
+language selector is never emitted as a service-page hreflang. The global
+business entity remains `https://www.allyachtservice.com/#business`, and the
+About page reuses the existing stable Aleksandrs Person ID rather than creating
+locale-specific entities.
+
+### Spanish marine-survey terminology
+
+| English concept            | Preferred Spanish term              |
+| -------------------------- | ----------------------------------- |
+| Pre-purchase survey        | Inspección precompra                |
+| Insurance condition survey | Inspección de condición para seguro |
+| Buyer representation       | Representación del comprador        |
+| Yacht delivery             | Entrega profesional de yates        |
+| Yacht valuation            | Valoración de yates                 |
+| Damage assessment          | Evaluación de daños                 |
+| Marine surveyor            | Inspector naval                     |
+| Survey report              | Informe de inspección               |
+| Sea trial                  | Prueba de mar                       |
+| Haul-out                   | Varada                              |
+| Hull                       | Casco                               |
+| Deck                       | Cubierta                            |
+| Rigging                    | Aparejo                             |
+
+Use “inspector naval de yates y embarcaciones menores” where the more formal
+professional description is appropriate. Natural contextual variations are
+allowed when they preserve the same technical meaning; never translate
+“survey” as a customer questionnaire.
+
+This remains staged localisation. Spanish calculators, Yacht Survey Tips,
+Yachts for Sale and all four legal policies are pending, as are Russian
+translations beyond the homepage. English fallback links must identify their
+language until each real translation is published. The Spanish version must
+not be presented as complete until all planned batches and a final
+native-language, accessibility, legal and SEO review have passed. Production
+indexing remains blocked by the unresolved central legal configuration; keep
+`PUBLIC_SITE_INDEXABLE=false`.
 
 After a build, validate the current Spanish publishing boundary with:
 

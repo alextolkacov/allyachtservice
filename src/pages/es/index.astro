@@ -1,11 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PendingHomepage from '../../components/PendingHomepage.astro';
+import ServicesGrid from '../../components/ServicesGrid.astro';
+import { spanishHomeServices } from '../../data/es/home';
 ---
 
 <BaseLayout
-  title="All Yacht Service | Español"
-  description="Página de inicio temporal de All Yacht Service en español. El contenido está pendiente."
+  title="Servicios profesionales para yates en España | All Yacht Service"
+  description="Inspecciones de yates, representación del comprador y entrega profesional en España y el Mediterráneo."
   locale="es"
   routeId="home"
   pathname="/es"
@@ -14,5 +16,12 @@ import PendingHomepage from '../../components/PendingHomepage.astro';
   <PendingHomepage
     heading="Sitio web de All Yacht Service"
     notice="Contenido pendiente"
+    imageAlt="Velero navegando en el mar"
+  />
+  <ServicesGrid
+    heading="Servicios para yates"
+    eyebrow="Inspección y asistencia técnica"
+    services={spanishHomeServices}
+    linkLabel="Más información"
   />
 </BaseLayout>

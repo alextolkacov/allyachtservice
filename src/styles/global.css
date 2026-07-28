@@ -308,6 +308,10 @@
     gap: 0.4rem 0.9rem;
   }
 
+  .language-switcher-full a {
+    min-width: 2.75rem;
+  }
+
   .language-switcher-full a[aria-current='page'] {
     text-decoration: underline;
     text-underline-offset: 0.25em;

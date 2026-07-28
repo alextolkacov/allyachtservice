@@ -1,0 +1,67 @@
+---
+import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import { spanishAboutUsPage } from '../../data/es/about-us';
+import { siteConfig } from '../../data/site';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(spanishAboutUsPage.pathname);
+const personId = new URL(
+  spanishAboutUsPage.person.id,
+  siteConfig.url,
+).toString();
+const aboutPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: spanishAboutUsPage.heading,
+  description: spanishAboutUsPage.description,
+  inLanguage: 'es',
+  about: {
+    '@id': businessEntityId,
+  },
+  mainEntity: {
+    '@id': personId,
+  },
+};
+const personSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': personId,
+  name: spanishAboutUsPage.person.name,
+  jobTitle: spanishAboutUsPage.person.jobTitle,
+  worksFor: {
+    '@id': businessEntityId,
+  },
+  knowsAbout: spanishAboutUsPage.person.knowsAbout,
+};
+---
+
+<ServiceLayout
+  title={spanishAboutUsPage.title}
+  description={spanishAboutUsPage.description}
+  locale="es"
+  routeId="aboutUs"
+  pathname={spanishAboutUsPage.pathname}
+  heading={spanishAboutUsPage.heading}
+  eyebrow={spanishAboutUsPage.eyebrow}
+  summary={spanishAboutUsPage.summary}
+  heroImage={spanishAboutUsPage.heroImage}
+  socialImageAlt={spanishAboutUsPage.socialImageAlt}
+  breadcrumbs={spanishAboutUsPage.breadcrumbs}
+  breadcrumbLabel="Migas de pan"
+  primaryCta={spanishAboutUsPage.primaryCta}
+  secondaryCta={spanishAboutUsPage.secondaryCta}
+  relatedServices={spanishAboutUsPage.relatedServices}
+  relatedHeading="Servicios relacionados"
+  finalCta={spanishAboutUsPage.finalCta}
+  finalCtaEyebrow="Contacto"
+  structuredData={[aboutPageSchema, personSchema]}
+>
+  <LocalizedServiceSections sections={spanishAboutUsPage.sections} />
+</ServiceLayout>

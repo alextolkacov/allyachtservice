@@ -4,6 +4,7 @@ import Breadcrumbs, {
 } from '../components/Breadcrumbs.astro';
 import type { Locale } from '../data/languages';
 import type { RouteId } from '../data/navigation';
+import { getSharedUi } from '../i18n/ui';
 import type { StructuredData } from '../utils/seo';
 import BaseLayout from './BaseLayout.astro';
 
@@ -54,8 +55,10 @@ interface Props {
   primaryCta?: CtaLink;
   secondaryCta?: CtaLink;
   relatedServices?: readonly RelatedService[];
+  relatedEyebrow?: string;
   relatedHeading?: string;
   finalCta?: FinalCta;
+  finalCtaEyebrow?: string;
   structuredData?: StructuredData | readonly StructuredData[];
   noindex?: boolean;
 }
@@ -77,11 +80,18 @@ const {
   primaryCta,
   secondaryCta,
   relatedServices = [],
-  relatedHeading = 'Related Services',
+  relatedEyebrow,
+  relatedHeading,
   finalCta,
+  finalCtaEyebrow,
   structuredData,
   noindex = false,
 } = Astro.props;
+const ui = getSharedUi(locale);
+const resolvedRelatedEyebrow =
+  relatedEyebrow ?? (locale === 'es' ? 'Otros servicios' : 'Further support');
+const resolvedRelatedHeading = relatedHeading ?? ui.relatedServices;
+const resolvedFinalCtaEyebrow = finalCtaEyebrow ?? ui.contactUs;
 const baseProps = {
   title,
   description,
@@ -139,10 +149,7 @@ const baseProps = {
                   >
                     {primaryCta.label}
                     {primaryCta.external && (
-                      <span class="sr-only">
-                        {' '}
-                        (opens an external website in a new tab)
-                      </span>
+                      <span class="sr-only">, {ui.opensNewTab}</span>
                     )}
                   </a>
                 )}
@@ -164,10 +171,7 @@ const baseProps = {
                   >
                     {secondaryCta.label}
                     {secondaryCta.external && (
-                      <span class="sr-only">
-                        {' '}
-                        (opens an external website in a new tab)
-                      </span>
+                      <span class="sr-only">, {ui.opensNewTab}</span>
                     )}
                   </a>
                 )}
@@ -191,9 +195,9 @@ const baseProps = {
           aria-labelledby="related-services-heading"
         >
           <div class="site-container">
-            <p class="eyebrow">Further support</p>
+            <p class="eyebrow">{resolvedRelatedEyebrow}</p>
             <h2 id="related-services-heading" class="section-heading">
-              {relatedHeading}
+              {resolvedRelatedHeading}
             </h2>
             <div class="related-services-grid">
               {relatedServices.map((service) => (
@@ -202,7 +206,7 @@ const baseProps = {
                   <p>{service.description}</p>
                   {service.href && (
                     <a class="text-arrow-link" href={service.href}>
-                      {service.linkLabel ?? 'View services'}{' '}
+                      {service.linkLabel ?? ui.viewService}{' '}
                       <span aria-hidden="true">→</span>
                     </a>
                   )}
@@ -219,7 +223,7 @@ const baseProps = {
         <section class="service-final-cta" aria-labelledby="final-cta-heading">
           <div class="site-container service-final-cta-inner">
             <div>
-              <p class="eyebrow eyebrow-light">Contact</p>
+              <p class="eyebrow eyebrow-light">{resolvedFinalCtaEyebrow}</p>
               <h2 id="final-cta-heading">{finalCta.heading}</h2>
               <p>{finalCta.body}</p>
               {finalCta.note && (
@@ -244,10 +248,7 @@ const baseProps = {
                 >
                   {link.label}
                   {link.external && (
-                    <span class="sr-only">
-                      {' '}
-                      (opens an external website in a new tab)
-                    </span>
+                    <span class="sr-only">, {ui.opensNewTab}</span>
                   )}
                 </a>
               ))}

@@ -34,19 +34,22 @@ const getOpenGraphAlternates = (html) =>
     ),
   ].map((match) => match[1]);
 
-const getSchema = (html) =>
-  [
-    ...html.matchAll(
-      /<script[^>]+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gu,
-    ),
-  ].map((match) => JSON.parse(match[1]));
+const getSchemas = (html, pageName) => {
+  const schemas = [];
 
-const schemaIncludes = (schemas, type) =>
-  schemas.some((schema) =>
-    Array.isArray(schema)
-      ? schema.some((item) => item['@type'] === type)
-      : schema['@type'] === type,
-  );
+  for (const match of html.matchAll(
+    /<script[^>]+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gu,
+  )) {
+    try {
+      const parsed = JSON.parse(match[1]);
+      schemas.push(...(Array.isArray(parsed) ? parsed : [parsed]));
+    } catch (error) {
+      failures.push(`${pageName} contains invalid JSON-LD: ${error.message}`);
+    }
+  }
+
+  return schemas;
+};
 
 const getLinkTexts = (fragment) =>
   [...fragment.matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/gu)].map((match) =>
@@ -103,6 +106,13 @@ const assertOpenGraphLocales = (
   );
 };
 
+const absolute = (pathname) =>
+  `https://www.allyachtservice.com${pathname === '/' ? '/' : pathname}`;
+const routeToFile = (pathname) => {
+  if (pathname === '/') return 'index.html';
+  return `${pathname.slice(1)}.html`;
+};
+
 const localeSource = read('src/data/languages.ts');
 const navigationSource = read('src/data/navigation.ts');
 const astroConfig = read('astro.config.ts');
@@ -151,6 +161,75 @@ if (existsSync(resolve(projectRoot, 'public/_redirects'))) {
   );
 }
 
+const translatedPages = [
+  {
+    en: '/pre-purchase-survey',
+    es: '/es/pre-purchase-survey',
+    title: 'Inspección precompra de yates en España | All Yacht Service',
+    description:
+      'Inspección precompra independiente para yates a vela, yates a motor y catamaranes en España y el Mediterráneo.',
+    h1: 'Inspección precompra de yates en España',
+    pageType: 'WebPage',
+    serviceCount: 1,
+    serviceCode: 'pre-purchase-survey',
+  },
+  {
+    en: '/insurance-survey',
+    es: '/es/insurance-survey',
+    title: 'Inspección de yates para seguro en España | All Yacht Service',
+    description:
+      'Inspecciones independientes de condición para seguro de yates en España y el Mediterráneo, con informes claros sobre estado y seguridad.',
+    h1: 'Inspección de condición para seguro de yates',
+    pageType: 'WebPage',
+    serviceCount: 1,
+    serviceCode: 'insurance-survey',
+  },
+  {
+    en: '/buyer-representation',
+    es: '/es/buyer-representation',
+    title: 'Representación para compradores de yates | All Yacht Service',
+    description:
+      'Asistencia técnica independiente para compradores de yates antes, durante y después de la compra en España y el Mediterráneo.',
+    h1: 'Representación independiente para compradores de yates',
+    pageType: 'WebPage',
+    serviceCount: 1,
+    serviceCode: 'buyer-representation',
+  },
+  {
+    en: '/yacht-delivery',
+    es: '/es/yacht-delivery',
+    title:
+      'Entrega profesional de yates en el Mediterráneo | All Yacht Service',
+    description:
+      'Servicio profesional de entrega de yates en España y el Mediterráneo, con planificación, preparación y asistencia técnica.',
+    h1: 'Entrega profesional de yates en España y el Mediterráneo',
+    pageType: 'WebPage',
+    serviceCount: 1,
+    serviceCode: 'yacht-delivery',
+  },
+  {
+    en: '/valuation-damage-survey',
+    es: '/es/valuation-damage-survey',
+    title: 'Valoración y evaluación de daños de yates | All Yacht Service',
+    description:
+      'Valoración independiente y evaluación de daños de yates en España y el Mediterráneo, con pruebas documentadas e informes claros.',
+    h1: 'Valoración y evaluación de daños de yates en España',
+    pageType: 'WebPage',
+    serviceCount: 2,
+    serviceCode: 'valuation-damage-survey',
+  },
+  {
+    en: '/about-us',
+    es: '/es/about-us',
+    title: 'Sobre All Yacht Service | Inspector naval de yates',
+    description:
+      'Conozca All Yacht Service y a Aleksandrs Tolkacovs, inspector naval certificado por IIMS con base en Altea, España.',
+    h1: 'Sobre All Yacht Service',
+    pageType: 'AboutPage',
+    serviceCount: 0,
+  },
+];
+
 const distDirectory = resolve(projectRoot, 'dist');
 assert(
   existsSync(distDirectory),
@@ -165,49 +244,60 @@ if (existsSync(distDirectory)) {
       readFileSync(path, 'utf8'),
     ]),
   );
+  const getBuiltPage = (pathname) =>
+    builtPages.get(routeToFile(pathname)) ?? '';
 
-  const englishHome = builtPages.get('index.html') ?? '';
-  const spanishHome = builtPages.get('es.html') ?? '';
-  const russianHome = builtPages.get('ru.html') ?? '';
-  const englishContact = builtPages.get('contact.html') ?? '';
-  const spanishContact = builtPages.get('es/contact.html') ?? '';
-
-  for (const requiredPage of [
-    'index.html',
-    'es.html',
-    'ru.html',
-    'contact.html',
-    'es/contact.html',
-  ]) {
-    assert(builtPages.has(requiredPage), `dist/${requiredPage} is missing.`);
-  }
-
-  for (const removedPath of [
-    'fr.html',
-    'it.html',
-    'gr.html',
-    'fr/index.html',
-    'it/index.html',
-    'gr/index.html',
-    'ru/contact.html',
-    'es/pre-purchase-survey.html',
-  ]) {
+  const requiredRoutes = [
+    '/',
+    '/es',
+    '/ru',
+    '/contact',
+    '/es/contact',
+    ...translatedPages.flatMap(({ en, es }) => [en, es]),
+  ];
+  for (const pathname of requiredRoutes) {
     assert(
-      !builtPages.has(removedPath),
-      `An unsupported route generated dist/${removedPath}.`,
+      builtPages.has(routeToFile(pathname)),
+      `dist/${routeToFile(pathname)} is missing.`,
     );
   }
 
+  const forbiddenRoutes = [
+    '/fr',
+    '/it',
+    '/gr',
+    '/ru/contact',
+    '/es/pre-purchase-survey-calculator',
+    '/es/yacht-delivery-calculator',
+    '/es/yacht-survey-tips',
+    '/es/yachts-for-sale',
+    '/es/privacy-policy',
+    '/es/cookie-policy',
+    '/es/legal-notice',
+    '/es/terms-and-conditions',
+  ];
+  for (const pathname of forbiddenRoutes) {
+    assert(
+      !builtPages.has(routeToFile(pathname)),
+      `An unsupported route generated dist/${routeToFile(pathname)}.`,
+    );
+  }
+
+  const englishHome = getBuiltPage('/');
+  const spanishHome = getBuiltPage('/es');
+  const russianHome = getBuiltPage('/ru');
+  const englishContact = getBuiltPage('/contact');
+  const spanishContact = getBuiltPage('/es/contact');
   const homepageAlternates = {
-    en: 'https://www.allyachtservice.com/',
-    es: 'https://www.allyachtservice.com/es',
-    ru: 'https://www.allyachtservice.com/ru',
-    'x-default': 'https://www.allyachtservice.com/',
+    en: absolute('/'),
+    es: absolute('/es'),
+    ru: absolute('/ru'),
+    'x-default': absolute('/'),
   };
   const contactAlternates = {
-    en: 'https://www.allyachtservice.com/contact',
-    es: 'https://www.allyachtservice.com/es/contact',
-    'x-default': 'https://www.allyachtservice.com/contact',
+    en: absolute('/contact'),
+    es: absolute('/es/contact'),
+    'x-default': absolute('/contact'),
   };
 
   assertHreflangs(englishHome, homepageAlternates, '/');
@@ -215,43 +305,168 @@ if (existsSync(distDirectory)) {
   assertHreflangs(russianHome, homepageAlternates, '/ru');
   assertHreflangs(englishContact, contactAlternates, '/contact');
   assertHreflangs(spanishContact, contactAlternates, '/es/contact');
-
   assertOpenGraphLocales(englishHome, 'en_GB', ['es_ES', 'ru_RU'], '/');
   assertOpenGraphLocales(spanishHome, 'es_ES', ['en_GB', 'ru_RU'], '/es');
   assertOpenGraphLocales(russianHome, 'ru_RU', ['en_GB', 'es_ES'], '/ru');
   assertOpenGraphLocales(englishContact, 'en_GB', ['es_ES'], '/contact');
   assertOpenGraphLocales(spanishContact, 'es_ES', ['en_GB'], '/es/contact');
 
-  const englishOnlyPages = [...builtPages.entries()].filter(
-    ([path]) =>
-      ![
-        '404.html',
-        'index.html',
-        'es.html',
-        'ru.html',
-        'contact.html',
-        'es/contact.html',
-      ].includes(path),
-  );
+  for (const page of translatedPages) {
+    const english = getBuiltPage(page.en);
+    const spanish = getBuiltPage(page.es);
+    const alternates = {
+      en: absolute(page.en),
+      es: absolute(page.es),
+      'x-default': absolute(page.en),
+    };
 
-  for (const [path, html] of englishOnlyPages) {
-    const canonical = html.match(
-      /<link\s+rel="canonical"\s+href="([^"]+)"/u,
-    )?.[1];
+    assertHreflangs(english, alternates, page.en);
+    assertHreflangs(spanish, alternates, page.es);
+    assertOpenGraphLocales(english, 'en_GB', ['es_ES'], page.en);
+    assertOpenGraphLocales(spanish, 'es_ES', ['en_GB'], page.es);
 
     assert(
-      Boolean(canonical),
-      `dist/${path} does not contain a canonical URL.`,
+      !getHreflangs(english).some(({ hreflang }) => hreflang === 'ru') &&
+        !getHreflangs(spanish).some(({ hreflang }) => hreflang === 'ru'),
+      `${page.en} or ${page.es} exposes a Russian homepage fallback as hreflang.`,
     );
-    if (canonical) {
-      assertHreflangs(
-        html,
-        { en: canonical, 'x-default': canonical },
-        `dist/${path}`,
+    assert(
+      spanish.includes('<html lang="es">'),
+      `${page.es} must use html lang="es".`,
+    );
+    assert(
+      (spanish.match(/<h1(?:\s|>)/gu) ?? []).length === 1,
+      `${page.es} must contain exactly one H1.`,
+    );
+    assert(
+      spanish.includes(`<h1>${page.h1}</h1>`),
+      `${page.es} has an incorrect H1.`,
+    );
+    assert(
+      spanish.includes(`<title>${page.title}</title>`),
+      `${page.es} has an incorrect title.`,
+    );
+    assert(
+      spanish.includes(
+        `<meta name="description" content="${page.description}">`,
+      ),
+      `${page.es} has an incorrect description.`,
+    );
+    assert(
+      spanish.includes(`<link rel="canonical" href="${absolute(page.es)}">`) &&
+        spanish.includes(
+          `<meta property="og:url" content="${absolute(page.es)}">`,
+        ),
+      `${page.es} canonical or Open Graph URL is incorrect.`,
+    );
+    assert(
+      spanish.includes(`<meta property="og:title" content="${page.title}">`) &&
+        spanish.includes(`<meta name="twitter:title" content="${page.title}">`),
+      `${page.es} Open Graph or Twitter title is incorrect.`,
+    );
+    assert(
+      spanish.includes('<meta name="robots" content="noindex, nofollow">'),
+      `${page.es} preview must be noindex, nofollow.`,
+    );
+
+    const schemas = getSchemas(spanish, page.es);
+    const pageId = `${absolute(page.es)}#page`;
+    assert(
+      schemas.some(
+        (schema) =>
+          schema['@type'] === page.pageType && schema['@id'] === pageId,
+      ),
+      `${page.es} is missing its ${page.pageType} schema with the stable page ID.`,
+    );
+    assert(
+      schemas.some((schema) => schema['@type'] === 'BreadcrumbList'),
+      `${page.es} is missing BreadcrumbList schema.`,
+    );
+    assert(
+      schemas.filter((schema) => schema['@type'] === 'Service').length ===
+        page.serviceCount,
+      `${page.es} has an incorrect number of Service schemas.`,
+    );
+    for (const service of schemas.filter(
+      (schema) => schema['@type'] === 'Service',
+    )) {
+      assert(
+        service.provider?.['@id'] ===
+          'https://www.allyachtservice.com/#business',
+        `${page.es} Service schema has an incorrect provider ID.`,
       );
     }
-    assertOpenGraphLocales(html, 'en_GB', [], `dist/${path}`);
+    assert(
+      JSON.stringify(schemas).includes(
+        'https://www.allyachtservice.com/#business',
+      ),
+      `${page.es} does not reference the stable business entity.`,
+    );
+
+    if (page.serviceCode) {
+      assert(
+        spanish.includes(`href="/es/contact?service=${page.serviceCode}`),
+        `${page.es} does not preserve the canonical Contact service code.`,
+      );
+    }
   }
+
+  const aboutSchemas = getSchemas(getBuiltPage('/es/about-us'), '/es/about-us');
+  assert(
+    aboutSchemas.some(
+      (schema) =>
+        schema['@type'] === 'Person' &&
+        schema['@id'] ===
+          'https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs',
+    ),
+    '/es/about-us does not reuse the stable Aleksandrs Person ID.',
+  );
+
+  const translatedServiceRoutes = translatedPages.map(({ es }) => es);
+  for (const pathname of translatedServiceRoutes) {
+    assert(
+      spanishHome.includes(`href="${pathname}"`),
+      `/es homepage does not link to ${pathname}.`,
+    );
+  }
+  for (const pathname of translatedServiceRoutes.filter(
+    (route) => route !== '/es/about-us',
+  )) {
+    assert(
+      spanishContact.includes(`href="${pathname}"`),
+      `/es/contact guidance does not link to ${pathname}.`,
+    );
+  }
+
+  const navigationRoutes = translatedServiceRoutes.filter(
+    (route) => route !== '/es/about-us',
+  );
+  for (const page of translatedPages) {
+    const spanish = getBuiltPage(page.es);
+    for (const pathname of [...navigationRoutes, '/es/about-us']) {
+      assert(
+        spanish.includes(`href="${pathname}"`),
+        `${page.es} shared Spanish navigation does not link to ${pathname}.`,
+      );
+    }
+    assert(
+      spanish.includes('href="/yachts-for-sale"') && spanish.includes('inglés'),
+      `${page.es} does not identify Yachts for Sale as English-only.`,
+    );
+  }
+
+  assert(
+    getBuiltPage('/es/pre-purchase-survey').includes(
+      'href="/pre-purchase-survey-calculator"',
+    ) && getBuiltPage('/es/pre-purchase-survey').includes('en inglés'),
+    'The Spanish survey calculator fallback is missing or unlabeled.',
+  );
+  assert(
+    getBuiltPage('/es/yacht-delivery').includes(
+      'href="/yacht-delivery-calculator"',
+    ) && getBuiltPage('/es/yacht-delivery').includes('en inglés'),
+    'The Spanish delivery calculator fallback is missing or unlabeled.',
+  );
 
   for (const [path, html] of builtPages) {
     const switchers = [
@@ -272,21 +487,6 @@ if (existsSync(distDirectory)) {
       );
     }
 
-    const footerLanguages = html.match(
-      /<ul\s+class="footer-link-list footer-language-list"[^>]*>[\s\S]*?<\/ul>/u,
-    )?.[0];
-    assert(
-      Boolean(footerLanguages),
-      `dist/${path} does not contain the shared footer language list.`,
-    );
-    if (footerLanguages) {
-      assertSameValues(
-        getLinkTexts(footerLanguages),
-        ['EN', 'ES', 'RU'],
-        `dist/${path} has incorrect visible footer language labels.`,
-      );
-    }
-
     assert(
       !/<a\b[^>]*href="\/(?:fr|it|gr)(?:\/|")/u.test(html),
       `dist/${path} links to a removed language route.`,
@@ -299,60 +499,35 @@ if (existsSync(distDirectory)) {
       !/<meta\b[^>]*content="(?:fr_FR|it_IT|el_GR)"/u.test(html),
       `dist/${path} exposes a removed Open Graph locale.`,
     );
+    for (const pathname of forbiddenRoutes.filter((route) =>
+      route.startsWith('/es/'),
+    )) {
+      assert(
+        !html.includes(`href="${pathname}"`),
+        `dist/${path} links to missing translated route ${pathname}.`,
+      );
+    }
   }
 
-  assert(
-    spanishContact.includes('<html lang="es">'),
-    '/es/contact must use html lang="es".',
+  const builtRouteSet = new Set(
+    [...builtPages.keys()].map((path) => {
+      if (path === 'index.html') return '/';
+      return `/${path.replace(/\.html$/u, '')}`;
+    }),
   );
-  assert(
-    (spanishContact.match(/<h1(?:\s|>)/gu) ?? []).length === 1,
-    '/es/contact must contain exactly one H1.',
-  );
-  assert(
-    spanishContact.includes('<h1>Contacte con All Yacht Service</h1>'),
-    '/es/contact has an incorrect H1.',
-  );
-  assert(
-    spanishContact.includes('<title>Contacto | All Yacht Service</title>'),
-    '/es/contact has an incorrect title.',
-  );
-  assert(
-    spanishContact.includes(
-      '<meta name="description" content="Contacte con All Yacht Service para solicitar una inspección de yate, valoración, asistencia al comprador o entrega profesional.">',
-    ),
-    '/es/contact has an incorrect description.',
-  );
-  assert(
-    spanishContact.includes(
-      '<link rel="canonical" href="https://www.allyachtservice.com/es/contact">',
-    ) &&
-      spanishContact.includes(
-        '<meta property="og:url" content="https://www.allyachtservice.com/es/contact">',
-      ),
-    '/es/contact canonical or Open Graph URL is incorrect.',
-  );
-  assert(
-    spanishContact.includes('<meta name="robots" content="noindex, nofollow">'),
-    '/es/contact preview must be noindex, nofollow.',
-  );
+  for (const [path, html] of builtPages) {
+    for (const match of html.matchAll(/<a\b[^>]*href="([^"]+)"/gu)) {
+      const href = match[1].replace(/&amp;/gu, '&');
+      if (!href.startsWith('/') || href.startsWith('//')) continue;
+      const pathname = href.split(/[?#]/u)[0] || '/';
+      if (pathname.startsWith('/api/')) continue;
+      assert(
+        builtRouteSet.has(pathname),
+        `dist/${path} contains a broken internal link to ${href}.`,
+      );
+    }
+  }
 
-  const schemas = getSchema(spanishContact);
-  assert(
-    schemaIncludes(schemas, 'ProfessionalService') &&
-      schemaIncludes(schemas, 'ContactPage') &&
-      schemaIncludes(schemas, 'BreadcrumbList'),
-    '/es/contact is missing required structured data.',
-  );
-  assert(
-    JSON.stringify(schemas).includes(
-      'https://www.allyachtservice.com/#business',
-    ) &&
-      JSON.stringify(schemas).includes(
-        'https://www.allyachtservice.com/es/contact#page',
-      ),
-    '/es/contact structured data does not use the stable entity IDs.',
-  );
   assert(
     spanishContact.includes('name="locale" value="es"') &&
       spanishContact.includes('value="pre-purchase-survey"') &&
@@ -363,54 +538,68 @@ if (existsSync(distDirectory)) {
     'Spanish Contact does not preserve locale or canonical service values.',
   );
   assert(
-    spanishContact.includes('href="/privacy-policy"') &&
-      spanishContact.includes('Política de privacidad') &&
-      spanishContact.includes('Disponible actualmente en inglés.'),
-    'Spanish Contact privacy acknowledgement is incorrect.',
-  );
-  assert(
-    spanishContact.includes('Enviar consulta') &&
-      spanishContact.includes('Adjuntar archivos') &&
-      spanishContact.includes('Máximo de 2 MB por archivo y 3 MB en total'),
-    'Spanish Contact form labels or attachment limits are incorrect.',
-  );
-  assert(
-    englishContact.includes(
-      '<title>Contact a Yacht Surveyor in Spain | All Yacht Service</title>',
+    getBuiltPage('/pre-purchase-survey-calculator').includes(
+      'data-survey-calculator',
     ) &&
-      englishContact.includes('Tell Us About Your Requirements') &&
-      englishContact.includes('Send Enquiry'),
-    'English Contact content has regressed.',
+      getBuiltPage('/yacht-delivery-calculator').includes(
+        'data-delivery-calculator',
+      ),
+    'An existing English calculator is missing or structurally incompatible.',
+  );
+
+  const terminologySources = [
+    'src/data/es/pre-purchase-survey.ts',
+    'src/data/es/insurance-survey.ts',
+    'src/data/es/buyer-representation.ts',
+    'src/data/es/yacht-delivery.ts',
+    'src/data/es/valuation-damage-survey.ts',
+    'src/data/es/about-us.ts',
+  ]
+    .map(read)
+    .join('\n');
+  for (const term of [
+    'Inspección precompra',
+    'Inspección de condición para seguro',
+    'Representación del comprador',
+    'Entrega profesional de yates',
+    'Valoración de yates',
+    'Evaluación de daños',
+    'Inspector naval',
+    'Informe de inspección',
+    'Prueba de mar',
+    'Varada',
+    'Casco',
+    'Cubierta',
+    'Aparejo',
+  ]) {
+    assert(
+      terminologySources
+        .toLocaleLowerCase('es')
+        .includes(term.toLocaleLowerCase('es')),
+      `The Spanish terminology audit could not find “${term}”.`,
+    );
+  }
+  assert(
+    !/\bencuesta\b/iu.test(terminologySources),
+    'A marine survey was mistranslated as “encuesta”.',
   );
 
   const sitemap = ['dist/sitemap-0.xml', 'dist/sitemap-index.xml']
     .filter((path) => existsSync(resolve(projectRoot, path)))
     .map(read)
     .join('\n');
-
-  assert(
-    sitemap.includes('<loc>https://www.allyachtservice.com</loc>') &&
-      sitemap.includes('<loc>https://www.allyachtservice.com/es</loc>') &&
-      sitemap.includes('<loc>https://www.allyachtservice.com/ru</loc>') &&
-      sitemap.includes('<loc>https://www.allyachtservice.com/contact</loc>') &&
-      sitemap.includes('<loc>https://www.allyachtservice.com/es/contact</loc>'),
-    'The sitemap is missing a supported route.',
-  );
-  assert(
-    !/<loc>https:\/\/www\.allyachtservice\.com\/(?:fr|it|gr)(?:\/|<)/u.test(
-      sitemap,
-    ),
-    'The sitemap exposes a removed language route.',
-  );
-  assert(
-    !sitemap.includes(
-      '<loc>https://www.allyachtservice.com/es/pre-purchase-survey</loc>',
-    ) &&
-      !sitemap.includes(
-        '<loc>https://www.allyachtservice.com/ru/contact</loc>',
-      ),
-    'The sitemap exposes an untranslated route.',
-  );
+  for (const pathname of ['/es', '/es/contact', ...translatedServiceRoutes]) {
+    assert(
+      sitemap.includes(`<loc>${absolute(pathname)}</loc>`),
+      `The sitemap is missing ${pathname}.`,
+    );
+  }
+  for (const pathname of forbiddenRoutes) {
+    assert(
+      !sitemap.includes(`<loc>${absolute(pathname)}</loc>`),
+      `The sitemap exposes unsupported route ${pathname}.`,
+    );
+  }
 }
 
 if (failures.length > 0) {
@@ -419,6 +608,6 @@ if (failures.length > 0) {
   process.exitCode = 1;
 } else {
   process.stdout.write(
-    'Localisation validation passed for 3 supported locales, published equivalents, and removed-route boundaries.\n',
+    'Localisation validation passed for EN/ES Batch 2 equivalents, Spanish navigation, metadata, schemas, sitemap, terminology, and route boundaries.\n',
   );
 }

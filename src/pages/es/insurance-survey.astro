@@ -1,0 +1,41 @@
+---
+import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import { spanishInsuranceSurveyPage } from '../../data/es/insurance-survey';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import { createLocalizedServicePageSchemas } from '../../utils/localizedSeo';
+
+const schemas = createLocalizedServicePageSchemas({
+  pathname: spanishInsuranceSurveyPage.pathname,
+  locale: 'es',
+  pageName: spanishInsuranceSurveyPage.heading,
+  pageDescription: spanishInsuranceSurveyPage.description,
+  serviceName: 'Inspección de condición para seguro de yates',
+  serviceType: 'Inspección de condición para seguro',
+  serviceDescription: spanishInsuranceSurveyPage.schemaDescription,
+  areaServed: spanishInsuranceSurveyPage.areaServed,
+});
+---
+
+<ServiceLayout
+  title={spanishInsuranceSurveyPage.title}
+  description={spanishInsuranceSurveyPage.description}
+  locale="es"
+  routeId="insuranceSurvey"
+  pathname={spanishInsuranceSurveyPage.pathname}
+  heading={spanishInsuranceSurveyPage.heading}
+  eyebrow={spanishInsuranceSurveyPage.eyebrow}
+  summary={spanishInsuranceSurveyPage.summary}
+  heroImage={spanishInsuranceSurveyPage.heroImage}
+  socialImageAlt={spanishInsuranceSurveyPage.socialImageAlt}
+  breadcrumbs={spanishInsuranceSurveyPage.breadcrumbs}
+  breadcrumbLabel="Migas de pan"
+  primaryCta={spanishInsuranceSurveyPage.primaryCta}
+  secondaryCta={spanishInsuranceSurveyPage.secondaryCta}
+  relatedServices={spanishInsuranceSurveyPage.relatedServices}
+  relatedHeading="Servicios relacionados"
+  finalCta={spanishInsuranceSurveyPage.finalCta}
+  finalCtaEyebrow="Contacto"
+  structuredData={schemas}
+>
+  <LocalizedServiceSections sections={spanishInsuranceSurveyPage.sections} />
+</ServiceLayout>

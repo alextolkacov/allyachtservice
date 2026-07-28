@@ -36,6 +36,7 @@ export const translatedRoutes: Record<
   },
   prePurchaseSurvey: {
     en: '/pre-purchase-survey',
+    es: '/es/pre-purchase-survey',
   },
   prePurchaseSurveyCalculator: {
     en: '/pre-purchase-survey-calculator',
@@ -45,15 +46,19 @@ export const translatedRoutes: Record<
   },
   insuranceSurvey: {
     en: '/insurance-survey',
+    es: '/es/insurance-survey',
   },
   valuationDamageSurvey: {
     en: '/valuation-damage-survey',
+    es: '/es/valuation-damage-survey',
   },
   buyerRepresentation: {
     en: '/buyer-representation',
+    es: '/es/buyer-representation',
   },
   aboutUs: {
     en: '/about-us',
+    es: '/es/about-us',
   },
   contact: {
     en: '/contact',
@@ -61,6 +66,7 @@ export const translatedRoutes: Record<
   },
   yachtDelivery: {
     en: '/yacht-delivery',
+    es: '/es/yacht-delivery',
   },
   yachtsForSale: {
     en: '/yachts-for-sale',
@@ -128,7 +134,7 @@ export const primaryNavigation = [
     routeId: 'insuranceSurvey',
     labels: {
       en: 'Insurance Survey',
-      es: 'Inspección para seguro',
+      es: 'Inspección de condición para seguro',
       ru: 'Страховой осмотр',
     },
   },
@@ -155,7 +161,7 @@ export const primaryNavigation = [
     routeId: 'yachtDelivery',
     labels: {
       en: 'Yacht Delivery',
-      es: 'Entrega de yates',
+      es: 'Entrega profesional de yates',
       ru: 'Перегон яхт',
     },
   },

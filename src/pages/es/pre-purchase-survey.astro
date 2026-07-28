@@ -1,0 +1,41 @@
+---
+import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import { spanishPrePurchaseSurveyPage } from '../../data/es/pre-purchase-survey';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import { createLocalizedServicePageSchemas } from '../../utils/localizedSeo';
+
+const schemas = createLocalizedServicePageSchemas({
+  pathname: spanishPrePurchaseSurveyPage.pathname,
+  locale: 'es',
+  pageName: spanishPrePurchaseSurveyPage.heading,
+  pageDescription: spanishPrePurchaseSurveyPage.description,
+  serviceName: 'Inspección precompra de yates',
+  serviceType: 'Inspección precompra y evaluación del estado del yate',
+  serviceDescription: spanishPrePurchaseSurveyPage.schemaDescription,
+  areaServed: spanishPrePurchaseSurveyPage.areaServed,
+});
+---
+
+<ServiceLayout
+  title={spanishPrePurchaseSurveyPage.title}
+  description={spanishPrePurchaseSurveyPage.description}
+  locale="es"
+  routeId="prePurchaseSurvey"
+  pathname={spanishPrePurchaseSurveyPage.pathname}
+  heading={spanishPrePurchaseSurveyPage.heading}
+  eyebrow={spanishPrePurchaseSurveyPage.eyebrow}
+  summary={spanishPrePurchaseSurveyPage.summary}
+  heroImage={spanishPrePurchaseSurveyPage.heroImage}
+  socialImageAlt={spanishPrePurchaseSurveyPage.socialImageAlt}
+  breadcrumbs={spanishPrePurchaseSurveyPage.breadcrumbs}
+  breadcrumbLabel="Migas de pan"
+  primaryCta={spanishPrePurchaseSurveyPage.primaryCta}
+  secondaryCta={spanishPrePurchaseSurveyPage.secondaryCta}
+  relatedServices={spanishPrePurchaseSurveyPage.relatedServices}
+  relatedHeading="Servicios relacionados"
+  finalCta={spanishPrePurchaseSurveyPage.finalCta}
+  finalCtaEyebrow="Contacto"
+  structuredData={schemas}
+>
+  <LocalizedServiceSections sections={spanishPrePurchaseSurveyPage.sections} />
+</ServiceLayout>
