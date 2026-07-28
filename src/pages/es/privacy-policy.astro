@@ -1,0 +1,439 @@
+---
+import PolicyPageLayout from '../../components/PolicyPageLayout.astro';
+import { spanishPrivacyPolicy } from '../../data/es/legal/privacy-policy';
+import { legalConfig } from '../../data/legal';
+import { getSharedUi } from '../../i18n/ui';
+
+const page = spanishPrivacyPolicy;
+const ui = getSharedUi('es');
+---
+
+<PolicyPageLayout
+  title={page.title}
+  description={page.description}
+  heading={page.heading}
+  intro={page.intro}
+  pathname={page.pathname}
+  routeId={page.routeId}
+  toc={page.toc}
+  locale="es"
+>
+  <section id="responsible" aria-labelledby="responsible-heading">
+    <h2 id="responsible-heading">
+      1. ¿Quién es responsable de sus datos personales?
+    </h2>
+    {
+      legalConfig.legalOperatorName ? (
+        <p>
+          El operador legal indicado a continuación es responsable de los datos
+          personales descritos en este aviso.
+        </p>
+      ) : (
+        <p>
+          La identidad legal definitiva del operador del sitio web se está
+          confirmando y se añadirá antes de que el sitio web pueda indexarse. Se
+          han verificado los siguientes datos públicos de contacto:
+        </p>
+      )
+    }
+    <dl class="policy-facts">
+      {
+        legalConfig.legalOperatorName && (
+          <div>
+            <dt>Operador legal</dt>
+            <dd>{legalConfig.legalOperatorName}</dd>
+          </div>
+        )
+      }
+      {
+        legalConfig.operatorType === 'natural-person' && (
+          <div>
+            <dt>Condición del operador</dt>
+            <dd>Persona física</dd>
+          </div>
+        )
+      }
+      {
+        legalConfig.legalForm && (
+          <div>
+            <dt>Forma jurídica</dt>
+            <dd>{legalConfig.legalForm}</dd>
+          </div>
+        )
+      }
+      <div><dt>Nombre comercial</dt><dd>{legalConfig.tradingName}</dd></div>
+      <div>
+        <dt>Dirección de contacto</dt>
+        <dd>{legalConfig.publicOfficeAddress}</dd>
+      </div>
+      <div>
+        <dt>Correo electrónico</dt>
+        <dd>
+          <a href={`mailto:${legalConfig.email}`}>{legalConfig.email}</a>
+        </dd>
+      </div>
+      <div>
+        <dt>Teléfono</dt>
+        <dd>
+          <a href="tel:+34695718540">{legalConfig.phone}</a>
+        </dd>
+      </div>
+      <div>
+        <dt>Sitio web</dt>
+        <dd>
+          <a href={legalConfig.websiteUrl}>{legalConfig.websiteUrl}</a>
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <section id="data-collected" aria-labelledby="data-collected-heading">
+    <h2 id="data-collected-heading">2. Qué datos personales recopilamos</h2>
+    <p>
+      El formulario de consulta en línea requiere su nombre, dirección de correo
+      electrónico, mensaje y la confirmación de que ha leído esta Política de
+      privacidad. También puede facilitar un número de teléfono o WhatsApp, el
+      servicio solicitado, el tipo y la eslora de la embarcación, su ubicación,
+      una fecha preferida y archivos adjuntos.
+    </p>
+    <p>
+      También podemos recibir la información que incluya voluntariamente en sus
+      mensajes, URL de anuncios de yates, resúmenes de las calculadoras de
+      inspección o entrega de yates, referencias de estimaciones, información
+      técnica de seguridad generada durante el envío, correspondencia posterior
+      por correo electrónico y registros profesionales creados si contrata un
+      servicio.
+    </p>
+    <p class="policy-callout">
+      No adjunte documentos de identidad, información financiera, información
+      médica ni otros datos personales sensibles que no sean necesarios, salvo
+      que se soliciten expresamente mediante un proceso seguro acordado.
+    </p>
+  </section>
+
+  <section id="calculator-data" aria-labelledby="calculator-data-heading">
+    <h2 id="calculator-data-heading">3. Datos de las calculadoras</h2>
+    <p>
+      Los resultados de las calculadoras de inspección y entrega se guardan
+      inicialmente en el <code>sessionStorage</code> de su navegador. El sitio web
+      valida un resultado almacenado durante un máximo de 24 horas, mientras que el
+      almacenamiento está limitado a la sesión del navegador. Estos registros contienen
+      información sobre la ruta, la embarcación, las opciones y la estimación, pero
+      no incluyen el nombre, correo electrónico, teléfono o mensaje del formulario
+      de contacto.
+    </p>
+    <p>
+      Los datos de la calculadora solo se incorporan al formulario de contacto
+      cuando solicita un presupuesto. Actualizar una calculadora o una página de
+      políticas no envía una consulta. <code>sessionStorage</code> no es una cookie
+      y puede eliminar un resumen transferido antes de enviar el formulario. Cualquier
+      persona con acceso a la sesión de su navegador o a su dispositivo podría ver
+      la información almacenada localmente.
+    </p>
+  </section>
+
+  <section id="uses" aria-labelledby="uses-heading">
+    <h2 id="uses-heading">4. Cómo utilizamos los datos personales</h2>
+    <ul>
+      <li>Responder a consultas y preparar presupuestos.</li>
+      <li>
+        Adoptar las medidas precontractuales que solicite antes de celebrar un
+        contrato de servicios.
+      </li>
+      <li>Organizar inspecciones y trabajos de entrega de yates.</li>
+      <li>Comunicarnos sobre un servicio o informe contratado y prestarlo.</li>
+      <li>Revisar documentos, enlaces de yates e imágenes adjuntos.</li>
+      <li>
+        Mantener los registros profesionales y de correspondencia pertinentes.
+      </li>
+      <li>Prevenir correo no deseado, abusos e incidentes de seguridad.</li>
+      <li>Formular o defender reclamaciones y cumplir obligaciones legales.</li>
+    </ul>
+    <p>
+      All Yacht Service no utiliza actualmente la información del formulario de
+      contacto para marketing por correo electrónico.
+    </p>
+  </section>
+
+  <section id="legal-bases" aria-labelledby="legal-bases-heading">
+    <h2 id="legal-bases-heading">5. Bases jurídicas</h2>
+    <p>
+      Según las circunstancias, el tratamiento puede ser necesario para adoptar
+      medidas precontractuales solicitadas por usted, ejecutar un contrato
+      acordado o cumplir una obligación legal. El tratamiento también puede
+      basarse en intereses legítimos para responder a consultas profesionales,
+      operar y proteger el sitio web, mantener registros proporcionados,
+      prevenir abusos y proteger derechos legales, ponderados frente a sus
+      intereses y derechos.
+    </p>
+    <p>
+      El consentimiento solo se utiliza cuando una actividad verdaderamente
+      opcional lo requiere. La confirmación obligatoria del formulario de
+      contacto registra que este aviso se puso a su disposición; no convierte el
+      consentimiento en la base jurídica de todas las consultas.
+    </p>
+  </section>
+
+  <section
+    id="required-information"
+    aria-labelledby="required-information-heading"
+  >
+    <h2 id="required-information-heading">
+      6. Información obligatoria y opcional
+    </h2>
+    <p>
+      El nombre, correo electrónico, mensaje y confirmación de lectura del aviso
+      de privacidad son obligatorios para una consulta en línea. Los campos
+      opcionales ayudan a preparar una respuesta más pertinente. También puede
+      contactar por teléfono, WhatsApp o correo electrónico. Sin la información
+      esencial, es posible que no podamos evaluar una solicitud o preparar un
+      presupuesto.
+    </p>
+  </section>
+
+  <section id="attachments" aria-labelledby="attachments-heading">
+    <h2 id="attachments-heading">7. Archivos adjuntos</h2>
+    <p>
+      El formulario admite hasta tres archivos PDF, JPEG, PNG o WebP. Cada
+      archivo puede tener un tamaño máximo de 2 MB y el conjunto de archivos no
+      puede superar 3 MB. El servidor comprueba el tipo, la extensión, el tamaño
+      y la firma de los archivos, y los archivos aceptados pueden enviarse con
+      el correo electrónico de la consulta.
+    </p>
+    <p>
+      Debe estar autorizado para compartir el material enviado. La carga de
+      archivos no transfiere su propiedad. Elimine información personal
+      innecesaria antes de adjuntarlos y utilice un proceso seguro acordado si
+      se requiere expresamente material sensible.
+    </p>
+  </section>
+
+  <section id="recipients" aria-labelledby="recipients-heading">
+    <h2 id="recipients-heading">8. Proveedores de servicios y destinatarios</h2>
+    <p>La información puede ser tratada por:</p>
+    <ul>
+      <li>
+        Cloudflare para la distribución y seguridad del sitio web y Turnstile.
+      </li>
+      <li>
+        Google Workspace para la entrega de correos electrónicos y el
+        almacenamiento del buzón.
+      </li>
+      <li>
+        Proveedores técnicos necesarios para operar o proteger el sitio web.
+      </li>
+      <li>Asesores profesionales cuando sea necesario.</li>
+      <li>
+        Inspectores, reparadores u otros especialistas cuando usted lo contrate
+        o autorice.
+      </li>
+      <li>
+        Autoridades públicas cuando la comunicación sea legalmente obligatoria.
+      </li>
+    </ul>
+    <p>
+      La información no se comparte con Premium Yachts Spain por el mero hecho
+      de que Aleksandrs Tolkacovs desempeñe allí una función comercial.
+      Cualquier comunicación o relación pertinente debe tener una finalidad
+      adecuada y comunicarse cuando corresponda.
+    </p>
+  </section>
+
+  <section id="turnstile" aria-labelledby="turnstile-heading">
+    <h2 id="turnstile-heading">9. Cloudflare Turnstile</h2>
+    <p>
+      Turnstile protege el formulario de contacto frente a abusos automatizados.
+      Las comprobaciones realizadas en el navegador generan un token de
+      verificación que el servidor valida con Cloudflare antes de aceptar la
+      consulta. Cloudflare puede tratar señales técnicas del navegador,
+      dispositivo, red e interacción para esta finalidad. All Yacht Service no
+      utiliza Turnstile con fines publicitarios.
+    </p>
+    <p>
+      La página de contacto utiliza la representación implícita del widget de
+      Cloudflare con la acción <code>contact</code> y un tema claro. El repositorio
+      no selecciona un modo invisible o no interactivo ni configura preautorización;
+      el tipo de widget y la configuración de preautorización de la cuenta deben confirmarse
+      en el panel de Cloudflare antes de producción. El comportamiento del almacenamiento
+      puede variar según esa configuración, por lo que esta política no afirma que
+      Turnstile esté siempre libre de cookies en cualquier configuración posible.
+    </p>
+    <p>
+      Consulte la
+      <a
+        href="https://www.cloudflare.com/turnstile-privacy-policy/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Adenda de privacidad de Turnstile ({ui.externalWebsite})
+        <span class="sr-only">, {ui.opensNewTab}</span>
+      </a>.
+    </p>
+  </section>
+
+  <section id="google-workspace" aria-labelledby="google-workspace-heading">
+    <h2 id="google-workspace-heading">10. Google Workspace</h2>
+    <p>
+      Los envíos del formulario se entregan en
+      <a href={`mailto:${legalConfig.email}`}>{legalConfig.email}</a>. El
+      contenido de los correos electrónicos y los archivos adjuntos puede
+      almacenarse en el buzón de Google Workspace y ser consultado por usuarios
+      autorizados del buzón. Google trata estos datos conforme a las condiciones
+      aplicables del servicio y del tratamiento de datos. No se afirma aquí
+      ninguna región de datos concreta de Google ni un mecanismo de
+      transferencia específico, porque deben confirmarse la configuración de la
+      cuenta y las condiciones contractuales.
+    </p>
+    <p>
+      Consulte la
+      <a
+        href="https://cloud.google.com/terms/data-processing-addendum/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Adenda sobre Tratamiento de Datos de Cloud de Google ({
+          ui.externalWebsite
+        })
+        <span class="sr-only">, {ui.opensNewTab}</span>
+      </a>.
+    </p>
+  </section>
+
+  <section
+    id="international-transfers"
+    aria-labelledby="international-transfers-heading"
+  >
+    <h2 id="international-transfers-heading">
+      11. Transferencias internacionales de datos
+    </h2>
+    <p>
+      Algunos proveedores de servicios pueden tratar o prestar asistencia sobre
+      datos personales desde lugares situados fuera del Espacio Económico
+      Europeo. Cuando sea necesario, las transferencias se gestionan mediante
+      las garantías contractuales o legales aplicables que facilite el proveedor
+      correspondiente.
+    </p>
+  </section>
+
+  <section id="retention" aria-labelledby="retention-heading">
+    <h2 id="retention-heading">12. Conservación de los datos</h2>
+    {
+      legalConfig.enquiryRetentionMonths !== null &&
+      legalConfig.unsuccessfulQuoteRetentionMonths !== null &&
+      legalConfig.clientRecordRetentionDescription &&
+      legalConfig.securityRecordRetentionDescription ? (
+        <ul>
+          <li>
+            Las consultas generales que no se conviertan en encargos se
+            conservarán durante un máximo de{' '}
+            {legalConfig.enquiryRetentionMonths} meses desde el último contacto
+            sustancial.
+          </li>
+          <li>
+            Los presupuestos no aceptados se conservarán durante un máximo de{' '}
+            {legalConfig.unsuccessfulQuoteRetentionMonths} meses desde el
+            vencimiento del presupuesto o el último contacto sustancial, lo que
+            ocurra más tarde.
+          </li>
+          <li>
+            Correspondencia con clientes activos, informes y registros de
+            servicios contratados:{' '}
+            {legalConfig.clientRecordRetentionDescription}
+          </li>
+          <li>
+            Registros de seguridad y prevención del correo no deseado:{' '}
+            {legalConfig.securityRecordRetentionDescription}
+          </li>
+        </ul>
+      ) : (
+        <p>
+          Los períodos definitivos de conservación están pendientes de
+          aprobación y este borrador no puede publicarse como política indexable
+          hasta que se configuren. El calendario definitivo distinguirá entre
+          consultas generales, presupuestos no aceptados, correspondencia con
+          clientes activos, registros e informes de servicios contratados,
+          archivos adjuntos, registros de seguridad y registros exigidos por
+          obligaciones legales, fiscales o contables.
+        </p>
+      )
+    }
+    <p>
+      Los archivos adjuntos siguen el período de conservación de la consulta,
+      correspondencia del buzón o registro del servicio contratado con el que
+      estén relacionados. Los registros pueden conservarse durante más tiempo
+      cuando lo exija una obligación legal, fiscal, contable, relativa a plazos
+      de prescripción o a reclamaciones. La conservación depende de si una
+      consulta se convierte en un encargo, la finalidad del registro, las
+      consideraciones sobre el uso o confianza en un informe, las necesidades de
+      seguridad y las obligaciones imperativas de conservación.
+    </p>
+  </section>
+
+  <section id="security" aria-labelledby="security-heading">
+    <h2 id="security-heading">13. Seguridad</h2>
+    <p>
+      Se utilizan medidas técnicas y organizativas adecuadas para reducir el
+      acceso, la alteración, la pérdida o la divulgación no autorizados. Entre
+      los controles verificados se incluyen HTTPS, la validación de entradas y
+      archivos en el servidor, Turnstile, las restricciones de archivos, el
+      acceso restringido al buzón y las credenciales almacenadas en la
+      configuración del entorno de despliegue. Ningún método de transmisión o
+      almacenamiento puede garantizar una seguridad absoluta.
+    </p>
+  </section>
+
+  <section id="rights" aria-labelledby="rights-heading">
+    <h2 id="rights-heading">14. Sus derechos</h2>
+    <p>
+      Según las circunstancias, puede ejercer los derechos de acceso,
+      rectificación, supresión, limitación del tratamiento, oposición y
+      portabilidad de los datos. Puede retirar su consentimiento cuando este sea
+      la base jurídica, sin que ello afecte a la licitud del tratamiento
+      anterior. Contacte con
+      <a href={`mailto:${legalConfig.privacyContactEmail}`}
+        >{legalConfig.privacyContactEmail}</a
+      >. Es posible que se solicite una verificación razonable de su identidad
+      antes de tramitar una solicitud.
+    </p>
+    <p>
+      También puede presentar una reclamación ante la
+      <a href="https://www.aepd.es/" target="_blank" rel="noopener noreferrer">
+        Agencia Española de Protección de Datos (AEPD) ({ui.externalWebsite})
+        <span class="sr-only">, {ui.opensNewTab}</span>
+      </a>.
+    </p>
+  </section>
+
+  <section
+    id="automated-decisions"
+    aria-labelledby="automated-decisions-heading"
+  >
+    <h2 id="automated-decisions-heading">15. Decisiones automatizadas</h2>
+    <p>
+      All Yacht Service no utiliza la información del formulario de contacto
+      para adoptar decisiones automatizadas ni elaborar perfiles que produzcan
+      efectos jurídicos o de importancia similar. Los resultados de las
+      calculadoras son estimaciones automatizadas, pero no deciden si se acepta
+      un servicio ni constituyen un presupuesto o contrato.
+    </p>
+  </section>
+
+  <section id="third-party-links" aria-labelledby="third-party-links-heading">
+    <h2 id="third-party-links-heading">16. Enlaces de terceros</h2>
+    <p>
+      Los sitios web externos, incluidos Premium Yachts Spain y las redes
+      sociales, controlan su propio contenido y sus prácticas de privacidad.
+      Consulte sus avisos antes de enviarles información.
+    </p>
+  </section>
+
+  <section id="changes" aria-labelledby="changes-heading">
+    <h2 id="changes-heading">17. Cambios en esta política</h2>
+    <p>
+      Este aviso puede actualizarse cuando cambien las funciones del sitio web,
+      los proveedores o los requisitos legales. La fecha de revisión indicada en
+      la parte superior se actualizará cuando se realice una modificación
+      sustancial.
+    </p>
+  </section>
+</PolicyPageLayout>

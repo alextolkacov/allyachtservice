@@ -180,54 +180,44 @@ const isSpanish = currentLocale === 'es';
       <ul class="footer-link-list" role="list">
         <li>
           <a
-            href="/privacy-policy"
-            lang={isSpanish ? undefined : 'en'}
+            href={getRequiredRoutePath(
+              'privacyPolicy',
+              isSpanish ? 'es' : 'en',
+            )}
+            lang={currentLocale === 'ru' ? 'en' : undefined}
             aria-current={routeId === 'privacyPolicy' ? 'page' : undefined}
           >
-            {
-              isSpanish
-                ? `${spanishFooter.legal.privacy} — ${ui.englishFallbackLowercase}`
-                : 'Privacy Policy'
-            }
+            {isSpanish ? spanishFooter.legal.privacy : 'Privacy Policy'}
           </a>
         </li>
         <li>
           <a
-            href="/cookie-policy"
-            lang={isSpanish ? undefined : 'en'}
+            href={getRequiredRoutePath('cookiePolicy', isSpanish ? 'es' : 'en')}
+            lang={currentLocale === 'ru' ? 'en' : undefined}
             aria-current={routeId === 'cookiePolicy' ? 'page' : undefined}
           >
-            {
-              isSpanish
-                ? `${spanishFooter.legal.cookies} — ${ui.englishFallbackLowercase}`
-                : 'Cookie Policy'
-            }
+            {isSpanish ? spanishFooter.legal.cookies : 'Cookie Policy'}
           </a>
         </li>
         <li>
           <a
-            href="/legal-notice"
-            lang={isSpanish ? undefined : 'en'}
+            href={getRequiredRoutePath('legalNotice', isSpanish ? 'es' : 'en')}
+            lang={currentLocale === 'ru' ? 'en' : undefined}
             aria-current={routeId === 'legalNotice' ? 'page' : undefined}
           >
-            {
-              isSpanish
-                ? `${spanishFooter.legal.notice} — ${ui.englishFallbackLowercase}`
-                : 'Legal Notice'
-            }
+            {isSpanish ? spanishFooter.legal.notice : 'Legal Notice'}
           </a>
         </li>
         <li>
           <a
-            href="/terms-and-conditions"
-            lang={isSpanish ? undefined : 'en'}
+            href={getRequiredRoutePath(
+              'termsAndConditions',
+              isSpanish ? 'es' : 'en',
+            )}
+            lang={currentLocale === 'ru' ? 'en' : undefined}
             aria-current={routeId === 'termsAndConditions' ? 'page' : undefined}
           >
-            {
-              isSpanish
-                ? `${spanishFooter.legal.terms} — ${ui.englishFallbackLowercase}`
-                : 'Terms and Conditions'
-            }
+            {isSpanish ? spanishFooter.legal.terms : 'Terms and Conditions'}
           </a>
         </li>
       </ul>

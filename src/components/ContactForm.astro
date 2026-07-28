@@ -1,6 +1,7 @@
 ---
 import { contactPage } from '../data/contact';
 import type { Locale } from '../data/languages';
+import { getRequiredRoutePath } from '../data/navigation';
 import {
   contactFormCopy,
   getContactLocale,
@@ -16,6 +17,7 @@ const contactLocale = getContactLocale(locale);
 const copy = contactFormCopy[contactLocale];
 const services = getContactServiceOptions(contactLocale);
 const calculatorPathPrefix = contactLocale === 'es' ? '/es' : '';
+const privacyPolicyPath = getRequiredRoutePath('privacyPolicy', contactLocale);
 const turnstileSiteKey =
   import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
 const turnstileIsConfigured = turnstileSiteKey.length > 0;
@@ -458,7 +460,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       />
       <label for="contact-consent">
         {copy.acknowledgementBefore}
-        {' '}<a href="/privacy-policy">{copy.privacyPolicy}</a>{' '}
+        {' '}<a href={privacyPolicyPath}>{copy.privacyPolicy}</a>{' '}
         {copy.acknowledgementAfter}
         <span aria-hidden="true">*</span>
         {

@@ -17,12 +17,15 @@ The English Yachts for Sale and Buyer Support referral page is available at
 `/yachts-for-sale`.
 The Contact page uses a Cloudflare Pages Function, Turnstile, and the existing
 Google Workspace mailbox to validate and deliver enquiries securely.
-Spanish Translation Batch 5 publishes six complete Spanish service and business
+Spanish Translation Batch 6 publishes six complete Spanish service and business
 pages, both calculator pages, the Yacht Survey Tips hub and its two published
-articles, the Yachts for Sale referral page, the Spanish homepage and Contact
-page. The Russian homepage retains its localized development placeholder inside
-the same shared visual system. Spanish legal policies remain pending. French,
-Italian and Greek are deferred and not currently supported.
+articles, the Yachts for Sale referral page, the four legal and policy pages,
+the Spanish homepage and Contact page. The Russian homepage retains its
+localized development placeholder inside the same shared visual system. The
+remaining Spanish sprint is a final Spanish-wide language, accessibility, legal
+and SEO audit. The remaining Russian translation backlog includes all routes
+beyond its localized homepage. French, Italian and Greek are deferred and not
+currently supported.
 
 ## Local setup
 
@@ -76,6 +79,10 @@ in `src/data/navigation.ts`. The current Spanish equivalents are:
 | Yacht Survey Tips               | `/yacht-survey-tips`                          | `/es/yacht-survey-tips`                          |
 | Deck Moisture article           | `/yacht-survey-tips/deck-moisture-soft-spots` | `/es/yacht-survey-tips/deck-moisture-soft-spots` |
 | Shiny Hull article              | `/yacht-survey-tips/shiny-hull`               | `/es/yacht-survey-tips/shiny-hull`               |
+| Privacy Policy                  | `/privacy-policy`                             | `/es/privacy-policy`                             |
+| Cookie and Storage Policy       | `/cookie-policy`                              | `/es/cookie-policy`                              |
+| Legal Notice                    | `/legal-notice`                               | `/es/legal-notice`                               |
+| Website Terms                   | `/terms-and-conditions`                       | `/es/terms-and-conditions`                       |
 
 The language switcher uses an equivalent route when the map contains one. If a
 translation is not published, it links to that language's homepage and its
@@ -512,19 +519,40 @@ configuration.
 
 ## Legal and policy foundation
 
-The English legal routes are:
+The English and Spanish legal routes are:
 
 ```text
 /privacy-policy
+/es/privacy-policy
 /cookie-policy
+/es/cookie-policy
 /legal-notice
+/es/legal-notice
 /terms-and-conditions
+/es/terms-and-conditions
 ```
 
-They share `src/components/PolicyPageLayout.astro`. Confirmed and unresolved
-operator information, retention settings, the policy review date, and final
-applicable-law wording are held in `src/data/legal.ts` rather than duplicated
-across pages.
+They share the locale-aware `src/components/PolicyPageLayout.astro`. Confirmed
+and unresolved operator information, retention settings, the policy review
+date, and final applicable-law wording are held in `src/data/legal.ts` rather
+than duplicated across languages. Spanish typed policy metadata and section
+navigation live under `src/data/es/legal/`; they do not create a second legal
+identity or completion configuration.
+
+The legal language uses Spain-appropriate terms including _Responsable del
+tratamiento_, _Datos personales_, _Base jurídica_, _Intereses legítimos_,
+_Medidas precontractuales_, _Encargado del tratamiento_, _Transferencias
+internacionales_, _Conservación de los datos_, _Almacenamiento del navegador_,
+_Presupuesto vinculante_, _Cliente contratante_ and _Uso o confianza en el
+informe_. Technical identifiers such as `sessionStorage`, Turnstile, Google
+Workspace, API URLs and calculator storage keys remain unchanged.
+
+Each genuine English/Spanish policy pair publishes self-referencing canonicals,
+localized titles and descriptions, `en`, `es` and English `x-default`
+hreflang, the appropriate Open Graph locales, a localized `WebPage` and
+`BreadcrumbList`, and the shared
+`https://www.allyachtservice.com/#business` entity. Russian policy routes are
+not generated and never appear as legal-page hreflang.
 
 The current verified public information is the trading name, public office,
 email, phone, website URL and country. The legal operator name; natural-person,
@@ -546,9 +574,13 @@ npm run check:legal
 ```
 
 The Contact checkbox is a required notice acknowledgement, not consent for all
-processing. Its public wording is: “I confirm that I have read the Privacy
-Policy and understand how my enquiry information will be handled.” The stable
-request field remains named `consent` to avoid an unnecessary API change.
+processing. Its English public wording is: “I confirm that I have read the
+Privacy Policy and understand how my enquiry information will be handled.” The
+Spanish acknowledgement links directly to `/es/privacy-policy` and reads:
+“Confirmo que he leído la Política de privacidad y comprendo cómo se tratará la
+información de mi consulta.” The Spanish Contact privacy summary also uses that
+route. The stable request field remains named `consent` to avoid an unnecessary
+API change.
 
 The current processor and service inventory is:
 
@@ -569,10 +601,12 @@ confirm the widget type, pre-clearance and Offlabel settings in the Cloudflare
 dashboard before production. The server continues to validate every accepted
 token with Siteverify.
 
-The code audit found no installed analytics provider, advertising tag,
-marketing cookie, social embed, external font or site-written cookie. A cookie
-banner is therefore not added for the current strictly necessary calculator
-session storage and form-security implementation. Before enabling analytics,
+The English and Spanish cookie policies reflect the same source audit. It found
+no installed analytics provider, advertising tag, marketing cookie, social
+embed, external font or site-written cookie. A cookie banner is therefore not
+added for the current strictly necessary calculator session storage and
+form-security implementation, subject to confirming Cloudflare dashboard-level
+Turnstile and security settings before production. Before enabling analytics,
 advertising, non-essential embeds or other optional storage, update the
 technical inventory, assess consent requirements, update both policies and
 activate appropriate consent controls before the technology loads.
@@ -587,10 +621,12 @@ These website terms govern website use only. They do not replace survey
 engagement terms, a yacht-delivery contract, a brokerage agreement, report
 reliance terms, a repair contract or other service-specific agreement.
 
-Before changing `PUBLIC_SITE_INDEXABLE` to `true`, have the four drafts, central
-configuration, retention schedule, provider/account settings and
-applicable-law wording reviewed by a qualified Spanish legal or
-data-protection professional. Review the
+Before changing `PUBLIC_SITE_INDEXABLE` to `true`, have all four English drafts,
+their four Spanish translations, the central configuration, retention schedule,
+provider/account settings and applicable-law wording reviewed by a qualified
+Spanish legal or data-protection professional. A final native-Spanish legal
+review is required; publishing a translation does not mark `finalApproval` as
+complete. Review the
 [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng),
 [Spanish LSSI](https://www.boe.es/buscar/act.php?id=BOE-A-2002-13758),
 [AEPD guidance](https://www.aepd.es/),

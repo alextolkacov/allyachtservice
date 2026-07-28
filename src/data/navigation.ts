@@ -88,15 +88,19 @@ export const translatedRoutes: Record<
   },
   privacyPolicy: {
     en: '/privacy-policy',
+    es: '/es/privacy-policy',
   },
   cookiePolicy: {
     en: '/cookie-policy',
+    es: '/es/cookie-policy',
   },
   legalNotice: {
     en: '/legal-notice',
+    es: '/es/legal-notice',
   },
   termsAndConditions: {
     en: '/terms-and-conditions',
+    es: '/es/terms-and-conditions',
   },
 };
 

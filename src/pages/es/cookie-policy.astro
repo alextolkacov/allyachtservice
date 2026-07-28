@@ -1,0 +1,209 @@
+---
+import PolicyPageLayout from '../../components/PolicyPageLayout.astro';
+import { spanishCookiePolicy } from '../../data/es/legal/cookie-policy';
+import { getSharedUi } from '../../i18n/ui';
+
+const page = spanishCookiePolicy;
+const ui = getSharedUi('es');
+---
+
+<PolicyPageLayout
+  title={page.title}
+  description={page.description}
+  heading={page.heading}
+  intro={page.intro}
+  pathname={page.pathname}
+  routeId={page.routeId}
+  toc={page.toc}
+  locale="es"
+>
+  <section id="definitions" aria-labelledby="definitions-heading">
+    <h2 id="definitions-heading">
+      1. Qué son las cookies y el almacenamiento del navegador
+    </h2>
+    <p>
+      Las cookies son pequeños valores que un sitio web o servicio puede pedir
+      al navegador que almacene y envíe con solicitudes posteriores.
+      <code>sessionStorage</code> es una función independiente del navegador que almacena
+      datos durante la sesión de navegación de una pestaña y no los incorpora automáticamente
+      a las solicitudes de red. Los servicios de seguridad también pueden utilizar
+      tokens de navegador de corta duración y señales técnicas sin que esos valores
+      sean cookies de marketing.
+    </p>
+  </section>
+
+  <section id="technologies" aria-labelledby="technologies-heading">
+    <h2 id="technologies-heading">2. Tecnologías utilizadas</h2>
+    <p>
+      El siguiente inventario se basa en el código fuente actual. Debe volver a
+      auditarse antes de añadir scripts, contenidos incrustados, analítica,
+      publicidad o herramientas de consentimiento.
+    </p>
+    <div
+      class="policy-table-scroll"
+      role="region"
+      aria-label="Inventario de cookies y almacenamiento del navegador"
+      tabindex="0"
+    >
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Nombre o tecnología</th>
+            <th scope="col">Proveedor</th>
+            <th scope="col">Finalidad</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Duración</th>
+            <th scope="col">Consentimiento necesario</th>
+            <th scope="col">Dónde se utiliza</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">
+              <code>ays:pre-purchase-survey-estimate:v1</code>
+            </th>
+            <td>All Yacht Service</td>
+            <td>
+              Transfiere una estimación de inspección al formulario de contacto.
+            </td>
+            <td><code>sessionStorage</code> esencial</td>
+            <td>
+              Sesión del navegador; la aplicación lo acepta durante 24 horas.
+            </td>
+            <td>No</td>
+            <td>Calculadora de inspección y formulario de contacto</td>
+          </tr>
+          <tr>
+            <th scope="row">
+              <code>ays:yacht-delivery-estimate:v1</code>
+            </th>
+            <td>All Yacht Service</td>
+            <td>
+              Transfiere una estimación de entrega de yate al formulario de
+              contacto.
+            </td>
+            <td><code>sessionStorage</code> esencial</td>
+            <td>
+              Sesión del navegador; la aplicación lo acepta durante 24 horas.
+            </td>
+            <td>No</td>
+            <td>Calculadora de entrega y formulario de contacto</td>
+          </tr>
+          <tr>
+            <th scope="row">
+              Token de verificación de Turnstile y señales técnicas
+            </th>
+            <td>Cloudflare</td>
+            <td>
+              Protege el formulario de contacto frente a abusos automatizados.
+            </td>
+            <td>Servicio de seguridad estrictamente necesario</td>
+            <td>
+              Token de corta duración; cualquier almacenamiento adicional
+              depende del widget de Cloudflare configurado y del contexto del
+              navegador.
+            </td>
+            <td>No, para la finalidad de seguridad actual</td>
+            <td>Formulario de contacto</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="calculator-storage" aria-labelledby="calculator-storage-heading">
+    <h2 id="calculator-storage-heading">
+      3. <code>sessionStorage</code> de las calculadoras
+    </h2>
+    <p>
+      Las dos claves de las calculadoras conservan temporalmente la ruta, la
+      embarcación, las opciones, la estimación, la fecha de creación y la
+      referencia necesarias para mostrar un resultado en el formulario de
+      contacto. No contienen datos personales del formulario, como su nombre,
+      correo electrónico, teléfono o mensaje.
+    </p>
+    <p>
+      La aplicación rechaza los registros con una antigüedad superior a 24
+      horas, aunque el navegador los conserve. El navegador normalmente elimina
+      el almacenamiento de sesión cuando termina la pestaña o sesión
+      correspondiente. Puede eliminar una estimación transferida en el
+      formulario de contacto sin enviarla.
+    </p>
+  </section>
+
+  <section id="turnstile-storage" aria-labelledby="turnstile-storage-heading">
+    <h2 id="turnstile-storage-heading">4. Turnstile</h2>
+    <p>
+      Cloudflare Turnstile realiza comprobaciones en el navegador y crea un
+      token que el servidor valida antes de aceptar el envío de un formulario de
+      contacto. El repositorio utiliza representación implícita con la acción
+      <code>contact</code> y un tema claro. No selecciona expresamente un modo invisible
+      o no interactivo ni configura preautorización en el código fuente.
+    </p>
+    <p>
+      El tipo de widget y la configuración de preautorización de la cuenta se
+      controlan en Cloudflare y deben confirmarse allí antes de producción. Por
+      ello, este inventario no indica que <code>cf_clearance</code> se utilice con
+      certeza ni inventa nombres de cookies del proveedor. Consulte la
+      <a
+        href="https://www.cloudflare.com/turnstile-privacy-policy/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Adenda de privacidad de Turnstile ({ui.externalWebsite})
+        <span class="sr-only">, {ui.opensNewTab}</span>
+      </a>.
+    </p>
+  </section>
+
+  <section
+    id="analytics-marketing"
+    aria-labelledby="analytics-marketing-heading"
+  >
+    <h2 id="analytics-marketing-heading">5. Analítica y marketing</h2>
+    <p>
+      El sitio web no utiliza actualmente cookies de analítica o publicidad. El
+      código fuente actual tampoco contiene etiquetas de marketing ni contenidos
+      incrustados de redes sociales. Las imágenes se sirven localmente y las
+      fuentes utilizan las tipografías del sistema instaladas en el dispositivo
+      del visitante.
+    </p>
+    <p>
+      La implementación auditada utiliza únicamente el almacenamiento esencial
+      de las calculadoras y la seguridad del formulario, por lo que actualmente
+      no requiere un banner de consentimiento. Esta conclusión está sujeta a
+      confirmar antes de producción el tipo de widget, la preautorización y los
+      demás ajustes de Turnstile en el panel de Cloudflare.
+    </p>
+    <p>
+      Si se introducen tecnologías de analítica, marketing u otras tecnologías
+      no esenciales, esta política y los controles de consentimiento necesarios
+      deberán actualizarse antes de activarlas.
+    </p>
+  </section>
+
+  <section id="managing-storage" aria-labelledby="managing-storage-heading">
+    <h2 id="managing-storage-heading">
+      6. Gestión del almacenamiento del navegador
+    </h2>
+    <p>
+      La configuración del navegador normalmente permite consultar o eliminar
+      cookies y datos del sitio. Cerrar la pestaña o sesión del navegador
+      correspondiente suele eliminar <code>sessionStorage</code>. Bloquear el
+      almacenamiento estrictamente necesario o las funciones de seguridad puede
+      impedir la transferencia de una estimación o el envío del formulario de
+      contacto. Consulte la documentación de ayuda vigente de su navegador o
+      dispositivo para conocer los controles exactos.
+    </p>
+  </section>
+
+  <section id="changes" aria-labelledby="cookie-changes-heading">
+    <h2 id="cookie-changes-heading">7. Cambios</h2>
+    <p>
+      Esta política y su fecha de revisión se actualizarán antes de activar una
+      nueva tecnología de almacenamiento, analítica, publicidad, contenido
+      incrustado o consentimiento, y siempre que el inventario técnico actual
+      cambie de forma sustancial.
+    </p>
+  </section>
+</PolicyPageLayout>

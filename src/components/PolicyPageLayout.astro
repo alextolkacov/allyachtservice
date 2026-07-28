@@ -6,17 +6,17 @@ import {
   getMissingProductionLegalFields,
   legalConfig,
 } from '../data/legal';
-import type { RouteId } from '../data/navigation';
+import { getRequiredRoutePath, type RouteId } from '../data/navigation';
+import {
+  getPolicyLayoutCopy,
+  type PolicyLocale,
+  type PolicyTocItem,
+} from '../i18n/policy';
 import {
   businessEntityId,
   toAbsoluteUrl,
   type StructuredData,
 } from '../utils/seo';
-
-export interface PolicyTocItem {
-  id: string;
-  label: string;
-}
 
 interface Props {
   title: string;
@@ -26,10 +26,20 @@ interface Props {
   pathname: string;
   routeId: RouteId;
   toc: readonly PolicyTocItem[];
+  locale?: PolicyLocale;
 }
 
-const { title, description, heading, intro, pathname, routeId, toc } =
-  Astro.props;
+const {
+  title,
+  description,
+  heading,
+  intro,
+  pathname,
+  routeId,
+  toc,
+  locale = 'en',
+} = Astro.props;
+const text = getPolicyLayoutCopy(locale);
 const pageUrl = toAbsoluteUrl(pathname);
 const webPageSchema: StructuredData = {
   '@context': 'https://schema.org',
@@ -38,7 +48,7 @@ const webPageSchema: StructuredData = {
   url: pageUrl,
   name: title,
   description,
-  inLanguage: 'en',
+  inLanguage: locale,
   about: {
     '@id': businessEntityId,
   },
@@ -46,39 +56,42 @@ const webPageSchema: StructuredData = {
 const siteIsIndexable = import.meta.env.PUBLIC_SITE_INDEXABLE === 'true';
 const missingLegalFields = getMissingProductionLegalFields();
 const showDraftWarning = !siteIsIndexable && missingLegalFields.length > 0;
-const relatedPolicies = [
-  { href: '/privacy-policy', label: 'Privacy Policy' },
-  { href: '/cookie-policy', label: 'Cookie and Browser Storage Policy' },
-  { href: '/legal-notice', label: 'Legal Notice' },
-  { href: '/terms-and-conditions', label: 'Website Terms and Conditions' },
-].filter((policy) => policy.href !== pathname);
+const relatedPolicies = text.relatedPolicies
+  .filter((policy) => policy.routeId !== routeId)
+  .map((policy) => ({
+    href: getRequiredRoutePath(policy.routeId, locale),
+    label: policy.label,
+  }));
+const homePath = getRequiredRoutePath('home', locale);
+const contactPath = getRequiredRoutePath('contact', locale);
 ---
 
 <BaseLayout
   title={title}
   description={description}
-  locale="en"
+  locale={locale}
   routeId={routeId}
   pathname={pathname}
   imagePath="/images/about-all-yacht-service.webp"
-  imageAlt="Hands assembling white puzzle pieces"
+  imageAlt={text.imageAlt}
   structuredData={webPageSchema}
 >
-  <header class="policy-hero">
+  <header id="policy-top" class="policy-hero">
     <div class="policy-shell site-container">
       <Breadcrumbs
         items={[
-          { label: 'Home', href: '/' },
+          { label: text.home, href: homePath },
           { label: heading, href: pathname },
         ]}
+        ariaLabel={locale === 'es' ? 'Migas de pan' : 'Breadcrumbs'}
         theme="dark"
       />
-      <p class="eyebrow">Website information</p>
+      <p class="eyebrow">{text.websiteInformation}</p>
       <h1>{heading}</h1>
       <p class="policy-intro">{intro}</p>
       <p class="policy-reviewed">
-        Last reviewed: <time datetime={legalConfig.lastReviewed}
-          >{formatLegalReviewDate(legalConfig.lastReviewed)}</time
+        {text.lastReviewed}: <time datetime={legalConfig.lastReviewed}
+          >{formatLegalReviewDate(legalConfig.lastReviewed, locale)}</time
         >
       </p>
     </div>
@@ -92,20 +105,15 @@ const relatedPolicies = [
           aria-labelledby="policy-draft-heading"
           role="status"
         >
-          <h2 id="policy-draft-heading">Draft legal information</h2>
-          <p>
-            This non-indexable preview contains implementation wording based on
-            confirmed website behaviour. Operator identity, retention periods
-            and final applicable-law wording still require confirmation and
-            professional review before publication.
-          </p>
+          <h2 id="policy-draft-heading">{text.draftHeading}</h2>
+          <p>{text.draftDescription}</p>
         </aside>
       )
     }
 
     <div class="policy-grid">
       <nav class="policy-toc" aria-labelledby="policy-toc-heading">
-        <h2 id="policy-toc-heading">On this page</h2>
+        <h2 id="policy-toc-heading">{text.contents}</h2>
         <ol>
           {
             toc.map((item) => (
@@ -125,11 +133,11 @@ const relatedPolicies = [
           class="policy-contact"
           aria-labelledby="policy-contact-heading"
         >
-          <h2 id="policy-contact-heading">Questions about this information</h2>
+          <h2 id="policy-contact-heading">{text.contactHeading}</h2>
           <p>
-            Contact {legalConfig.tradingName} by email at
+            {text.contactByEmail}
             {' '}<a href={`mailto:${legalConfig.email}`}>{legalConfig.email}</a>
-            or by phone at
+            {' '}{text.orByPhone}
             {' '}<a href="tel:+34695718540">{legalConfig.phone}</a>.
           </p>
           <address>{legalConfig.publicOfficeAddress}</address>
@@ -138,7 +146,7 @@ const relatedPolicies = [
     </div>
 
     <nav class="policy-related" aria-labelledby="related-policies-heading">
-      <h2 id="related-policies-heading">Related legal information</h2>
+      <h2 id="related-policies-heading">{text.relatedHeading}</h2>
       <ul role="list">
         {
           relatedPolicies.map((policy) => (
@@ -150,11 +158,15 @@ const relatedPolicies = [
           ))
         }
         <li>
-          <a href="/contact"
-            >Contact All Yacht Service <span aria-hidden="true">→</span></a
+          <a href={contactPath}
+            >{text.contactLink} <span aria-hidden="true">→</span></a
           >
         </li>
       </ul>
     </nav>
+    <a class="policy-return-top" href="#policy-top">
+      {text.returnToTop}
+      <span aria-hidden="true">↑</span>
+    </a>
   </div>
 </BaseLayout>

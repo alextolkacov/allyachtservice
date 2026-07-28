@@ -312,6 +312,25 @@ const spanishYachtsForSalePage = {
   h1: 'Yates en venta y asistencia independiente al comprador',
 };
 
+const spanishLegalPages = [
+  {
+    en: '/privacy-policy',
+    es: '/es/privacy-policy',
+  },
+  {
+    en: '/cookie-policy',
+    es: '/es/cookie-policy',
+  },
+  {
+    en: '/legal-notice',
+    es: '/es/legal-notice',
+  },
+  {
+    en: '/terms-and-conditions',
+    es: '/es/terms-and-conditions',
+  },
+];
+
 const distDirectory = resolve(projectRoot, 'dist');
 assert(
   existsSync(distDirectory),
@@ -339,6 +358,7 @@ if (existsSync(distDirectory)) {
     ...spanishSurveyTipsPages.flatMap(({ en, es }) => [en, es]),
     spanishYachtsForSalePage.en,
     spanishYachtsForSalePage.es,
+    ...spanishLegalPages.flatMap(({ en, es }) => [en, es]),
   ];
   for (const pathname of requiredRoutes) {
     assert(
@@ -356,10 +376,10 @@ if (existsSync(distDirectory)) {
     '/ru/yacht-survey-tips/deck-moisture-soft-spots',
     '/ru/yacht-survey-tips/shiny-hull',
     '/ru/yachts-for-sale',
-    '/es/privacy-policy',
-    '/es/cookie-policy',
-    '/es/legal-notice',
-    '/es/terms-and-conditions',
+    '/ru/privacy-policy',
+    '/ru/cookie-policy',
+    '/ru/legal-notice',
+    '/ru/terms-and-conditions',
   ];
   for (const pathname of forbiddenRoutes) {
     assert(
@@ -981,6 +1001,7 @@ if (existsSync(distDirectory)) {
     ...translatedServiceRoutes,
     ...spanishSurveyTipsPages.map(({ es }) => es),
     spanishYachtsForSalePage.es,
+    ...spanishLegalPages.map(({ es }) => es),
   ]) {
     assert(
       sitemap.includes(`<loc>${absolute(pathname)}</loc>`),
@@ -1001,6 +1022,6 @@ if (failures.length > 0) {
   process.exitCode = 1;
 } else {
   process.stdout.write(
-    'Localisation validation passed for EN/ES Batch 5 equivalents, Spanish Yachts for Sale, Survey Tips, calculators, navigation, metadata, schemas, sitemap, terminology, article ordering, image integrity, and route boundaries.\n',
+    'Localisation validation passed for EN/ES Batch 6 equivalents, Spanish legal policies, Yachts for Sale, Survey Tips, calculators, navigation, metadata, schemas, sitemap, terminology, article ordering, image integrity, and route boundaries.\n',
   );
 }

@@ -237,7 +237,7 @@ export const contactFormCopy = {
     privacyPolicy: 'Política de privacidad',
     acknowledgementAfter:
       'y comprendo cómo se tratará la información de mi consulta.',
-    privacyLanguageNote: 'Disponible actualmente en inglés.',
+    privacyLanguageNote: '',
     configurationNotice:
       'El formulario seguro no está configurado en este entorno. Contacte por teléfono, WhatsApp o correo electrónico.',
     submit: 'Enviar consulta',

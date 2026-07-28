@@ -177,8 +177,11 @@ export function assertLegalConfigurationForIndexableBuild(
   );
 }
 
-export function formatLegalReviewDate(date: string): string {
-  return new Intl.DateTimeFormat('en-GB', {
+export function formatLegalReviewDate(
+  date: string,
+  locale: 'en' | 'es' = 'en',
+): string {
+  return new Intl.DateTimeFormat(locale === 'es' ? 'es-ES' : 'en-GB', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',

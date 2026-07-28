@@ -1,0 +1,201 @@
+---
+import PolicyPageLayout from '../../components/PolicyPageLayout.astro';
+import { spanishLegalNotice } from '../../data/es/legal/legal-notice';
+import { legalConfig } from '../../data/legal';
+
+const page = spanishLegalNotice;
+---
+
+<PolicyPageLayout
+  title={page.title}
+  description={page.description}
+  heading={page.heading}
+  intro={page.intro}
+  pathname={page.pathname}
+  routeId={page.routeId}
+  toc={page.toc}
+  locale="es"
+>
+  <section id="operator" aria-labelledby="operator-heading">
+    <h2 id="operator-heading">1. Operador del sitio web</h2>
+    {
+      legalConfig.legalOperatorName ? (
+        <p>Los datos verificados del operador del sitio web son:</p>
+      ) : (
+        <p>
+          La identidad legal definitiva del operador y los requisitos de
+          publicación se están confirmando. No se muestran datos no verificados
+          sobre identidad, fiscalidad o registros. Los datos públicos
+          verificados son:
+        </p>
+      )
+    }
+    <dl class="policy-facts">
+      {
+        legalConfig.legalOperatorName && (
+          <div>
+            <dt>Operador legal</dt>
+            <dd>{legalConfig.legalOperatorName}</dd>
+          </div>
+        )
+      }
+      {
+        legalConfig.operatorType === 'natural-person' && (
+          <div>
+            <dt>Condición del operador</dt>
+            <dd>Persona física</dd>
+          </div>
+        )
+      }
+      {
+        legalConfig.legalForm && (
+          <div>
+            <dt>Forma jurídica</dt>
+            <dd>{legalConfig.legalForm}</dd>
+          </div>
+        )
+      }
+      <div><dt>Nombre comercial</dt><dd>{legalConfig.tradingName}</dd></div>
+      {
+        legalConfig.taxId && (
+          <div>
+            <dt>Identificación fiscal</dt>
+            <dd>{legalConfig.taxId}</dd>
+          </div>
+        )
+      }
+      {
+        legalConfig.registeredAddress && (
+          <div>
+            <dt>Domicilio registrado</dt>
+            <dd>{legalConfig.registeredAddress}</dd>
+          </div>
+        )
+      }
+      <div>
+        <dt>Oficina abierta al público</dt>
+        <dd>{legalConfig.publicOfficeAddress}</dd>
+      </div>
+      <div>
+        <dt>Correo electrónico</dt>
+        <dd>
+          <a href={`mailto:${legalConfig.email}`}>{legalConfig.email}</a>
+        </dd>
+      </div>
+      <div>
+        <dt>Teléfono</dt>
+        <dd>
+          <a href="tel:+34695718540">{legalConfig.phone}</a>
+        </dd>
+      </div>
+      <div>
+        <dt>Dominio</dt>
+        <dd>
+          <a href={legalConfig.websiteUrl}>{legalConfig.websiteUrl}</a>
+        </dd>
+      </div>
+      {
+        legalConfig.registryName && legalConfig.registryNumber && (
+          <div>
+            <dt>Registro</dt>
+            <dd>
+              {legalConfig.registryName}: {legalConfig.registryNumber}
+            </dd>
+          </div>
+        )
+      }
+    </dl>
+  </section>
+
+  <section
+    id="professional-information"
+    aria-labelledby="professional-information-heading"
+  >
+    <h2 id="professional-information-heading">2. Información profesional</h2>
+    <p>
+      Aleksandrs Tolkacovs es inspector naval de yates y embarcaciones menores
+      certificado por IIMS y capitán titulado. Esta afirmación no presenta a
+      IIMS como organismo regulador español, no afirma que la inspección de
+      yates sea una profesión regulada en España ni formula ninguna declaración
+      sobre un seguro de responsabilidad profesional. Puede consultar más
+      información profesional en la
+      <a href="/es/about-us">página Sobre nosotros</a>.
+    </p>
+  </section>
+
+  <section id="purpose" aria-labelledby="purpose-heading">
+    <h2 id="purpose-heading">3. Finalidad del sitio web</h2>
+    <p>
+      Este sitio web proporciona información sobre inspecciones de yates,
+      entrega de yates, asistencia al comprador, artículos educativos sobre
+      inspección de yates, calculadoras de costes no vinculantes y enlaces a
+      anuncios externos de intermediación de yates.
+    </p>
+  </section>
+
+  <section id="contact-details" aria-labelledby="contact-details-heading">
+    <h2 id="contact-details-heading">4. Contacto</h2>
+    <p>
+      Las preguntas sobre este sitio web pueden enviarse a
+      <a href={`mailto:${legalConfig.email}`}>{legalConfig.email}</a>,
+      plantearse por teléfono o WhatsApp en
+      <a href="tel:+34695718540">{legalConfig.phone}</a> o enviarse a través de la
+      <a href="/es/contact">página de contacto</a>.
+    </p>
+  </section>
+
+  <section
+    id="intellectual-property"
+    aria-labelledby="intellectual-property-heading"
+  >
+    <h2 id="intellectual-property-heading">5. Propiedad intelectual</h2>
+    <p>
+      Los textos, el diseño, la identidad visual, los informes y las imágenes
+      originales del sitio web están protegidos cuando corresponda. El material
+      de terceros sigue sujeto a los derechos y permisos que le sean aplicables.
+      En particular, las imágenes de intermediación de terceros no se presentan
+      como material original de All Yacht Service por el mero hecho de aparecer
+      con permiso o enlazar a un anuncio externo.
+    </p>
+  </section>
+
+  <section id="external-links" aria-labelledby="external-links-heading">
+    <h2 id="external-links-heading">6. Enlaces externos</h2>
+    <p>
+      Los sitios web externos controlan su propio contenido, condiciones,
+      disponibilidad y prácticas de privacidad. Premium Yachts Spain mantiene
+      sus anuncios activos y la información de intermediación; All Yacht Service
+      no controla ese inventario externo.
+    </p>
+  </section>
+
+  <section id="availability" aria-labelledby="availability-heading">
+    <h2 id="availability-heading">
+      7. Disponibilidad y exactitud del sitio web
+    </h2>
+    <p>
+      Se realizan esfuerzos razonables para mantener la información exacta y
+      disponible, pero el contenido del sitio web puede quedar desactualizado o
+      no estar disponible temporalmente. Los datos deben confirmarse para cada
+      encargo concreto. Nada de lo dispuesto en este aviso excluye
+      responsabilidades ni derechos imperativos cuando tal exclusión no sea
+      legal.
+    </p>
+  </section>
+
+  <section id="applicable-law" aria-labelledby="applicable-law-heading">
+    <h2 id="applicable-law-heading">8. Legislación aplicable</h2>
+    {
+      legalConfig.applicableLawText ? (
+        <p>{legalConfig.applicableLawText}</p>
+      ) : (
+        <p>
+          La redacción definitiva sobre legislación aplicable y jurisdicción
+          está pendiente de confirmar la identidad del operador legal y la
+          estructura prevista de los contratos con clientes. Este borrador no
+          indexable no impone ninguna cláusula de jurisdicción.
+        </p>
+      )
+    }
+  </section>
+</PolicyPageLayout>

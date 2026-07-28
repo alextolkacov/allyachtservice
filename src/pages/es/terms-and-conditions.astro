@@ -1,0 +1,193 @@
+---
+import PolicyPageLayout from '../../components/PolicyPageLayout.astro';
+import { spanishTermsAndConditions } from '../../data/es/legal/terms-and-conditions';
+import { legalConfig } from '../../data/legal';
+
+const page = spanishTermsAndConditions;
+---
+
+<PolicyPageLayout
+  title={page.title}
+  description={page.description}
+  heading={page.heading}
+  intro={page.intro}
+  pathname={page.pathname}
+  routeId={page.routeId}
+  toc={page.toc}
+  locale="es"
+>
+  <section id="acceptance" aria-labelledby="acceptance-heading">
+    <h2 id="acceptance-heading">
+      1. Aceptación de las condiciones del sitio web
+    </h2>
+    <p>
+      Al utilizar este sitio web, acepta utilizarlo de forma lícita y conforme a
+      estas condiciones del sitio web. El mero hecho de consultar una página,
+      utilizar una calculadora o enviar una consulta no crea un contrato de
+      servicios de pago.
+    </p>
+  </section>
+
+  <section id="information" aria-labelledby="information-heading">
+    <h2 id="information-heading">2. Finalidad informativa</h2>
+    <p>
+      Las páginas de servicios describen alcances generales; el alcance
+      definitivo se acuerda individualmente. Los artículos educativos ofrecen
+      orientación general y no sustituyen la inspección de un yate concreto, la
+      revisión de sus documentos ni el asesoramiento de especialistas cuando sea
+      necesario.
+    </p>
+  </section>
+
+  <section id="calculators" aria-labelledby="calculators-heading">
+    <h2 id="calculators-heading">3. Estimaciones de las calculadoras</h2>
+    <p>
+      Los resultados de las calculadoras de inspección y entrega de yates son
+      estimaciones no vinculantes, no presupuestos, contratos ni facturas.
+      Utilizan supuestos simplificados. Una ruta de entrega no es una ruta de
+      navegación ni un plan de travesía, y una estimación de inspección depende
+      de las opciones seleccionadas.
+    </p>
+    <p>
+      El precio, la disponibilidad y el alcance definitivos requieren
+      confirmación individual. Una referencia de estimación no reserva una fecha
+      ni crea una cita.
+    </p>
+  </section>
+
+  <section id="services" aria-labelledby="services-heading">
+    <h2 id="services-heading">
+      4. Servicios de inspección y asistencia técnica
+    </h2>
+    <p>
+      Los servicios requieren un alcance escrito o una cita independientes. El
+      acceso, el estado de funcionamiento, la varada y las circunstancias de la
+      inspección afectan a las observaciones disponibles. Las inspecciones
+      suelen ser visuales y no destructivas, salvo que se acuerde y autorice
+      expresamente otro método. Las descripciones del sitio web no amplían el
+      alcance establecido en un encargo o informe.
+    </p>
+  </section>
+
+  <section id="reports" aria-labelledby="reports-heading">
+    <h2 id="reports-heading">5. Informes</h2>
+    <p>
+      Los informes se preparan para el cliente contratante, la finalidad
+      indicada y el alcance acordado. El uso o confianza por parte de terceros
+      no es automático. La copia de un informe o el uso de este como fundamento
+      puede requerir autorización escrita. Las condiciones, alcance, supuestos y
+      limitaciones del propio informe prevalecen sobre el contenido general del
+      sitio web.
+    </p>
+  </section>
+
+  <section id="tips" aria-labelledby="tips-heading">
+    <h2 id="tips-heading">6. Consejos para la inspección de yates</h2>
+    <p>
+      Los Consejos para la inspección de yates son educativos. No constituyen
+      instrucciones para realizar pruebas inseguras, destructivas o no
+      autorizadas. Las observaciones realizadas en un yate no determinan el
+      estado de otro, y puede ser necesaria una inspección profesional.
+    </p>
+  </section>
+
+  <section id="brokerage" aria-labelledby="brokerage-heading">
+    <h2 id="brokerage-heading">7. Yates en venta e intermediación externa</h2>
+    <p>
+      Los anuncios de yates se alojan externamente y All Yacht Service no
+      mantiene el inventario. La disponibilidad, el precio, la propiedad, las
+      especificaciones y la información fiscal deben confirmarse con el
+      intermediario del anuncio. All Yacht Service no garantiza la información
+      externa, y las relaciones comerciales pertinentes se comunican cuando
+      corresponde. Una inspección no constituye una recomendación de compra de
+      un yate.
+    </p>
+  </section>
+
+  <section id="external-links" aria-labelledby="terms-external-links-heading">
+    <h2 id="terms-external-links-heading">8. Enlaces externos</h2>
+    <p>
+      Los enlaces se facilitan por comodidad y como contexto. Los terceros
+      controlan sus propios sitios, contenido, condiciones, disponibilidad y
+      prácticas de privacidad. Seguir un enlace no hace responsable a All Yacht
+      Service del servicio externo.
+    </p>
+  </section>
+
+  <section id="permitted-use" aria-labelledby="permitted-use-heading">
+    <h2 id="permitted-use-heading">9. Propiedad intelectual y uso permitido</h2>
+    <p>
+      Puede consultar el sitio web para fines personales o consultas
+      profesionales y compartir enlaces a páginas públicas. No se permite la
+      copia comercial ni la reutilización no autorizadas de los textos, la
+      identidad visual, los informes, el código de las calculadoras o las
+      imágenes originales del sitio web. El material de terceros sigue sujeto a
+      los derechos que le sean aplicables.
+    </p>
+  </section>
+
+  <section id="prohibited-use" aria-labelledby="prohibited-use-heading">
+    <h2 id="prohibited-use-heading">10. Usos prohibidos</h2>
+    <p>No debe:</p>
+    <ul>
+      <li>
+        utilizar solicitudes automatizadas de forma que se abuse del sitio web o
+        se interrumpa su funcionamiento;
+      </li>
+      <li>
+        interferir con la seguridad o intentar obtener acceso no autorizado;
+      </li>
+      <li>realizar envíos maliciosos, engañosos o ilícitos;</li>
+      <li>adjuntar archivos ilícitos, dañinos o no autorizados; ni</li>
+      <li>
+        presentar los resultados de las calculadoras como presupuestos formales
+        o precios confirmados.
+      </li>
+    </ul>
+  </section>
+
+  <section id="liability" aria-labelledby="liability-heading">
+    <h2 id="liability-heading">11. Responsabilidad</h2>
+    <p>
+      La información del sitio web se ofrece con fines generales y debe
+      confirmarse para cada encargo concreto. En la medida permitida por la ley,
+      All Yacht Service no es responsable de decisiones basadas exclusivamente
+      en contenido general del sitio web, supuestos de las calculadoras o
+      información controlada por sitios web externos.
+    </p>
+    <p>
+      Nada de lo dispuesto en estas condiciones limita la responsabilidad por
+      fraude, conducta dolosa o cualquier responsabilidad que no pueda excluirse
+      legalmente, ni elimina derechos imperativos de los consumidores.
+    </p>
+  </section>
+
+  <section id="changes" aria-labelledby="terms-changes-heading">
+    <h2 id="terms-changes-heading">12. Cambios</h2>
+    <p>
+      Estas condiciones del sitio web pueden revisarse cuando cambien las
+      funciones del sitio o los requisitos legales. La fecha de revisión
+      indicada en la parte superior se actualizará cuando se realicen
+      modificaciones sustanciales.
+    </p>
+  </section>
+
+  <section id="governing-law" aria-labelledby="governing-law-heading">
+    <h2 id="governing-law-heading">
+      13. Legislación aplicable y controversias
+    </h2>
+    {
+      legalConfig.applicableLawText ? (
+        <p>{legalConfig.applicableLawText}</p>
+      ) : (
+        <p>
+          La redacción definitiva sobre legislación aplicable y controversias
+          está pendiente de confirmar la identidad del operador y la estructura
+          de los contratos de servicios. Este borrador no indexable no impone a
+          los consumidores la jurisdicción exclusiva de los tribunales de Altea
+          o de España.
+        </p>
+      )
+    }
+  </section>
+</PolicyPageLayout>
