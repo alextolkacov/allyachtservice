@@ -34,7 +34,7 @@ const ui = getSharedUi(currentLocale);
         const ariaLabel = getLanguageSwitcherLabel({
           currentLocale,
           targetLocale: language.code,
-          targetLabel: language.label,
+          targetLabel: language.name,
           isEquivalent,
           isCurrent,
         });
@@ -48,9 +48,7 @@ const ui = getSharedUi(currentLocale);
               aria-current={isCurrent ? 'page' : undefined}
               aria-label={ariaLabel}
             >
-              {mode === 'compact'
-                ? language.code.toUpperCase()
-                : language.nativeLabel}
+              {language.label}
             </a>
           </li>
         );

@@ -1,4 +1,4 @@
-export const localeCodes = ['en', 'es', 'ru', 'fr', 'it', 'gr'] as const;
+export const localeCodes = ['en', 'es', 'ru'] as const;
 
 export type Locale = (typeof localeCodes)[number];
 
@@ -6,8 +6,8 @@ export interface Language {
   code: Locale;
   htmlLang: string;
   hreflang: string;
+  name: string;
   label: string;
-  nativeLabel: string;
   pathPrefix: string;
   openGraphLocale: string;
 }
@@ -19,8 +19,8 @@ export const languages = [
     code: 'en',
     htmlLang: 'en',
     hreflang: 'en',
-    label: 'English',
-    nativeLabel: 'English',
+    name: 'English',
+    label: 'EN',
     pathPrefix: '',
     openGraphLocale: 'en_GB',
   },
@@ -28,8 +28,8 @@ export const languages = [
     code: 'es',
     htmlLang: 'es',
     hreflang: 'es',
-    label: 'Spanish',
-    nativeLabel: 'Español',
+    name: 'Spanish',
+    label: 'ES',
     pathPrefix: '/es',
     openGraphLocale: 'es_ES',
   },
@@ -37,37 +37,10 @@ export const languages = [
     code: 'ru',
     htmlLang: 'ru',
     hreflang: 'ru',
-    label: 'Russian',
-    nativeLabel: 'Русский',
+    name: 'Russian',
+    label: 'RU',
     pathPrefix: '/ru',
     openGraphLocale: 'ru_RU',
-  },
-  {
-    code: 'fr',
-    htmlLang: 'fr',
-    hreflang: 'fr',
-    label: 'French',
-    nativeLabel: 'Français',
-    pathPrefix: '/fr',
-    openGraphLocale: 'fr_FR',
-  },
-  {
-    code: 'it',
-    htmlLang: 'it',
-    hreflang: 'it',
-    label: 'Italian',
-    nativeLabel: 'Italiano',
-    pathPrefix: '/it',
-    openGraphLocale: 'it_IT',
-  },
-  {
-    code: 'gr',
-    htmlLang: 'el',
-    hreflang: 'el',
-    label: 'Greek',
-    nativeLabel: 'Ελληνικά',
-    pathPrefix: '/gr',
-    openGraphLocale: 'el_GR',
   },
 ] as const satisfies readonly Language[];
 

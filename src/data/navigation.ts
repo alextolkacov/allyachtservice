@@ -33,9 +33,6 @@ export const translatedRoutes: Record<
     en: '/',
     es: '/es',
     ru: '/ru',
-    fr: '/fr',
-    it: '/it',
-    gr: '/gr',
   },
   prePurchaseSurvey: {
     en: '/pre-purchase-survey',
@@ -115,9 +112,6 @@ export const primaryNavigation = [
       en: 'Home',
       es: 'Inicio',
       ru: 'Главная',
-      fr: 'Accueil',
-      it: 'Home',
-      gr: 'Αρχική',
     },
   },
   {
@@ -127,9 +121,6 @@ export const primaryNavigation = [
       en: 'Pre-Purchase Survey',
       es: 'Inspección precompra',
       ru: 'Осмотр перед покупкой',
-      fr: 'Expertise pré-achat',
-      it: 'Perizia pre-acquisto',
-      gr: 'Έλεγχος προ αγοράς',
     },
   },
   {
@@ -139,9 +130,6 @@ export const primaryNavigation = [
       en: 'Insurance Survey',
       es: 'Inspección para seguro',
       ru: 'Страховой осмотр',
-      fr: "Expertise d'assurance",
-      it: 'Perizia assicurativa',
-      gr: 'Έλεγχος ασφάλισης',
     },
   },
   {
@@ -151,9 +139,6 @@ export const primaryNavigation = [
       en: 'Valuation & Damage',
       es: 'Valoración y evaluación de daños',
       ru: 'Valuation & Damage',
-      fr: 'Valuation & Damage',
-      it: 'Valuation & Damage',
-      gr: 'Valuation & Damage',
     },
   },
   {
@@ -163,9 +148,6 @@ export const primaryNavigation = [
       en: 'Buyer Representation',
       es: 'Representación del comprador',
       ru: 'Представительство покупателя',
-      fr: "Représentation de l'acheteur",
-      it: "Rappresentanza dell'acquirente",
-      gr: 'Εκπροσώπηση αγοραστή',
     },
   },
   {
@@ -175,9 +157,6 @@ export const primaryNavigation = [
       en: 'Yacht Delivery',
       es: 'Entrega de yates',
       ru: 'Перегон яхт',
-      fr: 'Convoyage de yacht',
-      it: 'Trasferimento yacht',
-      gr: 'Μεταφορά σκαφών',
     },
   },
   {
@@ -187,9 +166,6 @@ export const primaryNavigation = [
       en: 'Yachts for Sale',
       es: 'Yates en venta',
       ru: 'Yachts for Sale',
-      fr: 'Yachts for Sale',
-      it: 'Yachts for Sale',
-      gr: 'Yachts for Sale',
     },
   },
   {
@@ -199,9 +175,6 @@ export const primaryNavigation = [
       en: 'About Us',
       es: 'Sobre nosotros',
       ru: 'О нас',
-      fr: 'À propos',
-      it: 'Chi siamo',
-      gr: 'Σχετικά με εμάς',
     },
   },
   {
@@ -211,9 +184,6 @@ export const primaryNavigation = [
       en: 'Contact',
       es: 'Contacto',
       ru: 'Контакты',
-      fr: 'Contact',
-      it: 'Contatti',
-      gr: 'Επικοινωνία',
     },
   },
 ] as const satisfies readonly NavigationItem[];

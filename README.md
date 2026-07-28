@@ -19,10 +19,11 @@ The Contact page uses a Cloudflare Pages Function, Turnstile, and the existing
 Google Workspace mailbox to validate and deliver enquiries securely.
 The Spanish homepage retains its approved localized development placeholder,
 and the Spanish Contact page is the first complete translated commercial
-route. The Russian, French, Italian, and Greek homepages retain localized
-development placeholders inside the same shared visual system. Spanish service
-pages, calculators, Survey Tips, Yachts for Sale, legal-policy translations,
-redirects, and reviews remain outside the current localisation batch.
+route. The Russian homepage retains its localized development placeholder
+inside the same shared visual system. Spanish service pages, calculators,
+Survey Tips, Yachts for Sale, legal-policy translations, redirects, and reviews
+remain outside the current localisation batch. French, Italian and Greek are
+deferred and not currently supported.
 
 ## Local setup
 
@@ -44,10 +45,18 @@ browser-language redirects.
 
 ## Spanish localisation
 
-Locale metadata remains central in `src/data/languages.ts`. The URL locale is
-`es`, the HTML language code is also `es`, and formatting uses `es-ES`. Greek
-continues to demonstrate why URL and language codes are separate: its URL
-prefix is `/gr`, while its HTML and hreflang code is `el`.
+Locale metadata remains central in `src/data/languages.ts`. The only supported
+languages are English, Spanish and Russian:
+
+| Language | URL locale | HTML language | Homepage | Label |
+| -------- | ---------- | ------------- | -------- | ----- |
+| English  | `en`       | `en`          | `/`      | `EN`  |
+| Spanish  | `es`       | `es`          | `/es`    | `ES`  |
+| Russian  | `ru`       | `ru`          | `/ru`    | `RU`  |
+
+Spanish formatting uses `es-ES`. French, Italian and Greek are deferred and not
+currently supported; they have no routes, selector entries, hreflang records,
+Open Graph locale alternates or sitemap entries.
 
 Published route equivalents are declared in the typed
 `translatedRoutes` map in `src/data/navigation.ts`. Only these Spanish
@@ -676,10 +685,8 @@ fallback.
 ## Content and translation conventions
 
 - English uses root URLs, such as `/` and `/services`.
-- Spanish, Russian, French, Italian, and Greek use `/es`, `/ru`, `/fr`, `/it`,
-  and `/gr`.
-- The Greek URL prefix is `gr`; its correct HTML and hreflang language code is
-  `el`.
+- Spanish and Russian use `/es` and `/ru`.
+- French, Italian and Greek are deferred and not currently supported.
 - URLs must be lowercase and ASCII-only, with hyphens between words.
 - Do not create `/home`, file-extension URLs, or language query parameters.
 - Do not add trailing slashes to internal links or canonical URLs.

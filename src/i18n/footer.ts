@@ -37,33 +37,6 @@ export const footerCopy = {
     tools: 'Инструменты',
     legal: 'Legal',
   },
-  fr: {
-    description:
-      'Expertise de yachts et assistance technique en Espagne et en Méditerranée.',
-    navigation: 'Navigation',
-    contact: 'Contact',
-    languages: 'Langues',
-    tools: 'Outils',
-    legal: 'Mentions légales',
-  },
-  it: {
-    description:
-      'Perizie nautiche e assistenza tecnica in Spagna e nel Mediterraneo.',
-    navigation: 'Navigazione',
-    contact: 'Contatti',
-    languages: 'Lingue',
-    tools: 'Strumenti',
-    legal: 'Note legali',
-  },
-  gr: {
-    description:
-      'Επιθεωρήσεις σκαφών και τεχνική υποστήριξη στην Ισπανία και τη Μεσόγειο.',
-    navigation: 'Πλοήγηση',
-    contact: 'Επικοινωνία',
-    languages: 'Γλώσσες',
-    tools: 'Εργαλεία',
-    legal: 'Νομικά',
-  },
 } as const satisfies Record<Locale, FooterCopy>;
 
 export const spanishFooter = {

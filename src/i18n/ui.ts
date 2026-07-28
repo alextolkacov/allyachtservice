@@ -93,9 +93,6 @@ const languageNamesInSpanish: Record<Locale, string> = {
   en: 'inglés',
   es: 'español',
   ru: 'ruso',
-  fr: 'francés',
-  it: 'italiano',
-  gr: 'griego',
 };
 
 export function getLanguageSwitcherLabel(input: {

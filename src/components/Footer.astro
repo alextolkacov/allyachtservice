@@ -234,7 +234,7 @@ const isSpanish = currentLocale === 'es';
 
     <div>
       <h2>{text.languages}</h2>
-      <ul class="footer-link-list" role="list">
+      <ul class="footer-link-list footer-language-list" role="list">
         {
           languages.map((language) => (
             <li>
@@ -246,7 +246,7 @@ const isSpanish = currentLocale === 'es';
                   language.code === currentLocale ? 'page' : undefined
                 }
               >
-                {language.nativeLabel}
+                {language.label}
               </a>
             </li>
           ))
