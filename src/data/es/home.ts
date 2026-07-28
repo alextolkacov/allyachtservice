@@ -62,6 +62,18 @@ export const spanishHomeServices = [
     },
   },
   {
+    title: 'Yates en venta',
+    description:
+      'Consulte los listados actuales y organice una inspección independiente o asistencia técnica antes de la compra.',
+    href: '/es/yachts-for-sale',
+    image: {
+      src: '/images/yachts-for-sale-marina.jpg',
+      alt: 'Yates amarrados en un puerto deportivo del Mediterráneo',
+      width: 2048,
+      height: 1536,
+    },
+  },
+  {
     title: 'Sobre All Yacht Service',
     description:
       'Inspección independiente de yates y asistencia técnica desde Marina Greenwich, Altea.',

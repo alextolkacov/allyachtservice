@@ -89,69 +89,59 @@ const servicesAreCurrent = isServiceRoute(routeId);
                 );
               })()
           }
-          <li class="desktop-services-item" data-services-menu>
-            <button
-              class="desktop-navigation-link desktop-services-trigger"
-              type="button"
-              aria-expanded="false"
-              aria-controls="desktop-services-dropdown"
-              aria-haspopup="true"
-              aria-current={servicesAreCurrent ? 'page' : undefined}
-              data-services-trigger
-            >
-              {ui.services}
-            </button>
-            <ul
-              class="desktop-services-dropdown"
-              id="desktop-services-dropdown"
-              role="list"
-              hidden
-              data-services-dropdown
-            >
-              {
-                serviceNavigation.map((item) => {
-                  const href = getNavigationHref(item, currentLocale);
-                  const linkLanguage = getNavigationLinkLanguage(
-                    item,
-                    currentLocale,
-                  );
-                  const isCurrent =
-                    'routeId' in item && item.routeId === routeId;
-                  const isFallback = isEnglishFallback(
-                    currentLocale,
-                    linkLanguage,
-                  );
-
-                  return (
-                    <li>
-                      <a
-                        href={href}
-                        lang={isFallback ? undefined : linkLanguage}
-                        aria-current={isCurrent ? 'page' : undefined}
-                      >
-                        {item.labels[currentLocale]}
-                        {isFallback && (
-                          <span class="navigation-language-note" lang="en">
-                            {' '}
-                            — {ui.englishFallback}
-                          </span>
-                        )}
-                      </a>
-                    </li>
-                  );
-                })
-              }
-            </ul>
-            <noscript>
-              <style>
-                .desktop-services-trigger {
-                  display: none;
-                }
-              </style>
-              <a class="desktop-navigation-link" href="/#services">
+          <li class="desktop-services-wrapper">
+            <details class="desktop-services-item" data-services-menu>
+              <summary
+                class="desktop-navigation-link desktop-services-trigger"
+                role="button"
+                aria-controls="desktop-services-dropdown"
+                aria-haspopup="true"
+                aria-current={servicesAreCurrent ? 'page' : undefined}
+                data-services-trigger
+              >
                 {ui.services}
-              </a>
-            </noscript>
+              </summary>
+              <ul
+                class="desktop-services-dropdown"
+                id="desktop-services-dropdown"
+                role="list"
+                data-services-dropdown
+              >
+                {
+                  serviceNavigation.map((item) => {
+                    const href = getNavigationHref(item, currentLocale);
+                    const linkLanguage = getNavigationLinkLanguage(
+                      item,
+                      currentLocale,
+                    );
+                    const isCurrent =
+                      'routeId' in item && item.routeId === routeId;
+                    const isFallback = isEnglishFallback(
+                      currentLocale,
+                      linkLanguage,
+                    );
+
+                    return (
+                      <li>
+                        <a
+                          href={href}
+                          lang={isFallback ? undefined : linkLanguage}
+                          aria-current={isCurrent ? 'page' : undefined}
+                        >
+                          {item.labels[currentLocale]}
+                          {isFallback && (
+                            <span class="navigation-language-note" lang="en">
+                              {' '}
+                              — {ui.englishFallback}
+                            </span>
+                          )}
+                        </a>
+                      </li>
+                    );
+                  })
+                }
+              </ul>
+            </details>
           </li>
           {
             secondaryNavigationItems.map((item) => {
@@ -193,8 +183,8 @@ const servicesAreCurrent = isServiceRoute(routeId);
 </header>
 
 <script>
-  const servicesMenus = document.querySelectorAll<HTMLElement>(
-    '[data-services-menu]',
+  const servicesMenus = document.querySelectorAll<HTMLDetailsElement>(
+    'details[data-services-menu]',
   );
 
   servicesMenus.forEach((menu) => {
@@ -211,30 +201,23 @@ const servicesAreCurrent = isServiceRoute(routeId);
       Array.from(dropdown.querySelectorAll<HTMLAnchorElement>('a[href]'));
 
     const closeMenu = (restoreFocus = false) => {
+      menu.open = false;
       trigger.setAttribute('aria-expanded', 'false');
-      dropdown.hidden = true;
       if (restoreFocus) trigger.focus();
     };
 
     const openMenu = (focusFirstLink = false) => {
+      menu.open = true;
       trigger.setAttribute('aria-expanded', 'true');
-      dropdown.hidden = false;
       if (focusFirstLink) links()[0]?.focus();
     };
 
-    trigger.addEventListener('click', () => {
-      const shouldOpen = trigger.getAttribute('aria-expanded') !== 'true';
-      if (shouldOpen) openMenu();
-      else closeMenu();
+    menu.addEventListener('toggle', () => {
+      trigger.setAttribute('aria-expanded', String(menu.open));
     });
 
     trigger.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        const shouldOpen = trigger.getAttribute('aria-expanded') !== 'true';
-        if (shouldOpen) openMenu();
-        else closeMenu();
-      } else if (event.key === 'ArrowDown') {
+      if (event.key === 'ArrowDown') {
         event.preventDefault();
         openMenu(true);
       } else if (event.key === 'Escape') {
@@ -276,10 +259,7 @@ const servicesAreCurrent = isServiceRoute(routeId);
     });
 
     document.addEventListener('pointerdown', (event) => {
-      if (
-        trigger.getAttribute('aria-expanded') === 'true' &&
-        !menu.contains(event.target as Node)
-      ) {
+      if (menu.open && !menu.contains(event.target as Node)) {
         closeMenu();
       }
     });

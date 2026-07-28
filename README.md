@@ -17,12 +17,12 @@ The English Yachts for Sale and Buyer Support referral page is available at
 `/yachts-for-sale`.
 The Contact page uses a Cloudflare Pages Function, Turnstile, and the existing
 Google Workspace mailbox to validate and deliver enquiries securely.
-Spanish Translation Batch 4 publishes six complete Spanish service and business
+Spanish Translation Batch 5 publishes six complete Spanish service and business
 pages, both calculator pages, the Yacht Survey Tips hub and its two published
-articles, the Spanish homepage and Contact page. The Russian homepage retains
-its localized development placeholder inside the same shared visual system.
-Spanish Yachts for Sale and legal policies remain pending. French, Italian and
-Greek are deferred and not currently supported.
+articles, the Yachts for Sale referral page, the Spanish homepage and Contact
+page. The Russian homepage retains its localized development placeholder inside
+the same shared visual system. Spanish legal policies remain pending. French,
+Italian and Greek are deferred and not currently supported.
 
 ## Local setup
 
@@ -72,6 +72,7 @@ in `src/data/navigation.ts`. The current Spanish equivalents are:
 | About Us                        | `/about-us`                                   | `/es/about-us`                                   |
 | Survey Cost Calculator          | `/pre-purchase-survey-calculator`             | `/es/pre-purchase-survey-calculator`             |
 | Delivery Cost Calculator        | `/yacht-delivery-calculator`                  | `/es/yacht-delivery-calculator`                  |
+| Yachts for Sale                 | `/yachts-for-sale`                            | `/es/yachts-for-sale`                            |
 | Yacht Survey Tips               | `/yacht-survey-tips`                          | `/es/yacht-survey-tips`                          |
 | Deck Moisture article           | `/yacht-survey-tips/deck-moisture-soft-spots` | `/es/yacht-survey-tips/deck-moisture-soft-spots` |
 | Shiny Hull article              | `/yacht-survey-tips/shiny-hull`               | `/es/yacht-survey-tips/shiny-hull`               |
@@ -149,13 +150,13 @@ professional description is appropriate. Natural contextual variations are
 allowed when they preserve the same technical meaning; never translate
 “survey” as a customer questionnaire.
 
-This remains staged localisation. Spanish Yachts for Sale and all four legal
-policies are pending, as are Russian translations beyond the homepage. English
-fallback links must identify their language until each real translation is
-published. The Spanish version must not be presented as complete until all
-planned batches and a final native-language, accessibility, legal and SEO
-review have passed. Production indexing remains blocked by the unresolved
-central legal configuration; keep `PUBLIC_SITE_INDEXABLE=false`.
+This remains staged localisation. All four Spanish legal policies are pending,
+as are Russian translations beyond the homepage. English fallback links must
+identify their language until each real translation is published. The Spanish
+version must not be presented as complete until the legal-policy batch and a
+final native-language, accessibility, legal and SEO review have passed.
+Production indexing remains blocked by the unresolved central legal
+configuration; keep `PUBLIC_SITE_INDEXABLE=false`.
 
 After a build, validate the current Spanish publishing boundary with:
 
@@ -166,9 +167,10 @@ npm run check:calculators
 
 ## Yachts for Sale referral page
 
-`/yachts-for-sale` is a static English gateway to current yacht listings on
-Premium Yachts Spain and to independent buyer-side technical support from All
-Yacht Service. The verified external destinations are:
+`/yachts-for-sale` and `/es/yachts-for-sale` are static English and Spanish
+gateways to current yacht listings on Premium Yachts Spain and to independent
+buyer-side technical support from All Yacht Service. The verified external
+destinations are:
 
 - brokerage overview:
   `https://www.premiumyachts.es/yacht-brokerage`
@@ -193,9 +195,18 @@ maintained.
 `Yachts for Sale` appears in the desktop header, flat mobile menu, homepage
 services grid, footer navigation and concise 404 destinations. Premium Yachts
 Spain links use meaningful text, a visible external-destination label where
-appropriate, `target="_blank"`, and `rel="noopener noreferrer"`. The page is
-English-only, so its SEO alternates contain only `en` and `x-default` until
-complete translations are published.
+appropriate, `target="_blank"`, and `rel="noopener noreferrer"`. The genuine
+page pair emits `en`, `es` and English `x-default` alternates; the Russian
+homepage fallback remains a navigation convenience and is not an hreflang
+equivalent. The Spanish page reuses the English page's images, external
+destinations, limitations and disclosure while localising only the visitor
+copy, metadata and structured-data fields.
+
+The desktop Services disclosure uses native `<details>` and `<summary>`
+behaviour so it remains operable by mouse and keyboard even before JavaScript
+enhancement runs. The enhancement adds Arrow-key focus management, Escape,
+focus-out and outside-click closing. The flat mobile navigation remains
+separate and unchanged.
 
 The three local page images are optimized copies of general imagery from the
 verified brokerage overview. They are illustrative only and must not be

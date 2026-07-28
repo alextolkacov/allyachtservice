@@ -4076,11 +4076,22 @@
     align-items: stretch;
   }
 
+  .desktop-services-item {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+  }
+
   .desktop-services-trigger {
+    list-style: none;
     border: 0;
     background: transparent;
     font-family: inherit;
     cursor: pointer;
+  }
+
+  .desktop-services-trigger::-webkit-details-marker {
+    display: none;
   }
 
   .desktop-services-dropdown {
@@ -4096,6 +4107,10 @@
     padding: 0.35rem 0;
     box-shadow: 0 0.75rem 1.5rem rgb(10 29 47 / 10%);
     list-style: none;
+  }
+
+  .desktop-services-item:not([open]) .desktop-services-dropdown {
+    display: none;
   }
 
   .desktop-services-dropdown a {

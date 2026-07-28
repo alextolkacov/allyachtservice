@@ -1,0 +1,292 @@
+---
+import { spanishYachtsForSalePage } from '../../data/es/yachts-for-sale';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(spanishYachtsForSalePage.pathname);
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: spanishYachtsForSalePage.title,
+  description: spanishYachtsForSalePage.description,
+  inLanguage: 'es',
+  about: {
+    '@id': businessEntityId,
+  },
+  primaryImageOfPage: {
+    '@type': 'ImageObject',
+    url: toAbsoluteUrl(spanishYachtsForSalePage.heroImage.src),
+    caption: spanishYachtsForSalePage.socialImageAlt,
+    width: spanishYachtsForSalePage.heroImage.width,
+    height: spanishYachtsForSalePage.heroImage.height,
+  },
+};
+---
+
+<ServiceLayout
+  {...spanishYachtsForSalePage}
+  locale="es"
+  routeId="yachtsForSale"
+  breadcrumbLabel="Migas de pan"
+  structuredData={webPageSchema}
+  relatedHeading="Servicios relacionados para compradores"
+  finalCtaEyebrow="Contacto"
+>
+  <section aria-labelledby="find-yacht-heading">
+    <p class="eyebrow">Listados externos y asistencia técnica independiente</p>
+    <h2 id="find-yacht-heading">
+      Encuentre el yate adecuado con asistencia profesional
+    </h2>
+    <p>
+      All Yacht Service no mantiene ni gestiona un inventario independiente de
+      yates en venta. Los yates disponibles a través del servicio de brokerage
+      son presentados y gestionados por Premium Yachts Spain.
+    </p>
+    <p>
+      Los posibles compradores pueden consultar externamente la selección actual
+      y organizar después asistencia técnica independiente, incluida la
+      representación del comprador, la inspección precompra, la asistencia
+      durante la prueba de mar y la elaboración de informes sobre el estado.
+    </p>
+    <p class="service-note">
+      La disponibilidad del yate, las especificaciones, los precios, la
+      situación fiscal y las condiciones del brokerage deben confirmarse siempre
+      directamente con el bróker responsable del anuncio.
+    </p>
+  </section>
+
+  <section
+    class="brokerage-destinations"
+    aria-labelledby="browse-listings-heading"
+  >
+    <p class="eyebrow">Premium Yachts Spain</p>
+    <h2 id="browse-listings-heading">Consulte los yates disponibles</h2>
+    <div class="brokerage-destination-grid">
+      {
+        spanishYachtsForSalePage.brokerageDestinations.map((destination) => (
+          <article class="brokerage-destination-card">
+            <img
+              src={destination.image.src}
+              alt={destination.image.alt}
+              width={destination.image.width}
+              height={destination.image.height}
+              loading="lazy"
+              decoding="async"
+            />
+            <div>
+              <p class="external-destination-label">Sitio web externo</p>
+              <h3>{destination.title}</h3>
+              <p>{destination.description}</p>
+              <a
+                class="text-arrow-link"
+                href={destination.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {destination.label}
+                <span aria-hidden="true">↗</span>
+                <span class="sr-only">
+                  en el sitio web de Premium Yachts Spain (se abre en una
+                  pestaña nueva)
+                </span>
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+    <p class="brokerage-listing-notice">
+      Los listados, las especificaciones, los precios y la disponibilidad pueden
+      cambiar. Confirme todos los datos directamente con Premium Yachts Spain
+      antes de basarse en ellos.
+    </p>
+    <p class="brokerage-image-note">
+      Las imágenes son vistas ilustrativas procedentes de Premium Yachts Spain y
+      no confirman que el yate fotografiado se encuentre actualmente en venta.
+    </p>
+  </section>
+
+  <section aria-labelledby="buyer-support-heading">
+    <h2 id="buyer-support-heading">
+      Asistencia independiente antes de comprar
+    </h2>
+    <p>
+      El anuncio de un yate proporciona información comercial inicial, pero no
+      sustituye una evaluación técnica independiente de la embarcación concreta.
+    </p>
+    <p>
+      All Yacht Service puede ayudar a los posibles compradores mediante la
+      revisión del yate, la documentación disponible, el estado observado y los
+      riesgos prácticos de la compra dentro de un alcance acordado.
+    </p>
+    <p>La asistencia puede incluir:</p>
+    <ul class="service-check-list buyer-support-list">
+      {
+        spanishYachtsForSalePage.buyerSupportItems.map((item) => (
+          <li>{item}</li>
+        ))
+      }
+    </ul>
+    <a
+      class="button button-outline-navy contextual-cta"
+      href="/es/buyer-representation"
+    >
+      Ver representación del comprador
+    </a>
+  </section>
+
+  <section aria-labelledby="pre-purchase-heading">
+    <h2 id="pre-purchase-heading">
+      Organice una inspección precompra del yate
+    </h2>
+    <p>
+      La inspección precompra es encargada por el posible comprador para evaluar
+      el estado accesible del yate e identificar hallazgos relevantes antes de
+      completar la compra.
+    </p>
+    <p>
+      Dependiendo del alcance acordado, la inspección puede incluir el casco, la
+      cubierta, la estructura, la maquinaria, los sistemas eléctricos, la
+      fontanería, los equipos de seguridad, el aparejo, los componentes
+      sumergidos y la prueba de mar.
+    </p>
+    <p class="service-note">
+      El acceso, el estado de funcionamiento, los permisos y el alcance acordado
+      determinan qué puede inspeccionarse o probarse. Una inspección no
+      garantiza que todos los sistemas puedan comprobarse por completo.
+    </p>
+    <div class="buyer-page-actions">
+      <a class="button button-navy" href="/es/pre-purchase-survey">
+        Ver inspección precompra
+      </a>
+      <a
+        class="button button-outline-navy"
+        href="/es/pre-purchase-survey-calculator"
+      >
+        Calcular coste de inspección
+      </a>
+      <a
+        class="button button-outline-navy"
+        href="/es/contact?service=pre-purchase-survey"
+      >
+        Solicitar presupuesto
+      </a>
+    </div>
+  </section>
+
+  <section class="commercial-disclosure" aria-labelledby="relationship-heading">
+    <p class="eyebrow eyebrow-light">Información sobre la relación comercial</p>
+    <h2 id="relationship-heading">Relación con Premium Yachts Spain</h2>
+    <p>
+      Aleksandrs Tolkacovs es director de operaciones de Premium Yachts Spain.
+      Premium Yachts Spain y All Yacht Service son actividades empresariales
+      separadas y desempeñan funciones comerciales diferentes.
+    </p>
+    <p>
+      Premium Yachts Spain presta servicios de brokerage y venta de yates. All
+      Yacht Service presta servicios de inspección naval y asistencia técnica.
+    </p>
+    <p>
+      Cuando un yate figure en un anuncio de Premium Yachts Spain, haya sido
+      presentado por esta empresa o mantenga una relación comercial con ella,
+      dicha relación se comunicará antes de que All Yacht Service acepte un
+      encargo de inspección o de asistencia al comprador.
+    </p>
+    <p>
+      El posible comprador mantiene plena libertad para designar a cualquier
+      inspector naval independiente.
+    </p>
+    <p>
+      All Yacht Service puede rechazar un encargo o recomendar a otro inspector
+      cuando la relación no pueda comunicarse o gestionarse adecuadamente.
+    </p>
+  </section>
+
+  <section aria-labelledby="conflicts-heading">
+    <h2 id="conflicts-heading">
+      Cómo se gestionan los posibles conflictos de intereses
+    </h2>
+    <ul class="service-check-list">
+      {spanishYachtsForSalePage.conflictItems.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="service-note">
+      Un informe de inspección no debe interpretarse como asesoramiento de
+      brokerage, una recomendación de compra ni una garantía sobre el estado
+      futuro del yate.
+    </p>
+  </section>
+
+  <section aria-labelledby="buyer-journey-heading">
+    <h2 id="buyer-journey-heading">Un proceso práctico para el comprador</h2>
+    <ol class="process-list">
+      {
+        spanishYachtsForSalePage.buyerJourney.map((step, index) => (
+          <li>
+            <div>
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section aria-labelledby="buyer-documents-heading">
+    <h2 id="buyer-documents-heading">
+      Información útil que conviene solicitar antes de la inspección
+    </h2>
+    <ul class="document-request-grid">
+      {spanishYachtsForSalePage.documentItems.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="service-note">
+      La revisión documental se limita al material facilitado y no constituye
+      una verificación legal del título, la propiedad, la financiación, la
+      situación fiscal ni el registro.
+    </p>
+  </section>
+
+  <section aria-labelledby="survey-brokerage-heading">
+    <h2 id="survey-brokerage-heading">
+      ¿Por qué inspeccionar un yate ofrecido por un bróker?
+    </h2>
+    <ul class="service-check-list">
+      {spanishYachtsForSalePage.surveyReasons.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="service-note">
+      Una inspección reduce la incertidumbre, pero no puede eliminar todos los
+      riesgos de la compra ni identificar todos los defectos ocultos.
+    </p>
+  </section>
+
+  <section aria-labelledby="buyer-coverage-heading">
+    <h2 id="buyer-coverage-heading">
+      Asistencia para compradores de yates en España y el Mediterráneo
+    </h2>
+    <p>
+      All Yacht Service ayuda a compradores que están considerando la
+      adquisición de veleros, yates a motor y catamaranes en España y otros
+      lugares del Mediterráneo.
+    </p>
+    <p>
+      Con base en Marina Greenwich, Altea, los encargos pueden organizarse en
+      Alicante, la Costa Blanca, Valencia, Barcelona, la España peninsular, las
+      Islas Baleares y, previo acuerdo, Francia, Italia, Grecia y otros lugares.
+    </p>
+    <p class="service-note">
+      Los costes de desplazamiento, alojamiento, acceso al puerto deportivo,
+      varada y especialistas se presupuestan por separado cuando corresponda.
+    </p>
+  </section>
+</ServiceLayout>

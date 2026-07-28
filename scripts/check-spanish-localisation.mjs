@@ -119,6 +119,8 @@ const navigationSource = read('src/data/navigation.ts');
 const astroConfig = read('astro.config.ts');
 const footerSource = read('src/i18n/footer.ts');
 const uiSource = read('src/i18n/ui.ts');
+const headerSource = read('src/components/Header.astro');
+const globalStyles = read('src/styles/global.css');
 const centralLocaleSources = [
   localeSource,
   navigationSource,
@@ -146,6 +148,18 @@ assert(
 assert(
   !/['"]\/(?:fr|it|gr)(?:\/|['"])/u.test(centralLocaleSources),
   'A removed French, Italian or Greek route remains in central configuration.',
+);
+assert(
+  /<details\s+class="desktop-services-item"\s+data-services-menu>/u.test(
+    headerSource,
+  ) &&
+    /<summary[\s\S]*?class="desktop-navigation-link desktop-services-trigger"[\s\S]*?data-services-trigger/u.test(
+      headerSource,
+    ) &&
+    globalStyles.includes(
+      '.desktop-services-item:not([open]) .desktop-services-dropdown',
+    ),
+  'The desktop Services menu must retain its native clickable disclosure.',
 );
 
 for (const locale of ['fr', 'it', 'gr']) {
@@ -289,6 +303,15 @@ const spanishSurveyTipsPages = [
   },
 ];
 
+const spanishYachtsForSalePage = {
+  en: '/yachts-for-sale',
+  es: '/es/yachts-for-sale',
+  title: 'Yates en venta y asistencia al comprador | All Yacht Service',
+  description:
+    'Consulte yates en venta a través de Premium Yachts Spain y solicite representación del comprador o una inspección precompra independiente.',
+  h1: 'Yates en venta y asistencia independiente al comprador',
+};
+
 const distDirectory = resolve(projectRoot, 'dist');
 assert(
   existsSync(distDirectory),
@@ -314,6 +337,8 @@ if (existsSync(distDirectory)) {
     '/es/contact',
     ...translatedPages.flatMap(({ en, es }) => [en, es]),
     ...spanishSurveyTipsPages.flatMap(({ en, es }) => [en, es]),
+    spanishYachtsForSalePage.en,
+    spanishYachtsForSalePage.es,
   ];
   for (const pathname of requiredRoutes) {
     assert(
@@ -330,7 +355,7 @@ if (existsSync(distDirectory)) {
     '/ru/yacht-survey-tips',
     '/ru/yacht-survey-tips/deck-moisture-soft-spots',
     '/ru/yacht-survey-tips/shiny-hull',
-    '/es/yachts-for-sale',
+    '/ru/yachts-for-sale',
     '/es/privacy-policy',
     '/es/cookie-policy',
     '/es/legal-notice',
@@ -568,6 +593,104 @@ if (existsSync(distDirectory)) {
     }
   }
 
+  {
+    const page = spanishYachtsForSalePage;
+    const english = getBuiltPage(page.en);
+    const spanish = getBuiltPage(page.es);
+    const alternates = {
+      en: absolute(page.en),
+      es: absolute(page.es),
+      'x-default': absolute(page.en),
+    };
+
+    assertHreflangs(english, alternates, page.en);
+    assertHreflangs(spanish, alternates, page.es);
+    assertOpenGraphLocales(english, 'en_GB', ['es_ES'], page.en);
+    assertOpenGraphLocales(spanish, 'es_ES', ['en_GB'], page.es);
+    assert(
+      !getHreflangs(english).some(({ hreflang }) => hreflang === 'ru') &&
+        !getHreflangs(spanish).some(({ hreflang }) => hreflang === 'ru'),
+      `${page.en} or ${page.es} exposes a Russian homepage fallback as hreflang.`,
+    );
+    assert(
+      spanish.includes('<html lang="es">') &&
+        (spanish.match(/<h1(?:\s|>)/gu) ?? []).length === 1 &&
+        spanish.includes(`<h1>${page.h1}</h1>`),
+      `${page.es} must use Spanish and contain its single required H1.`,
+    );
+    assert(
+      spanish.includes(`<title>${page.title}</title>`) &&
+        spanish.includes(
+          `<meta name="description" content="${page.description}">`,
+        ) &&
+        spanish.includes(
+          `<link rel="canonical" href="${absolute(page.es)}">`,
+        ) &&
+        spanish.includes(
+          `<meta property="og:url" content="${absolute(page.es)}">`,
+        ),
+      `${page.es} has incorrect metadata, canonical or Open Graph URL.`,
+    );
+
+    const schemas = getSchemas(spanish, page.es);
+    assert(
+      schemas.some(
+        (schema) =>
+          schema['@type'] === 'WebPage' &&
+          schema['@id'] === `${absolute(page.es)}#page` &&
+          schema.inLanguage === 'es',
+      ) &&
+        schemas.some((schema) => schema['@type'] === 'BreadcrumbList') &&
+        JSON.stringify(schemas).includes(
+          'https://www.allyachtservice.com/#business',
+        ),
+      `${page.es} has incomplete or unstable structured data.`,
+    );
+    assert(
+      !schemas.some((schema) =>
+        ['Product', 'Offer', 'ItemList'].includes(schema['@type']),
+      ),
+      `${page.es} must not expose brokerage inventory or offer schema.`,
+    );
+
+    for (const href of [
+      '/es/buyer-representation',
+      '/es/pre-purchase-survey',
+      '/es/pre-purchase-survey-calculator',
+      '/es/valuation-damage-survey',
+      '/es/yacht-survey-tips',
+      '/es/contact?service=buyer-representation',
+      '/es/contact?service=pre-purchase-survey',
+    ]) {
+      assert(
+        spanish.includes(`href="${href}"`),
+        `${page.es} does not link to ${href}.`,
+      );
+    }
+
+    for (const href of [
+      'https://www.premiumyachts.es/yacht-brokerage',
+      'https://www.premiumyachts.es/yacht-brokerage/sailing-boats',
+      'https://www.premiumyachts.es/yacht-brokerage/power-boats',
+    ]) {
+      assert(
+        spanish.includes(`href="${href}"`) &&
+          spanish.includes('target="_blank"') &&
+          spanish.includes('rel="noopener noreferrer"'),
+        `${page.es} does not preserve secure external brokerage links.`,
+      );
+    }
+    assert(
+      spanish.includes(
+        'Aleksandrs Tolkacovs es director de operaciones de Premium Yachts Spain.',
+      ) &&
+        spanish.includes(
+          'El posible comprador mantiene plena libertad para designar a cualquier inspector naval independiente.',
+        ),
+      `${page.es} is missing the commercial relationship disclosure.`,
+    );
+  }
+
   const aboutSchemas = getSchemas(getBuiltPage('/es/about-us'), '/es/about-us');
   assert(
     aboutSchemas.some(
@@ -586,6 +709,10 @@ if (existsSync(distDirectory)) {
       `/es homepage does not link to ${pathname}.`,
     );
   }
+  assert(
+    spanishHome.includes('href="/es/yachts-for-sale"'),
+    'The Spanish homepage does not link to the translated Yachts for Sale page.',
+  );
   for (const pathname of translatedServiceRoutes.filter(
     (route) => route !== '/es/about-us',
   )) {
@@ -607,8 +734,9 @@ if (existsSync(distDirectory)) {
       );
     }
     assert(
-      spanish.includes('href="/yachts-for-sale"') && spanish.includes('inglés'),
-      `${page.es} does not identify Yachts for Sale as English-only.`,
+      spanish.includes('href="/es/yachts-for-sale"') &&
+        !spanish.includes('href="/yachts-for-sale"'),
+      `${page.es} does not use the Spanish Yachts for Sale route.`,
     );
   }
 
@@ -739,6 +867,7 @@ if (existsSync(distDirectory)) {
     'src/data/es/yacht-survey-tips.ts',
     'src/data/es/yacht-survey-tips/deck-moisture-soft-spots.ts',
     'src/data/es/yacht-survey-tips/shiny-hull.ts',
+    'src/data/es/yachts-for-sale.ts',
   ]
     .map(read)
     .join('\n');
@@ -851,6 +980,7 @@ if (existsSync(distDirectory)) {
     '/es/contact',
     ...translatedServiceRoutes,
     ...spanishSurveyTipsPages.map(({ es }) => es),
+    spanishYachtsForSalePage.es,
   ]) {
     assert(
       sitemap.includes(`<loc>${absolute(pathname)}</loc>`),
@@ -871,6 +1001,6 @@ if (failures.length > 0) {
   process.exitCode = 1;
 } else {
   process.stdout.write(
-    'Localisation validation passed for EN/ES Batch 4 equivalents, Spanish Survey Tips, calculators, navigation, metadata, schemas, sitemap, terminology, article ordering, image integrity, and route boundaries.\n',
+    'Localisation validation passed for EN/ES Batch 5 equivalents, Spanish Yachts for Sale, Survey Tips, calculators, navigation, metadata, schemas, sitemap, terminology, article ordering, image integrity, and route boundaries.\n',
   );
 }

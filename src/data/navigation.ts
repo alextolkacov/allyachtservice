@@ -72,6 +72,7 @@ export const translatedRoutes: Record<
   },
   yachtsForSale: {
     en: '/yachts-for-sale',
+    es: '/es/yachts-for-sale',
   },
   yachtSurveyTips: {
     en: '/yacht-survey-tips',
