@@ -1,0 +1,122 @@
+---
+import YachtDeliveryCalculator from '../../components/YachtDeliveryCalculator.astro';
+import { spanishYachtDeliveryCalculatorPage as page } from '../../data/es/yacht-delivery-calculator';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(page.pathname);
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: page.title,
+  description: page.description,
+  inLanguage: 'es',
+  about: {
+    '@id': businessEntityId,
+  },
+};
+---
+
+<ServiceLayout
+  title={page.title}
+  description={page.description}
+  locale="es"
+  routeId="yachtDeliveryCalculator"
+  pathname={page.pathname}
+  heading={page.heading}
+  eyebrow={page.eyebrow}
+  summary={page.summary}
+  heroImage={page.heroImage}
+  socialImageAlt={page.socialImageAlt}
+  breadcrumbs={page.breadcrumbs}
+  breadcrumbLabel="Migas de pan"
+  primaryCta={page.primaryCta}
+  secondaryCta={page.secondaryCta}
+  relatedServices={page.relatedServices}
+  relatedHeading={page.relatedHeading}
+  finalCta={page.finalCta}
+  structuredData={webPageSchema}
+>
+  <section aria-labelledby="estimacion-entrega-heading">
+    <h2 id="estimacion-entrega-heading">
+      Calcule una estimación inicial de la entrega
+    </h2>
+    <p>
+      Seleccione el puerto de salida, el destino, el tipo y el intervalo de
+      eslora del yate, además de las condiciones previstas, para calcular una
+      distancia marítima aproximada y unos honorarios profesionales iniciales.
+    </p>
+    <p>
+      La distancia se basa en una ruta marítima aproximada y no sustituye la
+      planificación de una travesía. El presupuesto formal se preparará después
+      de revisar el yate, la ruta, los plazos, la tripulación y los requisitos
+      operativos.
+    </p>
+  </section>
+
+  <YachtDeliveryCalculator locale="es" />
+
+  <section aria-labelledby="funcionamiento-ruta-heading">
+    <h2 id="funcionamiento-ruta-heading">Cómo se calcula la ruta aproximada</h2>
+    <p>
+      La calculadora utiliza un grafo simplificado de puertos y corredores
+      marítimos del Mediterráneo y del Atlántico próximo. Combina las distancias
+      entre puntos conectados para encontrar un corredor marítimo aproximado.
+    </p>
+    <p>
+      El resultado no es un plan de travesía y no debe utilizarse para la
+      navegación.
+    </p>
+  </section>
+
+  <section aria-labelledby="factores-presupuesto-heading">
+    <h2 id="factores-presupuesto-heading">
+      ¿Qué influye en el presupuesto final?
+    </h2>
+    <ul class="defect-grid">
+      {page.quotationFactors.map((factor) => <li>{factor}</li>)}
+    </ul>
+  </section>
+
+  <section aria-labelledby="costes-separados-heading">
+    <h2 id="costes-separados-heading">
+      ¿Qué se presupuesta normalmente por separado?
+    </h2>
+    <ul class="service-check-list">
+      {page.separatelyQuoted.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+
+  <section aria-labelledby="siguientes-pasos-entrega-heading">
+    <h2 id="siguientes-pasos-entrega-heading">¿Qué ocurre después?</h2>
+    <ol class="process-list">
+      {
+        page.nextSteps.map((step, index) => (
+          <li>
+            <div>
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+    <p>
+      Consulte más información sobre el servicio de
+      {' '}<a class="text-link" href="/es/yacht-delivery"
+        >entrega profesional de yates</a
+      >.
+    </p>
+  </section>
+</ServiceLayout>

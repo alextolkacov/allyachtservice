@@ -211,8 +211,7 @@ export const spanishPrePurchaseSurveyPage = {
         'Utilice la eslora, el tipo de embarcación y el alcance de la inspección para obtener una estimación aproximada y no vinculante antes de solicitar un presupuesto formal.',
       link: {
         label: 'Calcular el coste de la inspección',
-        href: '/pre-purchase-survey-calculator',
-        languageNote: 'calculadora disponible actualmente en inglés',
+        href: '/es/pre-purchase-survey-calculator',
       },
     },
     {

@@ -228,6 +228,28 @@ const translatedPages = [
     pageType: 'AboutPage',
     serviceCount: 0,
   },
+  {
+    en: '/pre-purchase-survey-calculator',
+    es: '/es/pre-purchase-survey-calculator',
+    title: 'Calculadora de inspección precompra | All Yacht Service',
+    description:
+      'Calcule una estimación inicial del coste de una inspección precompra de un yate según su eslora, tipo y alcance de inspección.',
+    h1: 'Calculadora del coste de una inspección precompra',
+    pageType: 'WebPage',
+    serviceCount: 0,
+    serviceCode: 'pre-purchase-survey',
+  },
+  {
+    en: '/yacht-delivery-calculator',
+    es: '/es/yacht-delivery-calculator',
+    title: 'Calculadora de entrega de yates | All Yacht Service',
+    description:
+      'Calcule una estimación inicial de la distancia marítima y los honorarios profesionales para la entrega de un yate en el Mediterráneo.',
+    h1: 'Calculadora de entrega profesional de yates',
+    pageType: 'WebPage',
+    serviceCount: 0,
+    serviceCode: 'yacht-delivery',
+  },
 ];
 
 const distDirectory = resolve(projectRoot, 'dist');
@@ -267,8 +289,6 @@ if (existsSync(distDirectory)) {
     '/it',
     '/gr',
     '/ru/contact',
-    '/es/pre-purchase-survey-calculator',
-    '/es/yacht-delivery-calculator',
     '/es/yacht-survey-tips',
     '/es/yachts-for-sale',
     '/es/privacy-policy',
@@ -457,15 +477,21 @@ if (existsSync(distDirectory)) {
 
   assert(
     getBuiltPage('/es/pre-purchase-survey').includes(
-      'href="/pre-purchase-survey-calculator"',
-    ) && getBuiltPage('/es/pre-purchase-survey').includes('en inglés'),
-    'The Spanish survey calculator fallback is missing or unlabeled.',
+      'href="/es/pre-purchase-survey-calculator"',
+    ) &&
+      !getBuiltPage('/es/pre-purchase-survey').includes(
+        'calculadora disponible actualmente en inglés',
+      ),
+    'The Spanish survey service does not link to the translated calculator.',
   );
   assert(
     getBuiltPage('/es/yacht-delivery').includes(
-      'href="/yacht-delivery-calculator"',
-    ) && getBuiltPage('/es/yacht-delivery').includes('en inglés'),
-    'The Spanish delivery calculator fallback is missing or unlabeled.',
+      'href="/es/yacht-delivery-calculator"',
+    ) &&
+      !getBuiltPage('/es/yacht-delivery').includes(
+        'calculadora disponible actualmente en inglés',
+      ),
+    'The Spanish delivery service does not link to the translated calculator.',
   );
 
   for (const [path, html] of builtPages) {
@@ -541,10 +567,16 @@ if (existsSync(distDirectory)) {
     getBuiltPage('/pre-purchase-survey-calculator').includes(
       'data-survey-calculator',
     ) &&
+      getBuiltPage('/es/pre-purchase-survey-calculator').includes(
+        'data-survey-calculator data-locale="es"',
+      ) &&
       getBuiltPage('/yacht-delivery-calculator').includes(
         'data-delivery-calculator',
+      ) &&
+      getBuiltPage('/es/yacht-delivery-calculator').includes(
+        'data-delivery-calculator data-locale="es"',
       ),
-    'An existing English calculator is missing or structurally incompatible.',
+    'An English or Spanish calculator is missing or structurally incompatible.',
   );
 
   const terminologySources = [
@@ -608,6 +640,6 @@ if (failures.length > 0) {
   process.exitCode = 1;
 } else {
   process.stdout.write(
-    'Localisation validation passed for EN/ES Batch 2 equivalents, Spanish navigation, metadata, schemas, sitemap, terminology, and route boundaries.\n',
+    'Localisation validation passed for EN/ES Batch 3 equivalents, Spanish navigation, calculators, metadata, schemas, sitemap, terminology, and route boundaries.\n',
   );
 }

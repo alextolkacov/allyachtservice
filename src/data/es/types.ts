@@ -89,7 +89,7 @@ export interface LocalizedToolSection {
   link: {
     label: string;
     href: string;
-    languageNote: string;
+    languageNote?: string;
     analyticsEvent?: string;
   };
 }

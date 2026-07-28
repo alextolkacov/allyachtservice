@@ -15,6 +15,7 @@ const { locale = 'en' } = Astro.props;
 const contactLocale = getContactLocale(locale);
 const copy = contactFormCopy[contactLocale];
 const services = getContactServiceOptions(contactLocale);
+const calculatorPathPrefix = contactLocale === 'es' ? '/es' : '';
 const turnstileSiteKey =
   import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
 const turnstileIsConfigured = turnstileSiteKey.length > 0;
@@ -284,7 +285,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
           hidden
           data-survey-calculator-suggestion
         >
-          <a href="/pre-purchase-survey-calculator">
+          <a href={`${calculatorPathPrefix}/pre-purchase-survey-calculator`}>
             {copy.surveyCalculatorSuggestion}
           </a>
         </p>
@@ -293,7 +294,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
           hidden
           data-delivery-calculator-suggestion
         >
-          <a href="/yacht-delivery-calculator">
+          <a href={`${calculatorPathPrefix}/yacht-delivery-calculator`}>
             {copy.deliveryCalculatorSuggestion}
           </a>
         </p>

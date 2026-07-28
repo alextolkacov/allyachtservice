@@ -149,24 +149,26 @@ const isSpanish = currentLocale === 'es';
       <ul class="footer-link-list" role="list">
         <li>
           <a
-            href="/pre-purchase-survey-calculator"
+            href={getRequiredRoutePath(
+              'prePurchaseSurveyCalculator',
+              isSpanish ? 'es' : 'en',
+            )}
             lang={isSpanish ? undefined : 'en'}
           >
-            {
-              isSpanish
-                ? `${spanishFooter.tools.survey} — ${ui.englishFallbackLowercase}`
-                : 'Survey Cost Calculator'
-            }
+            {isSpanish ? spanishFooter.tools.survey : 'Survey Cost Calculator'}
           </a>
         </li>
         <li>
           <a
-            href="/yacht-delivery-calculator"
+            href={getRequiredRoutePath(
+              'yachtDeliveryCalculator',
+              isSpanish ? 'es' : 'en',
+            )}
             lang={isSpanish ? undefined : 'en'}
           >
             {
               isSpanish
-                ? `${spanishFooter.tools.delivery} — ${ui.englishFallbackLowercase}`
+                ? spanishFooter.tools.delivery
                 : 'Yacht Delivery Cost Calculator'
             }
           </a>

@@ -2214,6 +2214,12 @@
     line-height: 1.6;
   }
 
+  .delivery-port-coverage .text-link {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+  }
+
   .delivery-choice-group > .form-field-help {
     margin-top: 1rem;
   }

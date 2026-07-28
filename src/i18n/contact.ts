@@ -248,9 +248,9 @@ export const contactFormCopy = {
       'Se necesita JavaScript para la verificación segura. Puede escribir a',
     noscriptAfter: 'en su lugar.',
     surveyCalculatorSuggestion:
-      'Calcular primero un coste aproximado de inspección — calculadora en inglés',
+      'Calcular primero un coste aproximado de inspección',
     deliveryCalculatorSuggestion:
-      'Calcular primero un coste aproximado de entrega — calculadora en inglés',
+      'Calcular primero un coste aproximado de entrega',
     valuationDamageHelper:
       'Indique si necesita una valoración, una evaluación de daños o un encargo combinado.',
     transferred: 'Estimación transferida',

@@ -9,7 +9,7 @@ Condition Yacht Survey page, Yacht Buyer Representation page, Yacht Delivery
 page, Yacht Valuation and Damage Assessment page, About Us page, and
 Pre-Purchase Yacht Survey Cost Calculator contain the first production-ready
 implementations. The Yacht Delivery Cost Calculator is also available as a
-native English planning tool.
+native planning tool.
 The English Yacht Survey Tips hub and its first two articles are available at
 `/yacht-survey-tips`, `/yacht-survey-tips/shiny-hull`, and
 `/yacht-survey-tips/deck-moisture-soft-spots`.
@@ -17,12 +17,12 @@ The English Yachts for Sale and Buyer Support referral page is available at
 `/yachts-for-sale`.
 The Contact page uses a Cloudflare Pages Function, Turnstile, and the existing
 Google Workspace mailbox to validate and deliver enquiries securely.
-Spanish Translation Batch 2 publishes six complete Spanish service and
-business pages alongside the Spanish homepage and Contact page. The Russian
-homepage retains its localized development placeholder inside the same shared
-visual system. Spanish calculators, Survey Tips, Yachts for Sale and legal
-policies remain pending. French, Italian and Greek are deferred and not
-currently supported.
+Spanish Translation Batch 3 publishes six complete Spanish service and business
+pages, both calculator pages, the Spanish homepage and Contact page. The
+Russian homepage retains its localized development placeholder inside the same
+shared visual system. Spanish Survey Tips, Yachts for Sale and legal policies
+remain pending. French, Italian and Greek are deferred and not currently
+supported.
 
 ## Local setup
 
@@ -60,16 +60,18 @@ Open Graph locale alternates or sitemap entries.
 Published route equivalents are declared in the typed `translatedRoutes` map
 in `src/data/navigation.ts`. The current Spanish equivalents are:
 
-| Content                         | English                    | Spanish                       |
-| ------------------------------- | -------------------------- | ----------------------------- |
-| Home                            | `/`                        | `/es`                         |
-| Contact                         | `/contact`                 | `/es/contact`                 |
-| Pre-Purchase Survey             | `/pre-purchase-survey`     | `/es/pre-purchase-survey`     |
-| Insurance Condition Survey      | `/insurance-survey`        | `/es/insurance-survey`        |
-| Buyer Representation            | `/buyer-representation`    | `/es/buyer-representation`    |
-| Yacht Delivery                  | `/yacht-delivery`          | `/es/yacht-delivery`          |
-| Valuation and Damage Assessment | `/valuation-damage-survey` | `/es/valuation-damage-survey` |
-| About Us                        | `/about-us`                | `/es/about-us`                |
+| Content                         | English                           | Spanish                              |
+| ------------------------------- | --------------------------------- | ------------------------------------ |
+| Home                            | `/`                               | `/es`                                |
+| Contact                         | `/contact`                        | `/es/contact`                        |
+| Pre-Purchase Survey             | `/pre-purchase-survey`            | `/es/pre-purchase-survey`            |
+| Insurance Condition Survey      | `/insurance-survey`               | `/es/insurance-survey`               |
+| Buyer Representation            | `/buyer-representation`           | `/es/buyer-representation`           |
+| Yacht Delivery                  | `/yacht-delivery`                 | `/es/yacht-delivery`                 |
+| Valuation and Damage Assessment | `/valuation-damage-survey`        | `/es/valuation-damage-survey`        |
+| About Us                        | `/about-us`                       | `/es/about-us`                       |
+| Survey Cost Calculator          | `/pre-purchase-survey-calculator` | `/es/pre-purchase-survey-calculator` |
+| Delivery Cost Calculator        | `/yacht-delivery-calculator`      | `/es/yacht-delivery-calculator`      |
 
 The language switcher uses an equivalent route when the map contains one. If a
 translation is not published, it links to that language's homepage and its
@@ -80,7 +82,10 @@ add a locale to the route map until the corresponding static page genuinely
 exists.
 
 The small typed dictionaries in `src/i18n/` contain shared Spanish interface,
-footer, Contact, validation and calculator-summary presentation strings.
+footer, Contact, validation and calculator presentation strings. Both
+calculator components read `src/i18n/calculators.ts`; the locale changes only
+visible copy and `en-GB`/`es-ES` formatting. Pure calculations, canonical enum
+values and estimate contracts remain locale-free in `src/lib/calculators/`.
 Page-specific Spanish content lives in typed modules under `src/data/es/` and
 is rendered through the shared layouts and localized content components. The
 current English page component, data, metadata, schema, CTA destinations,
@@ -130,8 +135,8 @@ professional description is appropriate. Natural contextual variations are
 allowed when they preserve the same technical meaning; never translate
 “survey” as a customer questionnaire.
 
-This remains staged localisation. Spanish calculators, Yacht Survey Tips,
-Yachts for Sale and all four legal policies are pending, as are Russian
+This remains staged localisation. Spanish Yacht Survey Tips, Yachts for Sale
+and all four legal policies are pending, as are Russian
 translations beyond the homepage. English fallback links must identify their
 language until each real translation is published. The Spanish version must
 not be presented as complete until all planned batches and a final
@@ -143,6 +148,7 @@ After a build, validate the current Spanish publishing boundary with:
 
 ```sh
 npm run check:i18n
+npm run check:calculators
 ```
 
 ## Yachts for Sale referral page
@@ -567,10 +573,11 @@ test pair. They must never be used in production.
 
 ## Pre-purchase survey calculator
 
-The English calculator is generated at:
+The English and Spanish calculators are generated at:
 
 ```text
 /pre-purchase-survey-calculator
+/es/pre-purchase-survey-calculator
 ```
 
 The pricing logic was ported into this repository from the approved source
@@ -590,10 +597,17 @@ The `pys-calculators` repository remains unchanged. All runtime code is stored
 inside `allyachtservice`, uses no client-side API key, and does not load scripts,
 iframes, modules, or other assets from the source repository.
 
+The two routes use the same calculator component and pricing functions. The
+Spanish route formats visible numbers and euros with `es-ES`, but never stores
+translated labels in the payload or changes a canonical value. Do not copy
+pricing bands, multipliers, the range, discount or rounding rules into a
+localized page or data module.
+
 The result is explicitly approximate and non-binding. Completing a calculation
 stores a versioned, non-personal payload in `sessionStorage`. Requesting a
-formal quotation navigates to `/contact` with only the service, source, and
-estimate reference in the URL. The Contact form validates the stored payload,
+formal quotation navigates to `/contact` or `/es/contact` with only the
+service, source, and estimate reference in the URL. The Contact form validates
+the stored payload,
 shows the complete transferred summary for review, prefills the service, LOA
 and yacht location, and includes that visible summary in the submitted email.
 The visitor may remove it before submission. Malformed, mismatched, expired or
@@ -613,10 +627,11 @@ pricing bands.
 
 ## Yacht delivery calculator
 
-The English calculator is generated at:
+The English and Spanish calculators are generated at:
 
 ```text
 /yacht-delivery-calculator
+/es/yacht-delivery-calculator
 ```
 
 The Mediterranean port graph, shortest-route behaviour, and pricing logic were
@@ -636,6 +651,13 @@ ported into this repository from the approved source calculator:
 The `pys-calculators` repository remains unchanged. Its graph and pricing code
 were ported into `allyachtservice`; there is no runtime import, iframe,
 submodule, routing API, mapping API, client-side secret, or API key.
+
+Both localized routes use the same 75-node, 108-edge graph, 74 selectable
+ports, internal Ponza waypoint, bidirectional shortest-route implementation and
+pricing module. Never duplicate the graph, port IDs, rates, base or minimum
+fee, multipliers, correction factors or rounding rules in localized content.
+Spanish changes only the visitor-facing presentation and uses `es-ES`
+formatting.
 
 The graph is a simplified network of approved Mediterranean and nearby Atlantic
 ports and internal route waypoints. It calculates an approximate marine
@@ -657,6 +679,14 @@ vessel type are preselected, and the departure port prefills the editable
 vessel-location field. No exact yacht length is inferred from a length band.
 The visitor can remove the summary, and invalid, expired, mismatched, or
 modified payloads are ignored safely.
+
+`npm run check:calculators` covers the 5–40 metre survey boundaries, base,
+custom and full packages, discount behaviour, short/medium/long and cross-graph
+delivery routes, the Ponza waypoint, minimum and non-minimum fees, canonical
+English/Spanish equality, and reference, tamper and 24-hour expiry validation.
+The Spanish Contact page renders the validated result in Spanish while using
+the unchanged keys `ays:pre-purchase-survey-estimate:v1` and
+`ays:yacht-delivery-estimate:v1`, both with payload version `1`.
 
 To update ports or graph connections, edit
 `src/data/calculators/mediterraneanDeliveryRoutes.ts` only after comparing the

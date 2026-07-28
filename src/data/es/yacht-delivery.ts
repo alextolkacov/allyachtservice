@@ -105,8 +105,7 @@ export const spanishYachtDeliveryPage = {
         'Estime la distancia marítima aproximada y los honorarios profesionales iniciales antes de solicitar un presupuesto formal.',
       link: {
         label: 'Calcular el coste de la entrega',
-        href: '/yacht-delivery-calculator',
-        languageNote: 'calculadora disponible actualmente en inglés',
+        href: '/es/yacht-delivery-calculator',
         analyticsEvent: 'delivery-calculator-start',
       },
     },

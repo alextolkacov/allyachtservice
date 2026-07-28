@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PendingHomepage from '../../components/PendingHomepage.astro';
 import ServicesGrid from '../../components/ServicesGrid.astro';
-import { spanishHomeServices } from '../../data/es/home';
+import { spanishHomeServices, spanishOnlineTools } from '../../data/es/home';
 ---
 
 <BaseLayout
@@ -24,4 +24,32 @@ import { spanishHomeServices } from '../../data/es/home';
     services={spanishHomeServices}
     linkLabel="Más información"
   />
+  <section class="online-tools-section" aria-labelledby="herramientas-heading">
+    <div class="site-container">
+      <div class="online-tools-heading">
+        <div>
+          <p class="eyebrow">Apoyo para la planificación</p>
+          <h2 id="herramientas-heading" class="section-heading">
+            {spanishOnlineTools.heading}
+          </h2>
+        </div>
+        <p>{spanishOnlineTools.introduction}</p>
+      </div>
+      <div class="online-tools-grid">
+        {
+          spanishOnlineTools.items.map((tool) => (
+            <article>
+              <div>
+                <h3>{tool.title}</h3>
+                <p>{tool.description}</p>
+              </div>
+              <a class="button button-outline-navy" href={tool.href}>
+                {tool.label}
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
 </BaseLayout>

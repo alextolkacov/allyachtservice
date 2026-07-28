@@ -31,10 +31,12 @@ const ui = getSharedUi('es');
           data-analytics-event={section.link.analyticsEvent}
         >
           {section.link.label}
-          <span class="navigation-language-note">
-            {' '}
-            — {section.link.languageNote}
-          </span>
+          {section.link.languageNote && (
+            <span class="navigation-language-note">
+              {' '}
+              — {section.link.languageNote}
+            </span>
+          )}
         </a>
       </section>
     ) : (

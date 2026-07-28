@@ -74,3 +74,25 @@ export const spanishHomeServices = [
     },
   },
 ] satisfies readonly HomeService[];
+
+export const spanishOnlineTools = {
+  heading: 'Herramientas en línea',
+  introduction:
+    'Utilice nuestras herramientas de planificación para obtener una estimación inicial antes de contactar con All Yacht Service.',
+  items: [
+    {
+      title: 'Calculadora del coste de una inspección precompra',
+      description:
+        'Calcule unos honorarios aproximados según la eslora, el tipo de yate y el alcance de la inspección.',
+      label: 'Calcular coste de inspección',
+      href: '/es/pre-purchase-survey-calculator',
+    },
+    {
+      title: 'Calculadora de entrega profesional de yates',
+      description:
+        'Calcule una distancia marítima aproximada y los honorarios profesionales iniciales para una entrega.',
+      label: 'Calcular coste de entrega',
+      href: '/es/yacht-delivery-calculator',
+    },
+  ],
+} as const;

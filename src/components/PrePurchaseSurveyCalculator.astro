@@ -1,5 +1,18 @@
 ---
 import { siteConfig } from '../data/site';
+import {
+  getCalculatorLocale,
+  surveyCalculatorCopy,
+  type CalculatorLocale,
+} from '../i18n/calculators';
+
+interface Props {
+  locale?: CalculatorLocale;
+}
+
+const { locale = 'en' } = Astro.props;
+const calculatorLocale = getCalculatorLocale(locale);
+const copy = surveyCalculatorCopy[calculatorLocale];
 ---
 
 <section
@@ -7,20 +20,18 @@ import { siteConfig } from '../data/site';
   class="survey-calculator"
   aria-labelledby="survey-calculator-heading"
   data-survey-calculator
+  data-locale={calculatorLocale}
 >
   <div class="survey-calculator-heading">
-    <p class="eyebrow">Initial fee estimate</p>
-    <h2 id="survey-calculator-heading">Calculate Your Survey Cost</h2>
-    <p>
-      Enter the yacht details and select the inspection scope. The result is an
-      approximate professional fee, not a binding quotation.
-    </p>
+    <p class="eyebrow">{copy.heading.eyebrow}</p>
+    <h2 id="survey-calculator-heading">{copy.heading.title}</h2>
+    <p>{copy.heading.introduction}</p>
   </div>
 
   <form class="survey-calculator-form" novalidate data-survey-calculator-form>
     <div class="survey-calculator-fields">
       <div class="form-field">
-        <label for="survey-loa">Yacht length overall, metres</label>
+        <label for="survey-loa">{copy.fields.loa}</label>
         <input
           id="survey-loa"
           name="loa"
@@ -29,12 +40,12 @@ import { siteConfig } from '../data/site';
           max="40"
           step="0.1"
           inputmode="decimal"
-          placeholder="Example: 12.5"
+          placeholder={copy.fields.loaPlaceholder}
           aria-describedby="survey-loa-help survey-loa-error"
           required
         />
         <p id="survey-loa-help" class="form-field-help">
-          Automatic estimates are available for yachts from 5 to 40 metres.
+          {copy.fields.loaHelp}
         </p>
         <p
           id="survey-loa-error"
@@ -45,33 +56,34 @@ import { siteConfig } from '../data/site';
         </p>
         <a
           class="text-arrow-link survey-calculator-contact-link"
-          href="/contact?service=pre-purchase-survey&source=survey-calculator"
+          href={`${calculatorLocale === 'es' ? '/es' : ''}/contact?service=pre-purchase-survey&source=survey-calculator`}
           hidden
           data-over-limit-contact
         >
-          Request an individual quotation <span aria-hidden="true">→</span>
+          {copy.fields.individualQuote}
+          <span aria-hidden="true">→</span>
         </a>
       </div>
 
       <div class="form-field">
-        <label for="survey-vessel-type">Vessel type</label>
+        <label for="survey-vessel-type">{copy.fields.vesselType}</label>
         <select
           id="survey-vessel-type"
           name="vesselType"
           aria-describedby="survey-vessel-type-help"
         >
-          <option value="sailing" selected>Sailing yacht</option>
-          <option value="motor">Motor yacht</option>
+          <option value="sailing" selected
+            >{copy.labels.vesselType.sailing}</option
+          >
+          <option value="motor">{copy.labels.vesselType.motor}</option>
         </select>
         <p id="survey-vessel-type-help" class="form-field-help">
-          For catamarans, multihulls and unusual vessel configurations, the
-          result provides only an initial indication. The final quotation will
-          be confirmed after reviewing the vessel.
+          {copy.fields.vesselTypeHelp}
         </p>
       </div>
 
       <div class="form-field">
-        <label for="survey-package">Survey package</label>
+        <label for="survey-package">{copy.fields.package}</label>
         <select
           id="survey-package"
           name="packageType"
@@ -79,22 +91,22 @@ import { siteConfig } from '../data/site';
         >
           <option
             value="base"
-            data-description="Core pre-purchase condition survey with the selected afloat or hull-out arrangement."
+            data-description={copy.labels.packageDescription.base}
             selected
           >
-            Base Survey
+            {copy.labels.packageType.base}
           </option>
           <option
             value="custom"
-            data-description="Base survey with individually selected additional inspections."
+            data-description={copy.labels.packageDescription.custom}
           >
-            Custom Survey
+            {copy.labels.packageType.custom}
           </option>
           <option
             value="full"
-            data-description="Base survey, hull-out inspection, sea trial, engine inspection and rigging inspection where applicable, including the approved package discount."
+            data-description={copy.labels.packageDescription.full}
           >
-            Full Inspection Package
+            {copy.labels.packageType.full}
           </option>
         </select>
         <p
@@ -102,23 +114,26 @@ import { siteConfig } from '../data/site';
           class="form-field-help"
           data-package-description
         >
-          Core pre-purchase condition survey with the selected afloat or
-          hull-out arrangement.
+          {copy.labels.packageDescription.base}
         </p>
       </div>
 
       <div class="form-field">
-        <label for="survey-hull-inspection">Hull inspection</label>
+        <label for="survey-hull-inspection">{copy.fields.hullInspection}</label>
         <select
           id="survey-hull-inspection"
           name="hullInspection"
           aria-describedby="survey-hull-help survey-full-hull-note"
         >
-          <option value="afloat" selected>Afloat inspection only</option>
-          <option value="hull-out">Hull-out inspection</option>
+          <option value="afloat" selected>
+            {copy.labels.hullInspection.afloat}
+          </option>
+          <option value="hull-out">
+            {copy.labels.hullInspection['hull-out']}
+          </option>
         </select>
         <p id="survey-hull-help" class="form-field-help">
-          Select the access arrangement expected for the survey.
+          {copy.fields.hullHelp}
         </p>
         <p
           id="survey-full-hull-note"
@@ -126,23 +141,20 @@ import { siteConfig } from '../data/site';
           hidden
           data-full-hull-note
         >
-          Hull-out inspection is included in the Full Inspection Package, so
-          this selection is fixed while that package is active.
+          {copy.fields.fullHullNote}
         </p>
       </div>
 
       <fieldset class="survey-options" hidden data-additional-inspections>
-        <legend>Additional inspections</legend>
+        <legend>{copy.fields.additional}</legend>
         <p class="form-field-help">
-          Select any additional inspections required for the Custom Survey.
+          {copy.fields.additionalHelp}
         </p>
         <label class="survey-option">
           <input type="checkbox" name="surveyOption" value="sea-trial" />
           <span>
-            <strong>Sea trial</strong>
-            <small
-              >Operational assessment under way where conditions permit.</small
-            >
+            <strong>{copy.labels.item['sea-trial']}</strong>
+            <small>{copy.labels.itemDescription['sea-trial']}</small>
           </span>
         </label>
         <label class="survey-option">
@@ -152,8 +164,8 @@ import { siteConfig } from '../data/site';
             value="engine-inspection"
           />
           <span>
-            <strong>Engine inspection</strong>
-            <small>Accessible machinery and propulsion inspection.</small>
+            <strong>{copy.labels.item['engine-inspection']}</strong>
+            <small>{copy.labels.itemDescription['engine-inspection']}</small>
           </span>
         </label>
         <label class="survey-option" data-rigging-option>
@@ -163,26 +175,27 @@ import { siteConfig } from '../data/site';
             value="rigging-sails-inspection"
           />
           <span>
-            <strong>Rigging and sails inspection</strong>
-            <small>Available for sailing yachts only.</small>
+            <strong>{copy.labels.item['rigging-sails-inspection']}</strong>
+            <small>
+              {copy.labels.itemDescription['rigging-sails-inspection']}
+            </small>
           </span>
         </label>
       </fieldset>
 
       <div class="form-field">
-        <label for="survey-location">Yacht location</label>
+        <label for="survey-location">{copy.fields.location}</label>
         <input
           id="survey-location"
           name="location"
           type="text"
           maxlength="120"
           autocomplete="off"
-          placeholder="Marina, city and country"
+          placeholder={copy.fields.locationPlaceholder}
           aria-describedby="survey-location-help"
         />
         <p id="survey-location-help" class="form-field-help">
-          Travel and location-related expenses are confirmed separately in the
-          formal quotation.
+          {copy.fields.locationHelp}
         </p>
       </div>
     </div>
@@ -192,7 +205,7 @@ import { siteConfig } from '../data/site';
       type="submit"
       data-analytics-event="survey-calculator-complete"
     >
-      Calculate Estimate
+      {copy.calculate}
     </button>
   </form>
 
@@ -211,87 +224,72 @@ import { siteConfig } from '../data/site';
     data-survey-result
   >
     <div class="survey-result-heading">
-      <p class="eyebrow">Initial estimate</p>
+      <p class="eyebrow">{copy.result.eyebrow}</p>
       <h2 id="survey-result-heading" tabindex="-1" data-survey-result-heading>
-        Your Estimated Survey Cost
+        {copy.result.heading}
       </h2>
-      <p>Approximate professional survey fee</p>
+      <p>{copy.result.priceLabel}</p>
       <p class="survey-result-price" data-result-price></p>
     </div>
 
     <dl class="survey-result-details">
       <div>
-        <dt>Yacht LOA</dt>
+        <dt>{copy.result.loa}</dt>
         <dd data-result-loa></dd>
       </div>
       <div>
-        <dt>Vessel type</dt>
+        <dt>{copy.result.vesselType}</dt>
         <dd data-result-vessel></dd>
       </div>
       <div>
-        <dt>Survey package</dt>
+        <dt>{copy.result.package}</dt>
         <dd data-result-package></dd>
       </div>
       <div>
-        <dt>Hull inspection</dt>
+        <dt>{copy.result.hullInspection}</dt>
         <dd data-result-hull></dd>
       </div>
       <div hidden data-result-location-row>
-        <dt>Yacht location</dt>
+        <dt>{copy.result.location}</dt>
         <dd data-result-location></dd>
       </div>
       <div>
-        <dt>Estimate reference</dt>
+        <dt>{copy.result.reference}</dt>
         <dd data-result-reference></dd>
       </div>
       <div>
-        <dt>Estimate creation date</dt>
+        <dt>{copy.result.date}</dt>
         <dd data-result-date></dd>
       </div>
     </dl>
 
     <div class="survey-result-included">
-      <h3>Included inspection items</h3>
+      <h3>{copy.result.included}</h3>
       <ul class="service-check-list" data-result-items></ul>
     </div>
 
     <div class="survey-result-discount" hidden data-result-discount-panel>
-      <h3>Full package discount included</h3>
+      <h3>{copy.result.discountHeading}</h3>
+      <p>{copy.result.discountBody}</p>
       <p>
-        The Full Inspection Package includes a 15% discount compared with
-        booking its included survey components separately.
-      </p>
-      <p>
-        Rounded discount: <strong data-result-discount></strong>
+        {copy.result.discountLabel}
+        <strong data-result-discount></strong>
       </p>
     </div>
 
     <div class="survey-result-notes">
-      <h3>Important exclusions</h3>
-      <p>
-        Boatyard and haul-out fees, marina charges, fuel, vessel operation,
-        skipper or crew required for a sea trial, travel expenses,
-        accommodation, oil analysis, specialist diagnostics, repairs and
-        third-party services are not included unless confirmed in writing.
-      </p>
-      <p>Any applicable taxes will be confirmed in the formal quotation.</p>
-      <p>
-        This calculator provides an initial estimate only and does not
-        constitute a quotation, contract or invoice. The final quotation depends
-        on the yacht’s specifications, age, construction, systems, location,
-        accessibility, haul-out arrangements, sea-trial requirements and the
-        final agreed inspection scope.
-      </p>
+      <h3>{copy.result.exclusionsHeading}</h3>
+      {copy.result.exclusions.map((paragraph) => <p>{paragraph}</p>)}
     </div>
 
     <div class="survey-result-actions">
       <a
         class="button button-navy"
-        href="/contact?service=pre-purchase-survey"
+        href={`${calculatorLocale === 'es' ? '/es' : ''}/contact?service=pre-purchase-survey`}
         data-analytics-event="survey-calculator-quote-request"
         data-survey-quote-link
       >
-        Request a Formal Quotation
+        {copy.result.requestQuote}
       </a>
       <a
         class="button button-outline-navy"
@@ -300,7 +298,7 @@ import { siteConfig } from '../data/site';
         rel="noopener noreferrer"
         data-analytics-event="survey-calculator-whatsapp"
       >
-        WhatsApp Your Enquiry
+        {copy.result.whatsapp}
       </a>
       <button
         class="button button-outline-navy"
@@ -308,7 +306,7 @@ import { siteConfig } from '../data/site';
         data-edit-calculation
         data-analytics-event="survey-calculator-edit"
       >
-        Edit Calculation
+        {copy.result.edit}
       </button>
       <button
         class="button survey-reset-button"
@@ -316,12 +314,11 @@ import { siteConfig } from '../data/site';
         data-reset-calculation
         data-analytics-event="survey-calculator-reset"
       >
-        Start a New Calculation
+        {copy.result.reset}
       </button>
     </div>
     <p class="survey-result-privacy">
-      Your calculation remains in this browser session and is transferred to the
-      enquiry form only when you request a quotation.
+      {copy.result.privacy}
     </p>
   </section>
 </section>
@@ -329,7 +326,6 @@ import { siteConfig } from '../data/site';
 <script>
   import {
     calculateSurveyEstimate,
-    surveyLabels,
     validateSurveyInput,
     type HullInspection,
     type SurveyCalculatorInput,
@@ -338,16 +334,25 @@ import { siteConfig } from '../data/site';
     type VesselType,
   } from '../lib/calculators/prePurchaseSurvey';
   import {
-    formatSurveyEstimatePrice,
     SURVEY_ESTIMATE_STORAGE_KEY,
     type StoredSurveyEstimate,
   } from '../lib/calculators/prePurchaseSurveyEstimate';
+  import {
+    formatCalculatorCurrency,
+    formatCalculatorDate,
+    formatCalculatorMetres,
+    getCalculatorLocale,
+    surveyCalculatorCopy,
+  } from '../i18n/calculators';
 
   const calculator = document.querySelector<HTMLElement>(
     '[data-survey-calculator]',
   );
 
   if (calculator) {
+    const locale = getCalculatorLocale(calculator.dataset.locale ?? 'en');
+    const localizedCopy = surveyCalculatorCopy[locale];
+    const contactPath = locale === 'es' ? '/es/contact' : '/contact';
     const form = calculator.querySelector<HTMLFormElement>(
       '[data-survey-calculator-form]',
     );
@@ -432,8 +437,8 @@ import { siteConfig } from '../data/site';
 
       const setQuotationLinks = (reference?: string) => {
         const destination = reference
-          ? `/contact?service=pre-purchase-survey&source=survey-calculator&estimateReference=${encodeURIComponent(reference)}`
-          : '/contact?service=pre-purchase-survey';
+          ? `${contactPath}?service=pre-purchase-survey&source=survey-calculator&estimateReference=${encodeURIComponent(reference)}`
+          : `${contactPath}?service=pre-purchase-survey`;
 
         document
           .querySelectorAll<HTMLAnchorElement>('[data-survey-quote-link]')
@@ -486,11 +491,6 @@ import { siteConfig } from '../data/site';
 
         updatePackageDescription();
       };
-
-      const formatMetres = (value: number) =>
-        `${value.toLocaleString('en-GB', {
-          maximumFractionDigits: 1,
-        })} metres`;
 
       const createReference = (createdAt: Date) => {
         const date = createdAt.toISOString().slice(0, 10).replaceAll('-', '');
@@ -547,31 +547,26 @@ import { siteConfig } from '../data/site';
 
         setText(
           '[data-result-price]',
-          formatSurveyEstimatePrice(calculation.estimatedPriceEur),
+          formatCalculatorCurrency(locale, calculation.estimatedPriceEur),
         );
-        setText('[data-result-loa]', formatMetres(input.loaMetres));
+        setText(
+          '[data-result-loa]',
+          formatCalculatorMetres(locale, input.loaMetres),
+        );
         setText(
           '[data-result-vessel]',
-          surveyLabels.vesselType[input.vesselType],
+          localizedCopy.labels.vesselType[input.vesselType],
         );
         setText(
           '[data-result-package]',
-          surveyLabels.packageType[input.packageType],
+          localizedCopy.labels.packageType[input.packageType],
         );
         setText(
           '[data-result-hull]',
-          surveyLabels.hullInspection[calculation.hullInspection],
+          localizedCopy.labels.hullInspection[calculation.hullInspection],
         );
         setText('[data-result-reference]', reference);
-        setText(
-          '[data-result-date]',
-          new Intl.DateTimeFormat('en-GB', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-            timeZone: 'UTC',
-          }).format(createdAt),
-        );
+        setText('[data-result-date]', formatCalculatorDate(locale, createdAt));
 
         const locationRow = result.querySelector<HTMLElement>(
           '[data-result-location-row]',
@@ -584,9 +579,9 @@ import { siteConfig } from '../data/site';
         );
         if (itemList) {
           itemList.replaceChildren(
-            ...includedItems.map((item) => {
+            ...calculation.includedItems.map((item) => {
               const listItem = document.createElement('li');
-              listItem.textContent = item;
+              listItem.textContent = localizedCopy.labels.item[item.id];
               return listItem;
             }),
           );
@@ -600,7 +595,7 @@ import { siteConfig } from '../data/site';
         }
         setText(
           '[data-result-discount]',
-          formatSurveyEstimatePrice(calculation.packageDiscountEur),
+          formatCalculatorCurrency(locale, calculation.packageDiscountEur),
         );
 
         try {
@@ -614,7 +609,10 @@ import { siteConfig } from '../data/site';
 
         setQuotationLinks(reference);
         result.hidden = false;
-        liveRegion.textContent = `Estimated survey cost ${formatSurveyEstimatePrice(calculation.estimatedPriceEur)}. Estimate reference ${reference}.`;
+        liveRegion.textContent = localizedCopy.client.liveResult(
+          formatCalculatorCurrency(locale, calculation.estimatedPriceEur),
+          reference,
+        );
         resultHeading.focus({ preventScroll: true });
         result.scrollIntoView({
           block: 'start',
@@ -635,7 +633,8 @@ import { siteConfig } from '../data/site';
         const validation = validateSurveyInput(input);
         if (!validation.isValid) {
           hideResult();
-          loaError.textContent = validation.message;
+          loaError.textContent =
+            localizedCopy.client.validation[validation.code];
           loaInput.setAttribute('aria-invalid', 'true');
           overLimitContact.hidden = validation.code !== 'above-maximum-loa';
           loaInput.focus();
