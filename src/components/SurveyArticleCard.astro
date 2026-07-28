@@ -1,0 +1,80 @@
+---
+import type { SurveyTipsImage } from '../data/yacht-survey-tips/types';
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  image: SurveyTipsImage;
+  category?: string;
+  status?: string;
+  publicationDate?: string;
+  publicationDateTime?: string;
+  readingTime?: string;
+  featured?: boolean;
+}
+
+const {
+  title,
+  description,
+  href,
+  image,
+  category,
+  status,
+  publicationDate,
+  publicationDateTime,
+  readingTime,
+  featured = false,
+} = Astro.props;
+const hasMetadata = status || publicationDate || readingTime;
+const readingTimeLabel = readingTime
+  ? `${readingTime.replace(/ minutes?$/u, '-minute')} read`
+  : undefined;
+---
+
+<article
+  class:list={['survey-article-card', featured && 'survey-article-featured']}
+>
+  <figure class="survey-article-figure">
+    <a
+      class="survey-article-image-link"
+      href={href}
+      aria-label={`Read ${title}`}
+    >
+      <img
+        src={image.src}
+        alt={image.alt}
+        width={image.width}
+        height={image.height}
+        loading="lazy"
+        decoding="async"
+      />
+    </a>
+    {image.caption && <figcaption>{image.caption}</figcaption>}
+  </figure>
+  <div class="survey-article-content">
+    {category && <p class="survey-article-category">{category}</p>}
+    <h3><a href={href}>{title}</a></h3>
+    <p class="survey-article-description">{description}</p>
+    {
+      hasMetadata && (
+        <ul
+          class="survey-article-meta"
+          aria-label="Article details"
+          role="list"
+        >
+          {status && <li>{status}</li>}
+          {publicationDate && (
+            <li>
+              <time datetime={publicationDateTime}>{publicationDate}</time>
+            </li>
+          )}
+          {readingTimeLabel && <li>{readingTimeLabel}</li>}
+        </ul>
+      )
+    }
+    <a class="survey-article-read-link" href={href}>
+      Read article <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</article>

@@ -23,6 +23,11 @@ interface Props {
   structuredData?: StructuredData | readonly StructuredData[];
   includeAlternates?: boolean;
   includeBusinessSchema?: boolean;
+  openGraphType?: 'website' | 'article';
+  articlePublishedTime?: string;
+  articleModifiedTime?: string;
+  articleSection?: string;
+  articleAuthor?: string;
 }
 
 const {
@@ -37,6 +42,11 @@ const {
   structuredData,
   includeAlternates = true,
   includeBusinessSchema = true,
+  openGraphType = 'website',
+  articlePublishedTime,
+  articleModifiedTime,
+  articleSection,
+  articleAuthor,
 } = Astro.props;
 const language = getLanguage(locale);
 const normalizedPath = normalizePathname(pathname);
@@ -56,10 +66,15 @@ const seoProps = {
   pathname: normalizedPath,
   noindex,
   includeAlternates,
+  openGraphType,
   ...(routeId ? { routeId } : {}),
   ...(schemas.length > 0 ? { structuredData: schemas } : {}),
   ...(imagePath ? { imagePath } : {}),
   ...(imageAlt ? { imageAlt } : {}),
+  ...(articlePublishedTime ? { articlePublishedTime } : {}),
+  ...(articleModifiedTime ? { articleModifiedTime } : {}),
+  ...(articleSection ? { articleSection } : {}),
+  ...(articleAuthor ? { articleAuthor } : {}),
 };
 const headerProps = {
   currentLocale: locale,

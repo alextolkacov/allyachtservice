@@ -1,0 +1,265 @@
+---
+import { yachtsForSalePage } from '../data/yachts-for-sale';
+import ServiceLayout from '../layouts/ServiceLayout.astro';
+import { businessEntityId, toAbsoluteUrl } from '../utils/seo';
+
+const pageUrl = toAbsoluteUrl(yachtsForSalePage.pathname);
+const webPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: yachtsForSalePage.title,
+  description: yachtsForSalePage.description,
+  inLanguage: 'en',
+  about: {
+    '@id': businessEntityId,
+  },
+  primaryImageOfPage: {
+    '@type': 'ImageObject',
+    url: toAbsoluteUrl(yachtsForSalePage.heroImage.src),
+    caption: yachtsForSalePage.socialImageAlt,
+    width: yachtsForSalePage.heroImage.width,
+    height: yachtsForSalePage.heroImage.height,
+  },
+};
+---
+
+<ServiceLayout
+  {...yachtsForSalePage}
+  locale="en"
+  routeId="yachtsForSale"
+  structuredData={webPageSchema}
+  relatedHeading="Related Buyer Services"
+>
+  <section aria-labelledby="find-yacht-heading">
+    <p class="eyebrow">External listings, independent technical support</p>
+    <h2 id="find-yacht-heading">
+      Find the Right Yacht With Professional Support
+    </h2>
+    <p>
+      All Yacht Service does not maintain or operate a separate yacht-listing
+      inventory. Current brokerage yachts are presented and managed by Premium
+      Yachts Spain.
+    </p>
+    <p>
+      Prospective buyers can browse the current selection externally and then
+      arrange independent technical support, including buyer representation,
+      pre-purchase inspection, sea trial support and condition reporting.
+    </p>
+    <p class="service-note">
+      Yacht availability, specifications, prices, tax status and brokerage terms
+      must always be confirmed directly with the listing broker.
+    </p>
+  </section>
+
+  <section
+    class="brokerage-destinations"
+    aria-labelledby="browse-listings-heading"
+  >
+    <p class="eyebrow">Premium Yachts Spain</p>
+    <h2 id="browse-listings-heading">Browse Current Yacht Listings</h2>
+    <div class="brokerage-destination-grid">
+      {
+        yachtsForSalePage.brokerageDestinations.map((destination) => (
+          <article class="brokerage-destination-card">
+            <img
+              src={destination.image.src}
+              alt={destination.image.alt}
+              width={destination.image.width}
+              height={destination.image.height}
+              loading="lazy"
+              decoding="async"
+            />
+            <div>
+              <p class="external-destination-label">External destination</p>
+              <h3>{destination.title}</h3>
+              <p>{destination.description}</p>
+              <a
+                class="text-arrow-link"
+                href={destination.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {destination.label}
+                <span aria-hidden="true">↗</span>
+                <span class="sr-only">
+                  on the Premium Yachts Spain website (opens in a new tab)
+                </span>
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+    <p class="brokerage-listing-notice">
+      Listings, specifications, prices and availability may change. Confirm all
+      details directly with Premium Yachts Spain before relying on them.
+    </p>
+    <p class="brokerage-image-note">
+      Images are illustrative views from Premium Yachts Spain and do not confirm
+      that a pictured yacht is currently offered for sale.
+    </p>
+  </section>
+
+  <section aria-labelledby="buyer-support-heading">
+    <h2 id="buyer-support-heading">Independent Support Before You Buy</h2>
+    <p>
+      A yacht listing provides initial commercial information, but it does not
+      replace an independent technical assessment of the individual vessel.
+    </p>
+    <p>
+      All Yacht Service can assist prospective buyers by reviewing the yacht,
+      available documentation, observed condition and practical purchase risks
+      within an agreed scope.
+    </p>
+    <p>Support may include:</p>
+    <ul class="service-check-list buyer-support-list">
+      {yachtsForSalePage.buyerSupportItems.map((item) => <li>{item}</li>)}
+    </ul>
+    <a
+      class="button button-outline-navy contextual-cta"
+      href="/buyer-representation"
+    >
+      Learn About Buyer Representation
+    </a>
+  </section>
+
+  <section aria-labelledby="pre-purchase-heading">
+    <h2 id="pre-purchase-heading">Arrange a Pre-Purchase Yacht Survey</h2>
+    <p>
+      A pre-purchase survey is commissioned by the prospective buyer to assess
+      the yacht’s accessible condition and identify material findings before
+      completion of the purchase.
+    </p>
+    <p>
+      Depending on the agreed scope, the inspection may include the hull, deck,
+      structure, machinery, electrical systems, plumbing, safety equipment,
+      rigging, underwater components and sea trial.
+    </p>
+    <p class="service-note">
+      Access, operating condition, permissions and the agreed scope determine
+      what can be inspected or tested. A survey does not guarantee that every
+      system can be fully tested.
+    </p>
+    <div class="buyer-page-actions">
+      <a class="button button-navy" href="/pre-purchase-survey">
+        View Pre-Purchase Survey
+      </a>
+      <a
+        class="button button-outline-navy"
+        href="/pre-purchase-survey-calculator"
+      >
+        Calculate Survey Cost
+      </a>
+      <a
+        class="button button-outline-navy"
+        href="/contact?service=pre-purchase-survey"
+      >
+        Request a Survey Quote
+      </a>
+    </div>
+  </section>
+
+  <section class="commercial-disclosure" aria-labelledby="relationship-heading">
+    <p class="eyebrow eyebrow-light">Commercial relationship disclosure</p>
+    <h2 id="relationship-heading">Relationship With Premium Yachts Spain</h2>
+    <p>
+      Aleksandrs Tolkacovs is Chief Operating Officer of Premium Yachts Spain.
+      Premium Yachts Spain and All Yacht Service are separate business
+      activities with different commercial roles.
+    </p>
+    <p>
+      Premium Yachts Spain provides brokerage and yacht-sales services. All
+      Yacht Service provides marine surveying and technical-support services.
+    </p>
+    <p>
+      Where a yacht is listed, introduced or commercially connected through
+      Premium Yachts Spain, that relationship will be disclosed before All Yacht
+      Service accepts a survey or buyer-support instruction.
+    </p>
+    <p>
+      The prospective buyer remains free to appoint any independent surveyor.
+    </p>
+    <p>
+      All Yacht Service may decline an assignment or recommend another surveyor
+      where the relationship cannot be appropriately disclosed or managed.
+    </p>
+  </section>
+
+  <section aria-labelledby="conflicts-heading">
+    <h2 id="conflicts-heading">How Potential Conflicts Are Handled</h2>
+    <ul class="service-check-list">
+      {yachtsForSalePage.conflictItems.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="service-note">
+      A survey report must not be treated as brokerage advice, a recommendation
+      to purchase or a guarantee of the yacht’s future condition.
+    </p>
+  </section>
+
+  <section aria-labelledby="buyer-journey-heading">
+    <h2 id="buyer-journey-heading">A Practical Buyer Journey</h2>
+    <ol class="process-list">
+      {
+        yachtsForSalePage.buyerJourney.map((step, index) => (
+          <li>
+            <div>
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section aria-labelledby="buyer-documents-heading">
+    <h2 id="buyer-documents-heading">
+      Useful Information to Request Before Inspection
+    </h2>
+    <ul class="document-request-grid">
+      {yachtsForSalePage.documentItems.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="service-note">
+      Document review is limited to the material supplied and does not
+      constitute legal verification of title, ownership, finance, tax status or
+      registration.
+    </p>
+  </section>
+
+  <section aria-labelledby="survey-brokerage-heading">
+    <h2 id="survey-brokerage-heading">Why Survey a Brokerage Yacht?</h2>
+    <ul class="service-check-list">
+      {yachtsForSalePage.surveyReasons.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="service-note">
+      A survey reduces uncertainty but cannot eliminate all purchase risk or
+      identify every concealed defect.
+    </p>
+  </section>
+
+  <section aria-labelledby="buyer-coverage-heading">
+    <h2 id="buyer-coverage-heading">
+      Support for Yacht Buyers in Spain and the Mediterranean
+    </h2>
+    <p>
+      All Yacht Service assists buyers considering sailing yachts, motor yachts
+      and catamarans in Spain and other Mediterranean locations.
+    </p>
+    <p>
+      Based at Marina Greenwich in Altea, assignments may be arranged throughout
+      Alicante, Costa Blanca, Valencia, Barcelona, mainland Spain, the Balearic
+      Islands and, by agreement, France, Italy, Greece and other locations.
+    </p>
+    <p class="service-note">
+      Travel, accommodation, marina access, haul-out and specialist costs are
+      quoted separately where applicable.
+    </p>
+  </section>
+</ServiceLayout>

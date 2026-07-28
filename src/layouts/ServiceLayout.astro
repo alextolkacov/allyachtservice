@@ -43,6 +43,7 @@ interface Props {
   locale: Locale;
   routeId: RouteId;
   pathname: string;
+  pageClass?: string;
   heading: string;
   eyebrow?: string;
   summary: string;
@@ -65,6 +66,7 @@ const {
   locale,
   routeId,
   pathname,
+  pageClass,
   heading,
   eyebrow,
   summary,
@@ -94,7 +96,7 @@ const baseProps = {
 ---
 
 <BaseLayout {...baseProps}>
-  <article class="service-page">
+  <article class:list={['service-page', pageClass]}>
     <header class="service-hero">
       <img
         class="service-hero-image"
@@ -123,6 +125,10 @@ const baseProps = {
                   <a
                     class="button button-light"
                     href={primaryCta.href}
+                    target={primaryCta.external ? '_blank' : undefined}
+                    rel={
+                      primaryCta.external ? 'noopener noreferrer' : undefined
+                    }
                     data-analytics-event={primaryCta.analyticsEvent}
                     data-survey-quote-link={
                       primaryCta.surveyQuoteLink ? '' : undefined
@@ -132,6 +138,12 @@ const baseProps = {
                     }
                   >
                     {primaryCta.label}
+                    {primaryCta.external && (
+                      <span class="sr-only">
+                        {' '}
+                        (opens an external website in a new tab)
+                      </span>
+                    )}
                   </a>
                 )}
                 {secondaryCta && (
@@ -151,6 +163,12 @@ const baseProps = {
                     }
                   >
                     {secondaryCta.label}
+                    {secondaryCta.external && (
+                      <span class="sr-only">
+                        {' '}
+                        (opens an external website in a new tab)
+                      </span>
+                    )}
                   </a>
                 )}
               </div>
@@ -225,6 +243,12 @@ const baseProps = {
                   }
                 >
                   {link.label}
+                  {link.external && (
+                    <span class="sr-only">
+                      {' '}
+                      (opens an external website in a new tab)
+                    </span>
+                  )}
                 </a>
               ))}
             </div>

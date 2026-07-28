@@ -126,6 +126,19 @@ const text = labels[currentLocale];
             );
           })
         }
+        <li>
+          <a
+            href={getRequiredRoutePath('yachtSurveyTips', 'en')}
+            lang={currentLocale === 'en' ? undefined : 'en'}
+            aria-current={routeId === 'yachtSurveyTips' ||
+            routeId === 'deckMoistureSoftSpots' ||
+            routeId === 'shinyHull'
+              ? 'page'
+              : undefined}
+          >
+            Yacht Survey Tips
+          </a>
+        </li>
       </ul>
     </div>
 

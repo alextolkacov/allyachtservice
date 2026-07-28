@@ -1,0 +1,434 @@
+---
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { deckMoistureSoftSpotsArticle as article } from '../../data/yacht-survey-tips/deck-moisture-soft-spots';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(article.pathname);
+const pageId = `${pageUrl}#page`;
+const articleId = `${pageUrl}#article`;
+const imageUrl = toAbsoluteUrl(article.image.src);
+
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': pageId,
+  url: pageUrl,
+  name: article.seoTitle,
+  description: article.metaDescription,
+  inLanguage: 'en',
+  mainEntity: {
+    '@id': articleId,
+  },
+  about: {
+    '@id': businessEntityId,
+  },
+};
+
+const articleSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': articleId,
+  headline: article.title,
+  description: article.description,
+  url: pageUrl,
+  mainEntityOfPage: {
+    '@id': pageId,
+  },
+  datePublished: article.publicationDateTime,
+  dateModified: article.modifiedDateTime,
+  articleSection: article.category,
+  timeRequired: article.timeRequired,
+  image: imageUrl,
+  inLanguage: 'en',
+  author: {
+    '@type': 'Person',
+    name: article.author.name,
+    jobTitle: article.author.professionalDescription,
+  },
+  publisher: {
+    '@id': businessEntityId,
+  },
+};
+---
+
+<BaseLayout
+  title={article.seoTitle}
+  description={article.metaDescription}
+  locale="en"
+  routeId="deckMoistureSoftSpots"
+  pathname={article.pathname}
+  imagePath={article.image.src}
+  imageAlt={article.socialImageAlt}
+  structuredData={[webPageSchema, articleSchema]}
+  openGraphType="article"
+  articlePublishedTime={article.publicationDateTime}
+  articleModifiedTime={article.modifiedDateTime}
+  articleSection={article.category}
+  articleAuthor={article.author.name}
+>
+  <article class="survey-guide">
+    <header class="survey-guide-header">
+      <div class="site-container">
+        <Breadcrumbs items={article.breadcrumbs} />
+        <div class="survey-guide-header-grid">
+          <div class="survey-guide-heading">
+            <p class="eyebrow">{article.category}</p>
+            <h1>{article.title}</h1>
+            <p class="survey-guide-standfirst">{article.standfirst}</p>
+            <dl class="survey-guide-meta">
+              <div>
+                <dt>Published</dt>
+                <dd>
+                  <time datetime={article.publicationDateTime}>
+                    {article.publicationDate}
+                  </time>
+                </dd>
+              </div>
+              <div>
+                <dt>Reading time</dt>
+                <dd>5-minute read</dd>
+              </div>
+              <div>
+                <dt>Author</dt>
+                <dd>By {article.author.name}</dd>
+              </div>
+            </dl>
+          </div>
+
+          <figure class="survey-guide-figure">
+            <img
+              src={article.image.src}
+              alt={article.image.alt}
+              width={article.image.width}
+              height={article.image.height}
+              loading="eager"
+              fetchpriority="high"
+            />
+            <figcaption>{article.imageCaption}</figcaption>
+          </figure>
+        </div>
+      </div>
+    </header>
+
+    <div class="survey-guide-body">
+      <div class="site-container survey-guide-reading-width">
+        <section
+          class="survey-guide-introduction"
+          aria-labelledby="article-introduction-heading"
+        >
+          <h2 id="article-introduction-heading" class="sr-only">
+            Introduction
+          </h2>
+          <p>
+            Many GRP yacht decks use sandwich construction. A lightweight core
+            material is bonded between inner and outer laminate skins to
+            increase stiffness without excessive weight.
+          </p>
+          <p>
+            When water passes through poorly sealed fittings, damaged laminate
+            or previous repair areas, it may enter the core.
+          </p>
+          <p>
+            The visible deck surface can still appear acceptable even when
+            moisture is present below it.
+          </p>
+          <ul class="survey-guide-key-list">
+            {article.keyInterpretationPoints.map((point) => <li>{point}</li>)}
+          </ul>
+        </section>
+
+        <section aria-labelledby="why-moisture-matters">
+          <h2 id="why-moisture-matters">
+            1. Why Moisture in a Yacht Deck Matters
+          </h2>
+          <p>Prolonged moisture may contribute to:</p>
+          <ul class="survey-guide-list-grid">
+            {
+              article.moistureConsequences.map((consequence) => (
+                <li>{consequence}</li>
+              ))
+            }
+          </ul>
+          <p>
+            The significance depends on the core material, duration of exposure,
+            affected area, loading, construction quality and whether the
+            laminate remains securely bonded.
+          </p>
+          <p>
+            Wet core does not automatically mean that every affected area must
+            be replaced. The evidence and the yacht’s construction must be
+            assessed together.
+          </p>
+        </section>
+
+        <section aria-labelledby="how-moisture-enters">
+          <h2 id="how-moisture-enters">2. How Moisture Enters Cored Decks</h2>
+          <p>
+            Water commonly enters around penetrations or fittings where sealing
+            has failed, aged or been disturbed. Potential entry points include:
+          </p>
+          <ul class="survey-guide-list-grid">
+            {
+              article.moistureEntryPoints.map((entryPoint) => (
+                <li>{entryPoint}</li>
+              ))
+            }
+          </ul>
+          <p>
+            The visible leak point and the moisture concentration may not be in
+            the same place because water can migrate through voids, fastener
+            holes or damaged core.
+          </p>
+        </section>
+
+        <section aria-labelledby="warning-signs">
+          <h2 id="warning-signs">3. Warning Signs Buyers Can Look For</h2>
+          <ul class="survey-guide-list-grid">
+            {article.warningSigns.map((warningSign) => <li>{warningSign}</li>)}
+          </ul>
+          <p>
+            These signs justify further investigation, but none of them alone
+            confirms the construction, depth or full extent of damage.
+          </p>
+          <p>
+            Buyers should not use aggressive tapping, drilling or other
+            destructive testing. These methods can damage the yacht and should
+            only be considered within an authorised professional inspection.
+          </p>
+        </section>
+
+        <section aria-labelledby="soft-deck-area">
+          <h2 id="soft-deck-area">4. What Does a Soft Deck Area Mean?</h2>
+          <p>A soft or flexible area may indicate:</p>
+          <ul class="survey-guide-list-grid">
+            {article.softAreaCauses.map((cause) => <li>{cause}</li>)}
+          </ul>
+          <p>
+            Some deck areas are naturally more flexible than others. A
+            meaningful assessment requires comparison with surrounding
+            construction and an understanding of the yacht’s design.
+          </p>
+          <aside class="survey-guide-key-point">
+            <strong>A soft spot is a symptom, not a complete diagnosis.</strong>
+          </aside>
+        </section>
+
+        <section aria-labelledby="surveyor-investigation">
+          <h2 id="surveyor-investigation">
+            5. How a Yacht Surveyor Investigates Suspected Moisture
+          </h2>
+          <p>
+            A surveyor combines inspection methods and compares the results with
+            the yacht’s construction, surrounding areas and available history.
+            No single method is treated as a complete diagnosis.
+          </p>
+          <div class="survey-guide-methods">
+            {
+              article.inspectionMethods.map((method) => (
+                <section aria-labelledby={method.id}>
+                  <h3 id={method.id}>{method.title}</h3>
+                  <p>{method.summary}</p>
+                  {method.items.length > 0 && (
+                    <ul>
+                      {method.items.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {method.limitations.length > 0 && (
+                    <div class="survey-guide-limitations">
+                      <h4>Limitations</h4>
+                      <ul>
+                        {method.limitations.map((limitation) => (
+                          <li>{limitation}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </section>
+              ))
+            }
+          </div>
+        </section>
+
+        <section aria-labelledby="moisture-reading-context">
+          <h2 id="moisture-reading-context">
+            6. Why Moisture-Meter Numbers Need Context
+          </h2>
+          <p>
+            Buyers should not make a purchase decision from one isolated number.
+            Interpretation should consider:
+          </p>
+          <ul class="survey-guide-list-grid">
+            {article.moistureReadingContext.map((factor) => <li>{factor}</li>)}
+          </ul>
+          <aside class="survey-guide-key-point">
+            <strong>
+              A moisture reading is an inspection indicator, not a standalone
+              structural verdict.
+            </strong>
+          </aside>
+        </section>
+
+        <section aria-labelledby="repair-implications">
+          <h2 id="repair-implications">
+            7. Does Moisture Always Mean an Expensive Repair?
+          </h2>
+          <p><strong>Not necessarily.</strong></p>
+          <p>The outcome may range from:</p>
+          <ul class="survey-guide-list-grid">
+            {article.repairOutcomes.map((outcome) => <li>{outcome}</li>)}
+          </ul>
+          <p>The required response depends on:</p>
+          <ul class="survey-guide-list-grid">
+            {article.repairFactors.map((factor) => <li>{factor}</li>)}
+          </ul>
+          <p>
+            A repair scope should be developed for the individual yacht after
+            the affected construction has been assessed. Generic prices would
+            not provide a reliable guide.
+          </p>
+        </section>
+
+        <section aria-labelledby="buyer-actions">
+          <h2 id="buyer-actions">8. What Yacht Buyers Should Do</h2>
+          <ol class="survey-guide-action-list">
+            {
+              article.buyerActions.map((action) => (
+                <li>
+                  <div>
+                    <h3>{action.title}</h3>
+                    <p>{action.description}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ol>
+        </section>
+
+        <section aria-labelledby="questions-after-moisture">
+          <h2 id="questions-after-moisture">
+            9. Questions to Ask After Moisture Is Found
+          </h2>
+          <ul class="survey-guide-question-list">
+            {
+              article.questionsAfterFinding.map((question) => (
+                <li>{question}</li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <section aria-labelledby="surveyors-key-point">
+          <h2 id="surveyors-key-point">10. Surveyor’s Key Point</h2>
+          <aside class="survey-guide-key-point survey-guide-key-point-large">
+            <p>
+              Deck moisture should be assessed as part of the complete
+              construction and condition of the yacht. The most useful
+              conclusion comes from combining visual evidence, comparative
+              testing, construction knowledge, access conditions and the
+              vessel’s history—not from one instrument reading alone.
+            </p>
+          </aside>
+        </section>
+
+        <section aria-labelledby="professional-survey">
+          <h2 id="professional-survey">
+            11. When to Arrange a Professional Survey
+          </h2>
+          <p>
+            A <a href="/pre-purchase-survey"
+              >professional pre-purchase yacht survey</a
+            > is particularly valuable when:
+          </p>
+          <ul class="survey-guide-list-grid">
+            {
+              article.professionalSurveyIndicators.map((indicator) => (
+                <li>{indicator}</li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <section
+      class="survey-guide-related-services"
+      aria-labelledby="article-related-services-heading"
+    >
+      <div class="site-container">
+        <div class="survey-guide-section-heading">
+          <p class="eyebrow">Professional support</p>
+          <h2 id="article-related-services-heading">Related Services</h2>
+        </div>
+        <div class="survey-guide-service-grid">
+          {
+            article.relatedServices.map((service) => (
+              <article>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <a class="text-arrow-link" href={service.href}>
+                  View service <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="survey-guide-more-tips"
+      aria-labelledby="more-survey-tips-heading"
+    >
+      <div class="site-container survey-guide-more-tips-inner">
+        <div>
+          <p class="eyebrow">{article.category}</p>
+          <h2 id="more-survey-tips-heading">
+            {article.relatedArticle.title}
+          </h2>
+          <p>{article.relatedArticle.description}</p>
+        </div>
+        <a class="button button-navy" href={article.relatedArticle.href}>
+          {article.relatedArticle.label}
+        </a>
+      </div>
+    </section>
+
+    <section
+      class="survey-guide-final-cta"
+      aria-labelledby="deck-moisture-cta-heading"
+    >
+      <div class="site-container survey-guide-final-cta-inner">
+        <div>
+          <p class="eyebrow eyebrow-light">Pre-purchase support</p>
+          <h2 id="deck-moisture-cta-heading">{article.finalCta.heading}</h2>
+          <p>{article.finalCta.body}</p>
+        </div>
+        <div class="survey-guide-final-cta-actions">
+          {
+            article.finalCta.links.map((link, index) => (
+              <a
+                class:list={[
+                  'button',
+                  index === 0 ? 'button-light' : 'button-outline-light',
+                ]}
+                href={link.href}
+                {...('external' in link && link.external
+                  ? { target: '_blank', rel: 'noreferrer' }
+                  : {})}
+              >
+                {link.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

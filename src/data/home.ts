@@ -96,12 +96,13 @@ export const homeContent = {
     {
       title: 'Yachts for Sale',
       description:
-        'View selected new and pre-owned yachts available through Premium Yachts Spain.',
+        'Browse current external yacht listings and arrange independent buyer-side survey support before purchase.',
+      href: '/yachts-for-sale',
       image: {
-        src: '/images/yachts-for-sale.webp',
-        alt: 'Motor yacht underway near a marina',
-        width: 1253,
-        height: 853,
+        src: '/images/yachts-for-sale-marina.jpg',
+        alt: 'Sailing yachts and motor yachts moored in a Mediterranean marina',
+        width: 2048,
+        height: 1536,
       },
     },
     {

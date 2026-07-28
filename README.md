@@ -10,6 +10,11 @@ page, Yacht Valuation and Damage Assessment page, About Us page, and
 Pre-Purchase Yacht Survey Cost Calculator contain the first production-ready
 implementations. The Yacht Delivery Cost Calculator is also available as a
 native English planning tool.
+The English Yacht Survey Tips hub and its first two articles are available at
+`/yacht-survey-tips`, `/yacht-survey-tips/shiny-hull`, and
+`/yacht-survey-tips/deck-moisture-soft-spots`.
+The English Yachts for Sale and Buyer Support referral page is available at
+`/yachts-for-sale`.
 The Contact page uses a Cloudflare Pages Function, Turnstile, and the existing
 Google Workspace mailbox to validate and deliver enquiries securely.
 The Spanish, Russian, French, Italian, and Greek homepages retain localized
@@ -34,6 +39,43 @@ npm run dev
 
 The development server prints the local URL. Astro does not perform automatic
 browser-language redirects.
+
+## Yachts for Sale referral page
+
+`/yachts-for-sale` is a static English gateway to current yacht listings on
+Premium Yachts Spain and to independent buyer-side technical support from All
+Yacht Service. The verified external destinations are:
+
+- brokerage overview:
+  `https://www.premiumyachts.es/yacht-brokerage`
+- sailing yachts:
+  `https://www.premiumyachts.es/yacht-brokerage/sailing-boats`
+- power boats:
+  `https://www.premiumyachts.es/yacht-brokerage/power-boats`
+
+The page does not duplicate or fetch brokerage inventory. Do not add listing
+names, prices, availability, tax status, listing photographs, inventory schema,
+iframes, scraping, or runtime requests to the brokerage website. Availability,
+specifications, pricing and brokerage terms remain controlled externally and
+must be confirmed with the listing broker.
+
+The page includes a prominent disclosure that Aleksandrs Tolkacovs is Chief
+Operating Officer of Premium Yachts Spain and that the two activities have
+different commercial roles. It also explains how a commercial connection is
+disclosed, how the buyer remains free to appoint another surveyor, and when an
+instruction may be declined because independence cannot be appropriately
+maintained.
+
+`Yachts for Sale` appears in the desktop header, flat mobile menu, homepage
+services grid, footer navigation and concise 404 destinations. Premium Yachts
+Spain links use meaningful text, a visible external-destination label where
+appropriate, `target="_blank"`, and `rel="noopener noreferrer"`. The page is
+English-only, so its SEO alternates contain only `en` and `x-default` until
+complete translations are published.
+
+The three local page images are optimized copies of general imagery from the
+verified brokerage overview. They are illustrative only and must not be
+presented as evidence that a pictured yacht is currently available.
 
 ## Commands
 
@@ -178,6 +220,105 @@ and the contextual image shows yachts damaged ashore after severe weather.
 Replace the reused hero image with approved original valuation or
 damage-assessment inspection photography when it becomes available, preserving
 the current dimensions, responsive behaviour, and accurate alternative text.
+
+## Yacht Survey Tips publishing
+
+The English knowledge hub is generated at:
+
+```text
+/yacht-survey-tips
+```
+
+The two published English articles are:
+
+```text
+/yacht-survey-tips/shiny-hull
+/yacht-survey-tips/deck-moisture-soft-spots
+```
+
+`/yacht-survey-tips/shiny-hull` is the **Pre-Purchase Checks · Hull &
+Structure** article published on 28 July 2026 with a five-minute reading time.
+Its primary source is
+`https://www.allyachtservice.com/yacht-survey-tips/shiny-hull`. The local,
+lossless grayscale image is
+`public/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png` and
+retains its intrinsic 1122 × 1402 dimensions. The Deck Moisture graphic has a
+separate grayscale derivative at
+`public/images/yacht-survey-tips/deck-moisture-soft-spots.png`; its original
+source file remains untouched.
+
+Shared article-card and category types live in
+`src/data/yacht-survey-tips/types.ts`. Article-specific metadata and structured
+content live in a named module under `src/data/yacht-survey-tips/`; the hub
+imports the same typed card record used by the article so its title,
+description, category, publication date, reading time, status, image, and URL
+cannot drift independently. Each published article still has an explicit Astro
+page in `src/pages/yacht-survey-tips/`, rather than a catch-all route.
+
+Survey-tip graphics are editorial content, not decorative crops. The shared
+card displays the full intrinsic image with `width: 100%`, `height: auto`, and
+`object-fit: contain`. Do not add `object-fit: cover`, fixed image heights,
+overflow clipping, zoom effects, or background-image positioning to survey
+article cards. A source that differs slightly from the usual 4:5 portrait
+format must be contained rather than cropped or distorted. Card widths remain
+consistent while image height follows the complete source ratio.
+
+The Deck Moisture article remains the Featured Guide. Latest articles are
+ordered by their approved publication dates, newest first: Shiny Hull, then
+Deck Moisture. The water-and-partially-visible-yacht-hull hero background is a
+separate hub asset and must not be reprocessed, repositioned, or replaced when
+article graphics change.
+
+Article pages retain the global `ProfessionalService` entity and add `WebPage`
+and `Article` entities. The visible breadcrumb component adds the matching
+`BreadcrumbList`. The Article publisher references the stable business ID
+`https://www.allyachtservice.com/#business`; author data uses the confirmed
+surveyor name and professional description.
+
+Publication dates reflect the approved editorial precision. If only a month is
+approved, use the ISO reduced-precision value such as `2026-07` in metadata and
+schema rather than inventing a day or time. `dateModified` records the actual
+implementation or substantive content-update date. Do not add `wordCount`
+unless it is calculated from the final rendered article.
+
+The current articles are English-only. Each translated-route entry therefore
+contains only `en`, and SEO alternates contain only English and `x-default`,
+both pointing to that article’s canonical English URL. Add another locale only
+after the complete translated page genuinely exists.
+
+Moisture-meter readings must always be described as comparative inspection
+indicators that require construction, environmental, access, visual, acoustic,
+and historical context. They do not independently prove wet core, structural
+failure, or the required repair. Destructive investigation is not included in
+a normal pre-purchase survey unless it is expressly authorised and agreed. Do
+not publish generic repair prices.
+
+Hull-finish articles follow the same cautious approach. Gloss, colour,
+reflection or fairness differences may justify further investigation, but do
+not independently prove concealed damage, defective repair, or structural
+failure. A visible repair is not automatically unacceptable. Normal survey
+work is visual and non-destructive; specialist opening or destructive
+examination requires separate agreement and authorisation.
+
+For each future article:
+
+1. Add a typed, article-specific data module with approved content, dates,
+   author, image, related services, and one published card record.
+2. Create and build a genuine Astro page for the final lowercase,
+   ASCII-and-hyphen URL.
+3. Add the route to `src/data/navigation.ts`, listing only translations that
+   exist.
+4. Add `WebPage` and `Article` metadata, the visible breadcrumb trail, and the
+   matching `BreadcrumbList`.
+5. Add the card to the hub only after the route builds and returns HTTP 200.
+6. Convert approved portrait graphics to a high-quality local grayscale asset
+   without cropping, resizing, or reducing text legibility; record its
+   intrinsic dimensions in article data.
+7. Order the hub’s Latest list by approved publication date while preserving
+   the separately selected Featured Guide.
+8. Verify canonical, Open Graph article metadata, English-only or translated
+   hreflang, schemas, internal links, sitemap inclusion, accessibility,
+   complete-image presentation, and responsive layouts before release.
 
 ## Environment-variable strategy
 
@@ -372,7 +513,7 @@ functions/
   api/               Cloudflare Pages Function endpoints
   _lib/              Form validation, Turnstile, and email delivery helpers
 public/
-  images/           Optimized local WebP assets reused from the existing site
+  images/           Optimized local image assets reused from approved sources
   logo/             Supplied logo artwork
   _routes.json       Limits Pages Function invocation to /api/*
   _headers           Shared security and cache-control headers

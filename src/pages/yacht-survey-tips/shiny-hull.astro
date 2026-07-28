@@ -1,0 +1,418 @@
+---
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { shinyHullArticle as article } from '../../data/yacht-survey-tips/shiny-hull';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(article.pathname);
+const pageId = `${pageUrl}#page`;
+const articleId = `${pageUrl}#article`;
+const imageUrl = toAbsoluteUrl(article.image.src);
+
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': pageId,
+  url: pageUrl,
+  name: article.seoTitle,
+  description: article.metaDescription,
+  inLanguage: 'en',
+  mainEntity: {
+    '@id': articleId,
+  },
+  about: {
+    '@id': businessEntityId,
+  },
+};
+
+const articleSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': articleId,
+  headline: article.title,
+  description: article.description,
+  url: pageUrl,
+  mainEntityOfPage: {
+    '@id': pageId,
+  },
+  datePublished: article.publicationDateTime,
+  dateModified: article.modifiedDateTime,
+  articleSection: article.category,
+  timeRequired: article.timeRequired,
+  image: imageUrl,
+  inLanguage: 'en',
+  author: {
+    '@type': 'Person',
+    name: article.author.name,
+    jobTitle: article.author.professionalDescription,
+  },
+  publisher: {
+    '@id': businessEntityId,
+  },
+};
+---
+
+<BaseLayout
+  title={article.seoTitle}
+  description={article.metaDescription}
+  locale="en"
+  routeId="shinyHull"
+  pathname={article.pathname}
+  imagePath={article.image.src}
+  imageAlt={article.socialImageAlt}
+  structuredData={[webPageSchema, articleSchema]}
+  openGraphType="article"
+  articlePublishedTime={article.publicationDateTime}
+  articleModifiedTime={article.modifiedDateTime}
+  articleSection={article.category}
+  articleAuthor={article.author.name}
+>
+  <article class="survey-guide">
+    <header class="survey-guide-header">
+      <div class="site-container">
+        <Breadcrumbs items={article.breadcrumbs} />
+        <div class="survey-guide-header-grid">
+          <div class="survey-guide-heading">
+            <p class="eyebrow">{article.category}</p>
+            <h1>{article.title}</h1>
+            <p class="survey-guide-standfirst">{article.standfirst}</p>
+            <dl class="survey-guide-meta">
+              <div>
+                <dt>Published</dt>
+                <dd>
+                  <time datetime={article.publicationDateTime}>
+                    {article.publicationDate}
+                  </time>
+                </dd>
+              </div>
+              <div>
+                <dt>Reading time</dt>
+                <dd>5-minute read</dd>
+              </div>
+              <div>
+                <dt>Author</dt>
+                <dd>
+                  By {article.author.name}
+                  <span class="survey-guide-author-description">
+                    {article.author.professionalDescription}
+                  </span>
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <figure id="article-image" class="survey-guide-figure">
+            <img
+              src={article.image.src}
+              alt={article.image.alt}
+              width={article.image.width}
+              height={article.image.height}
+              loading="eager"
+              fetchpriority="high"
+            />
+            <figcaption>{article.imageCaption}</figcaption>
+          </figure>
+        </div>
+      </div>
+    </header>
+
+    <div class="survey-guide-body">
+      <div class="site-container survey-guide-reading-width">
+        <section
+          class="survey-guide-introduction"
+          aria-labelledby="shiny-hull-introduction"
+        >
+          <h2 id="shiny-hull-introduction" class="sr-only">Introduction</h2>
+          <p>
+            A freshly polished or recently painted yacht can make an excellent
+            first impression. Clean topsides, deep gloss and an apparently
+            flawless surface may suggest that the yacht has been carefully
+            maintained.
+          </p>
+          <p>
+            However, cosmetic presentation and technical condition are not the
+            same thing.
+          </p>
+          <p>
+            Polishing, paintwork and local surface repairs can improve the
+            appearance of a yacht without explaining what has happened
+            underneath. Previous impact damage, gelcoat repairs, cracking,
+            laminate work or moisture-related problems may not be obvious during
+            an ordinary viewing.
+          </p>
+          <p>
+            This does not mean that every shiny yacht is hiding a problem.
+            Appearance should be treated as only one part of the inspection.
+          </p>
+        </section>
+
+        <section aria-labelledby="glossy-finish-misleading">
+          <h2 id="glossy-finish-misleading">
+            Why a Glossy Finish Can Be Misleading
+          </h2>
+          <p>
+            A professional polish can temporarily reduce the visibility of faded
+            gelcoat, light oxidation and minor surface marks. A new paint finish
+            can also cover previous colour differences, repaired areas and small
+            imperfections.
+          </p>
+          <p>New coatings or local refinishing may conceal evidence of:</p>
+          <ul class="survey-guide-list-grid">
+            {article.finishMayConceal.map((item) => <li>{item}</li>)}
+          </ul>
+          <p>
+            Below the waterline, recently applied antifouling may make the
+            underwater hull look clean and uniform while limiting the buyer’s
+            ability to see older blistering, filling or repair work.
+          </p>
+          <p>
+            None of these treatments is automatically suspicious. Regular
+            polishing, painting and antifouling are normal parts of yacht
+            maintenance. A glossy finish does not prove hidden damage. The
+            important question is whether the work was routine or followed
+            damage or deterioration.
+          </p>
+        </section>
+
+        <section aria-labelledby="possible-hull-repairs">
+          <h2 id="possible-hull-repairs">
+            Signs of Possible Previous Hull Repairs
+          </h2>
+          <p>
+            Differences in finish, reflection or fairness may justify closer
+            investigation. They should be assessed comparatively and in the
+            context of the yacht’s construction and history.
+          </p>
+          <div class="survey-guide-methods">
+            {
+              article.repairSigns.map((sign) => (
+                <section aria-labelledby={sign.id}>
+                  <h3 id={sign.id}>{sign.title}</h3>
+                  {sign.body.map((paragraph) => (
+                    <p>{paragraph}</p>
+                  ))}
+                  {sign.items.length > 0 && (
+                    <ul>
+                      {sign.items.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {'note' in sign && sign.note && (
+                    <p class="survey-guide-method-note">{sign.note}</p>
+                  )}
+                </section>
+              ))
+            }
+          </div>
+          <aside class="survey-guide-key-point">
+            <strong>
+              Visual differences may justify further investigation, but they do
+              not independently prove poor repair work or structural damage.
+            </strong>
+          </aside>
+        </section>
+
+        <section aria-labelledby="questions-for-seller">
+          <h2 id="questions-for-seller">Questions to Ask the Seller</h2>
+          <p>
+            Before making an offer, ask for the purpose, scope and records of
+            previous work:
+          </p>
+          <ul class="survey-guide-question-list">
+            {article.sellerQuestions.map((question) => <li>{question}</li>)}
+          </ul>
+          <p>
+            A well-documented professional repair is not necessarily a reason to
+            reject a yacht. The concern is greater when significant work appears
+            to have been completed but no explanation or documentation is
+            available.
+          </p>
+        </section>
+
+        <section aria-labelledby="safe-diy-check">
+          <h2 id="safe-diy-check">A Safe DIY Check During the First Viewing</h2>
+          <p>
+            A buyer’s initial inspection should identify questions and warning
+            signs—not attempt to replace a professional survey.
+          </p>
+          <ul class="survey-guide-list-grid">
+            {article.diyChecks.map((check) => <li>{check}</li>)}
+          </ul>
+          <h3 class="survey-guide-subheading">What buyers should not do</h3>
+          <ul class="survey-guide-key-list">
+            {article.buyerMustNot.map((restriction) => <li>{restriction}</li>)}
+          </ul>
+        </section>
+
+        <section aria-labelledby="professional-survey-adds">
+          <h2 id="professional-survey-adds">What a Professional Survey Adds</h2>
+          <p>
+            A pre-purchase survey considers the hull as part of the yacht’s
+            complete structure rather than judging the finish in isolation.
+            Depending on the yacht, construction and agreed scope, it may
+            combine:
+          </p>
+          <ul class="survey-guide-list-grid">
+            {
+              article.professionalSurveyMethods.map((method) => (
+                <li>{method}</li>
+              ))
+            }
+          </ul>
+          <p>
+            Moisture-meter readings should not be treated as a simple
+            pass-or-fail result. Coating type, laminate construction, surface
+            condition, temperature and nearby materials can affect readings.
+            Results must be considered with visual findings and vessel
+            construction.
+          </p>
+          <p>
+            A normal survey cannot find every concealed repair or condition.
+            Specialist or destructive investigation may be recommended where the
+            available evidence justifies it and separate authorisation is
+            obtained.
+          </p>
+        </section>
+
+        <section aria-labelledby="why-findings-matter">
+          <h2 id="why-findings-matter">Why These Findings Matter to a Buyer</h2>
+          <p>
+            Previous repair work is not automatically unacceptable. Important
+            questions include:
+          </p>
+          <ul class="survey-guide-list-grid">
+            {
+              article.buyerConsiderations.map((consideration) => (
+                <li>{consideration}</li>
+              ))
+            }
+          </ul>
+          <p>
+            A properly completed and documented repair may be acceptable. Poorly
+            documented, inconsistent or technically questionable work may
+            require further investigation before purchase.
+          </p>
+          <p>
+            Survey findings may help a buyer proceed with confidence, request
+            further investigation, renegotiate or decide that the yacht presents
+            too much risk. The objective is not to find a perfect yacht; it is
+            to understand the yacht being purchased.
+          </p>
+        </section>
+
+        <section aria-labelledby="shiny-hull-key-point">
+          <h2 id="shiny-hull-key-point">Surveyor’s Key Point</h2>
+          <aside class="survey-guide-key-point survey-guide-key-point-large">
+            <p>
+              A shiny hull is a presentation detail, not proof of condition. The
+              finish should be assessed together with hull fairness, visible
+              repairs, internal evidence, documentation and the wider survey
+              findings.
+            </p>
+          </aside>
+        </section>
+
+        <section aria-labelledby="professional-limitations">
+          <h2 id="professional-limitations">
+            Professional Inspection Limitations
+          </h2>
+          <ul class="survey-guide-key-list">
+            {
+              article.professionalLimitations.map((limitation) => (
+                <li>{limitation}</li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <section
+      class="survey-guide-related-services"
+      aria-labelledby="shiny-hull-related-services"
+    >
+      <div class="site-container">
+        <div class="survey-guide-section-heading">
+          <p class="eyebrow">Professional support</p>
+          <h2 id="shiny-hull-related-services">Related Services</h2>
+        </div>
+        <div class="survey-guide-service-grid">
+          {
+            article.relatedServices.map((service) => (
+              <article>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <a class="text-arrow-link" href={service.href}>
+                  View service <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="survey-guide-more-tips"
+      aria-labelledby="more-shiny-hull-tips"
+    >
+      <div class="site-container survey-guide-more-tips-inner">
+        <div>
+          <p class="eyebrow">{article.category}</p>
+          <h2 id="more-shiny-hull-tips">More Yacht Survey Tips</h2>
+          <p>
+            Continue with related buyer guidance or browse the complete
+            knowledge hub.
+          </p>
+        </div>
+        <ul class="survey-guide-related-link-list" role="list">
+          {
+            article.relatedArticles.map((relatedArticle) => (
+              <li>
+                <a class="button button-navy" href={relatedArticle.href}>
+                  {relatedArticle.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section
+      class="survey-guide-final-cta"
+      aria-labelledby="shiny-hull-final-cta"
+    >
+      <div class="site-container survey-guide-final-cta-inner">
+        <div>
+          <p class="eyebrow eyebrow-light">Pre-purchase support</p>
+          <h2 id="shiny-hull-final-cta">{article.finalCta.heading}</h2>
+          <p>{article.finalCta.body}</p>
+        </div>
+        <div class="survey-guide-final-cta-actions">
+          {
+            article.finalCta.links.map((link, index) => (
+              <a
+                class:list={[
+                  'button',
+                  index === 0 ? 'button-light' : 'button-outline-light',
+                ]}
+                href={link.href}
+                {...('external' in link && link.external
+                  ? { target: '_blank', rel: 'noreferrer' }
+                  : {})}
+              >
+                {link.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

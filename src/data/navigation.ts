@@ -10,7 +10,11 @@ export type RouteId =
   | 'buyerRepresentation'
   | 'aboutUs'
   | 'contact'
-  | 'yachtDelivery';
+  | 'yachtDelivery'
+  | 'yachtsForSale'
+  | 'yachtSurveyTips'
+  | 'deckMoistureSoftSpots'
+  | 'shinyHull';
 
 /**
  * Add a locale only after that translated page exists. SEO alternates and the
@@ -56,6 +60,18 @@ export const translatedRoutes: Record<
   yachtDelivery: {
     en: '/yacht-delivery',
   },
+  yachtsForSale: {
+    en: '/yachts-for-sale',
+  },
+  yachtSurveyTips: {
+    en: '/yacht-survey-tips',
+  },
+  deckMoistureSoftSpots: {
+    en: '/yacht-survey-tips/deck-moisture-soft-spots',
+  },
+  shinyHull: {
+    en: '/yacht-survey-tips/shiny-hull',
+  },
 };
 
 export interface NavigationItem {
@@ -67,6 +83,7 @@ export interface NavigationItem {
     | 'buyerRepresentation'
     | 'aboutUs'
     | 'yachtDelivery'
+    | 'yachtsForSale'
     | 'contact';
   routeId?: RouteId;
   href?: string;
@@ -147,6 +164,18 @@ export const primaryNavigation = [
     },
   },
   {
+    id: 'yachtsForSale',
+    routeId: 'yachtsForSale',
+    labels: {
+      en: 'Yachts for Sale',
+      es: 'Yachts for Sale',
+      ru: 'Yachts for Sale',
+      fr: 'Yachts for Sale',
+      it: 'Yachts for Sale',
+      gr: 'Yachts for Sale',
+    },
+  },
+  {
     id: 'aboutUs',
     routeId: 'aboutUs',
     labels: {
@@ -186,7 +215,10 @@ export const serviceNavigation = primaryNavigation.filter((item) =>
 
 export const desktopStandaloneNavigation = primaryNavigation.filter(
   (item) =>
-    item.id === 'home' || item.id === 'aboutUs' || item.id === 'contact',
+    item.id === 'home' ||
+    item.id === 'yachtsForSale' ||
+    item.id === 'aboutUs' ||
+    item.id === 'contact',
 );
 
 const serviceRouteIds = new Set<RouteId>([
