@@ -75,12 +75,15 @@ export const translatedRoutes: Record<
   },
   yachtSurveyTips: {
     en: '/yacht-survey-tips',
+    es: '/es/yacht-survey-tips',
   },
   deckMoistureSoftSpots: {
     en: '/yacht-survey-tips/deck-moisture-soft-spots',
+    es: '/es/yacht-survey-tips/deck-moisture-soft-spots',
   },
   shinyHull: {
     en: '/yacht-survey-tips/shiny-hull',
+    es: '/es/yacht-survey-tips/shiny-hull',
   },
   privacyPolicy: {
     en: '/privacy-policy',

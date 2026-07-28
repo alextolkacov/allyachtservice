@@ -1,0 +1,446 @@
+---
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import { aboutUsPage } from '../../../data/about-us';
+import { spanishShinyHullArticle as article } from '../../../data/es/yacht-survey-tips/shiny-hull';
+import { siteConfig } from '../../../data/site';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(article.pathname);
+const pageId = `${pageUrl}#page`;
+const articleId = `${pageUrl}#article`;
+const imageUrl = toAbsoluteUrl(article.image.src);
+const personId = new URL(aboutUsPage.person.id, siteConfig.url).toString();
+
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': pageId,
+  url: pageUrl,
+  name: article.seoTitle,
+  description: article.metaDescription,
+  inLanguage: 'es',
+  mainEntity: {
+    '@id': articleId,
+  },
+  about: {
+    '@id': businessEntityId,
+  },
+};
+
+const articleSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': articleId,
+  headline: article.title,
+  description: article.description,
+  url: pageUrl,
+  mainEntityOfPage: {
+    '@id': pageId,
+  },
+  datePublished: article.publicationDateTime,
+  dateModified: article.modifiedDateTime,
+  articleSection: article.category,
+  timeRequired: article.timeRequired,
+  image: imageUrl,
+  inLanguage: 'es',
+  author: {
+    '@type': 'Person',
+    '@id': personId,
+    name: article.author.name,
+    jobTitle: article.author.professionalDescription,
+  },
+  publisher: {
+    '@id': businessEntityId,
+  },
+};
+---
+
+<BaseLayout
+  title={article.seoTitle}
+  description={article.metaDescription}
+  locale="es"
+  routeId="shinyHull"
+  pathname={article.pathname}
+  imagePath={article.image.src}
+  imageAlt={article.socialImageAlt}
+  structuredData={[webPageSchema, articleSchema]}
+  openGraphType="article"
+  articlePublishedTime={article.publicationDateTime}
+  articleModifiedTime={article.modifiedDateTime}
+  articleSection={article.category}
+  articleAuthor={article.author.name}
+>
+  <article class="survey-guide">
+    <header class="survey-guide-header">
+      <div class="site-container">
+        <Breadcrumbs items={article.breadcrumbs} ariaLabel="Migas de pan" />
+        <div class="survey-guide-header-grid">
+          <div class="survey-guide-heading">
+            <p class="eyebrow">{article.category}</p>
+            <h1>{article.title}</h1>
+            <p class="survey-guide-standfirst">{article.standfirst}</p>
+            <dl class="survey-guide-meta">
+              <div>
+                <dt>Publicado</dt>
+                <dd>
+                  <time datetime={article.publicationDateTime}>
+                    {article.publicationDate}
+                  </time>
+                </dd>
+              </div>
+              <div>
+                <dt>Tiempo de lectura</dt>
+                <dd>5 minutos de lectura</dd>
+              </div>
+              <div>
+                <dt>Autor</dt>
+                <dd>
+                  Por {article.author.name}
+                  <span class="survey-guide-author-description">
+                    {article.author.professionalDescription}
+                  </span>
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <figure id="article-image" class="survey-guide-figure">
+            <img
+              src={article.image.src}
+              alt={article.image.alt}
+              width={article.image.width}
+              height={article.image.height}
+              loading="eager"
+              fetchpriority="high"
+            />
+            <figcaption>{article.imageCaption}</figcaption>
+          </figure>
+        </div>
+      </div>
+    </header>
+
+    <div class="survey-guide-body">
+      <div class="site-container survey-guide-reading-width">
+        <section
+          class="survey-guide-introduction"
+          aria-labelledby="shiny-hull-introduction"
+        >
+          <h2 id="shiny-hull-introduction" class="sr-only">Introducción</h2>
+          <p>
+            Un yate recién pulido o pintado puede causar una excelente primera
+            impresión. Una obra muerta limpia, un brillo profundo y una
+            superficie aparentemente impecable pueden sugerir que el yate se ha
+            mantenido con cuidado.
+          </p>
+          <p>
+            Sin embargo, la presentación estética y el estado técnico no son lo
+            mismo.
+          </p>
+          <p>
+            El pulido, la pintura y las reparaciones superficiales localizadas
+            mejoran el aspecto sin explicar necesariamente qué ha ocurrido
+            debajo. Los daños por impacto, reparaciones del gelcoat, grietas,
+            trabajos en el laminado o problemas relacionados con la humedad
+            pueden no resultar evidentes durante una visita normal.
+          </p>
+          <p>
+            Esto no significa que todo yate brillante oculte un problema. El
+            aspecto debe tratarse como una parte más de la inspección.
+          </p>
+        </section>
+
+        <section aria-labelledby="glossy-finish-misleading">
+          <h2 id="glossy-finish-misleading">
+            Por qué un acabado brillante puede resultar engañoso
+          </h2>
+          <p>
+            Un pulido profesional puede reducir temporalmente la visibilidad de
+            un gelcoat descolorido, una oxidación ligera y pequeñas marcas
+            superficiales. Una pintura nueva también puede cubrir diferencias de
+            color anteriores, zonas reparadas y pequeñas imperfecciones.
+          </p>
+          <p>
+            Los revestimientos nuevos o un acabado localizado pueden ocultar
+            indicios de:
+          </p>
+          <ul class="survey-guide-list-grid">
+            {article.finishMayConceal.map((item) => <li>{item}</li>)}
+          </ul>
+          <p>
+            Bajo la línea de flotación, un antiincrustante recién aplicado puede
+            dar al casco un aspecto limpio y uniforme y, al mismo tiempo,
+            limitar la posibilidad de ver ampollas, enmasillados o reparaciones
+            anteriores.
+          </p>
+          <p>
+            Ninguno de estos tratamientos resulta sospechoso por definición. El
+            pulido, la pintura y el antiincrustante forman parte del
+            mantenimiento normal. Un acabado brillante no demuestra que existan
+            daños ocultos. La cuestión importante es si el trabajo fue rutinario
+            o se realizó después de un daño o deterioro.
+          </p>
+        </section>
+
+        <section aria-labelledby="possible-hull-repairs">
+          <h2 id="possible-hull-repairs">
+            Indicios de posibles reparaciones anteriores del casco
+          </h2>
+          <p>
+            Las diferencias de acabado, reflejo o regularidad de las líneas
+            pueden justificar una investigación más detallada. Deben evaluarse
+            comparativamente y dentro del contexto de la construcción y el
+            historial del yate.
+          </p>
+          <div class="survey-guide-methods">
+            {
+              article.repairSigns.map((sign) => (
+                <section aria-labelledby={sign.id}>
+                  <h3 id={sign.id}>{sign.title}</h3>
+                  {sign.body.map((paragraph) => (
+                    <p>{paragraph}</p>
+                  ))}
+                  {sign.items.length > 0 && (
+                    <ul>
+                      {sign.items.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {'note' in sign && sign.note && (
+                    <p class="survey-guide-method-note">{sign.note}</p>
+                  )}
+                </section>
+              ))
+            }
+          </div>
+          <aside class="survey-guide-key-point">
+            <strong>
+              Las diferencias visuales pueden justificar una investigación
+              adicional, pero no demuestran por sí solas una reparación
+              deficiente ni daños estructurales.
+            </strong>
+          </aside>
+        </section>
+
+        <section aria-labelledby="questions-for-seller">
+          <h2 id="questions-for-seller">
+            Preguntas que debe hacer al vendedor
+          </h2>
+          <p>
+            Antes de presentar una oferta, pregunte por la finalidad, el alcance
+            y la documentación de los trabajos anteriores:
+          </p>
+          <ul class="survey-guide-question-list">
+            {article.sellerQuestions.map((question) => <li>{question}</li>)}
+          </ul>
+          <p>
+            Una reparación profesional bien documentada no es necesariamente un
+            motivo para rechazar un yate. La preocupación aumenta cuando parecen
+            haberse realizado trabajos importantes sin explicación ni
+            documentación disponible.
+          </p>
+        </section>
+
+        <section aria-labelledby="safe-diy-check">
+          <h2 id="safe-diy-check">
+            Comprobación segura durante la primera visita
+          </h2>
+          <p>
+            La primera revisión del comprador debe servir para plantear
+            preguntas y detectar señales que merecen atención, no para sustituir
+            una inspección profesional.
+          </p>
+          <ul class="survey-guide-list-grid">
+            {article.diyChecks.map((check) => <li>{check}</li>)}
+          </ul>
+          <h3 class="survey-guide-subheading">
+            Qué no debe hacer el comprador
+          </h3>
+          <ul class="survey-guide-key-list">
+            {article.buyerMustNot.map((restriction) => <li>{restriction}</li>)}
+          </ul>
+        </section>
+
+        <section aria-labelledby="professional-survey-adds">
+          <h2 id="professional-survey-adds">
+            Qué aporta una inspección profesional
+          </h2>
+          <p>
+            Una inspección precompra considera el casco como parte de toda la
+            estructura del yate, no juzga el acabado de forma aislada. Según el
+            yate, su construcción y el alcance acordado, puede combinar:
+          </p>
+          <ul class="survey-guide-list-grid">
+            {
+              article.professionalSurveyMethods.map((method) => (
+                <li>{method}</li>
+              ))
+            }
+          </ul>
+          <p>
+            Las lecturas de un medidor de humedad no deben interpretarse como un
+            resultado simple de aprobado o no aprobado. El tipo de
+            revestimiento, la construcción del laminado, el estado de la
+            superficie, la temperatura y los materiales cercanos pueden influir
+            en ellas. Deben considerarse junto con las observaciones visuales y
+            la construcción de la embarcación.
+          </p>
+          <p>
+            Una inspección normal no puede detectar todas las reparaciones o
+            condiciones ocultas. Puede recomendarse una investigación
+            especializada o destructiva cuando las evidencias disponibles lo
+            justifiquen y se obtenga una autorización independiente.
+          </p>
+        </section>
+
+        <section aria-labelledby="why-findings-matter">
+          <h2 id="why-findings-matter">
+            Por qué estas observaciones importan al comprador
+          </h2>
+          <p>
+            Un trabajo de reparación anterior no es inaceptable por definición.
+            Entre las cuestiones importantes se encuentran:
+          </p>
+          <ul class="survey-guide-list-grid">
+            {
+              article.buyerConsiderations.map((consideration) => (
+                <li>{consideration}</li>
+              ))
+            }
+          </ul>
+          <p>
+            Una reparación correctamente ejecutada y documentada puede ser
+            aceptable. Los trabajos con documentación deficiente, incoherentes o
+            técnicamente dudosos pueden requerir una investigación adicional
+            antes de comprar.
+          </p>
+          <p>
+            Las conclusiones de la inspección pueden ayudar a seguir adelante
+            con confianza, pedir más pruebas, renegociar o decidir que el yate
+            presenta demasiado riesgo. El objetivo no es encontrar un yate
+            perfecto, sino comprender el yate que se está comprando.
+          </p>
+        </section>
+
+        <section aria-labelledby="shiny-hull-key-point">
+          <h2 id="shiny-hull-key-point">Punto clave del inspector naval</h2>
+          <aside class="survey-guide-key-point survey-guide-key-point-large">
+            <p>
+              Un casco brillante es un detalle de presentación, no una prueba de
+              su estado. El acabado debe evaluarse junto con la regularidad de
+              las líneas del casco, las reparaciones visibles, las evidencias
+              interiores, la documentación y el resto de observaciones de la
+              inspección.
+            </p>
+          </aside>
+        </section>
+
+        <section aria-labelledby="professional-limitations">
+          <h2 id="professional-limitations">
+            Limitaciones de la inspección profesional
+          </h2>
+          <ul class="survey-guide-key-list">
+            {
+              article.professionalLimitations.map((limitation) => (
+                <li>{limitation}</li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <section
+      class="survey-guide-related-services"
+      aria-labelledby="shiny-hull-related-services"
+    >
+      <div class="site-container">
+        <div class="survey-guide-section-heading">
+          <p class="eyebrow">Asistencia profesional</p>
+          <h2 id="shiny-hull-related-services">Servicios relacionados</h2>
+        </div>
+        <div class="survey-guide-service-grid">
+          {
+            article.relatedServices.map((service) => (
+              <article>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <a class="text-arrow-link" href={service.href}>
+                  Ver servicio <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="survey-guide-more-tips"
+      aria-labelledby="more-shiny-hull-tips"
+    >
+      <div class="site-container survey-guide-more-tips-inner">
+        <div>
+          <p class="eyebrow">{article.category}</p>
+          <h2 id="more-shiny-hull-tips">
+            Más consejos para la inspección de yates
+          </h2>
+          <p>
+            Continúe con una guía relacionada o consulte todo el centro de
+            conocimiento.
+          </p>
+        </div>
+        <ul class="survey-guide-related-link-list" role="list">
+          {
+            article.relatedArticles.map((relatedArticle) => (
+              <li>
+                <a class="button button-navy" href={relatedArticle.href}>
+                  {relatedArticle.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section
+      class="survey-guide-final-cta"
+      aria-labelledby="shiny-hull-final-cta"
+    >
+      <div class="site-container survey-guide-final-cta-inner">
+        <div>
+          <p class="eyebrow eyebrow-light">Asistencia precompra</p>
+          <h2 id="shiny-hull-final-cta">{article.finalCta.heading}</h2>
+          <p>{article.finalCta.body}</p>
+        </div>
+        <div class="survey-guide-final-cta-actions">
+          {
+            article.finalCta.links.map((link, index) => (
+              <a
+                class:list={[
+                  'button',
+                  index === 0 ? 'button-light' : 'button-outline-light',
+                ]}
+                href={link.href}
+                {...('external' in link && link.external
+                  ? { target: '_blank', rel: 'noreferrer' }
+                  : {})}
+              >
+                {link.label}
+                {'external' in link && link.external && (
+                  <span class="sr-only">, se abre en una pestaña nueva</span>
+                )}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

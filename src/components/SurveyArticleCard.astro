@@ -1,5 +1,6 @@
 ---
 import type { SurveyTipsImage } from '../data/yacht-survey-tips/types';
+import type { Locale } from '../data/languages';
 
 interface Props {
   title: string;
@@ -12,6 +13,7 @@ interface Props {
   publicationDateTime?: string;
   readingTime?: string;
   featured?: boolean;
+  locale?: Locale;
 }
 
 const {
@@ -25,11 +27,26 @@ const {
   publicationDateTime,
   readingTime,
   featured = false,
+  locale = 'en',
 } = Astro.props;
 const hasMetadata = status || publicationDate || readingTime;
 const readingTimeLabel = readingTime
-  ? `${readingTime.replace(/ minutes?$/u, '-minute')} read`
+  ? locale === 'es'
+    ? `${readingTime} de lectura`
+    : `${readingTime.replace(/ minutes?$/u, '-minute')} read`
   : undefined;
+const articleDetailsLabel =
+  locale === 'es' ? 'Detalles del artículo' : 'Article details';
+const readLabel =
+  locale === 'es'
+    ? featured
+      ? 'Leer la guía'
+      : 'Leer el artículo'
+    : featured
+      ? 'Read guide'
+      : 'Read article';
+const imageLinkLabel =
+  locale === 'es' ? `${readLabel}: ${title}` : `Read ${title}`;
 ---
 
 <article
@@ -39,7 +56,7 @@ const readingTimeLabel = readingTime
     <a
       class="survey-article-image-link"
       href={href}
-      aria-label={`Read ${title}`}
+      aria-label={imageLinkLabel}
     >
       <img
         src={image.src}
@@ -60,7 +77,7 @@ const readingTimeLabel = readingTime
       hasMetadata && (
         <ul
           class="survey-article-meta"
-          aria-label="Article details"
+          aria-label={articleDetailsLabel}
           role="list"
         >
           {status && <li>{status}</li>}
@@ -74,7 +91,8 @@ const readingTimeLabel = readingTime
       )
     }
     <a class="survey-article-read-link" href={href}>
-      Read article <span aria-hidden="true">→</span>
+      {readLabel}
+      <span aria-hidden="true">→</span>
     </a>
   </div>
 </article>

@@ -51,7 +51,7 @@ export const spanishFooter = {
   openingHours: 'Horario',
   hours: 'Lunes–viernes, 09:00–18:00',
   appointments: 'Se recomienda concertar cita.',
-  yachtSurveyTips: 'Consejos sobre inspección de yates',
+  yachtSurveyTips: 'Consejos para la inspección de yates',
   tools: {
     survey: 'Calculadora de coste de inspección',
     delivery: 'Calculadora de coste de entrega',

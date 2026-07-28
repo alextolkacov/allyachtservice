@@ -17,12 +17,12 @@ The English Yachts for Sale and Buyer Support referral page is available at
 `/yachts-for-sale`.
 The Contact page uses a Cloudflare Pages Function, Turnstile, and the existing
 Google Workspace mailbox to validate and deliver enquiries securely.
-Spanish Translation Batch 3 publishes six complete Spanish service and business
-pages, both calculator pages, the Spanish homepage and Contact page. The
-Russian homepage retains its localized development placeholder inside the same
-shared visual system. Spanish Survey Tips, Yachts for Sale and legal policies
-remain pending. French, Italian and Greek are deferred and not currently
-supported.
+Spanish Translation Batch 4 publishes six complete Spanish service and business
+pages, both calculator pages, the Yacht Survey Tips hub and its two published
+articles, the Spanish homepage and Contact page. The Russian homepage retains
+its localized development placeholder inside the same shared visual system.
+Spanish Yachts for Sale and legal policies remain pending. French, Italian and
+Greek are deferred and not currently supported.
 
 ## Local setup
 
@@ -60,18 +60,21 @@ Open Graph locale alternates or sitemap entries.
 Published route equivalents are declared in the typed `translatedRoutes` map
 in `src/data/navigation.ts`. The current Spanish equivalents are:
 
-| Content                         | English                           | Spanish                              |
-| ------------------------------- | --------------------------------- | ------------------------------------ |
-| Home                            | `/`                               | `/es`                                |
-| Contact                         | `/contact`                        | `/es/contact`                        |
-| Pre-Purchase Survey             | `/pre-purchase-survey`            | `/es/pre-purchase-survey`            |
-| Insurance Condition Survey      | `/insurance-survey`               | `/es/insurance-survey`               |
-| Buyer Representation            | `/buyer-representation`           | `/es/buyer-representation`           |
-| Yacht Delivery                  | `/yacht-delivery`                 | `/es/yacht-delivery`                 |
-| Valuation and Damage Assessment | `/valuation-damage-survey`        | `/es/valuation-damage-survey`        |
-| About Us                        | `/about-us`                       | `/es/about-us`                       |
-| Survey Cost Calculator          | `/pre-purchase-survey-calculator` | `/es/pre-purchase-survey-calculator` |
-| Delivery Cost Calculator        | `/yacht-delivery-calculator`      | `/es/yacht-delivery-calculator`      |
+| Content                         | English                                       | Spanish                                          |
+| ------------------------------- | --------------------------------------------- | ------------------------------------------------ |
+| Home                            | `/`                                           | `/es`                                            |
+| Contact                         | `/contact`                                    | `/es/contact`                                    |
+| Pre-Purchase Survey             | `/pre-purchase-survey`                        | `/es/pre-purchase-survey`                        |
+| Insurance Condition Survey      | `/insurance-survey`                           | `/es/insurance-survey`                           |
+| Buyer Representation            | `/buyer-representation`                       | `/es/buyer-representation`                       |
+| Yacht Delivery                  | `/yacht-delivery`                             | `/es/yacht-delivery`                             |
+| Valuation and Damage Assessment | `/valuation-damage-survey`                    | `/es/valuation-damage-survey`                    |
+| About Us                        | `/about-us`                                   | `/es/about-us`                                   |
+| Survey Cost Calculator          | `/pre-purchase-survey-calculator`             | `/es/pre-purchase-survey-calculator`             |
+| Delivery Cost Calculator        | `/yacht-delivery-calculator`                  | `/es/yacht-delivery-calculator`                  |
+| Yacht Survey Tips               | `/yacht-survey-tips`                          | `/es/yacht-survey-tips`                          |
+| Deck Moisture article           | `/yacht-survey-tips/deck-moisture-soft-spots` | `/es/yacht-survey-tips/deck-moisture-soft-spots` |
+| Shiny Hull article              | `/yacht-survey-tips/shiny-hull`               | `/es/yacht-survey-tips/shiny-hull`               |
 
 The language switcher uses an equivalent route when the map contains one. If a
 translation is not published, it links to that language's homepage and its
@@ -129,20 +132,30 @@ locale-specific entities.
 | Hull                       | Casco                               |
 | Deck                       | Cubierta                            |
 | Rigging                    | Aparejo                             |
+| Deck moisture              | Humedad en la cubierta              |
+| Deck core                  | Núcleo de la cubierta               |
+| Moisture meter             | Medidor de humedad                  |
+| Thermal imaging            | Termografía                         |
+| Tap/percussion testing     | Prueba de percusión                 |
+| Chainplates                | Cadenotes                           |
+| Windlass                   | Molinete de ancla                   |
+| Hull fairness              | Regularidad de las líneas del casco |
+| Fairing                    | Enmasillado y alisado               |
+| Re-lamination              | Relaminación                        |
+| Osmosis                    | Ósmosis                             |
 
 Use “inspector naval de yates y embarcaciones menores” where the more formal
 professional description is appropriate. Natural contextual variations are
 allowed when they preserve the same technical meaning; never translate
 “survey” as a customer questionnaire.
 
-This remains staged localisation. Spanish Yacht Survey Tips, Yachts for Sale
-and all four legal policies are pending, as are Russian
-translations beyond the homepage. English fallback links must identify their
-language until each real translation is published. The Spanish version must
-not be presented as complete until all planned batches and a final
-native-language, accessibility, legal and SEO review have passed. Production
-indexing remains blocked by the unresolved central legal configuration; keep
-`PUBLIC_SITE_INDEXABLE=false`.
+This remains staged localisation. Spanish Yachts for Sale and all four legal
+policies are pending, as are Russian translations beyond the homepage. English
+fallback links must identify their language until each real translation is
+published. The Spanish version must not be presented as complete until all
+planned batches and a final native-language, accessibility, legal and SEO
+review have passed. Production indexing remains blocked by the unresolved
+central legal configuration; keep `PUBLIC_SITE_INDEXABLE=false`.
 
 After a build, validate the current Spanish publishing boundary with:
 
@@ -338,17 +351,20 @@ the current dimensions, responsive behaviour, and accurate alternative text.
 
 ## Yacht Survey Tips publishing
 
-The English knowledge hub is generated at:
+The English and Spanish knowledge hubs are generated at:
 
 ```text
 /yacht-survey-tips
+/es/yacht-survey-tips
 ```
 
-The two published English articles are:
+The two published article pairs are:
 
 ```text
 /yacht-survey-tips/shiny-hull
+/es/yacht-survey-tips/shiny-hull
 /yacht-survey-tips/deck-moisture-soft-spots
+/es/yacht-survey-tips/deck-moisture-soft-spots
 ```
 
 `/yacht-survey-tips/shiny-hull` is the **Pre-Purchase Checks · Hull &
@@ -369,6 +385,12 @@ imports the same typed card record used by the article so its title,
 description, category, publication date, reading time, status, image, and URL
 cannot drift independently. Each published article still has an explicit Astro
 page in `src/pages/yacht-survey-tips/`, rather than a catch-all route.
+Spanish article data follows the same typed structure under
+`src/data/es/yacht-survey-tips/`, and each Spanish route remains an explicit
+Astro page under `src/pages/es/yacht-survey-tips/`. The implemented English
+article is always the translation source: preserve its section order, technical
+limitations, dates, author, CTAs and internal relationships rather than
+translating an earlier draft or introducing unsupported findings.
 
 Survey-tip graphics are editorial content, not decorative crops. The shared
 card displays the full intrinsic image with `width: 100%`, `height: auto`, and
@@ -384,11 +406,19 @@ Deck Moisture. The water-and-partially-visible-yacht-hull hero background is a
 separate hub asset and must not be reprocessed, repositioned, or replaced when
 article graphics change.
 
+The existing 1122 × 1402 black-and-white English article graphics are reused on
+the Spanish pages with the owner's approval. They remain byte-identical,
+uncropped and fully visible; accurate Spanish alt text, captions and article
+HTML repeat the important educational information so understanding never
+depends on embedded image text. Do not create locale-specific image copies
+unless a future approved design review requires them.
+
 Article pages retain the global `ProfessionalService` entity and add `WebPage`
 and `Article` entities. The visible breadcrumb component adds the matching
 `BreadcrumbList`. The Article publisher references the stable business ID
-`https://www.allyachtservice.com/#business`; author data uses the confirmed
-surveyor name and professional description.
+`https://www.allyachtservice.com/#business`; Spanish author data references the
+stable Person ID
+`https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs`.
 
 Publication dates reflect the approved editorial precision. If only a month is
 approved, use the ISO reduced-precision value such as `2026-07` in metadata and
@@ -396,10 +426,18 @@ schema rather than inventing a day or time. `dateModified` records the actual
 implementation or substantive content-update date. Do not add `wordCount`
 unless it is calculated from the final rendered article.
 
-The current articles are English-only. Each translated-route entry therefore
-contains only `en`, and SEO alternates contain only English and `x-default`,
-both pointing to that article’s canonical English URL. Add another locale only
-after the complete translated page genuinely exists.
+The three published Survey Tips route entries contain genuine English and
+Spanish equivalents. SEO alternates therefore include `en`, `es` and
+`x-default`, with `x-default` pointing to English. Russian remains a clearly
+labelled homepage fallback in the visible language switcher and is not emitted
+as article hreflang.
+
+Spanish article publication labels and visible dates use `es-ES` conventions.
+The approved source publication precision is preserved: Deck Moisture remains
+`2026-07`, while Shiny Hull remains `2026-07-28`. Spanish implementation uses
+`2026-07-28` as `dateModified`. Spanish pre-purchase CTAs use
+`/es/contact?service=pre-purchase-survey`; the service code remains canonical
+and untranslated.
 
 Moisture-meter readings must always be described as comparative inspection
 indicators that require construction, environmental, access, visual, acoustic,

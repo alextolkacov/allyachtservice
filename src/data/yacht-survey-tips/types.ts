@@ -11,7 +11,7 @@ export interface SurveyTipsArticle {
   description: string;
   href: string;
   category: string;
-  status: 'Published';
+  status: string;
   publicationDate: string;
   publicationDateTime: string;
   readingTime: string;

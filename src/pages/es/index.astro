@@ -2,7 +2,11 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PendingHomepage from '../../components/PendingHomepage.astro';
 import ServicesGrid from '../../components/ServicesGrid.astro';
-import { spanishHomeServices, spanishOnlineTools } from '../../data/es/home';
+import {
+  spanishHomeServices,
+  spanishKnowledgeResources,
+  spanishOnlineTools,
+} from '../../data/es/home';
 ---
 
 <BaseLayout
@@ -52,4 +56,10 @@ import { spanishHomeServices, spanishOnlineTools } from '../../data/es/home';
       </div>
     </div>
   </section>
+  <ServicesGrid
+    heading="Orientación para compradores y propietarios"
+    eyebrow="Centro de conocimiento"
+    services={spanishKnowledgeResources}
+    linkLabel="Leer los consejos"
+  />
 </BaseLayout>

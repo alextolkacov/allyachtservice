@@ -96,3 +96,18 @@ export const spanishOnlineTools = {
     },
   ],
 } as const;
+
+export const spanishKnowledgeResources = [
+  {
+    title: 'Consejos para la inspección de yates',
+    description:
+      'Guías profesionales para comprender defectos habituales, métodos de inspección y cuestiones importantes antes de comprar un yate.',
+    href: '/es/yacht-survey-tips',
+    image: {
+      src: '/images/yacht-survey-tips-background.jpg',
+      alt: 'Casco de un yate reflejado en el agua de un puerto deportivo',
+      width: 1536,
+      height: 1024,
+    },
+  },
+] satisfies readonly HomeService[];

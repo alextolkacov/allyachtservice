@@ -1,4 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { relative, resolve } from 'node:path';
 import process from 'node:process';
 
@@ -252,6 +253,42 @@ const translatedPages = [
   },
 ];
 
+const spanishSurveyTipsPages = [
+  {
+    en: '/yacht-survey-tips',
+    es: '/es/yacht-survey-tips',
+    title: 'Consejos para la inspección de yates | All Yacht Service',
+    description:
+      'Consejos profesionales para compradores y propietarios de yates sobre inspecciones, defectos habituales, mantenimiento y evaluación del estado.',
+    h1: 'Consejos para la inspección de yates',
+    article: false,
+  },
+  {
+    en: '/yacht-survey-tips/deck-moisture-soft-spots',
+    es: '/es/yacht-survey-tips/deck-moisture-soft-spots',
+    title: 'Humedad y zonas blandas en la cubierta | All Yacht Service',
+    description:
+      'Aprenda por qué aparece humedad en la cubierta de un yate, qué señales debe buscar un comprador y cómo se evalúan durante una inspección precompra.',
+    h1: 'Humedad y zonas blandas en la cubierta: qué deben saber los compradores de yates',
+    article: true,
+    datePublished: '2026-07',
+    dateModified: '2026-07-28',
+    image: '/images/yacht-survey-tips/deck-moisture-soft-spots.png',
+  },
+  {
+    en: '/yacht-survey-tips/shiny-hull',
+    es: '/es/yacht-survey-tips/shiny-hull',
+    title: 'Casco brillante y reparaciones anteriores | All Yacht Service',
+    description:
+      'Un casco brillante puede hacer menos visibles reparaciones o daños anteriores. Descubra qué debe comprobar un comprador antes de adquirir un yate usado.',
+    h1: '¿Se puede confiar en un casco brillante? Qué debe comprobar un comprador de un yate usado',
+    article: true,
+    datePublished: '2026-07-28',
+    dateModified: '2026-07-28',
+    image: '/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png',
+  },
+];
+
 const distDirectory = resolve(projectRoot, 'dist');
 assert(
   existsSync(distDirectory),
@@ -276,6 +313,7 @@ if (existsSync(distDirectory)) {
     '/contact',
     '/es/contact',
     ...translatedPages.flatMap(({ en, es }) => [en, es]),
+    ...spanishSurveyTipsPages.flatMap(({ en, es }) => [en, es]),
   ];
   for (const pathname of requiredRoutes) {
     assert(
@@ -289,7 +327,9 @@ if (existsSync(distDirectory)) {
     '/it',
     '/gr',
     '/ru/contact',
-    '/es/yacht-survey-tips',
+    '/ru/yacht-survey-tips',
+    '/ru/yacht-survey-tips/deck-moisture-soft-spots',
+    '/ru/yacht-survey-tips/shiny-hull',
     '/es/yachts-for-sale',
     '/es/privacy-policy',
     '/es/cookie-policy',
@@ -431,6 +471,103 @@ if (existsSync(distDirectory)) {
     }
   }
 
+  for (const page of spanishSurveyTipsPages) {
+    const english = getBuiltPage(page.en);
+    const spanish = getBuiltPage(page.es);
+    const alternates = {
+      en: absolute(page.en),
+      es: absolute(page.es),
+      'x-default': absolute(page.en),
+    };
+
+    assertHreflangs(english, alternates, page.en);
+    assertHreflangs(spanish, alternates, page.es);
+    assertOpenGraphLocales(english, 'en_GB', ['es_ES'], page.en);
+    assertOpenGraphLocales(spanish, 'es_ES', ['en_GB'], page.es);
+    assert(
+      !getHreflangs(english).some(({ hreflang }) => hreflang === 'ru') &&
+        !getHreflangs(spanish).some(({ hreflang }) => hreflang === 'ru'),
+      `${page.en} or ${page.es} exposes a Russian homepage fallback as hreflang.`,
+    );
+    assert(
+      spanish.includes('<html lang="es">'),
+      `${page.es} must use html lang="es".`,
+    );
+    assert(
+      (spanish.match(/<h1(?:\s|>)/gu) ?? []).length === 1 &&
+        spanish.includes(`<h1>${page.h1}</h1>`),
+      `${page.es} must contain its single required H1.`,
+    );
+    assert(
+      spanish.includes(`<title>${page.title}</title>`) &&
+        spanish.includes(
+          `<meta name="description" content="${page.description}">`,
+        ),
+      `${page.es} has incorrect Spanish metadata.`,
+    );
+    assert(
+      spanish.includes(`<link rel="canonical" href="${absolute(page.es)}">`) &&
+        spanish.includes(
+          `<meta property="og:url" content="${absolute(page.es)}">`,
+        ) &&
+        spanish.includes(
+          `<meta property="og:title" content="${page.title}">`,
+        ) &&
+        spanish.includes(`<meta name="twitter:title" content="${page.title}">`),
+      `${page.es} has incorrect canonical or social metadata.`,
+    );
+    assert(
+      spanish.includes('<meta name="robots" content="noindex, nofollow">'),
+      `${page.es} preview must be noindex, nofollow.`,
+    );
+
+    const schemas = getSchemas(spanish, page.es);
+    const pageId = `${absolute(page.es)}#page`;
+    assert(
+      schemas.some(
+        (schema) =>
+          schema['@type'] === 'WebPage' &&
+          schema['@id'] === pageId &&
+          schema.inLanguage === 'es',
+      ),
+      `${page.es} is missing its Spanish WebPage schema.`,
+    );
+    assert(
+      schemas.some((schema) => schema['@type'] === 'BreadcrumbList'),
+      `${page.es} is missing BreadcrumbList schema.`,
+    );
+    assert(
+      JSON.stringify(schemas).includes(
+        'https://www.allyachtservice.com/#business',
+      ),
+      `${page.es} does not reference the stable business entity.`,
+    );
+
+    if (page.article) {
+      const articleSchema = schemas.find(
+        (schema) => schema['@type'] === 'Article',
+      );
+      assert(
+        articleSchema?.['@id'] === `${absolute(page.es)}#article` &&
+          articleSchema.inLanguage === 'es' &&
+          articleSchema.datePublished === page.datePublished &&
+          articleSchema.dateModified === page.dateModified &&
+          articleSchema.timeRequired === 'PT5M' &&
+          articleSchema.author?.['@id'] ===
+            'https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs' &&
+          articleSchema.publisher?.['@id'] ===
+            'https://www.allyachtservice.com/#business',
+        `${page.es} has incomplete or unstable Article schema.`,
+      );
+      assert(
+        spanish.includes(`src="${page.image}"`) &&
+          spanish.includes('width="1122"') &&
+          spanish.includes('height="1402"'),
+        `${page.es} does not preserve the complete intrinsic article graphic.`,
+      );
+    }
+  }
+
   const aboutSchemas = getSchemas(getBuiltPage('/es/about-us'), '/es/about-us');
   assert(
     aboutSchemas.some(
@@ -492,6 +629,19 @@ if (existsSync(distDirectory)) {
         'calculadora disponible actualmente en inglés',
       ),
     'The Spanish delivery service does not link to the translated calculator.',
+  );
+  assert(
+    spanishHome.includes('href="/es/yacht-survey-tips"'),
+    'The Spanish homepage does not link to the translated Survey Tips hub.',
+  );
+  assert(
+    getBuiltPage('/es/yacht-survey-tips').includes(
+      'href="/es/yacht-survey-tips/shiny-hull"',
+    ) &&
+      getBuiltPage('/es/yacht-survey-tips').includes(
+        'href="/es/yacht-survey-tips/deck-moisture-soft-spots"',
+      ),
+    'The Spanish Survey Tips hub does not link to both published articles.',
   );
 
   for (const [path, html] of builtPages) {
@@ -586,6 +736,9 @@ if (existsSync(distDirectory)) {
     'src/data/es/yacht-delivery.ts',
     'src/data/es/valuation-damage-survey.ts',
     'src/data/es/about-us.ts',
+    'src/data/es/yacht-survey-tips.ts',
+    'src/data/es/yacht-survey-tips/deck-moisture-soft-spots.ts',
+    'src/data/es/yacht-survey-tips/shiny-hull.ts',
   ]
     .map(read)
     .join('\n');
@@ -603,6 +756,17 @@ if (existsSync(distDirectory)) {
     'Casco',
     'Cubierta',
     'Aparejo',
+    'Inspector naval',
+    'Núcleo de la cubierta',
+    'Medidor de humedad',
+    'Termografía',
+    'Prueba de percusión',
+    'Cadenotes',
+    'Molinete de ancla',
+    'Regularidad de las líneas del casco',
+    'Enmasillado y alisado',
+    'Relaminación',
+    'Ósmosis',
   ]) {
     assert(
       terminologySources
@@ -616,11 +780,78 @@ if (existsSync(distDirectory)) {
     'A marine survey was mistranslated as “encuesta”.',
   );
 
+  const spanishHub = getBuiltPage('/es/yacht-survey-tips');
+  const featuredSection =
+    spanishHub.match(
+      /survey-tips-featured-section[\s\S]*?survey-tips-categories-section/u,
+    )?.[0] ?? '';
+  const latestSection =
+    spanishHub.match(
+      /survey-tips-latest-section[\s\S]*?survey-tips-trust-section/u,
+    )?.[0] ?? '';
+  assert(
+    featuredSection.includes(
+      'Humedad y zonas blandas en la cubierta: qué deben saber los compradores de yates',
+    ) &&
+      !featuredSection.includes(
+        '¿Se puede confiar en un casco brillante? Qué debe comprobar un comprador de un yate usado',
+      ),
+    'Deck Moisture must remain the Spanish Featured Guide.',
+  );
+  assert(
+    latestSection.indexOf(
+      '¿Se puede confiar en un casco brillante? Qué debe comprobar un comprador de un yate usado',
+    ) <
+      latestSection.indexOf(
+        'Humedad y zonas blandas en la cubierta: qué deben saber los compradores de yates',
+      ),
+    'Spanish latest articles are not in newest-first order.',
+  );
+  const articleGraphicCss =
+    read('src/styles/global.css').match(
+      /\.survey-article-image-link img\s*\{([\s\S]*?)\}/u,
+    )?.[1] ?? '';
+  const guideGraphicCss =
+    read('src/styles/global.css').match(
+      /\.survey-guide-figure img\s*\{([\s\S]*?)\}/u,
+    )?.[1] ?? '';
+  assert(
+    /width:\s*100%/u.test(articleGraphicCss) &&
+      /height:\s*auto/u.test(articleGraphicCss) &&
+      /object-fit:\s*contain/u.test(articleGraphicCss) &&
+      !/object-fit:\s*cover/u.test(articleGraphicCss) &&
+      /width:\s*100%/u.test(guideGraphicCss) &&
+      /height:\s*auto/u.test(guideGraphicCss) &&
+      /object-fit:\s*contain/u.test(guideGraphicCss) &&
+      !/object-fit:\s*cover/u.test(guideGraphicCss),
+    'Article graphics must retain the shared full-image no-crop rules.',
+  );
+  const englishImageHashes = {
+    'public/images/yacht-survey-tips/deck-moisture-soft-spots.png':
+      '77c20ed2604f30518f9e56b2e122b24ddd15481261f1861d38504279ec006404',
+    'public/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png':
+      'e2e93efaba4cf5ee1c9280ce9c6d017f5836cbb7fd61ceb6a022abd507668ada',
+  };
+  for (const [path, expectedHash] of Object.entries(englishImageHashes)) {
+    const actualHash = createHash('sha256')
+      .update(readFileSync(resolve(projectRoot, path)))
+      .digest('hex');
+    assert(
+      actualHash === expectedHash,
+      `${path} changed during Spanish localisation.`,
+    );
+  }
+
   const sitemap = ['dist/sitemap-0.xml', 'dist/sitemap-index.xml']
     .filter((path) => existsSync(resolve(projectRoot, path)))
     .map(read)
     .join('\n');
-  for (const pathname of ['/es', '/es/contact', ...translatedServiceRoutes]) {
+  for (const pathname of [
+    '/es',
+    '/es/contact',
+    ...translatedServiceRoutes,
+    ...spanishSurveyTipsPages.map(({ es }) => es),
+  ]) {
     assert(
       sitemap.includes(`<loc>${absolute(pathname)}</loc>`),
       `The sitemap is missing ${pathname}.`,
@@ -640,6 +871,6 @@ if (failures.length > 0) {
   process.exitCode = 1;
 } else {
   process.stdout.write(
-    'Localisation validation passed for EN/ES Batch 3 equivalents, Spanish navigation, calculators, metadata, schemas, sitemap, terminology, and route boundaries.\n',
+    'Localisation validation passed for EN/ES Batch 4 equivalents, Spanish Survey Tips, calculators, navigation, metadata, schemas, sitemap, terminology, article ordering, image integrity, and route boundaries.\n',
   );
 }

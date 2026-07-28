@@ -1,0 +1,256 @@
+---
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SurveyArticleCard from '../../components/SurveyArticleCard.astro';
+import { spanishYachtSurveyTipsPage as page } from '../../data/es/yacht-survey-tips';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(page.pathname);
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: page.title,
+  description: page.description,
+  inLanguage: 'es',
+  about: {
+    '@id': businessEntityId,
+  },
+};
+---
+
+<BaseLayout
+  title={page.title}
+  description={page.description}
+  locale="es"
+  routeId="yachtSurveyTips"
+  pathname={page.pathname}
+  imagePath={page.heroImage.src}
+  imageAlt={page.heroImage.alt}
+  structuredData={webPageSchema}
+>
+  <article class="survey-tips-page">
+    <header class="survey-tips-hero">
+      <img
+        class="survey-tips-hero-image"
+        src={page.heroImage.src}
+        alt={page.heroImage.alt}
+        width={page.heroImage.width}
+        height={page.heroImage.height}
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="survey-tips-hero-overlay" aria-hidden="true"></div>
+      <div class="survey-tips-hero-inner site-container">
+        <Breadcrumbs
+          items={page.breadcrumbs}
+          ariaLabel="Migas de pan"
+          theme="light"
+        />
+        <div class="survey-tips-hero-copy">
+          <p class="eyebrow eyebrow-light">
+            Centro de conocimiento sobre inspección de yates
+          </p>
+          <h1>{page.heading}</h1>
+          <p>{page.summary}</p>
+          <div class="survey-tips-hero-actions">
+            <a class="button button-light" href={page.primaryCta.href}>
+              {page.primaryCta.label}
+            </a>
+            <a
+              class="button button-outline-light"
+              href={page.secondaryCta.href}
+            >
+              {page.secondaryCta.label}
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section
+      class="survey-tips-introduction"
+      aria-labelledby="survey-tips-introduction-heading"
+    >
+      <div class="site-container survey-tips-reading-width">
+        <p class="eyebrow">Orientación independiente</p>
+        <h2 id="survey-tips-introduction-heading">
+          Comprender el estado de un yate antes de comprarlo o mantenerlo
+        </h2>
+        <div class="survey-tips-introduction-copy">
+          <p>
+            Comprar o tener un yate implica numerosas decisiones técnicas. Una
+            inspección profesional ayuda a identificar el estado de la
+            embarcación, comprender posibles riesgos y tomar decisiones mejor
+            fundamentadas.
+          </p>
+          <p>
+            Esta sección ofrece artículos prácticos sobre defectos habituales,
+            métodos de inspección, consideraciones de mantenimiento y
+            preparación para una inspección profesional.
+          </p>
+          <p>
+            All Yacht Service comparte esta orientación a partir de experiencia
+            práctica en operación de yates, ingeniería, control de calidad e
+            inspección naval.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="survey-tips-section survey-tips-featured-section"
+      aria-labelledby="featured-guide-heading"
+    >
+      <div class="site-container">
+        <div class="survey-tips-section-heading">
+          <p class="eyebrow">Guía destacada</p>
+          <h2 id="featured-guide-heading">
+            Guía destacada de inspección de yates
+          </h2>
+        </div>
+        <SurveyArticleCard
+          {...page.featuredArticle}
+          featured={true}
+          locale="es"
+        />
+      </div>
+    </section>
+
+    <section
+      class="survey-tips-section survey-tips-categories-section"
+      aria-labelledby="survey-categories-heading"
+    >
+      <div class="site-container">
+        <div class="survey-tips-section-heading">
+          <p class="eyebrow">Áreas de conocimiento</p>
+          <h2 id="survey-categories-heading">
+            Explore temas sobre inspección de yates
+          </h2>
+          <p>
+            Consulte orientación práctica por zona de la embarcación, sistema de
+            a bordo o fase del proceso de inspección.
+          </p>
+        </div>
+        <div class="survey-category-grid">
+          {
+            page.categories.map((category, index) => (
+              <article class="survey-category-card">
+                <p class="survey-category-number" aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </p>
+                <h3>{category.title}</h3>
+                <p>{category.description}</p>
+                <h4>Próximas guías</h4>
+                <ul>
+                  {category.futureArticles.map((article) => (
+                    <li>{article}</li>
+                  ))}
+                </ul>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="survey-tips-section survey-tips-latest-section"
+      aria-labelledby="latest-survey-articles-heading"
+    >
+      <div class="site-container">
+        <div class="survey-tips-section-heading">
+          <p class="eyebrow">Publicados recientemente</p>
+          <h2 id="latest-survey-articles-heading">
+            Últimos artículos sobre inspección de yates
+          </h2>
+        </div>
+        <div class="survey-article-grid">
+          {
+            page.latestArticles.map((article) => (
+              <SurveyArticleCard {...article} locale="es" />
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="survey-tips-trust-section"
+      aria-labelledby="why-learn-heading"
+    >
+      <div class="site-container survey-tips-trust-inner">
+        <div>
+          <p class="eyebrow eyebrow-light">Perspectiva profesional</p>
+          <h2 id="why-learn-heading">
+            ¿Por qué aprender de un inspector naval?
+          </h2>
+        </div>
+        <ul class="survey-tips-reason-list">
+          {page.guideReasons.map((reason) => <li>{reason}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section
+      class="survey-tips-section survey-tips-services-section"
+      aria-labelledby="professional-inspection-heading"
+    >
+      <div class="site-container">
+        <div class="survey-tips-section-heading survey-tips-reading-width">
+          <p class="eyebrow">Servicios de inspección</p>
+          <h2 id="professional-inspection-heading">
+            ¿Necesita una inspección profesional?
+          </h2>
+          <p>
+            Los artículos educativos ayudan a comprender el estado de un yate,
+            pero una inspección profesional ofrece una evaluación independiente
+            de una embarcación concreta.
+          </p>
+        </div>
+        <div class="survey-tips-service-grid">
+          {
+            page.relatedServices.map((service) => (
+              <article>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <a class="text-arrow-link" href={service.href}>
+                  Ver servicio <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="survey-tips-final-cta" aria-labelledby="survey-cta-heading">
+      <div class="site-container survey-tips-final-cta-inner">
+        <div>
+          <p class="eyebrow eyebrow-light">Contacto</p>
+          <h2 id="survey-cta-heading">{page.finalCta.heading}</h2>
+          <p>{page.finalCta.body}</p>
+        </div>
+        <div class="survey-tips-final-cta-actions">
+          <a class="button button-light" href={page.finalCta.primaryLink.href}>
+            {page.finalCta.primaryLink.label}
+          </a>
+          <a
+            class="button button-outline-light"
+            href={page.finalCta.secondaryLink.href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {page.finalCta.secondaryLink.label}
+            <span class="sr-only">, se abre en una pestaña nueva</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

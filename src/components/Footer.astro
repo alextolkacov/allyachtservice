@@ -124,7 +124,10 @@ const isSpanish = currentLocale === 'es';
         }
         <li>
           <a
-            href={getRequiredRoutePath('yachtSurveyTips', 'en')}
+            href={getRequiredRoutePath(
+              'yachtSurveyTips',
+              isSpanish ? 'es' : 'en',
+            )}
             lang={currentLocale === 'en' || currentLocale === 'es'
               ? undefined
               : 'en'}
@@ -134,11 +137,7 @@ const isSpanish = currentLocale === 'es';
               ? 'page'
               : undefined}
           >
-            {
-              isSpanish
-                ? `${spanishFooter.yachtSurveyTips} — ${ui.englishFallbackLowercase}`
-                : 'Yacht Survey Tips'
-            }
+            {isSpanish ? spanishFooter.yachtSurveyTips : 'Yacht Survey Tips'}
           </a>
         </li>
       </ul>
