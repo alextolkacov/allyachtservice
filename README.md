@@ -17,10 +17,12 @@ The English Yachts for Sale and Buyer Support referral page is available at
 `/yachts-for-sale`.
 The Contact page uses a Cloudflare Pages Function, Turnstile, and the existing
 Google Workspace mailbox to validate and deliver enquiries securely.
-The Spanish, Russian, French, Italian, and Greek homepages retain localized
-development placeholders inside the same shared header, visual system, and
-footer. Other service pages, redirects, legal-page content, and reviews are not
-part of the current sprint.
+The Spanish homepage retains its approved localized development placeholder,
+and the Spanish Contact page is the first complete translated commercial
+route. The Russian, French, Italian, and Greek homepages retain localized
+development placeholders inside the same shared visual system. Spanish service
+pages, calculators, Survey Tips, Yachts for Sale, legal-policy translations,
+redirects, and reviews remain outside the current localisation batch.
 
 ## Local setup
 
@@ -39,6 +41,58 @@ npm run dev
 
 The development server prints the local URL. Astro does not perform automatic
 browser-language redirects.
+
+## Spanish localisation
+
+Locale metadata remains central in `src/data/languages.ts`. The URL locale is
+`es`, the HTML language code is also `es`, and formatting uses `es-ES`. Greek
+continues to demonstrate why URL and language codes are separate: its URL
+prefix is `/gr`, while its HTML and hreflang code is `el`.
+
+Published route equivalents are declared in the typed
+`translatedRoutes` map in `src/data/navigation.ts`. Only these Spanish
+equivalents currently exist:
+
+| Content | English    | Spanish       |
+| ------- | ---------- | ------------- |
+| Home    | `/`        | `/es`         |
+| Contact | `/contact` | `/es/contact` |
+
+The language switcher uses an equivalent route when the map contains one. If a
+translation is not published, it links to that language's homepage and its
+accessible label identifies the destination as a homepage. Spanish header,
+mobile-menu, and footer links to untranslated English content retain the real
+English URL and include a visible `— English` or `— inglés` indication. Do not
+add a locale to the route map until the corresponding static page genuinely
+exists.
+
+The small typed dictionaries in `src/i18n/` contain shared Spanish interface,
+footer, Contact, validation, and calculator-summary presentation strings.
+Internal Contact service values remain canonical English slugs such as
+`pre-purchase-survey`; only their labels are translated. The Spanish form posts
+to the existing `/api/contact` Function and submits `locale=es`, allowing the
+internal email to identify the website language without translating visitor
+text or changing Reply-To behaviour.
+
+Valid calculator payloads are still read from the existing versioned
+`sessionStorage` keys, matched to their references, limited to 24 hours, and
+recomputed by the original pricing logic. Spanish Contact translates only the
+visible summary and uses `es-ES` date, number, and euro formatting. It does not
+translate enum values, stored payloads, formulas, routes, or amounts.
+
+This is staged localisation. Spanish service pages, both calculators, Survey
+Tips, Yachts for Sale, and all four legal policies remain pending. Temporary
+English fallback links must stay identified until each real translation is
+published. The Spanish version must not be presented as complete until all
+planned batches and a final native-language, accessibility, legal, and SEO
+review have passed. Production indexing also remains blocked by the unresolved
+central legal configuration; keep `PUBLIC_SITE_INDEXABLE=false`.
+
+After a build, validate the current Spanish publishing boundary with:
+
+```sh
+npm run check:i18n
+```
 
 ## Yachts for Sale referral page
 
@@ -89,6 +143,8 @@ npm run format       # Apply Prettier formatting
 npm run format:check # Check formatting without changing files
 npm run typecheck    # Run Astro and Pages Function TypeScript checks
 npm run functions:types # Regenerate Cloudflare runtime and binding types
+npm run check:i18n   # Validate published Spanish routes and metadata
+npm run check:legal  # Validate legal-policy routes and privacy controls
 ```
 
 Before merging changes, run:
@@ -98,6 +154,8 @@ npm run format:check
 npm run lint
 npm run typecheck
 npm run build
+npm run check:i18n
+npm run check:legal
 ```
 
 ## Cloudflare Pages

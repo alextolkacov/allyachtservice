@@ -24,6 +24,7 @@ const vesselTypeLabels = {
 
 type ServiceValue = keyof typeof serviceLabels;
 type VesselTypeValue = keyof typeof vesselTypeLabels;
+type SubmissionLocale = 'en' | 'es';
 
 export interface ContactAttachment {
   file: File;
@@ -49,6 +50,7 @@ export interface ContactSubmission {
   pageUrl: string;
   estimateReference: string;
   calculatorSummary: string;
+  locale: SubmissionLocale;
   turnstileToken: string;
   attachments: ContactAttachment[];
 }
@@ -246,6 +248,8 @@ export async function validateContactForm(
   const calculatorSummary = normalizeMultiline(
     getText(formData, 'calculatorSummary'),
   ).slice(0, 4000);
+  const localeRaw = normalizeSingleLine(getText(formData, 'locale'));
+  const locale: SubmissionLocale = localeRaw === 'es' ? 'es' : 'en';
   const turnstileToken = getText(formData, 'cf-turnstile-response');
   const startedAt = Number(getText(formData, 'formStartedAt'));
   const suppliedSubmissionId = normalizeSingleLine(
@@ -365,6 +369,7 @@ export async function validateContactForm(
       pageUrl,
       estimateReference,
       calculatorSummary,
+      locale,
       turnstileToken,
       attachments,
     },

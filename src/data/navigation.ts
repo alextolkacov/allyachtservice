@@ -60,6 +60,7 @@ export const translatedRoutes: Record<
   },
   contact: {
     en: '/contact',
+    es: '/es/contact',
   },
   yachtDelivery: {
     en: '/yacht-delivery',
@@ -136,7 +137,7 @@ export const primaryNavigation = [
     routeId: 'insuranceSurvey',
     labels: {
       en: 'Insurance Survey',
-      es: 'Inspección de seguro',
+      es: 'Inspección para seguro',
       ru: 'Страховой осмотр',
       fr: "Expertise d'assurance",
       it: 'Perizia assicurativa',
@@ -148,7 +149,7 @@ export const primaryNavigation = [
     routeId: 'valuationDamageSurvey',
     labels: {
       en: 'Valuation & Damage',
-      es: 'Valuation & Damage',
+      es: 'Valoración y evaluación de daños',
       ru: 'Valuation & Damage',
       fr: 'Valuation & Damage',
       it: 'Valuation & Damage',
@@ -172,7 +173,7 @@ export const primaryNavigation = [
     routeId: 'yachtDelivery',
     labels: {
       en: 'Yacht Delivery',
-      es: 'Traslado de yates',
+      es: 'Entrega de yates',
       ru: 'Перегон яхт',
       fr: 'Convoyage de yacht',
       it: 'Trasferimento yacht',
@@ -184,7 +185,7 @@ export const primaryNavigation = [
     routeId: 'yachtsForSale',
     labels: {
       en: 'Yachts for Sale',
-      es: 'Yachts for Sale',
+      es: 'Yates en venta',
       ru: 'Yachts for Sale',
       fr: 'Yachts for Sale',
       it: 'Yachts for Sale',

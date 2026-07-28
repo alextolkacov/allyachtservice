@@ -9,6 +9,8 @@ import {
   type RouteId,
 } from '../data/navigation';
 import { siteConfig } from '../data/site';
+import { footerCopy, spanishFooter } from '../i18n/footer';
+import { getSharedUi, isEnglishFallback } from '../i18n/ui';
 import SocialLinks from './SocialLinks.astro';
 
 interface Props {
@@ -17,63 +19,9 @@ interface Props {
 }
 
 const { currentLocale, routeId } = Astro.props;
-const labels = {
-  en: {
-    description:
-      'Yacht surveying and technical support throughout Spain and the Mediterranean.',
-    navigation: 'Navigation',
-    contact: 'Contact',
-    languages: 'Languages',
-    tools: 'Online Tools',
-    legal: 'Legal',
-  },
-  es: {
-    description:
-      'Inspección de yates y asistencia técnica en España y el Mediterráneo.',
-    navigation: 'Navegación',
-    contact: 'Contacto',
-    languages: 'Idiomas',
-    tools: 'Herramientas',
-    legal: 'Legal',
-  },
-  ru: {
-    description:
-      'Осмотр яхт и техническая поддержка в Испании и Средиземноморье.',
-    navigation: 'Навигация',
-    contact: 'Контакты',
-    languages: 'Языки',
-    tools: 'Инструменты',
-    legal: 'Legal',
-  },
-  fr: {
-    description:
-      'Expertise de yachts et assistance technique en Espagne et en Méditerranée.',
-    navigation: 'Navigation',
-    contact: 'Contact',
-    languages: 'Langues',
-    tools: 'Outils',
-    legal: 'Mentions légales',
-  },
-  it: {
-    description:
-      'Perizie nautiche e assistenza tecnica in Spagna e nel Mediterraneo.',
-    navigation: 'Navigazione',
-    contact: 'Contatti',
-    languages: 'Lingue',
-    tools: 'Strumenti',
-    legal: 'Note legali',
-  },
-  gr: {
-    description:
-      'Επιθεωρήσεις σκαφών και τεχνική υποστήριξη στην Ισπανία και τη Μεσόγειο.',
-    navigation: 'Πλοήγηση',
-    contact: 'Επικοινωνία',
-    languages: 'Γλώσσες',
-    tools: 'Εργαλεία',
-    legal: 'Νομικά',
-  },
-} as const;
-const text = labels[currentLocale];
+const text = footerCopy[currentLocale];
+const ui = getSharedUi(currentLocale);
+const isSpanish = currentLocale === 'es';
 ---
 
 <footer class="site-footer">
@@ -82,7 +30,7 @@ const text = labels[currentLocale];
       <a
         class="footer-brand-link"
         href={getRequiredRoutePath('home', currentLocale)}
-        aria-label={`${siteConfig.name} home`}
+        aria-label={`${siteConfig.name} ${ui.homepage}`}
       >
         <img
           src="/logo/all-yacht-service-logo.svg"
@@ -93,22 +41,57 @@ const text = labels[currentLocale];
         <span>{siteConfig.name}</span>
       </a>
       <p>{text.description}</p>
-      <SocialLinks theme="light" showLabels={true} />
+      <SocialLinks theme="light" showLabels={true} locale={currentLocale} />
     </div>
 
     <div>
       <h2>{text.contact}</h2>
       <address>
-        {siteConfig.address.lines.map((line) => <span>{line}</span>)}
+        {
+          (isSpanish ? spanishFooter.address : siteConfig.address.lines).map(
+            (line) => <span>{line}</span>,
+          )
+        }
       </address>
       <ul class="footer-link-list" role="list">
         <li>
-          <a href={siteConfig.contact.phoneHref}>{siteConfig.contact.phone}</a>
+          <a href={siteConfig.contact.phoneHref}>
+            {isSpanish && `${spanishFooter.phone}: `}
+            {siteConfig.contact.phone}
+          </a>
         </li>
+        {
+          isSpanish && (
+            <li>
+              <a
+                href={siteConfig.contact.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {spanishFooter.whatsapp}: {siteConfig.contact.whatsapp}
+                <span class="sr-only">, {ui.opensNewTab}</span>
+              </a>
+            </li>
+          )
+        }
         <li>
-          <a href={siteConfig.contact.emailHref}>{siteConfig.contact.email}</a>
+          <a href={siteConfig.contact.emailHref}>
+            {isSpanish && `${spanishFooter.email}: `}
+            {siteConfig.contact.email}
+          </a>
         </li>
       </ul>
+      {
+        isSpanish && (
+          <div class="footer-office-details">
+            <p>
+              <strong>{spanishFooter.openingHours}:</strong>{' '}
+              {spanishFooter.hours}
+            </p>
+            <p>{spanishFooter.appointments}</p>
+          </div>
+        )
+      }
     </div>
 
     <div>
@@ -118,15 +101,22 @@ const text = labels[currentLocale];
           primaryNavigation.map((item) => {
             const linkLanguage = getNavigationLinkLanguage(item, currentLocale);
             const isCurrent = 'routeId' in item && item.routeId === routeId;
+            const isFallback = isEnglishFallback(currentLocale, linkLanguage);
 
             return (
               <li>
                 <a
                   href={getNavigationHref(item, currentLocale)}
-                  lang={linkLanguage}
+                  lang={isFallback ? undefined : linkLanguage}
                   aria-current={isCurrent ? 'page' : undefined}
                 >
                   {item.labels[currentLocale]}
+                  {isFallback && (
+                    <span class="navigation-language-note">
+                      {' '}
+                      — {ui.englishFallbackLowercase}
+                    </span>
+                  )}
                 </a>
               </li>
             );
@@ -135,14 +125,20 @@ const text = labels[currentLocale];
         <li>
           <a
             href={getRequiredRoutePath('yachtSurveyTips', 'en')}
-            lang={currentLocale === 'en' ? undefined : 'en'}
+            lang={currentLocale === 'en' || currentLocale === 'es'
+              ? undefined
+              : 'en'}
             aria-current={routeId === 'yachtSurveyTips' ||
             routeId === 'deckMoistureSoftSpots' ||
             routeId === 'shinyHull'
               ? 'page'
               : undefined}
           >
-            Yacht Survey Tips
+            {
+              isSpanish
+                ? `${spanishFooter.yachtSurveyTips} — ${ui.englishFallbackLowercase}`
+                : 'Yacht Survey Tips'
+            }
           </a>
         </li>
       </ul>
@@ -152,13 +148,27 @@ const text = labels[currentLocale];
       <h2>{text.tools}</h2>
       <ul class="footer-link-list" role="list">
         <li>
-          <a href="/pre-purchase-survey-calculator" lang="en">
-            Survey Cost Calculator
+          <a
+            href="/pre-purchase-survey-calculator"
+            lang={isSpanish ? undefined : 'en'}
+          >
+            {
+              isSpanish
+                ? `${spanishFooter.tools.survey} — ${ui.englishFallbackLowercase}`
+                : 'Survey Cost Calculator'
+            }
           </a>
         </li>
         <li>
-          <a href="/yacht-delivery-calculator" lang="en">
-            Yacht Delivery Cost Calculator
+          <a
+            href="/yacht-delivery-calculator"
+            lang={isSpanish ? undefined : 'en'}
+          >
+            {
+              isSpanish
+                ? `${spanishFooter.tools.delivery} — ${ui.englishFallbackLowercase}`
+                : 'Yacht Delivery Cost Calculator'
+            }
           </a>
         </li>
       </ul>
@@ -170,37 +180,53 @@ const text = labels[currentLocale];
         <li>
           <a
             href="/privacy-policy"
-            lang="en"
+            lang={isSpanish ? undefined : 'en'}
             aria-current={routeId === 'privacyPolicy' ? 'page' : undefined}
           >
-            Privacy Policy
+            {
+              isSpanish
+                ? `${spanishFooter.legal.privacy} — ${ui.englishFallbackLowercase}`
+                : 'Privacy Policy'
+            }
           </a>
         </li>
         <li>
           <a
             href="/cookie-policy"
-            lang="en"
+            lang={isSpanish ? undefined : 'en'}
             aria-current={routeId === 'cookiePolicy' ? 'page' : undefined}
           >
-            Cookie Policy
+            {
+              isSpanish
+                ? `${spanishFooter.legal.cookies} — ${ui.englishFallbackLowercase}`
+                : 'Cookie Policy'
+            }
           </a>
         </li>
         <li>
           <a
             href="/legal-notice"
-            lang="en"
+            lang={isSpanish ? undefined : 'en'}
             aria-current={routeId === 'legalNotice' ? 'page' : undefined}
           >
-            Legal Notice
+            {
+              isSpanish
+                ? `${spanishFooter.legal.notice} — ${ui.englishFallbackLowercase}`
+                : 'Legal Notice'
+            }
           </a>
         </li>
         <li>
           <a
             href="/terms-and-conditions"
-            lang="en"
+            lang={isSpanish ? undefined : 'en'}
             aria-current={routeId === 'termsAndConditions' ? 'page' : undefined}
           >
-            Terms and Conditions
+            {
+              isSpanish
+                ? `${spanishFooter.legal.terms} — ${ui.englishFallbackLowercase}`
+                : 'Terms and Conditions'
+            }
           </a>
         </li>
       </ul>

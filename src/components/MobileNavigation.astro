@@ -7,6 +7,7 @@ import {
   type RouteId,
 } from '../data/navigation';
 import LanguageSwitcher from './LanguageSwitcher.astro';
+import { getSharedUi, isEnglishFallback } from '../i18n/ui';
 
 interface Props {
   currentLocale: Locale;
@@ -14,19 +15,25 @@ interface Props {
 }
 
 const { currentLocale, routeId } = Astro.props;
+const ui = getSharedUi(currentLocale);
 const languageSwitcherProps = {
   currentLocale,
   ...(routeId ? { routeId } : {}),
 };
 ---
 
-<div class="mobile-navigation" data-mobile-navigation>
+<div
+  class="mobile-navigation"
+  data-mobile-navigation
+  data-open-label={ui.openMenu}
+  data-close-label={ui.closeMenu}
+>
   <button
     class="menu-toggle"
     type="button"
     aria-expanded="false"
     aria-controls="mobile-navigation-panel"
-    aria-label="Open navigation menu"
+    aria-label={ui.openMenu}
     data-menu-toggle
   >
     <span class="menu-toggle-lines" aria-hidden="true">
@@ -34,7 +41,7 @@ const languageSwitcherProps = {
       <span></span>
       <span></span>
     </span>
-    <span class="menu-toggle-label">Menu</span>
+    <span class="menu-toggle-label">{ui.menu}</span>
   </button>
 
   <div
@@ -43,22 +50,31 @@ const languageSwitcherProps = {
     data-mobile-menu
     hidden
   >
-    <nav aria-label="Primary navigation">
+    <nav aria-label={ui.primaryNavigation}>
       <ul class="mobile-menu-links" role="list">
         {
           primaryNavigation.map((item) => {
             const href = getNavigationHref(item, currentLocale);
             const linkLanguage = getNavigationLinkLanguage(item, currentLocale);
             const isCurrent = 'routeId' in item && item.routeId === routeId;
+            const isFallback = isEnglishFallback(currentLocale, linkLanguage);
 
             return (
               <li>
                 <a
                   href={href}
-                  lang={linkLanguage}
+                  lang={isFallback ? undefined : linkLanguage}
                   aria-current={isCurrent ? 'page' : undefined}
                 >
-                  {item.labels[currentLocale]}
+                  <span>
+                    {item.labels[currentLocale]}
+                    {isFallback && (
+                      <span class="navigation-language-note" lang="en">
+                        {' '}
+                        — {ui.englishFallback}
+                      </span>
+                    )}
+                  </span>
                 </a>
               </li>
             );
@@ -68,7 +84,7 @@ const languageSwitcherProps = {
     </nav>
 
     <div class="mobile-language-block">
-      <p>Language</p>
+      <p>{ui.language}</p>
       <LanguageSwitcher {...languageSwitcherProps} mode="full" />
     </div>
   </div>
@@ -83,15 +99,14 @@ const languageSwitcherProps = {
   const panel = navigation?.querySelector<HTMLElement>('[data-mobile-menu]');
 
   if (navigation && toggle && panel) {
+    const openLabel = navigation.dataset.openLabel ?? 'Open navigation menu';
+    const closeLabel = navigation.dataset.closeLabel ?? 'Close navigation menu';
     const focusableSelector =
       'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
     const setOpen = (isOpen: boolean, restoreFocus = false) => {
       toggle.setAttribute('aria-expanded', String(isOpen));
-      toggle.setAttribute(
-        'aria-label',
-        isOpen ? 'Close navigation menu' : 'Open navigation menu',
-      );
+      toggle.setAttribute('aria-label', isOpen ? closeLabel : openLabel);
       panel.hidden = !isOpen;
       document.body.classList.toggle('menu-is-open', isOpen);
 

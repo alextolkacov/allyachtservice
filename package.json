@@ -16,6 +16,7 @@
     "format:check": "prettier --check .",
     "check": "astro check",
     "check:legal": "node scripts/check-legal-foundation.mjs",
+    "check:i18n": "node scripts/check-spanish-localisation.mjs",
     "typecheck": "astro check && tsc --project functions/tsconfig.json --noEmit",
     "functions:types": "wrangler types --path=./functions/types.d.ts",
     "preview:cloudflare": "npm run build && wrangler pages dev dist"

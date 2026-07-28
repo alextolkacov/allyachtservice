@@ -42,6 +42,7 @@ const policies = [
 const legalRoutes = policies.map(({ route }) => route);
 const footer = read('src/components/Footer.astro');
 const contactForm = read('src/components/ContactForm.astro');
+const contactCopy = read('src/i18n/contact.ts');
 const contactValidation = read('functions/_lib/contact-form.ts');
 const contactEndpoint = read('functions/api/contact.ts');
 const turnstileValidation = read('functions/_lib/turnstile.ts');
@@ -62,9 +63,11 @@ for (const route of legalRoutes) {
 }
 
 assert(
-  contactForm.includes(
-    'I confirm that I have read the\n        {\' \'}<a href="/privacy-policy">Privacy Policy</a> and understand how my',
-  ),
+  contactForm.includes('<a href="/privacy-policy">{copy.privacyPolicy}</a>') &&
+    contactCopy.includes('I confirm that I have read the') &&
+    contactCopy.includes(
+      'and understand how my enquiry information will be handled.',
+    ),
   'Contact acknowledgement wording or direct Privacy Policy link has changed.',
 );
 assert(

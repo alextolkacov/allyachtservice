@@ -12,6 +12,7 @@ import type { Locale } from '../data/languages';
 import { siteConfig } from '../data/site';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import MobileNavigation from './MobileNavigation.astro';
+import { getSharedUi, isEnglishFallback } from '../i18n/ui';
 
 interface Props {
   currentLocale: Locale;
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const { currentLocale, routeId } = Astro.props;
+const ui = getSharedUi(currentLocale);
 const navigationProps = {
   currentLocale,
   ...(routeId ? { routeId } : {}),
@@ -37,7 +39,7 @@ const servicesAreCurrent = isServiceRoute(routeId);
     <a
       class="brand-link"
       href={getRequiredRoutePath('home', currentLocale)}
-      aria-label={`${siteConfig.name} home`}
+      aria-label={`${siteConfig.name} ${ui.homepage}`}
     >
       <img
         class="brand-logo"
@@ -50,7 +52,7 @@ const servicesAreCurrent = isServiceRoute(routeId);
     </a>
 
     <div class="desktop-header-controls">
-      <nav aria-label="Primary navigation">
+      <nav aria-label={ui.primaryNavigation}>
         <ul class="desktop-navigation" role="list">
           {
             homeNavigationItem &&
@@ -62,16 +64,26 @@ const servicesAreCurrent = isServiceRoute(routeId);
                   currentLocale,
                 );
                 const isCurrent = 'routeId' in item && item.routeId === routeId;
+                const isFallback = isEnglishFallback(
+                  currentLocale,
+                  linkLanguage,
+                );
 
                 return (
                   <li>
                     <a
                       class="desktop-navigation-link"
                       href={href}
-                      lang={linkLanguage}
+                      lang={isFallback ? undefined : linkLanguage}
                       aria-current={isCurrent ? 'page' : undefined}
                     >
                       {item.labels[currentLocale]}
+                      {isFallback && (
+                        <span class="navigation-language-note" lang="en">
+                          {' '}
+                          — {ui.englishFallback}
+                        </span>
+                      )}
                     </a>
                   </li>
                 );
@@ -87,7 +99,7 @@ const servicesAreCurrent = isServiceRoute(routeId);
               aria-current={servicesAreCurrent ? 'page' : undefined}
               data-services-trigger
             >
-              Services
+              {ui.services}
             </button>
             <ul
               class="desktop-services-dropdown"
@@ -105,15 +117,25 @@ const servicesAreCurrent = isServiceRoute(routeId);
                   );
                   const isCurrent =
                     'routeId' in item && item.routeId === routeId;
+                  const isFallback = isEnglishFallback(
+                    currentLocale,
+                    linkLanguage,
+                  );
 
                   return (
                     <li>
                       <a
                         href={href}
-                        lang={linkLanguage}
+                        lang={isFallback ? undefined : linkLanguage}
                         aria-current={isCurrent ? 'page' : undefined}
                       >
                         {item.labels[currentLocale]}
+                        {isFallback && (
+                          <span class="navigation-language-note" lang="en">
+                            {' '}
+                            — {ui.englishFallback}
+                          </span>
+                        )}
                       </a>
                     </li>
                   );
@@ -126,7 +148,9 @@ const servicesAreCurrent = isServiceRoute(routeId);
                   display: none;
                 }
               </style>
-              <a class="desktop-navigation-link" href="/#services">Services</a>
+              <a class="desktop-navigation-link" href="/#services">
+                {ui.services}
+              </a>
             </noscript>
           </li>
           {
@@ -137,16 +161,23 @@ const servicesAreCurrent = isServiceRoute(routeId);
                 currentLocale,
               );
               const isCurrent = 'routeId' in item && item.routeId === routeId;
+              const isFallback = isEnglishFallback(currentLocale, linkLanguage);
 
               return (
                 <li>
                   <a
                     class="desktop-navigation-link"
                     href={href}
-                    lang={linkLanguage}
+                    lang={isFallback ? undefined : linkLanguage}
                     aria-current={isCurrent ? 'page' : undefined}
                   >
                     {item.labels[currentLocale]}
+                    {isFallback && (
+                      <span class="navigation-language-note" lang="en">
+                        {' '}
+                        — {ui.englishFallback}
+                      </span>
+                    )}
                   </a>
                 </li>
               );

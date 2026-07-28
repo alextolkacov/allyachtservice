@@ -1,6 +1,20 @@
 ---
 import { contactPage } from '../data/contact';
+import type { Locale } from '../data/languages';
+import {
+  contactFormCopy,
+  getContactLocale,
+  getContactServiceOptions,
+} from '../i18n/contact';
 
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'en' } = Astro.props;
+const contactLocale = getContactLocale(locale);
+const copy = contactFormCopy[contactLocale];
+const services = getContactServiceOptions(contactLocale);
 const turnstileSiteKey =
   import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
 const turnstileIsConfigured = turnstileSiteKey.length > 0;
@@ -8,11 +22,12 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
 
 <div class="contact-form-shell">
   <div class="contact-form-heading">
-    <p class="eyebrow">Request a quotation</p>
-    <h2 id="contact-form-heading">Tell Us About Your Requirements</h2>
+    <p class="eyebrow">{copy.eyebrow}</p>
+    <h2 id="contact-form-heading">{copy.heading}</h2>
     <p>
-      Required fields are marked with <span aria-hidden="true">*</span><span
-        class="sr-only">an asterisk</span
+      {copy.requiredIntro}
+      <span aria-hidden="true">*</span><span class="sr-only"
+        >{copy.requiredMarker}</span
       >.
     </p>
   </div>
@@ -23,7 +38,9 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
     method="post"
     enctype="multipart/form-data"
     aria-labelledby="contact-form-heading"
+    novalidate={contactLocale === 'es'}
     data-contact-form
+    data-locale={contactLocale}
   >
     <input type="hidden" name="submissionId" value="" />
     <input type="hidden" name="formStartedAt" value="" />
@@ -31,6 +48,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
     <input type="hidden" name="pageUrl" value="" />
     <input type="hidden" name="estimateReference" value="" />
     <input type="hidden" name="calculatorSummary" value="" />
+    <input type="hidden" name="locale" value={contactLocale} />
 
     <section
       class="contact-survey-estimate"
@@ -38,62 +56,60 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       hidden
       data-survey-estimate-summary
     >
-      <p class="eyebrow">Transferred estimate</p>
-      <h3 id="contact-survey-estimate-heading">Approximate Survey Estimate</h3>
-      <p>
-        Review the calculation transferred from the survey calculator before
-        sending your enquiry.
-      </p>
+      <p class="eyebrow">{copy.transferred}</p>
+      <h3 id="contact-survey-estimate-heading">
+        {copy.surveyEstimate.heading}
+      </h3>
+      <p>{copy.surveyEstimate.intro}</p>
       <dl>
         <div>
-          <dt>Estimate reference</dt>
+          <dt>{copy.surveyEstimate.reference}</dt>
           <dd data-contact-estimate-reference></dd>
         </div>
         <div>
-          <dt>Approximate estimate</dt>
+          <dt>{copy.surveyEstimate.price}</dt>
           <dd data-contact-estimate-price></dd>
         </div>
         <div>
-          <dt>Created</dt>
+          <dt>{copy.surveyEstimate.created}</dt>
           <dd data-contact-estimate-date></dd>
         </div>
         <div>
-          <dt>Yacht LOA</dt>
+          <dt>{copy.surveyEstimate.loa}</dt>
           <dd data-contact-estimate-loa></dd>
         </div>
         <div>
-          <dt>Vessel type</dt>
+          <dt>{copy.surveyEstimate.vessel}</dt>
           <dd data-contact-estimate-vessel></dd>
         </div>
         <div>
-          <dt>Survey package</dt>
+          <dt>{copy.surveyEstimate.package}</dt>
           <dd data-contact-estimate-package></dd>
         </div>
         <div>
-          <dt>Hull inspection</dt>
+          <dt>{copy.surveyEstimate.hull}</dt>
           <dd data-contact-estimate-hull></dd>
         </div>
         <div hidden data-contact-estimate-location-row>
-          <dt>Yacht location</dt>
+          <dt>{copy.surveyEstimate.location}</dt>
           <dd data-contact-estimate-location></dd>
         </div>
         <div hidden data-contact-estimate-discount-row>
-          <dt>Full-package discount</dt>
+          <dt>{copy.surveyEstimate.discount}</dt>
           <dd data-contact-estimate-discount></dd>
         </div>
       </dl>
-      <h4>Included inspection items</h4>
+      <h4>{copy.surveyEstimate.items}</h4>
       <ul class="service-check-list" data-contact-estimate-items></ul>
       <p class="contact-survey-estimate-note">
-        This estimate is approximate and non-binding. The final scope and
-        quotation require review by All Yacht Service.
+        {copy.surveyEstimate.note}
       </p>
       <button
         class="button button-outline-navy"
         type="button"
         data-remove-survey-estimate
       >
-        Remove Transferred Estimate
+        {copy.surveyEstimate.remove}
       </button>
     </section>
 
@@ -103,76 +119,71 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       hidden
       data-delivery-estimate-summary
     >
-      <p class="eyebrow">Transferred estimate</p>
+      <p class="eyebrow">{copy.transferred}</p>
       <h3 id="contact-delivery-estimate-heading">
-        Approximate Yacht Delivery Estimate
+        {copy.deliveryEstimate.heading}
       </h3>
-      <p>
-        Review the route calculation transferred from the delivery calculator
-        before sending your enquiry.
-      </p>
+      <p>{copy.deliveryEstimate.intro}</p>
       <dl>
         <div>
-          <dt>Estimate reference</dt>
+          <dt>{copy.deliveryEstimate.reference}</dt>
           <dd data-contact-delivery-reference></dd>
         </div>
         <div>
-          <dt>Created</dt>
+          <dt>{copy.deliveryEstimate.created}</dt>
           <dd data-contact-delivery-date></dd>
         </div>
         <div>
-          <dt>Departure port</dt>
+          <dt>{copy.deliveryEstimate.departure}</dt>
           <dd data-contact-delivery-departure></dd>
         </div>
         <div>
-          <dt>Destination port</dt>
+          <dt>{copy.deliveryEstimate.destination}</dt>
           <dd data-contact-delivery-destination></dd>
         </div>
         <div>
-          <dt>Approximate sea-route distance</dt>
+          <dt>{copy.deliveryEstimate.distance}</dt>
           <dd data-contact-delivery-distance></dd>
         </div>
         <div>
-          <dt>Approximate starting professional fee</dt>
+          <dt>{copy.deliveryEstimate.fee}</dt>
           <dd data-contact-delivery-price></dd>
         </div>
         <div>
-          <dt>Yacht type</dt>
+          <dt>{copy.deliveryEstimate.yachtType}</dt>
           <dd data-contact-delivery-yacht-type></dd>
         </div>
         <div>
-          <dt>Yacht length band</dt>
+          <dt>{copy.deliveryEstimate.lengthBand}</dt>
           <dd data-contact-delivery-length-band></dd>
         </div>
         <div>
-          <dt>Delivery complexity</dt>
+          <dt>{copy.deliveryEstimate.complexity}</dt>
           <dd data-contact-delivery-complexity></dd>
         </div>
         <div>
-          <dt>Timing</dt>
+          <dt>{copy.deliveryEstimate.timing}</dt>
           <dd data-contact-delivery-urgency></dd>
         </div>
         <div class="contact-delivery-corridor">
-          <dt>Approximate marine corridor</dt>
+          <dt>{copy.deliveryEstimate.corridor}</dt>
           <dd data-contact-delivery-corridor></dd>
         </div>
       </dl>
       <p class="contact-survey-estimate-note">
-        This route and fee estimate is approximate and non-binding. It is not a
-        navigational route or passage plan. The final scope and quotation
-        require review by All Yacht Service.
+        {copy.deliveryEstimate.note}
       </p>
       <button
         class="button button-outline-navy"
         type="button"
         data-remove-delivery-estimate
       >
-        Remove Transferred Estimate
+        {copy.deliveryEstimate.remove}
       </button>
     </section>
 
     <div class="form-field form-field-honeypot" aria-hidden="true">
-      <label for="contact-website">Leave this field empty</label>
+      <label for="contact-website">{copy.honeypot}</label>
       <input
         id="contact-website"
         name="website"
@@ -184,7 +195,9 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
 
     <div class="contact-form-grid">
       <div class="form-field">
-        <label for="contact-name">Name <span aria-hidden="true">*</span></label>
+        <label for="contact-name"
+          >{copy.fields.name} <span aria-hidden="true">*</span></label
+        >
         <input
           id="contact-name"
           name="name"
@@ -206,7 +219,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
 
       <div class="form-field">
         <label for="contact-email"
-          >Email <span aria-hidden="true">*</span></label
+          >{copy.fields.email} <span aria-hidden="true">*</span></label
         >
         <input
           id="contact-email"
@@ -227,7 +240,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       </div>
 
       <div class="form-field">
-        <label for="contact-phone">Phone or WhatsApp</label>
+        <label for="contact-phone">{copy.fields.phone}</label>
         <input
           id="contact-phone"
           name="phone"
@@ -246,15 +259,15 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       </div>
 
       <div class="form-field">
-        <label for="contact-service">Service required</label>
+        <label for="contact-service">{copy.fields.service}</label>
         <select
           id="contact-service"
           name="service"
           aria-describedby="contact-service-error contact-valuation-damage-help"
         >
-          <option value="">Select a service</option>
+          <option value="">{copy.selectService}</option>
           {
-            contactPage.services.map((service) => (
+            services.map((service) => (
               <option value={service.value}>{service.label}</option>
             ))
           }
@@ -272,7 +285,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
           data-survey-calculator-suggestion
         >
           <a href="/pre-purchase-survey-calculator">
-            Calculate an approximate survey cost first
+            {copy.surveyCalculatorSuggestion}
           </a>
         </p>
         <p
@@ -281,7 +294,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
           data-delivery-calculator-suggestion
         >
           <a href="/yacht-delivery-calculator">
-            Calculate an approximate delivery cost first
+            {copy.deliveryCalculatorSuggestion}
           </a>
         </p>
         <p
@@ -290,23 +303,22 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
           hidden
           data-valuation-damage-helper
         >
-          Please state whether you require a valuation, damage assessment or a
-          combined assignment.
+          {copy.valuationDamageHelper}
         </p>
       </div>
 
       <div class="form-field">
-        <label for="contact-vessel-type">Vessel type</label>
+        <label for="contact-vessel-type">{copy.fields.vesselType}</label>
         <select
           id="contact-vessel-type"
           name="vesselType"
           aria-describedby="contact-vesselType-error"
         >
-          <option value="">Select a vessel type</option>
-          <option value="sailing-yacht">Sailing yacht</option>
-          <option value="motor-yacht">Motor yacht</option>
-          <option value="catamaran">Catamaran</option>
-          <option value="other">Other or not yet known</option>
+          <option value="">{copy.vesselTypes.select}</option>
+          <option value="sailing-yacht">{copy.vesselTypes.sailing}</option>
+          <option value="motor-yacht">{copy.vesselTypes.motor}</option>
+          <option value="catamaran">{copy.vesselTypes.catamaran}</option>
+          <option value="other">{copy.vesselTypes.other}</option>
         </select>
         <p
           id="contact-vesselType-error"
@@ -318,7 +330,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       </div>
 
       <div class="form-field">
-        <label for="contact-vessel-length">Vessel length</label>
+        <label for="contact-vessel-length">{copy.fields.vesselLength}</label>
         <div class="form-input-suffix">
           <input
             id="contact-vessel-length"
@@ -334,7 +346,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
           <span aria-hidden="true">m</span>
         </div>
         <p id="contact-vessel-length-help" class="form-field-help">
-          Approximate length is sufficient.
+          {copy.vesselLengthHelp}
         </p>
         <p
           id="contact-vesselLength-error"
@@ -346,14 +358,15 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       </div>
 
       <div class="form-field">
-        <label for="contact-vessel-location">Vessel location</label>
+        <label for="contact-vessel-location">{copy.fields.vesselLocation}</label
+        >
         <input
           id="contact-vessel-location"
           name="vesselLocation"
           type="text"
           autocomplete="off"
           maxlength="120"
-          placeholder="Marina, city and country"
+          placeholder={copy.vesselLocationPlaceholder}
           aria-describedby="contact-vesselLocation-error"
         />
         <p
@@ -366,7 +379,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       </div>
 
       <div class="form-field">
-        <label for="contact-preferred-date">Preferred date</label>
+        <label for="contact-preferred-date">{copy.fields.preferredDate}</label>
         <input
           id="contact-preferred-date"
           name="preferredDate"
@@ -385,7 +398,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
 
     <div class="form-field">
       <label for="contact-message"
-        >Message <span aria-hidden="true">*</span></label
+        >{copy.fields.message} <span aria-hidden="true">*</span></label
       >
       <textarea
         id="contact-message"
@@ -398,7 +411,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       ></textarea>
       <div class="form-field-meta">
         <p id="contact-message-help" class="form-field-help">
-          Include the yacht model, age and any known concerns where available.
+          {copy.messageHelp}
         </p>
         <p class="form-character-count" data-message-count>0 / 5,000</p>
       </div>
@@ -412,7 +425,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
     </div>
 
     <div class="form-field">
-      <label for="contact-attachments">Supporting files</label>
+      <label for="contact-attachments">{copy.fields.attachments}</label>
       <input
         id="contact-attachments"
         name="attachments"
@@ -422,9 +435,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         aria-describedby="contact-attachments-help contact-attachments-error"
       />
       <p id="contact-attachments-help" class="form-field-help">
-        Up to 3 PDF, JPEG, PNG or WebP files. Maximum 2 MB per file and 3 MB
-        combined. Do not upload identity, payment or other highly sensitive
-        documents.
+        {copy.attachmentsHelp}
       </p>
       <p
         id="contact-attachments-error"
@@ -445,10 +456,18 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         aria-describedby="contact-consent-error"
       />
       <label for="contact-consent">
-        I confirm that I have read the
-        {' '}<a href="/privacy-policy">Privacy Policy</a> and understand how my enquiry
-        information will be handled.
+        {copy.acknowledgementBefore}
+        {' '}<a href="/privacy-policy">{copy.privacyPolicy}</a>{' '}
+        {copy.acknowledgementAfter}
         <span aria-hidden="true">*</span>
+        {
+          copy.privacyLanguageNote && (
+            <span class="privacy-language-note">
+              {' '}
+              {copy.privacyLanguageNote}
+            </span>
+          )
+        }
       </label>
     </div>
     <p
@@ -476,8 +495,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         </div>
       ) : (
         <p class="form-configuration-notice" role="status">
-          The secure form is not configured in this environment. Please use
-          phone, WhatsApp or email instead.
+          {copy.configurationNotice}
         </p>
       )
     }
@@ -505,18 +523,18 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         disabled={!turnstileIsConfigured}
         data-submit-button
       >
-        <span data-submit-label>Send Enquiry</span>
+        <span data-submit-label>{copy.submit}</span>
       </button>
-      <p>{contactPage.responseNote}</p>
+      <p>{copy.responseNote}</p>
     </div>
 
     <noscript>
       <p class="form-configuration-notice">
-        JavaScript is required for secure verification. Please email{' '}
+        {copy.noscriptBefore}{' '}
         <a href={contactPage.directContact.emailHref}
           >{contactPage.directContact.email}</a
         >{' '}
-        instead.
+        {copy.noscriptAfter}
       </p>
     </noscript>
   </form>
@@ -537,7 +555,6 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
   import { surveyLabels } from '../lib/calculators/prePurchaseSurvey';
   import {
     createSurveyEstimateSummary,
-    formatSurveyEstimatePrice,
     SURVEY_ESTIMATE_STORAGE_KEY,
     validateStoredSurveyEstimate,
     type StoredSurveyEstimate,
@@ -549,11 +566,16 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
   import {
     createDeliveryEstimateSummary,
     DELIVERY_ESTIMATE_STORAGE_KEY,
-    formatDeliveryDistance,
-    formatDeliveryEstimatePrice,
     validateDeliveryEstimatePayload,
     type StoredDeliveryEstimate,
   } from '../lib/calculators/yachtDeliveryEstimate';
+  import {
+    contactCalculatorCopy,
+    contactClientCopy,
+    contactFormCopy,
+    serverErrorMessageKeys,
+    type ContactLocale,
+  } from '../i18n/contact';
 
   interface ContactApiResponse {
     ok: boolean;
@@ -571,6 +593,9 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
   const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
 
   if (form) {
+    const contactLocale: ContactLocale =
+      form.dataset.locale === 'es' ? 'es' : 'en';
+    const clientCopy = contactClientCopy[contactLocale];
     const submitButton = form.querySelector<HTMLButtonElement>(
       '[data-submit-button]',
     );
@@ -614,6 +639,23 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         .map((option) => option.value)
         .filter(Boolean),
     );
+    const formatCurrency = (value: number) =>
+      new Intl.NumberFormat(clientCopy.locale, {
+        style: 'currency',
+        currency: 'EUR',
+        maximumFractionDigits: 0,
+      }).format(value);
+    const formatDate = (value: string) =>
+      new Intl.DateTimeFormat(clientCopy.locale, {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'UTC',
+      }).format(new Date(value));
+    const formatNumber = (value: number, maximumFractionDigits = 0) =>
+      value.toLocaleString(clientCopy.locale, {
+        maximumFractionDigits,
+      });
 
     const setHiddenValue = (name: string, value: string) => {
       const field = form.elements.namedItem(name);
@@ -842,34 +884,35 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       );
       setSurveyEstimateText(
         '[data-contact-estimate-price]',
-        formatSurveyEstimatePrice(estimate.estimatedPriceEur),
+        formatCurrency(estimate.estimatedPriceEur),
       );
       setSurveyEstimateText(
         '[data-contact-estimate-date]',
-        new Intl.DateTimeFormat('en-GB', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric',
-          timeZone: 'UTC',
-        }).format(new Date(estimate.createdAt)),
+        formatDate(estimate.createdAt),
       );
       setSurveyEstimateText(
         '[data-contact-estimate-loa]',
-        `${estimate.loaMetres.toLocaleString('en-GB', {
-          maximumFractionDigits: 1,
-        })} metres`,
+        `${formatNumber(estimate.loaMetres, 1)} ${clientCopy.metres}`,
       );
       setSurveyEstimateText(
         '[data-contact-estimate-vessel]',
-        surveyLabels.vesselType[estimate.vesselType],
+        contactLocale === 'es'
+          ? contactCalculatorCopy.es.survey.vesselType[estimate.vesselType]
+          : surveyLabels.vesselType[estimate.vesselType],
       );
       setSurveyEstimateText(
         '[data-contact-estimate-package]',
-        surveyLabels.packageType[estimate.packageType],
+        contactLocale === 'es'
+          ? contactCalculatorCopy.es.survey.packageType[estimate.packageType]
+          : surveyLabels.packageType[estimate.packageType],
       );
       setSurveyEstimateText(
         '[data-contact-estimate-hull]',
-        surveyLabels.hullInspection[estimate.hullInspection],
+        contactLocale === 'es'
+          ? contactCalculatorCopy.es.survey.hullInspection[
+              estimate.hullInspection
+            ]
+          : surveyLabels.hullInspection[estimate.hullInspection],
       );
       setSurveyEstimateText(
         '[data-contact-estimate-location]',
@@ -877,7 +920,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       );
       setSurveyEstimateText(
         '[data-contact-estimate-discount]',
-        formatSurveyEstimatePrice(estimate.packageDiscountEur),
+        formatCurrency(estimate.packageDiscountEur),
       );
 
       const locationRow = surveyEstimatePanel.querySelector<HTMLElement>(
@@ -898,7 +941,12 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         items.replaceChildren(
           ...estimate.includedItems.map((item) => {
             const listItem = document.createElement('li');
-            listItem.textContent = item;
+            listItem.textContent =
+              contactLocale === 'es'
+                ? (contactCalculatorCopy.es.survey.items[
+                    item as keyof typeof contactCalculatorCopy.es.survey.items
+                  ] ?? item)
+                : item;
             return listItem;
           }),
         );
@@ -970,12 +1018,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       );
       setDeliveryEstimateText(
         '[data-contact-delivery-date]',
-        new Intl.DateTimeFormat('en-GB', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric',
-          timeZone: 'UTC',
-        }).format(new Date(estimate.createdAt)),
+        formatDate(estimate.createdAt),
       );
       setDeliveryEstimateText(
         '[data-contact-delivery-departure]',
@@ -987,27 +1030,35 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       );
       setDeliveryEstimateText(
         '[data-contact-delivery-distance]',
-        formatDeliveryDistance(estimate.distanceNm),
+        `${formatNumber(estimate.distanceNm)} ${clientCopy.nauticalMiles}`,
       );
       setDeliveryEstimateText(
         '[data-contact-delivery-price]',
-        formatDeliveryEstimatePrice(estimate.estimatedStartingFeeEur),
+        formatCurrency(estimate.estimatedStartingFeeEur),
       );
       setDeliveryEstimateText(
         '[data-contact-delivery-yacht-type]',
-        deliveryLabels.yachtType[estimate.yachtType],
+        contactLocale === 'es'
+          ? contactCalculatorCopy.es.delivery.yachtType[estimate.yachtType]
+          : deliveryLabels.yachtType[estimate.yachtType],
       );
       setDeliveryEstimateText(
         '[data-contact-delivery-length-band]',
-        deliveryLabels.lengthBand[estimate.lengthBand],
+        contactLocale === 'es'
+          ? contactCalculatorCopy.es.delivery.lengthBand[estimate.lengthBand]
+          : deliveryLabels.lengthBand[estimate.lengthBand],
       );
       setDeliveryEstimateText(
         '[data-contact-delivery-complexity]',
-        deliveryLabels.complexity[estimate.complexity],
+        contactLocale === 'es'
+          ? contactCalculatorCopy.es.delivery.complexity[estimate.complexity]
+          : deliveryLabels.complexity[estimate.complexity],
       );
       setDeliveryEstimateText(
         '[data-contact-delivery-urgency]',
-        deliveryLabels.urgency[estimate.urgency],
+        contactLocale === 'es'
+          ? contactCalculatorCopy.es.delivery.urgency[estimate.urgency]
+          : deliveryLabels.urgency[estimate.urgency],
       );
       setDeliveryEstimateText(
         '[data-contact-delivery-corridor]',
@@ -1068,9 +1119,126 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       }
     };
 
+    const translateServerError = (field: string, messageText: string) => {
+      if (contactLocale !== 'es') return messageText;
+      const key =
+        serverErrorMessageKeys[
+          messageText as keyof typeof serverErrorMessageKeys
+        ];
+      if (key) return clientCopy.errors[key];
+
+      const fieldError =
+        clientCopy.errors[field as keyof typeof clientCopy.errors];
+      return fieldError ?? clientCopy.errors.generic;
+    };
+
+    const validateVisibleFields = (): Record<string, string> => {
+      const errors: Record<string, string> = {};
+      const name = form.elements.namedItem('name');
+      const email = form.elements.namedItem('email');
+      const phone = form.elements.namedItem('phone');
+      const service = form.elements.namedItem('service');
+      const vesselType = form.elements.namedItem('vesselType');
+      const vesselLength = form.elements.namedItem('vesselLength');
+      const vesselLocation = form.elements.namedItem('vesselLocation');
+      const preferredDate = form.elements.namedItem('preferredDate');
+      const consent = form.elements.namedItem('consent');
+
+      if (
+        !(name instanceof HTMLInputElement) ||
+        name.value.trim().length < 2 ||
+        name.value.trim().length > 100
+      ) {
+        errors.name = clientCopy.errors.name;
+      }
+      if (
+        !(email instanceof HTMLInputElement) ||
+        !email.validity.valid ||
+        email.value.trim().length === 0
+      ) {
+        errors.email = clientCopy.errors.email;
+      }
+      if (
+        phone instanceof HTMLInputElement &&
+        (phone.value.length > 50 ||
+          (phone.value.trim().length > 0 &&
+            !/^[+\d\s()./-]+$/u.test(phone.value.trim())))
+      ) {
+        errors.phone = clientCopy.errors.phone;
+      }
+      if (
+        service instanceof HTMLSelectElement &&
+        service.value.length > 0 &&
+        !allowedServices.has(service.value)
+      ) {
+        errors.service = clientCopy.errors.service;
+      }
+      if (
+        vesselType instanceof HTMLSelectElement &&
+        vesselType.value.length > 0 &&
+        !['sailing-yacht', 'motor-yacht', 'catamaran', 'other'].includes(
+          vesselType.value,
+        )
+      ) {
+        errors.vesselType = clientCopy.errors.vesselType;
+      }
+      if (
+        vesselLength instanceof HTMLInputElement &&
+        vesselLength.value.length > 0 &&
+        (!vesselLength.validity.valid ||
+          Number(vesselLength.value) < 1 ||
+          Number(vesselLength.value) > 99)
+      ) {
+        errors.vesselLength = clientCopy.errors.vesselLength;
+      }
+      if (
+        vesselLocation instanceof HTMLInputElement &&
+        vesselLocation.value.length > 120
+      ) {
+        errors.vesselLocation = clientCopy.errors.vesselLocation;
+      }
+      if (
+        preferredDate instanceof HTMLInputElement &&
+        preferredDate.value.length > 0 &&
+        !preferredDate.validity.valid
+      ) {
+        errors.preferredDate = clientCopy.errors.preferredDate;
+      }
+      if (
+        !(message instanceof HTMLTextAreaElement) ||
+        message.value.trim().length < 20 ||
+        message.value.trim().length > 5000
+      ) {
+        errors.message = clientCopy.errors.message;
+      }
+      if (!(consent instanceof HTMLInputElement) || !consent.checked) {
+        errors.consent = clientCopy.errors.consent;
+      }
+
+      return errors;
+    };
+
+    const setStatus = (
+      kind: 'error' | 'success',
+      heading: string,
+      messageText: string,
+    ) => {
+      if (!status) return;
+      status.className = `form-status form-status-${kind}`;
+      const title = document.createElement('strong');
+      title.className = 'form-status-heading';
+      title.textContent = heading;
+      const messageNode = document.createElement('span');
+      messageNode.textContent = messageText;
+      status.replaceChildren(title, messageNode);
+      status.focus();
+    };
+
     const updateMessageCount = () => {
       if (!(message instanceof HTMLTextAreaElement) || !messageCount) return;
-      messageCount.textContent = `${message.value.length.toLocaleString('en')} / 5,000`;
+      messageCount.textContent = `${message.value.length.toLocaleString(
+        clientCopy.locale,
+      )} / ${Number(5000).toLocaleString(clientCopy.locale)}`;
     };
 
     const validateAttachments = (): string | undefined => {
@@ -1087,15 +1255,15 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       ]);
       const totalSize = files.reduce((sum, file) => sum + file.size, 0);
 
-      if (files.length > 3) return 'Attach no more than 3 files.';
+      if (files.length > 3) return clientCopy.errors.attachmentsCount;
       if (files.some((file) => !allowedTypes.has(file.type))) {
-        return 'Use PDF, JPEG, PNG or WebP files only.';
+        return clientCopy.errors.attachmentsType;
       }
       if (files.some((file) => file.size > 2_000_000)) {
-        return 'Each file must be 2 MB or smaller.';
+        return clientCopy.errors.attachmentsFileSize;
       }
       if (totalSize > 3_000_000) {
-        return 'The combined attachment size must be 3 MB or smaller.';
+        return clientCopy.errors.attachmentsTotalSize;
       }
 
       return undefined;
@@ -1154,19 +1322,28 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         return;
       }
 
-      if (!form.reportValidity()) return;
+      const visibleErrors = validateVisibleFields();
+      if (Object.keys(visibleErrors).length > 0) {
+        showErrors(visibleErrors);
+        return;
+      }
 
       const formData = new FormData(form);
       const turnstileToken = formData.get('cf-turnstile-response');
       if (typeof turnstileToken !== 'string' || turnstileToken.length === 0) {
         showErrors({
-          verification: 'Complete the secure verification before submitting.',
+          verification: clientCopy.errors.verification,
         });
         return;
       }
 
       if (submitButton) submitButton.disabled = true;
-      if (submitLabel) submitLabel.textContent = 'Sending…';
+      if (submitLabel) {
+        submitLabel.textContent =
+          contactLocale === 'es'
+            ? contactFormCopy.es.submitting
+            : contactFormCopy.en.submitting;
+      }
 
       try {
         const response = await fetch(form.action, {
@@ -1179,8 +1356,20 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         const payload = (await response.json()) as ContactApiResponse;
 
         if (!response.ok || !payload.ok) {
-          showErrors(payload.errors ?? {});
-          if (status) {
+          const translatedErrors = Object.fromEntries(
+            Object.entries(payload.errors ?? {}).map(([field, error]) => [
+              field,
+              translateServerError(field, error),
+            ]),
+          );
+          showErrors(translatedErrors);
+          if (contactLocale === 'es') {
+            setStatus(
+              'error',
+              clientCopy.errorHeading,
+              clientCopy.errorMessage,
+            );
+          } else if (status) {
             status.className = 'form-status form-status-error';
             status.textContent =
               payload.message ||
@@ -1190,7 +1379,16 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
           return;
         }
 
-        if (status) {
+        if (contactLocale === 'es') {
+          const referenceText = payload.reference
+            ? ` ${clientCopy.reference}: ${payload.reference}.`
+            : '';
+          setStatus(
+            'success',
+            clientCopy.successHeading,
+            `${clientCopy.successMessage}${referenceText}`,
+          );
+        } else if (status) {
           status.className = 'form-status form-status-success';
           status.textContent = payload.reference
             ? `${payload.message} Reference: ${payload.reference}.`
@@ -1208,7 +1406,13 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         applyDeliveryEstimate();
         updateMessageCount();
       } catch {
-        if (status) {
+        if (contactLocale === 'es') {
+          setStatus(
+            'error',
+            clientCopy.errorHeading,
+            clientCopy.connectionError,
+          );
+        } else if (status) {
           status.className = 'form-status form-status-error';
           status.textContent =
             'The connection was interrupted. Please try again or contact us by phone, WhatsApp or email.';
@@ -1216,7 +1420,12 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         }
       } finally {
         if (submitButton) submitButton.disabled = false;
-        if (submitLabel) submitLabel.textContent = 'Send Enquiry';
+        if (submitLabel) {
+          submitLabel.textContent =
+            contactLocale === 'es'
+              ? contactFormCopy.es.submit
+              : contactFormCopy.en.submit;
+        }
         (window as TurnstileWindow).turnstile?.reset();
       }
     });

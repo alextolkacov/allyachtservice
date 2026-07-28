@@ -245,6 +245,13 @@
     font-weight: 800;
   }
 
+  .navigation-language-note {
+    color: currentColor;
+    font-size: 0.78em;
+    font-weight: 600;
+    opacity: 0.72;
+  }
+
   .mobile-language-block {
     padding-block: 1.25rem 0.5rem;
   }
@@ -798,6 +805,20 @@
   .footer-link-list a[aria-current='page'] {
     color: white;
     font-weight: 800;
+  }
+
+  .footer-office-details {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .footer-office-details p {
+    margin: 0;
+  }
+
+  .footer-office-details p + p {
+    margin-top: 0.35rem;
   }
 
   .footer-legal {
@@ -1602,6 +1623,21 @@
     border-left-color: #287a52;
     background: #edf8f2;
     color: #174d34;
+  }
+
+  .form-status:not(:empty) {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .form-status-heading {
+    display: block;
+    font-size: 0.95rem;
+  }
+
+  .privacy-language-note {
+    font-size: 0.9em;
+    font-style: italic;
   }
 
   .contact-form-actions {

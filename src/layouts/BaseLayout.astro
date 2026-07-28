@@ -9,6 +9,7 @@ import {
   normalizePathname,
   type StructuredData,
 } from '../utils/seo';
+import { getSharedUi } from '../i18n/ui';
 import '../styles/global.css';
 
 interface Props {
@@ -49,6 +50,7 @@ const {
   articleAuthor,
 } = Astro.props;
 const language = getLanguage(locale);
+const ui = getSharedUi(locale);
 const normalizedPath = normalizePathname(pathname);
 const pageSchemas = structuredData
   ? Array.isArray(structuredData)
@@ -103,7 +105,7 @@ const footerProps = {
     <SeoHead {...seoProps} />
   </head>
   <body class="min-h-screen bg-ivory text-graphite antialiased">
-    <a class="skip-link" href="#main-content">Skip to content</a>
+    <a class="skip-link" href="#main-content">{ui.skipToContent}</a>
     <div class="flex min-h-screen flex-col">
       <Header {...headerProps} />
       <main id="main-content" class="grow">
