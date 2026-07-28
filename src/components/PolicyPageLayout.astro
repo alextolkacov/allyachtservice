@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import {
+  formatLegalReviewDate,
+  getMissingProductionLegalFields,
+  legalConfig,
+} from '../data/legal';
+import type { RouteId } from '../data/navigation';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../utils/seo';
+
+export interface PolicyTocItem {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  intro: string;
+  pathname: string;
+  routeId: RouteId;
+  toc: readonly PolicyTocItem[];
+}
+
+const { title, description, heading, intro, pathname, routeId, toc } =
+  Astro.props;
+const pageUrl = toAbsoluteUrl(pathname);
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: title,
+  description,
+  inLanguage: 'en',
+  about: {
+    '@id': businessEntityId,
+  },
+};
+const siteIsIndexable = import.meta.env.PUBLIC_SITE_INDEXABLE === 'true';
+const missingLegalFields = getMissingProductionLegalFields();
+const showDraftWarning = !siteIsIndexable && missingLegalFields.length > 0;
+const relatedPolicies = [
+  { href: '/privacy-policy', label: 'Privacy Policy' },
+  { href: '/cookie-policy', label: 'Cookie and Browser Storage Policy' },
+  { href: '/legal-notice', label: 'Legal Notice' },
+  { href: '/terms-and-conditions', label: 'Website Terms and Conditions' },
+].filter((policy) => policy.href !== pathname);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  locale="en"
+  routeId={routeId}
+  pathname={pathname}
+  imagePath="/images/about-all-yacht-service.webp"
+  imageAlt="Hands assembling white puzzle pieces"
+  structuredData={webPageSchema}
+>
+  <header class="policy-hero">
+    <div class="policy-shell site-container">
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: heading, href: pathname },
+        ]}
+        theme="dark"
+      />
+      <p class="eyebrow">Website information</p>
+      <h1>{heading}</h1>
+      <p class="policy-intro">{intro}</p>
+      <p class="policy-reviewed">
+        Last reviewed: <time datetime={legalConfig.lastReviewed}
+          >{formatLegalReviewDate(legalConfig.lastReviewed)}</time
+        >
+      </p>
+    </div>
+  </header>
+
+  <div class="policy-shell policy-page site-container">
+    {
+      showDraftWarning && (
+        <aside
+          class="policy-draft-notice"
+          aria-labelledby="policy-draft-heading"
+          role="status"
+        >
+          <h2 id="policy-draft-heading">Draft legal information</h2>
+          <p>
+            This non-indexable preview contains implementation wording based on
+            confirmed website behaviour. Operator identity, retention periods
+            and final applicable-law wording still require confirmation and
+            professional review before publication.
+          </p>
+        </aside>
+      )
+    }
+
+    <div class="policy-grid">
+      <nav class="policy-toc" aria-labelledby="policy-toc-heading">
+        <h2 id="policy-toc-heading">On this page</h2>
+        <ol>
+          {
+            toc.map((item) => (
+              <li>
+                <a href={`#${item.id}`}>{item.label}</a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+
+      <article class="policy-content">
+        <slot />
+
+        <section
+          id="policy-contact"
+          class="policy-contact"
+          aria-labelledby="policy-contact-heading"
+        >
+          <h2 id="policy-contact-heading">Questions about this information</h2>
+          <p>
+            Contact {legalConfig.tradingName} by email at
+            {' '}<a href={`mailto:${legalConfig.email}`}>{legalConfig.email}</a>
+            or by phone at
+            {' '}<a href="tel:+34695718540">{legalConfig.phone}</a>.
+          </p>
+          <address>{legalConfig.publicOfficeAddress}</address>
+        </section>
+      </article>
+    </div>
+
+    <nav class="policy-related" aria-labelledby="related-policies-heading">
+      <h2 id="related-policies-heading">Related legal information</h2>
+      <ul role="list">
+        {
+          relatedPolicies.map((policy) => (
+            <li>
+              <a href={policy.href}>
+                {policy.label} <span aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href="/contact"
+            >Contact All Yacht Service <span aria-hidden="true">→</span></a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
+</BaseLayout>

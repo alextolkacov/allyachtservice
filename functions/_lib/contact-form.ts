@@ -318,7 +318,8 @@ export async function validateContactForm(
   }
 
   if (consent !== 'yes') {
-    errors.consent = 'Confirm that we may use the information to respond.';
+    errors.consent =
+      'Confirm that you have read the Privacy Policy and understand how your enquiry information will be handled.';
   }
 
   if (turnstileToken.length === 0 || turnstileToken.length > 2048) {

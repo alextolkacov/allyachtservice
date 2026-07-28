@@ -1,0 +1,410 @@
+---
+import PolicyPageLayout from '../components/PolicyPageLayout.astro';
+import { legalConfig } from '../data/legal';
+
+const toc = [
+  { id: 'responsible', label: 'Who is responsible for your personal data?' },
+  { id: 'data-collected', label: 'What personal data we collect' },
+  { id: 'calculator-data', label: 'Calculator data' },
+  { id: 'uses', label: 'How we use personal data' },
+  { id: 'legal-bases', label: 'Legal bases' },
+  { id: 'required-information', label: 'Required and optional information' },
+  { id: 'attachments', label: 'Attachments' },
+  { id: 'recipients', label: 'Service providers and recipients' },
+  { id: 'turnstile', label: 'Cloudflare Turnstile' },
+  { id: 'google-workspace', label: 'Google Workspace' },
+  { id: 'international-transfers', label: 'International data transfers' },
+  { id: 'retention', label: 'Data retention' },
+  { id: 'security', label: 'Security' },
+  { id: 'rights', label: 'Your rights' },
+  { id: 'automated-decisions', label: 'Automated decision-making' },
+  { id: 'third-party-links', label: 'Third-party links' },
+  { id: 'changes', label: 'Changes to this policy' },
+] as const;
+---
+
+<PolicyPageLayout
+  title="Privacy Policy | All Yacht Service"
+  description="Learn how All Yacht Service handles personal data submitted through enquiries, attachments, calculators and website security services."
+  heading="Privacy Policy"
+  intro="This notice explains how personal data is handled when you contact All Yacht Service, use a calculator, submit files or interact with website security services."
+  pathname="/privacy-policy"
+  routeId="privacyPolicy"
+  toc={toc}
+>
+  <section id="responsible" aria-labelledby="responsible-heading">
+    <h2 id="responsible-heading">
+      1. Who Is Responsible for Your Personal Data?
+    </h2>
+    {
+      legalConfig.legalOperatorName ? (
+        <p>
+          The legal operator named below is responsible for the personal data
+          described in this notice.
+        </p>
+      ) : (
+        <p>
+          The final legal identity of the website operator is being confirmed
+          and will be added before this website is made indexable. The following
+          public contact details are verified:
+        </p>
+      )
+    }
+    <dl class="policy-facts">
+      {
+        legalConfig.legalOperatorName && (
+          <div>
+            <dt>Legal operator</dt>
+            <dd>{legalConfig.legalOperatorName}</dd>
+          </div>
+        )
+      }
+      {
+        legalConfig.operatorType === 'natural-person' && (
+          <div>
+            <dt>Operator status</dt>
+            <dd>Natural person</dd>
+          </div>
+        )
+      }
+      {
+        legalConfig.legalForm && (
+          <div>
+            <dt>Legal form</dt>
+            <dd>{legalConfig.legalForm}</dd>
+          </div>
+        )
+      }
+      <div><dt>Trading name</dt><dd>{legalConfig.tradingName}</dd></div>
+      <div>
+        <dt>Contact address</dt><dd>{legalConfig.publicOfficeAddress}</dd>
+      </div>
+      <div>
+        <dt>Email</dt><dd>
+          <a href={`mailto:${legalConfig.email}`}>{legalConfig.email}</a>
+        </dd>
+      </div>
+      <div>
+        <dt>Phone</dt><dd>
+          <a href="tel:+34695718540">{legalConfig.phone}</a>
+        </dd>
+      </div>
+      <div>
+        <dt>Website</dt><dd>
+          <a href={legalConfig.websiteUrl}>{legalConfig.websiteUrl}</a>
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <section id="data-collected" aria-labelledby="data-collected-heading">
+    <h2 id="data-collected-heading">2. What Personal Data We Collect</h2>
+    <p>
+      The online enquiry form requires your name, email address, message and an
+      acknowledgement that you have read this Privacy Policy. You may also
+      provide a phone or WhatsApp number, requested service, vessel type, vessel
+      length, vessel location, preferred date and uploaded files.
+    </p>
+    <p>
+      We may also receive information you include voluntarily in messages,
+      yacht-listing URLs, survey or yacht-delivery calculator summaries,
+      estimate references, technical security information generated during
+      submission, subsequent email correspondence, and business records created
+      if you instruct a service.
+    </p>
+    <p class="policy-callout">
+      Do not upload identification documents, financial information, medical
+      information or other unnecessary sensitive personal data unless
+      specifically requested through an agreed secure process.
+    </p>
+  </section>
+
+  <section id="calculator-data" aria-labelledby="calculator-data-heading">
+    <h2 id="calculator-data-heading">3. Calculator Data</h2>
+    <p>
+      Survey and delivery calculator results are initially saved in your
+      browser’s <code>sessionStorage</code>. The website validates a stored
+      result for up to 24 hours, while the storage itself is limited to the
+      browser session. These records contain route, vessel, option and estimate
+      information, but no Contact-form name, email, phone or message.
+    </p>
+    <p>
+      Calculator data is brought into the Contact form only when you request a
+      quotation. Refreshing a calculator or policy page does not submit an
+      enquiry. <code>sessionStorage</code> is not a cookie, and you may remove a transferred
+      summary before sending the form. Anyone with access to your browser session
+      or device may be able to see locally stored information.
+    </p>
+  </section>
+
+  <section id="uses" aria-labelledby="uses-heading">
+    <h2 id="uses-heading">4. How We Use Personal Data</h2>
+    <ul>
+      <li>Responding to enquiries and preparing quotations.</li>
+      <li>Taking steps you request before a service agreement.</li>
+      <li>Arranging surveys, inspections and yacht-delivery work.</li>
+      <li>
+        Communicating about and delivering an instructed service or report.
+      </li>
+      <li>Reviewing uploaded documents, yacht links and images.</li>
+      <li>Maintaining relevant business and correspondence records.</li>
+      <li>Preventing spam, abuse and security incidents.</li>
+      <li>
+        Establishing or defending legal claims and meeting legal obligations.
+      </li>
+    </ul>
+    <p>
+      All Yacht Service does not currently use Contact-form information for
+      email marketing.
+    </p>
+  </section>
+
+  <section id="legal-bases" aria-labelledby="legal-bases-heading">
+    <h2 id="legal-bases-heading">5. Legal Bases</h2>
+    <p>
+      Depending on the circumstances, processing may be necessary to take steps
+      you request before entering a contract, to perform an agreed contract, or
+      to comply with a legal obligation. Processing may also rely on legitimate
+      interests in answering business enquiries, operating and securing the
+      website, maintaining proportionate records, preventing abuse and
+      protecting legal rights, balanced against your interests and rights.
+    </p>
+    <p>
+      Consent is used only where a genuinely optional activity requires it. The
+      required acknowledgement beside the Contact form records that this notice
+      was presented; it does not make consent the legal basis for every enquiry.
+    </p>
+  </section>
+
+  <section
+    id="required-information"
+    aria-labelledby="required-information-heading"
+  >
+    <h2 id="required-information-heading">
+      6. Required and Optional Information
+    </h2>
+    <p>
+      Name, email, message and the privacy-notice acknowledgement are required
+      for an online enquiry. Optional fields help prepare a more relevant
+      response. You may instead contact us by phone, WhatsApp or email. Without
+      essential information, we may be unable to assess a request or prepare a
+      quotation.
+    </p>
+  </section>
+
+  <section id="attachments" aria-labelledby="attachments-heading">
+    <h2 id="attachments-heading">7. Attachments</h2>
+    <p>
+      The form accepts up to three PDF, JPEG, PNG or WebP files. Each file may
+      be no larger than 2 MB, and all files together may be no larger than 3 MB.
+      File type, extension, size and signature are checked by the server, and
+      accepted files may be delivered with the enquiry email.
+    </p>
+    <p>
+      You must have authority to share submitted material. Uploading does not
+      transfer ownership. Remove unnecessary personal information before
+      uploading and use an agreed secure process if sensitive material is
+      specifically required.
+    </p>
+  </section>
+
+  <section id="recipients" aria-labelledby="recipients-heading">
+    <h2 id="recipients-heading">8. Service Providers and Recipients</h2>
+    <p>Information may be handled by:</p>
+    <ul>
+      <li>Cloudflare for website delivery, security and Turnstile.</li>
+      <li>Google Workspace for email delivery and mailbox storage.</li>
+      <li>Technical providers necessary to operate or secure the website.</li>
+      <li>Professional advisers where necessary.</li>
+      <li>
+        Survey, repair or specialist professionals where you instruct or
+        authorise this.
+      </li>
+      <li>Public authorities where disclosure is legally required.</li>
+    </ul>
+    <p>
+      Information is not shared with Premium Yachts Spain merely because
+      Aleksandrs Tolkacovs has a commercial role there. Any relevant sharing or
+      relationship must have an appropriate purpose and be disclosed where
+      applicable.
+    </p>
+  </section>
+
+  <section id="turnstile" aria-labelledby="turnstile-heading">
+    <h2 id="turnstile-heading">9. Cloudflare Turnstile</h2>
+    <p>
+      Turnstile protects the Contact form from automated abuse. Browser-based
+      checks produce a verification token which the server validates with
+      Cloudflare before accepting the enquiry. Cloudflare may process technical
+      browser, device, network and interaction signals for this purpose. All
+      Yacht Service does not use Turnstile for advertising.
+    </p>
+    <p>
+      The Contact page uses Cloudflare’s implicit widget rendering with the
+      action <code>contact</code> and a light theme. The repository does not set an
+      invisible or non-interactive mode and does not configure pre-clearance; the
+      widget type and account-level pre-clearance setting must be confirmed in the
+      Cloudflare dashboard before production. Storage behaviour can vary with that
+      configuration, so this policy does not claim Turnstile is cookie-free in every
+      possible setup.
+    </p>
+    <p>
+      Read Cloudflare’s
+      <a
+        href="https://www.cloudflare.com/turnstile-privacy-policy/"
+        target="_blank"
+        rel="noopener noreferrer">Turnstile Privacy Addendum (external link)</a
+      >.
+    </p>
+  </section>
+
+  <section id="google-workspace" aria-labelledby="google-workspace-heading">
+    <h2 id="google-workspace-heading">10. Google Workspace</h2>
+    <p>
+      Form submissions are delivered to
+      <a href={`mailto:${legalConfig.email}`}>{legalConfig.email}</a>. Email
+      content and attachments may be stored in the Google Workspace mailbox and
+      accessed by authorised mailbox users. Google processes this data under the
+      applicable service and data-processing terms. No particular Google data
+      region or transfer mechanism is asserted here because the account and
+      contract settings require confirmation.
+    </p>
+    <p>
+      See Google’s current
+      <a
+        href="https://cloud.google.com/terms/data-processing-addendum/"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Cloud Data Processing Addendum (external link)</a
+      >.
+    </p>
+  </section>
+
+  <section
+    id="international-transfers"
+    aria-labelledby="international-transfers-heading"
+  >
+    <h2 id="international-transfers-heading">
+      11. International Data Transfers
+    </h2>
+    <p>
+      Some service providers may process or support personal data from locations
+      outside the European Economic Area. Where required, transfers are handled
+      using applicable contractual or legal safeguards made available by the
+      relevant provider.
+    </p>
+  </section>
+
+  <section id="retention" aria-labelledby="retention-heading">
+    <h2 id="retention-heading">12. Data Retention</h2>
+    {
+      legalConfig.enquiryRetentionMonths !== null &&
+      legalConfig.unsuccessfulQuoteRetentionMonths !== null &&
+      legalConfig.clientRecordRetentionDescription &&
+      legalConfig.securityRecordRetentionDescription ? (
+        <ul>
+          <li>
+            General enquiries that do not become assignments are retained for up
+            to {legalConfig.enquiryRetentionMonths} months after the last
+            substantive contact.
+          </li>
+          <li>
+            Unsuccessful quotations are retained for up to{' '}
+            {legalConfig.unsuccessfulQuoteRetentionMonths} months after the
+            quotation expires or the last substantive contact, whichever is
+            later.
+          </li>
+          <li>
+            Active client correspondence, reports and instructed-service
+            records: {legalConfig.clientRecordRetentionDescription}
+          </li>
+          <li>
+            Security and spam-prevention records:{' '}
+            {legalConfig.securityRecordRetentionDescription}
+          </li>
+        </ul>
+      ) : (
+        <p>
+          Final retention periods are awaiting approval and this draft cannot be
+          published as an indexable policy until they are configured. The final
+          schedule will distinguish general enquiries, unsuccessful quotations,
+          active client correspondence, instructed-service records and reports,
+          attachments, security records, and records required for legal, tax or
+          accounting duties.
+        </p>
+      )
+    }
+    <p>
+      Attachments follow the retention of the enquiry, mailbox correspondence or
+      instructed-service record to which they relate. Records may be kept longer
+      where a legal, tax, accounting, limitation-period or legal-claims duty
+      requires it. Retention is based on whether an enquiry becomes an
+      assignment, the record’s purpose, report-reliance considerations, security
+      needs and mandatory record-keeping duties.
+    </p>
+  </section>
+
+  <section id="security" aria-labelledby="security-heading">
+    <h2 id="security-heading">13. Security</h2>
+    <p>
+      Appropriate technical and organisational measures are used to reduce
+      unauthorised access, alteration, loss or disclosure. Verified controls
+      include HTTPS, server-side input and file validation, Turnstile, file
+      restrictions, restricted mailbox access and credentials stored in
+      deployment environment settings. No method of transmission or storage can
+      guarantee absolute security.
+    </p>
+  </section>
+
+  <section id="rights" aria-labelledby="rights-heading">
+    <h2 id="rights-heading">14. Your Rights</h2>
+    <p>
+      Depending on the circumstances, you may have rights of access,
+      rectification, erasure, restriction, objection and data portability. You
+      may withdraw consent where consent is the legal basis, without affecting
+      earlier lawful processing. Contact
+      <a href={`mailto:${legalConfig.privacyContactEmail}`}
+        >{legalConfig.privacyContactEmail}</a
+      >. Reasonable identity verification may be requested before acting on a
+      request.
+    </p>
+    <p>
+      You may also complain to the
+      <a href="https://www.aepd.es/" target="_blank" rel="noopener noreferrer"
+        >Spanish Data Protection Agency (AEPD) (external link)</a
+      >.
+    </p>
+  </section>
+
+  <section
+    id="automated-decisions"
+    aria-labelledby="automated-decisions-heading"
+  >
+    <h2 id="automated-decisions-heading">15. Automated Decision-Making</h2>
+    <p>
+      All Yacht Service does not use Contact-form information for automated
+      decision-making or profiling that produces legal or similarly significant
+      effects. Calculator outputs are automated estimates, but do not decide
+      whether a service is accepted and do not constitute a quotation or
+      contract.
+    </p>
+  </section>
+
+  <section id="third-party-links" aria-labelledby="third-party-links-heading">
+    <h2 id="third-party-links-heading">16. Third-Party Links</h2>
+    <p>
+      External websites, including Premium Yachts Spain and social networks,
+      control their own content and privacy practices. Review their notices
+      before submitting information to them.
+    </p>
+  </section>
+
+  <section id="changes" aria-labelledby="changes-heading">
+    <h2 id="changes-heading">17. Changes to This Policy</h2>
+    <p>
+      This notice may be updated when website functions, providers or legal
+      requirements change. The review date at the top will be updated when a
+      material revision is made.
+    </p>
+  </section>
+</PolicyPageLayout>

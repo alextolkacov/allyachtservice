@@ -1,0 +1,174 @@
+---
+import PolicyPageLayout from '../components/PolicyPageLayout.astro';
+
+const toc = [
+  { id: 'definitions', label: 'What are cookies and browser storage?' },
+  { id: 'technologies', label: 'Technologies used' },
+  { id: 'calculator-storage', label: 'Calculator sessionStorage' },
+  { id: 'turnstile-storage', label: 'Turnstile' },
+  { id: 'analytics-marketing', label: 'Analytics and marketing' },
+  { id: 'managing-storage', label: 'Managing browser storage' },
+  { id: 'changes', label: 'Changes to this policy' },
+] as const;
+---
+
+<PolicyPageLayout
+  title="Cookie and Browser Storage Policy | All Yacht Service"
+  description="Learn which cookies and browser-storage technologies are used by the All Yacht Service website and how they support essential functions."
+  heading="Cookie and Browser Storage Policy"
+  intro="This policy describes the limited browser-storage and security technologies currently used by the All Yacht Service website."
+  pathname="/cookie-policy"
+  routeId="cookiePolicy"
+  toc={toc}
+>
+  <section id="definitions" aria-labelledby="definitions-heading">
+    <h2 id="definitions-heading">1. What Are Cookies and Browser Storage?</h2>
+    <p>
+      Cookies are small values that a website or service may ask a browser to
+      store and send with later requests. <code>sessionStorage</code> is a separate
+      browser feature that stores data for one tab’s browsing session and does not
+      automatically accompany network requests. Security services may also use short-lived
+      browser tokens and technical signals without those values being marketing cookies.
+    </p>
+  </section>
+
+  <section id="technologies" aria-labelledby="technologies-heading">
+    <h2 id="technologies-heading">2. Technologies Used</h2>
+    <p>
+      The following inventory is based on the current source code. It should be
+      re-audited before adding scripts, embeds, analytics, advertising or
+      consent tooling.
+    </p>
+    <div
+      class="policy-table-scroll"
+      role="region"
+      aria-label="Cookie and browser storage inventory"
+      tabindex="0"
+    >
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Name or technology</th>
+            <th scope="col">Provider</th>
+            <th scope="col">Purpose</th>
+            <th scope="col">Type</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Consent required</th>
+            <th scope="col">Where used</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><code>ays:pre-purchase-survey-estimate:v1</code></th
+            >
+            <td>All Yacht Service</td>
+            <td>Transfers a survey estimate to the Contact form.</td>
+            <td>Essential <code>sessionStorage</code></td>
+            <td>Browser session; accepted by the application for 24 hours.</td>
+            <td>No</td>
+            <td>Survey calculator and Contact form</td>
+          </tr>
+          <tr>
+            <th scope="row"><code>ays:yacht-delivery-estimate:v1</code></th>
+            <td>All Yacht Service</td>
+            <td>Transfers a yacht-delivery estimate to the Contact form.</td>
+            <td>Essential <code>sessionStorage</code></td>
+            <td>Browser session; accepted by the application for 24 hours.</td>
+            <td>No</td>
+            <td>Delivery calculator and Contact form</td>
+          </tr>
+          <tr>
+            <th scope="row"
+              >Turnstile verification token and technical signals</th
+            >
+            <td>Cloudflare</td>
+            <td>Protects the Contact form from automated abuse.</td>
+            <td>Strictly necessary security service</td>
+            <td
+              >Short-lived token; any additional storage depends on the
+              configured Cloudflare widget and browser context.</td
+            >
+            <td>No, for the current security purpose</td>
+            <td>Contact form</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="calculator-storage" aria-labelledby="calculator-storage-heading">
+    <h2 id="calculator-storage-heading">3. Calculator sessionStorage</h2>
+    <p>
+      The two calculator keys temporarily hold the selected route, vessel,
+      options, estimate, creation time and reference needed to show a result in
+      the Contact form. They do not contain Contact-form personal details such
+      as your name, email, phone or message.
+    </p>
+    <p>
+      The application rejects records older than 24 hours, even if a browser
+      happens to retain them. The browser normally removes session storage when
+      the relevant tab or session ends. You can remove a transferred estimate in
+      the Contact form without sending it.
+    </p>
+  </section>
+
+  <section id="turnstile-storage" aria-labelledby="turnstile-storage-heading">
+    <h2 id="turnstile-storage-heading">4. Turnstile</h2>
+    <p>
+      Cloudflare Turnstile runs browser checks and creates a token that the
+      server validates before accepting a Contact submission. The repository
+      uses implicit rendering with the <code>contact</code> action and light theme.
+      It does not explicitly select invisible or non-interactive mode, and it does
+      not configure pre-clearance in source code.
+    </p>
+    <p>
+      Widget type and account-level pre-clearance settings are controlled in
+      Cloudflare and must be confirmed there before production. This inventory
+      therefore does not list <code>cf_clearance</code> as definitely used and does
+      not invent provider cookie names. See Cloudflare’s
+      <a
+        href="https://www.cloudflare.com/turnstile-privacy-policy/"
+        target="_blank"
+        rel="noopener noreferrer">Turnstile Privacy Addendum (external link)</a
+      >.
+    </p>
+  </section>
+
+  <section
+    id="analytics-marketing"
+    aria-labelledby="analytics-marketing-heading"
+  >
+    <h2 id="analytics-marketing-heading">5. Analytics and Marketing</h2>
+    <p>
+      The website does not currently use analytics or advertising cookies. The
+      current source also contains no marketing tags or social-media embeds.
+      Images are served locally, and fonts use the visitor’s installed system
+      fonts.
+    </p>
+    <p>
+      If analytics or marketing technologies are introduced, this policy and any
+      required consent controls must be updated before activation.
+    </p>
+  </section>
+
+  <section id="managing-storage" aria-labelledby="managing-storage-heading">
+    <h2 id="managing-storage-heading">6. Managing Browser Storage</h2>
+    <p>
+      Browser settings generally allow you to inspect or clear cookies and site
+      data. Closing the relevant tab or browser session normally clears
+      <code>sessionStorage</code>. Blocking strictly necessary storage or
+      security features may prevent calculator transfer or Contact-form
+      submission. Consult the current help documentation for your browser or
+      device for exact controls.
+    </p>
+  </section>
+
+  <section id="changes" aria-labelledby="cookie-changes-heading">
+    <h2 id="cookie-changes-heading">7. Changes</h2>
+    <p>
+      This policy and its review date will be updated before a new storage,
+      analytics, advertising, embed or consent technology is activated, and
+      whenever the current technical inventory changes materially.
+    </p>
+  </section>
+</PolicyPageLayout>

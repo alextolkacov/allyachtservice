@@ -14,7 +14,11 @@ export type RouteId =
   | 'yachtsForSale'
   | 'yachtSurveyTips'
   | 'deckMoistureSoftSpots'
-  | 'shinyHull';
+  | 'shinyHull'
+  | 'privacyPolicy'
+  | 'cookiePolicy'
+  | 'legalNotice'
+  | 'termsAndConditions';
 
 /**
  * Add a locale only after that translated page exists. SEO alternates and the
@@ -71,6 +75,18 @@ export const translatedRoutes: Record<
   },
   shinyHull: {
     en: '/yacht-survey-tips/shiny-hull',
+  },
+  privacyPolicy: {
+    en: '/privacy-policy',
+  },
+  cookiePolicy: {
+    en: '/cookie-policy',
+  },
+  legalNotice: {
+    en: '/legal-notice',
+  },
+  termsAndConditions: {
+    en: '/terms-and-conditions',
   },
 };
 

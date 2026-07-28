@@ -1,0 +1,186 @@
+---
+import PolicyPageLayout from '../components/PolicyPageLayout.astro';
+import { legalConfig } from '../data/legal';
+
+const toc = [
+  { id: 'acceptance', label: 'Acceptance of website terms' },
+  { id: 'information', label: 'Informational purpose' },
+  { id: 'calculators', label: 'Calculator estimates' },
+  { id: 'services', label: 'Survey and technical services' },
+  { id: 'reports', label: 'Reports' },
+  { id: 'tips', label: 'Yacht Survey Tips' },
+  { id: 'brokerage', label: 'Yachts for sale and external brokerage' },
+  { id: 'external-links', label: 'External links' },
+  { id: 'permitted-use', label: 'Intellectual property and permitted use' },
+  { id: 'prohibited-use', label: 'Prohibited use' },
+  { id: 'liability', label: 'Liability' },
+  { id: 'changes', label: 'Changes' },
+  { id: 'governing-law', label: 'Governing law and disputes' },
+] as const;
+---
+
+<PolicyPageLayout
+  title="Website Terms and Conditions | All Yacht Service"
+  description="Terms governing use of the All Yacht Service website, calculators, educational content and external links."
+  heading="Website Terms and Conditions"
+  intro="These terms govern use of this website only. They are not survey engagement terms, a survey or yacht-delivery contract, a brokerage or repair agreement, a report-reliance agreement, or an online checkout agreement."
+  pathname="/terms-and-conditions"
+  routeId="termsAndConditions"
+  toc={toc}
+>
+  <section id="acceptance" aria-labelledby="acceptance-heading">
+    <h2 id="acceptance-heading">1. Acceptance of Website Terms</h2>
+    <p>
+      By using this website, you agree to use it lawfully and in accordance with
+      these website terms. Merely viewing a page, using a calculator or sending
+      an enquiry does not create a paid service agreement.
+    </p>
+  </section>
+
+  <section id="information" aria-labelledby="information-heading">
+    <h2 id="information-heading">2. Informational Purpose</h2>
+    <p>
+      Service pages describe general scopes; the final scope is agreed
+      individually. Educational articles provide general guidance and are not a
+      substitute for inspecting an individual yacht, reviewing its records or
+      obtaining specialist advice where needed.
+    </p>
+  </section>
+
+  <section id="calculators" aria-labelledby="calculators-heading">
+    <h2 id="calculators-heading">3. Calculator Estimates</h2>
+    <p>
+      Survey and yacht-delivery calculator results are non-binding estimates,
+      not quotations, contracts or invoices. They use simplified assumptions. A
+      delivery route is not a navigational route or passage plan, and a survey
+      estimate depends on the options selected.
+    </p>
+    <p>
+      Final price, availability and scope require individual confirmation. An
+      estimate reference does not reserve a date or create an appointment.
+    </p>
+  </section>
+
+  <section id="services" aria-labelledby="services-heading">
+    <h2 id="services-heading">4. Survey and Technical Services</h2>
+    <p>
+      Services require a separate written scope or appointment. Access,
+      operating condition, haul-out and inspection circumstances affect the
+      available findings. Surveys are generally visual and non-destructive
+      unless another method is expressly agreed and authorised. Website
+      descriptions do not expand the scope stated in an engagement or report.
+    </p>
+  </section>
+
+  <section id="reports" aria-labelledby="reports-heading">
+    <h2 id="reports-heading">5. Reports</h2>
+    <p>
+      Reports are prepared for the commissioning client, stated purpose and
+      agreed scope. Third-party reliance is not automatic. Copying a report or
+      relying on it may require written permission. The report’s own terms,
+      scope, assumptions and limitations prevail over general website content.
+    </p>
+  </section>
+
+  <section id="tips" aria-labelledby="tips-heading">
+    <h2 id="tips-heading">6. Yacht Survey Tips</h2>
+    <p>
+      Yacht Survey Tips are educational. They are not instructions to carry out
+      unsafe, destructive or unauthorised testing. Findings on one yacht do not
+      determine another yacht’s condition, and professional inspection may be
+      necessary.
+    </p>
+  </section>
+
+  <section id="brokerage" aria-labelledby="brokerage-heading">
+    <h2 id="brokerage-heading">7. Yachts for Sale and External Brokerage</h2>
+    <p>
+      Yacht listings are hosted externally and All Yacht Service does not
+      maintain the inventory. Availability, price, ownership, specification and
+      tax information must be confirmed with the listing broker. External
+      information is not guaranteed by All Yacht Service, and relevant
+      commercial relationships are disclosed where appropriate. A survey is not
+      a recommendation to buy a yacht.
+    </p>
+  </section>
+
+  <section id="external-links" aria-labelledby="terms-external-links-heading">
+    <h2 id="terms-external-links-heading">8. External Links</h2>
+    <p>
+      Links are provided for convenience and context. Third parties control
+      their own sites, content, terms, availability and privacy practices.
+      Following a link does not make All Yacht Service responsible for the
+      external service.
+    </p>
+  </section>
+
+  <section id="permitted-use" aria-labelledby="permitted-use-heading">
+    <h2 id="permitted-use-heading">
+      9. Intellectual Property and Permitted Use
+    </h2>
+    <p>
+      You may browse the website for personal or business-enquiry purposes and
+      share links to public pages. Unauthorised commercial copying or reuse of
+      website text, branding, reports, calculator code or original images is not
+      permitted. Third-party material remains governed by the rights that apply
+      to it.
+    </p>
+  </section>
+
+  <section id="prohibited-use" aria-labelledby="prohibited-use-heading">
+    <h2 id="prohibited-use-heading">10. Prohibited Use</h2>
+    <p>You must not:</p>
+    <ul>
+      <li>
+        use automated requests in a way that abuses or disrupts the website;
+      </li>
+      <li>interfere with security or attempt unauthorised access;</li>
+      <li>make malicious, deceptive or unlawful submissions;</li>
+      <li>upload unlawful, harmful or unauthorised files; or</li>
+      <li>
+        present calculator results as formal quotations or confirmed prices.
+      </li>
+    </ul>
+  </section>
+
+  <section id="liability" aria-labelledby="liability-heading">
+    <h2 id="liability-heading">11. Liability</h2>
+    <p>
+      Website information is provided for general purposes and should be
+      confirmed for an individual assignment. To the extent permitted by law,
+      All Yacht Service is not responsible for decisions based solely on general
+      website content, calculator assumptions or information controlled by
+      external websites.
+    </p>
+    <p>
+      Nothing in these terms limits liability for fraud, intentional misconduct
+      or any liability that cannot legally be excluded, and nothing removes
+      mandatory consumer rights.
+    </p>
+  </section>
+
+  <section id="changes" aria-labelledby="terms-changes-heading">
+    <h2 id="terms-changes-heading">12. Changes</h2>
+    <p>
+      These website terms may be revised when website functions or legal
+      requirements change. The review date shown above will be updated for
+      material revisions.
+    </p>
+  </section>
+
+  <section id="governing-law" aria-labelledby="governing-law-heading">
+    <h2 id="governing-law-heading">13. Governing Law and Disputes</h2>
+    {
+      legalConfig.applicableLawText ? (
+        <p>{legalConfig.applicableLawText}</p>
+      ) : (
+        <p>
+          Final governing-law and dispute wording is awaiting confirmation of
+          the operator and service-contract structure. This non-indexable draft
+          does not impose exclusive Altea or Spanish court jurisdiction on
+          consumers.
+        </p>
+      )
+    }
+  </section>
+</PolicyPageLayout>

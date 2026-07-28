@@ -346,6 +346,96 @@ After launch, redirect the `pages.dev` hostname to the custom domain or prevent
 it from becoming a duplicate public version through the Cloudflare project
 configuration.
 
+## Legal and policy foundation
+
+The English legal routes are:
+
+```text
+/privacy-policy
+/cookie-policy
+/legal-notice
+/terms-and-conditions
+```
+
+They share `src/components/PolicyPageLayout.astro`. Confirmed and unresolved
+operator information, retention settings, the policy review date, and final
+applicable-law wording are held in `src/data/legal.ts` rather than duplicated
+across pages.
+
+The current verified public information is the trading name, public office,
+email, phone, website URL and country. The legal operator name; natural-person,
+autónomo, company or other legal status; tax-identifier requirement and value;
+registration information; legally valid contact or registered address;
+retention periods; final applicable-law wording; and final legal approval are
+not yet confirmed. Unresolved values are not rendered.
+
+`astro.config.ts` calls the central legal guard before an indexable build.
+`PUBLIC_SITE_INDEXABLE=false` permits local and preview builds and displays a
+restrained draft notice on policy pages. `PUBLIC_SITE_INDEXABLE=true` fails
+with a field-by-field error until the legal configuration is complete and the
+final review is approved. Do not bypass this guard. After each policy or
+technical change, run:
+
+```sh
+npm run build
+npm run check:legal
+```
+
+The Contact checkbox is a required notice acknowledgement, not consent for all
+processing. Its public wording is: “I confirm that I have read the Privacy
+Policy and understand how my enquiry information will be handled.” The stable
+request field remains named `consent` to avoid an unnecessary API change.
+
+The current processor and service inventory is:
+
+- Cloudflare Pages for website delivery, Cloudflare security services, and
+  Turnstile for Contact-form abuse prevention.
+- Google Workspace and the Gmail API for delivery to and storage in the
+  authorised `info@allyachtservice.com` mailbox.
+- Browser `sessionStorage` keys
+  `ays:pre-purchase-survey-estimate:v1` and
+  `ays:yacht-delivery-estimate:v1` for calculator-to-Contact transfer. The
+  application validates each for 24 hours while the storage itself is
+  session-based.
+
+The Contact page uses Turnstile implicit rendering with the `contact` action
+and light theme. The repository does not explicitly select Managed,
+Non-interactive or Invisible widget mode and does not configure pre-clearance;
+confirm the widget type, pre-clearance and Offlabel settings in the Cloudflare
+dashboard before production. The server continues to validate every accepted
+token with Siteverify.
+
+The code audit found no installed analytics provider, advertising tag,
+marketing cookie, social embed, external font or site-written cookie. A cookie
+banner is therefore not added for the current strictly necessary calculator
+session storage and form-security implementation. Before enabling analytics,
+advertising, non-essential embeds or other optional storage, update the
+technical inventory, assess consent requirements, update both policies and
+activate appropriate consent controls before the technology loads.
+
+Retention configuration must distinguish at least general enquiries,
+unsuccessful quotations, instructed-service records and reports, attachments,
+security records, and records required for legal, tax or accounting duties.
+Approved periods and criteria must be entered in `src/data/legal.ts`; do not
+insert guessed durations in page content.
+
+These website terms govern website use only. They do not replace survey
+engagement terms, a yacht-delivery contract, a brokerage agreement, report
+reliance terms, a repair contract or other service-specific agreement.
+
+Before changing `PUBLIC_SITE_INDEXABLE` to `true`, have the four drafts, central
+configuration, retention schedule, provider/account settings and
+applicable-law wording reviewed by a qualified Spanish legal or
+data-protection professional. Review the
+[GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng),
+[Spanish LSSI](https://www.boe.es/buscar/act.php?id=BOE-A-2002-13758),
+[AEPD guidance](https://www.aepd.es/),
+[Cloudflare Turnstile documentation](https://developers.cloudflare.com/turnstile/),
+[Turnstile Privacy Addendum](https://www.cloudflare.com/turnstile-privacy-policy/)
+and the current
+[Google Cloud Data Processing Addendum](https://cloud.google.com/terms/data-processing-addendum/)
+as part of that review.
+
 - Prefix a value with `PUBLIC_` only when it is safe to expose in browser code.
 - Keep secrets unprefixed and use them only in server-side code or a separate
   backend.

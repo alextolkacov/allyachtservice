@@ -15,6 +15,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "astro check",
+    "check:legal": "node scripts/check-legal-foundation.mjs",
     "typecheck": "astro check && tsc --project functions/tsconfig.json --noEmit",
     "functions:types": "wrangler types --path=./functions/types.d.ts",
     "preview:cloudflare": "npm run build && wrangler pages dev dist"
