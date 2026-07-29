@@ -217,7 +217,14 @@ const servicesAreCurrent = isServiceRoute(routeId);
     });
 
     trigger.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowDown') {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        if (menu.open) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      } else if (event.key === 'ArrowDown') {
         event.preventDefault();
         openMenu(true);
       } else if (event.key === 'Escape') {
@@ -252,10 +259,10 @@ const servicesAreCurrent = isServiceRoute(routeId);
       menuLinks[nextIndex]?.focus();
     });
 
-    menu.addEventListener('focusout', () => {
-      queueMicrotask(() => {
-        if (!menu.contains(document.activeElement)) closeMenu();
-      });
+    document.addEventListener('focusin', (event) => {
+      if (menu.open && !menu.contains(event.target as Node)) {
+        closeMenu();
+      }
     });
 
     document.addEventListener('pointerdown', (event) => {
