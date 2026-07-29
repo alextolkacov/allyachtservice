@@ -750,24 +750,24 @@ export const russianContactPage = {
     servicesHeading: 'Выберите нужную услугу',
     services: [
       {
-        label: 'Предпокупочный сюрвейерский осмотр — на английском',
-        href: '/pre-purchase-survey',
+        label: 'Предпокупочный сюрвейерский осмотр',
+        href: '/ru/pre-purchase-survey',
       },
       {
-        label: 'Сюрвейерский осмотр для страхования — на английском',
-        href: '/insurance-survey',
+        label: 'Сюрвейерский осмотр для страхования',
+        href: '/ru/insurance-survey',
       },
       {
-        label: 'Представительство покупателя — на английском',
-        href: '/buyer-representation',
+        label: 'Представительство покупателя',
+        href: '/ru/buyer-representation',
       },
       {
-        label: 'Перегон яхт — на английском',
-        href: '/yacht-delivery',
+        label: 'Перегон яхт',
+        href: '/ru/yacht-delivery',
       },
       {
-        label: 'Оценка стоимости и ущерба — на английском',
-        href: '/valuation-damage-survey',
+        label: 'Оценка стоимости и ущерба',
+        href: '/ru/valuation-damage-survey',
       },
     ],
   },

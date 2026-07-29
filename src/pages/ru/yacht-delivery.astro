@@ -1,0 +1,44 @@
+---
+import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import { russianYachtDeliveryPage } from '../../data/ru/yacht-delivery';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import { createLocalizedServicePageSchemas } from '../../utils/localizedSeo';
+
+const schemas = createLocalizedServicePageSchemas({
+  pathname: russianYachtDeliveryPage.pathname,
+  locale: 'ru',
+  pageName: russianYachtDeliveryPage.heading,
+  pageDescription: russianYachtDeliveryPage.description,
+  serviceName: 'Профессиональный перегон яхт',
+  serviceType: 'Профессиональный перегон яхт',
+  serviceDescription: russianYachtDeliveryPage.schemaDescription,
+  areaServed: russianYachtDeliveryPage.areaServed,
+});
+---
+
+<ServiceLayout
+  title={russianYachtDeliveryPage.title}
+  description={russianYachtDeliveryPage.description}
+  locale="ru"
+  routeId="yachtDelivery"
+  pathname={russianYachtDeliveryPage.pathname}
+  heading={russianYachtDeliveryPage.heading}
+  eyebrow={russianYachtDeliveryPage.eyebrow}
+  summary={russianYachtDeliveryPage.summary}
+  heroImage={russianYachtDeliveryPage.heroImage}
+  socialImageAlt={russianYachtDeliveryPage.socialImageAlt}
+  breadcrumbs={russianYachtDeliveryPage.breadcrumbs}
+  breadcrumbLabel="Навигационная цепочка"
+  primaryCta={russianYachtDeliveryPage.primaryCta}
+  secondaryCta={russianYachtDeliveryPage.secondaryCta}
+  relatedServices={russianYachtDeliveryPage.relatedServices}
+  relatedHeading="Связанные услуги"
+  finalCta={russianYachtDeliveryPage.finalCta}
+  finalCtaEyebrow="Контакты"
+  structuredData={schemas}
+>
+  <LocalizedServiceSections
+    sections={russianYachtDeliveryPage.sections}
+    locale="ru"
+  />
+</ServiceLayout>

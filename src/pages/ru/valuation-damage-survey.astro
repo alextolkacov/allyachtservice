@@ -1,0 +1,63 @@
+---
+import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import { russianValuationDamageSurveyPage } from '../../data/ru/valuation-damage-survey';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(russianValuationDamageSurveyPage.pathname);
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: russianValuationDamageSurveyPage.heading,
+  description: russianValuationDamageSurveyPage.description,
+  inLanguage: 'ru',
+};
+const serviceSchemas: StructuredData[] =
+  russianValuationDamageSurveyPage.serviceSchemas.map((service) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${pageUrl}#${service.id}`,
+    name: service.name,
+    serviceType: service.serviceType,
+    url: pageUrl,
+    description: service.description,
+    provider: { '@id': businessEntityId },
+    areaServed: russianValuationDamageSurveyPage.areaServed.map((name) => ({
+      '@type': 'Place',
+      name,
+    })),
+  }));
+---
+
+<ServiceLayout
+  title={russianValuationDamageSurveyPage.title}
+  description={russianValuationDamageSurveyPage.description}
+  locale="ru"
+  routeId="valuationDamageSurvey"
+  pathname={russianValuationDamageSurveyPage.pathname}
+  heading={russianValuationDamageSurveyPage.heading}
+  eyebrow={russianValuationDamageSurveyPage.eyebrow}
+  summary={russianValuationDamageSurveyPage.summary}
+  heroImage={russianValuationDamageSurveyPage.heroImage}
+  socialImageAlt={russianValuationDamageSurveyPage.socialImageAlt}
+  breadcrumbs={russianValuationDamageSurveyPage.breadcrumbs}
+  breadcrumbLabel="Навигационная цепочка"
+  primaryCta={russianValuationDamageSurveyPage.primaryCta}
+  secondaryCta={russianValuationDamageSurveyPage.secondaryCta}
+  relatedServices={russianValuationDamageSurveyPage.relatedServices}
+  relatedHeading="Связанные услуги"
+  finalCta={russianValuationDamageSurveyPage.finalCta}
+  finalCtaEyebrow="Контакты"
+  structuredData={[webPageSchema, ...serviceSchemas]}
+>
+  <LocalizedServiceSections
+    sections={russianValuationDamageSurveyPage.sections}
+    locale="ru"
+  />
+</ServiceLayout>

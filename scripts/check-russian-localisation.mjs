@@ -83,6 +83,72 @@ assert(
   navigationSource.includes("ru: '/ru/contact'"),
   'Contact route equivalence does not include /ru/contact.',
 );
+const translatedServiceRoutes = [
+  {
+    en: '/pre-purchase-survey',
+    es: '/es/pre-purchase-survey',
+    ru: '/ru/pre-purchase-survey',
+    title: 'Предпокупочный осмотр яхт в Испании | All Yacht Service',
+    description:
+      'Независимый предпокупочный сюрвейерский осмотр парусных яхт, моторных яхт и катамаранов в Испании и Средиземноморье.',
+    heading: 'Предпокупочный сюрвейерский осмотр яхт в Испании',
+  },
+  {
+    en: '/insurance-survey',
+    es: '/es/insurance-survey',
+    ru: '/ru/insurance-survey',
+    title: 'Осмотр яхты для страхования в Испании | All Yacht Service',
+    description:
+      'Независимый осмотр технического состояния яхты для страхования в Испании и Средиземноморье с понятным сюрвейерским отчётом.',
+    heading: 'Сюрвейерский осмотр яхты для страхования',
+  },
+  {
+    en: '/buyer-representation',
+    es: '/es/buyer-representation',
+    ru: '/ru/buyer-representation',
+    title: 'Представительство покупателей яхт | All Yacht Service',
+    description:
+      'Независимая техническая поддержка покупателей яхт до, во время и после покупки в Испании и Средиземноморье.',
+    heading: 'Независимое представительство покупателей яхт',
+  },
+  {
+    en: '/yacht-delivery',
+    es: '/es/yacht-delivery',
+    ru: '/ru/yacht-delivery',
+    title: 'Профессиональный перегон яхт | All Yacht Service',
+    description:
+      'Профессиональный перегон парусных и моторных яхт по Испании и Средиземноморью с подготовкой судна и планированием перехода.',
+    heading: 'Профессиональный перегон яхт в Испании и Средиземноморье',
+  },
+  {
+    en: '/valuation-damage-survey',
+    es: '/es/valuation-damage-survey',
+    ru: '/ru/valuation-damage-survey',
+    title: 'Оценка стоимости и ущерба яхт | All Yacht Service',
+    description:
+      'Независимая оценка стоимости яхт и профессиональная оценка ущерба в Испании и Средиземноморье.',
+    heading: 'Оценка стоимости и ущерба яхт в Испании',
+  },
+  {
+    en: '/about-us',
+    es: '/es/about-us',
+    ru: '/ru/about-us',
+    title: 'Об All Yacht Service | Яхтенный сюрвейер',
+    description:
+      'Узнайте больше об All Yacht Service и Александре Толкачёве — сертифицированном IIMS сюрвейере яхт и маломерных судов в Альтее, Испания.',
+    heading: 'Об All Yacht Service',
+  },
+];
+for (const route of translatedServiceRoutes) {
+  assert(
+    navigationSource.includes(`ru: '${route.ru}'`),
+    `Route equivalence does not include ${route.ru}.`,
+  );
+  assert(
+    existsSync(resolve(projectRoot, `src/pages/${route.ru.slice(1)}.astro`)),
+    `Published source route ${route.ru} is missing.`,
+  );
+}
 assert(
   contactCopySource.includes("locale: 'ru-RU'") &&
     contactCopySource.includes(
@@ -148,12 +214,6 @@ assert(
 );
 
 const unsupportedRussianRoutes = [
-  '/ru/pre-purchase-survey',
-  '/ru/insurance-survey',
-  '/ru/buyer-representation',
-  '/ru/yacht-delivery',
-  '/ru/valuation-damage-survey',
-  '/ru/about-us',
   '/ru/pre-purchase-survey-calculator',
   '/ru/yacht-delivery-calculator',
   '/ru/yacht-survey-tips',
@@ -195,6 +255,7 @@ if (existsSync(distDirectory)) {
     '/es/contact',
     '/ru/contact',
     '/privacy-policy',
+    ...translatedServiceRoutes.map((route) => route.ru),
   ]) {
     assert(
       builtPages.has(routeToFile(pathname)),
@@ -239,6 +300,24 @@ if (existsSync(distDirectory)) {
         ),
       `${pathname} has incorrect EN/ES/RU hreflang equivalence.`,
     );
+  }
+  for (const route of translatedServiceRoutes) {
+    const expected = [
+      ['en', absolute(route.en)],
+      ['es', absolute(route.es)],
+      ['ru', absolute(route.ru)],
+      ['x-default', absolute(route.en)],
+    ];
+    for (const pathname of [route.en, route.es, route.ru]) {
+      const actual = getHreflangs(getBuiltPage(pathname));
+      assert(
+        actual.length === expected.length &&
+          expected.every(([code, href]) =>
+            actual.some((item) => item.code === code && item.href === href),
+          ),
+        `${pathname} has incorrect EN/ES/RU hreflang equivalence.`,
+      );
+    }
   }
 
   const russianHome = getBuiltPage('/ru');
@@ -351,15 +430,91 @@ if (existsSync(distDirectory)) {
     '/ru/contact must expose exactly one stable business entity.',
   );
 
+  for (const route of translatedServiceRoutes) {
+    const html = getBuiltPage(route.ru);
+    assert(
+      html.includes('<html lang="ru">') &&
+        html.includes(`<title>${route.title}</title>`) &&
+        html.includes(
+          `<meta name="description" content="${route.description}">`,
+        ) &&
+        html.includes(`<link rel="canonical" href="${absolute(route.ru)}">`) &&
+        html.includes(
+          `<meta property="og:url" content="${absolute(route.ru)}">`,
+        ) &&
+        html.includes('<meta property="og:locale" content="ru_RU">') &&
+        html.includes(`<h1>${route.heading}</h1>`),
+      `${route.ru} is missing required Russian metadata or H1.`,
+    );
+    assert(
+      html.includes('href="/ru/contact?service=') ||
+        route.ru === '/ru/about-us',
+      `${route.ru} is missing a contextual Russian Contact link.`,
+    );
+    const routeSchemas = getSchemas(html, route.ru);
+    assert(
+      routeSchemas.some(
+        (schema) =>
+          ['WebPage', 'AboutPage'].includes(schema['@type']) &&
+          schema.inLanguage === 'ru',
+      ),
+      `${route.ru} is missing its Russian page schema.`,
+    );
+    assert(
+      routeSchemas.some(
+        (schema) =>
+          schema['@type'] === 'BreadcrumbList' &&
+          schema.itemListElement?.[0]?.name === 'Главная',
+      ),
+      `${route.ru} is missing its localized BreadcrumbList schema.`,
+    );
+    if (route.ru !== '/ru/about-us') {
+      assert(
+        routeSchemas.some(
+          (schema) =>
+            schema['@type'] === 'Service' &&
+            schema.provider?.['@id'] ===
+              'https://www.allyachtservice.com/#business',
+        ),
+        `${route.ru} is missing a Service schema with the stable provider ID.`,
+      );
+    }
+  }
+  const russianValuation = getBuiltPage('/ru/valuation-damage-survey');
+  assert(
+    getSchemas(russianValuation, '/ru/valuation-damage-survey').filter(
+      (schema) => schema['@type'] === 'Service',
+    ).length === 2,
+    '/ru/valuation-damage-survey must expose valuation and damage Service schemas.',
+  );
+  const russianAbout = getBuiltPage('/ru/about-us');
+  assert(
+    getSchemas(russianAbout, '/ru/about-us').some(
+      (schema) =>
+        schema['@type'] === 'Person' &&
+        schema.worksFor?.['@id'] ===
+          'https://www.allyachtservice.com/#business',
+    ),
+    '/ru/about-us is missing its stable Person schema.',
+  );
+
+  const russianEquivalentPages = new Set([
+    '/',
+    '/es',
+    '/ru',
+    '/contact',
+    '/es/contact',
+    '/ru/contact',
+    ...translatedServiceRoutes.flatMap((route) => [
+      route.en,
+      route.es,
+      route.ru,
+    ]),
+  ]);
   for (const [path, html] of builtPages) {
-    if (
-      path !== 'index.html' &&
-      path !== 'es.html' &&
-      path !== 'ru.html' &&
-      path !== 'contact.html' &&
-      path !== 'es/contact.html' &&
-      path !== 'ru/contact.html'
-    ) {
+    const pathname =
+      path === 'index.html' ? '/' : `/${path.replace(/\.html$/u, '')}`;
+    if (!russianEquivalentPages.has(pathname)) {
       assert(
         !getHreflangs(html).some(({ code }) => code === 'ru'),
         `dist/${path} incorrectly exposes Russian hreflang.`,
@@ -406,6 +561,12 @@ if (existsSync(distDirectory)) {
     sitemap.includes('<loc>https://www.allyachtservice.com/ru/contact</loc>'),
     'The sitemap does not contain /ru/contact.',
   );
+  for (const route of translatedServiceRoutes) {
+    assert(
+      sitemap.includes(`<loc>${absolute(route.ru)}</loc>`),
+      `The sitemap does not contain ${route.ru}.`,
+    );
+  }
   for (const pathname of unsupportedRussianRoutes) {
     assert(
       !sitemap.includes(`<loc>${absolute(pathname)}</loc>`),

@@ -1,0 +1,64 @@
+---
+import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import { russianAboutUsPage } from '../../data/ru/about-us';
+import { siteConfig } from '../../data/site';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(russianAboutUsPage.pathname);
+const personId = new URL(
+  russianAboutUsPage.person.id,
+  siteConfig.url,
+).toString();
+const aboutPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: russianAboutUsPage.heading,
+  description: russianAboutUsPage.description,
+  inLanguage: 'ru',
+  about: { '@id': businessEntityId },
+  mainEntity: { '@id': personId },
+};
+const personSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': personId,
+  name: russianAboutUsPage.person.name,
+  jobTitle: russianAboutUsPage.person.jobTitle,
+  worksFor: { '@id': businessEntityId },
+  knowsAbout: russianAboutUsPage.person.knowsAbout,
+};
+---
+
+<ServiceLayout
+  title={russianAboutUsPage.title}
+  description={russianAboutUsPage.description}
+  locale="ru"
+  routeId="aboutUs"
+  pathname={russianAboutUsPage.pathname}
+  heading={russianAboutUsPage.heading}
+  eyebrow={russianAboutUsPage.eyebrow}
+  summary={russianAboutUsPage.summary}
+  heroImage={russianAboutUsPage.heroImage}
+  socialImageAlt={russianAboutUsPage.socialImageAlt}
+  breadcrumbs={russianAboutUsPage.breadcrumbs}
+  breadcrumbLabel="Навигационная цепочка"
+  primaryCta={russianAboutUsPage.primaryCta}
+  secondaryCta={russianAboutUsPage.secondaryCta}
+  relatedServices={russianAboutUsPage.relatedServices}
+  relatedHeading="Связанные услуги"
+  finalCta={russianAboutUsPage.finalCta}
+  finalCtaEyebrow="Контакты"
+  structuredData={[aboutPageSchema, personSchema]}
+>
+  <LocalizedServiceSections
+    sections={russianAboutUsPage.sections}
+    locale="ru"
+  />
+</ServiceLayout>

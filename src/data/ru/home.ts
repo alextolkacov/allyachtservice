@@ -27,7 +27,7 @@ export const russianHomeServices = [
     title: 'Предпокупочный сюрвейерский осмотр',
     description:
       'Независимый осмотр корпуса, конструкции, систем, механизмов и средств безопасности перед покупкой яхты.',
-    href: '/pre-purchase-survey',
+    href: '/ru/pre-purchase-survey',
     image: {
       src: '/images/pre-purchase-survey.webp',
       alt: 'Измеритель влажности во время осмотра корпуса яхты',
@@ -39,7 +39,7 @@ export const russianHomeServices = [
     title: 'Сюрвейерский осмотр для страхования',
     description:
       'Оценка состояния и профессиональный отчёт для оформления или продления страхового полиса.',
-    href: '/insurance-survey',
+    href: '/ru/insurance-survey',
     image: {
       src: '/images/insurance-condition-survey.webp',
       alt: 'Осмотр парусных яхт после повреждений во время шторма',
@@ -51,7 +51,7 @@ export const russianHomeServices = [
     title: 'Оценка стоимости и ущерба',
     description:
       'Независимая оценка стоимости с учётом состояния яхты и документированная оценка ущерба в рамках согласованного задания.',
-    href: '/valuation-damage-survey',
+    href: '/ru/valuation-damage-survey',
     image: {
       src: '/images/pre-purchase-survey.webp',
       alt: 'Измерение влажности при техническом осмотре яхты',
@@ -63,7 +63,7 @@ export const russianHomeServices = [
     title: 'Перегон яхт',
     description:
       'Профессиональный перегон парусных и моторных яхт, а также катамаранов по Испании и Средиземноморью.',
-    href: '/yacht-delivery',
+    href: '/ru/yacht-delivery',
     image: {
       src: '/images/yacht-delivery.webp',
       alt: 'Профессиональная команда готовит парусную яхту к перегону',
@@ -75,7 +75,7 @@ export const russianHomeServices = [
     title: 'Представительство покупателя',
     description:
       'Независимая техническая поддержка до, во время и после покупки яхты.',
-    href: '/buyer-representation',
+    href: '/ru/buyer-representation',
     image: {
       src: '/images/buyer-representation.webp',
       alt: 'Покупатель изучает документы при независимой поддержке',
@@ -99,7 +99,7 @@ export const russianHomeServices = [
     title: 'О компании All Yacht Service',
     description:
       'Независимые сюрвейерские осмотры яхт и техническая поддержка из Marina Greenwich в Альтеа.',
-    href: '/about-us',
+    href: '/ru/about-us',
     image: {
       src: '/images/about-all-yacht-service.webp',
       alt: 'Координация профессиональной технической поддержки',

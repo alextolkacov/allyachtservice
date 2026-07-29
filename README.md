@@ -123,26 +123,58 @@ business entity remains `https://www.allyachtservice.com/#business`, and the
 About page reuses the existing stable Aleksandrs Person ID rather than creating
 locale-specific entities.
 
-### Russian Translation Batch 1
+### Russian localisation
 
 The genuine Russian route equivalents currently published are:
 
-| Content | English    | Spanish       | Russian       |
-| ------- | ---------- | ------------- | ------------- |
-| Home    | `/`        | `/es`         | `/ru`         |
-| Contact | `/contact` | `/es/contact` | `/ru/contact` |
+| Content                 | English                    | Spanish                       | Russian                       |
+| ----------------------- | -------------------------- | ----------------------------- | ----------------------------- |
+| Home                    | `/`                        | `/es`                         | `/ru`                         |
+| Contact                 | `/contact`                 | `/es/contact`                 | `/ru/contact`                 |
+| Pre-purchase survey     | `/pre-purchase-survey`     | `/es/pre-purchase-survey`     | `/ru/pre-purchase-survey`     |
+| Insurance survey        | `/insurance-survey`        | `/es/insurance-survey`        | `/ru/insurance-survey`        |
+| Buyer representation    | `/buyer-representation`    | `/es/buyer-representation`    | `/ru/buyer-representation`    |
+| Yacht delivery          | `/yacht-delivery`          | `/es/yacht-delivery`          | `/ru/yacht-delivery`          |
+| Valuation & damage      | `/valuation-damage-survey` | `/es/valuation-damage-survey` | `/ru/valuation-damage-survey` |
+| About All Yacht Service | `/about-us`                | `/es/about-us`                | `/ru/about-us`                |
 
-These two route groups emit `en`, `es`, `ru` and English `x-default`
-alternates. Every other English or Spanish page continues to send the visible
-RU selector to `/ru` as a homepage fallback; that fallback is identified
-accessibly and is never emitted as page-equivalent hreflang.
+These route groups emit `en`, `es`, `ru` and English `x-default` alternates.
+Other English or Spanish pages continue to send the visible RU selector to
+`/ru` as a homepage fallback; that fallback is identified accessibly and is
+never emitted as page-equivalent hreflang.
+
+The current English page is the source of truth for Russian translations.
+Russian pages must preserve its confirmed scope, qualifications, limitations,
+commercial disclosures and structured-data types without adding claims or
+silently translating an older content version.
+
+Preferred Russian marine terminology includes:
+
+| English concept            | Preferred Russian term              |
+| -------------------------- | ----------------------------------- |
+| Yacht surveyor             | Яхтенный сюрвейер                   |
+| Marine surveyor            | Сюрвейер яхт и маломерных судов     |
+| Pre-purchase survey        | Предпокупочный сюрвейерский осмотр  |
+| Insurance condition survey | Сюрвейерский осмотр для страхования |
+| Buyer representation       | Представительство покупателя        |
+| Yacht delivery             | Перегон яхт                         |
+| Valuation                  | Оценка стоимости                    |
+| Damage assessment          | Оценка ущерба                       |
+| Haul-out                   | Подъём яхты                         |
+| Sea trial                  | Ходовые испытания                   |
+| Licensed captain           | Капитан с действующей квалификацией |
+
+Russian service CTAs use `/ru/contact?service=<canonical-service-code>` and
+may add a `source` parameter for analytics. Canonical service codes remain
+language-neutral and must not be translated.
 
 Russian shared interface copy lives beside English and Spanish in `src/i18n/`.
-The Russian header, flat mobile menu and footer retain real English URLs for
-untranslated content and mark each destination with `— на английском`. The
-legal links use Russian labels but continue to point to the four published
-English policies. No `/ru/...` service, calculator, article, listings or legal
-route should be added until its complete translation is ready.
+The Russian header, flat mobile menu, homepage service cards, Contact service
+links and footer use the published Russian commercial routes. Yachts for Sale,
+both calculators, Yacht Survey Tips and the legal policies retain real English
+URLs and mark each destination with `— на английском`. No additional
+`/ru/...` calculator, article, listings or legal route should be added until
+its complete translation is ready.
 
 The Russian Contact page reuses `POST /api/contact`, Turnstile, attachment
 validation, spam controls and Gmail delivery. It submits `locale=ru` so the
@@ -161,10 +193,17 @@ storage keys. Survey and delivery summaries are presented in Russian with
 - `ays:pre-purchase-survey-estimate:v1`
 - `ays:yacht-delivery-estimate:v1`
 
-Remaining Russian batches are the main commercial pages, both calculators,
-Yacht Survey Tips, Yachts for Sale, the legal pages and a final Russian-wide
-audit. The Spanish version is GO for content and technical readiness; the
-production legal guard remains the launch blocker for every locale.
+All locales retain the stable business entity ID
+`https://www.allyachtservice.com/#business` and the stable Aleksandrs Person ID
+`https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs`; translated
+pages must not create locale-specific duplicates.
+
+Remaining Russian batches are both calculators, Yacht Survey Tips, Yachts for
+Sale, the legal pages and a final Russian-wide audit. The production legal
+guard remains the launch blocker for every locale. Spanish Batch 6 is GO for
+content and technical readiness, subject to the same production legal and
+professional-approval blockers. English, Spanish and Russian remain the only
+supported languages.
 
 ### Spanish marine-survey terminology
 

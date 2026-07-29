@@ -89,7 +89,12 @@ const {
 } = Astro.props;
 const ui = getSharedUi(locale);
 const resolvedRelatedEyebrow =
-  relatedEyebrow ?? (locale === 'es' ? 'Otros servicios' : 'Further support');
+  relatedEyebrow ??
+  (locale === 'es'
+    ? 'Otros servicios'
+    : locale === 'ru'
+      ? 'Другие услуги'
+      : 'Further support');
 const resolvedRelatedHeading = relatedHeading ?? ui.relatedServices;
 const resolvedFinalCtaEyebrow = finalCtaEyebrow ?? ui.contactUs;
 const baseProps = {

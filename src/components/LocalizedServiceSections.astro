@@ -4,16 +4,19 @@ import type {
   LocalizedContentSection,
   LocalizedSection,
 } from '../data/es/types';
-import { spanishFooter } from '../i18n/footer';
+import type { Locale } from '../data/languages';
+import { russianFooter, spanishFooter } from '../i18n/footer';
 import { getSharedUi } from '../i18n/ui';
 import LocalizedRichText from './LocalizedRichText.astro';
 
 interface Props {
   sections: readonly LocalizedSection[];
+  locale?: Locale;
 }
 
-const { sections } = Astro.props;
-const ui = getSharedUi('es');
+const { sections, locale = 'es' } = Astro.props;
+const ui = getSharedUi(locale);
+const localizedFooter = locale === 'ru' ? russianFooter : spanishFooter;
 ---
 
 {
@@ -172,7 +175,7 @@ const ui = getSharedUi('es');
                     <h3>{block.addressHeading}</h3>
                     <address>
                       <strong>{siteConfig.name}</strong>
-                      {spanishFooter.address.map((line) => (
+                      {localizedFooter.address.map((line) => (
                         <span>{line}</span>
                       ))}
                     </address>

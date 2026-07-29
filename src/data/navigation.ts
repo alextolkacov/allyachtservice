@@ -37,6 +37,7 @@ export const translatedRoutes: Record<
   prePurchaseSurvey: {
     en: '/pre-purchase-survey',
     es: '/es/pre-purchase-survey',
+    ru: '/ru/pre-purchase-survey',
   },
   prePurchaseSurveyCalculator: {
     en: '/pre-purchase-survey-calculator',
@@ -49,18 +50,22 @@ export const translatedRoutes: Record<
   insuranceSurvey: {
     en: '/insurance-survey',
     es: '/es/insurance-survey',
+    ru: '/ru/insurance-survey',
   },
   valuationDamageSurvey: {
     en: '/valuation-damage-survey',
     es: '/es/valuation-damage-survey',
+    ru: '/ru/valuation-damage-survey',
   },
   buyerRepresentation: {
     en: '/buyer-representation',
     es: '/es/buyer-representation',
+    ru: '/ru/buyer-representation',
   },
   aboutUs: {
     en: '/about-us',
     es: '/es/about-us',
+    ru: '/ru/about-us',
   },
   contact: {
     en: '/contact',
@@ -70,6 +75,7 @@ export const translatedRoutes: Record<
   yachtDelivery: {
     en: '/yacht-delivery',
     es: '/es/yacht-delivery',
+    ru: '/ru/yacht-delivery',
   },
   yachtsForSale: {
     en: '/yachts-for-sale',

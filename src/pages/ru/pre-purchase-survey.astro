@@ -1,0 +1,44 @@
+---
+import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import { russianPrePurchaseSurveyPage } from '../../data/ru/pre-purchase-survey';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import { createLocalizedServicePageSchemas } from '../../utils/localizedSeo';
+
+const schemas = createLocalizedServicePageSchemas({
+  pathname: russianPrePurchaseSurveyPage.pathname,
+  locale: 'ru',
+  pageName: russianPrePurchaseSurveyPage.heading,
+  pageDescription: russianPrePurchaseSurveyPage.description,
+  serviceName: 'Предпокупочный сюрвейерский осмотр яхты',
+  serviceType: 'Предпокупочный осмотр и оценка состояния яхты',
+  serviceDescription: russianPrePurchaseSurveyPage.schemaDescription,
+  areaServed: russianPrePurchaseSurveyPage.areaServed,
+});
+---
+
+<ServiceLayout
+  title={russianPrePurchaseSurveyPage.title}
+  description={russianPrePurchaseSurveyPage.description}
+  locale="ru"
+  routeId="prePurchaseSurvey"
+  pathname={russianPrePurchaseSurveyPage.pathname}
+  heading={russianPrePurchaseSurveyPage.heading}
+  eyebrow={russianPrePurchaseSurveyPage.eyebrow}
+  summary={russianPrePurchaseSurveyPage.summary}
+  heroImage={russianPrePurchaseSurveyPage.heroImage}
+  socialImageAlt={russianPrePurchaseSurveyPage.socialImageAlt}
+  breadcrumbs={russianPrePurchaseSurveyPage.breadcrumbs}
+  breadcrumbLabel="Навигационная цепочка"
+  primaryCta={russianPrePurchaseSurveyPage.primaryCta}
+  secondaryCta={russianPrePurchaseSurveyPage.secondaryCta}
+  relatedServices={russianPrePurchaseSurveyPage.relatedServices}
+  relatedHeading="Связанные услуги"
+  finalCta={russianPrePurchaseSurveyPage.finalCta}
+  finalCtaEyebrow="Контакты"
+  structuredData={schemas}
+>
+  <LocalizedServiceSections
+    sections={russianPrePurchaseSurveyPage.sections}
+    locale="ru"
+  />
+</ServiceLayout>

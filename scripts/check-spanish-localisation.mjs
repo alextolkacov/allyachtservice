@@ -184,6 +184,7 @@ const translatedPages = [
   {
     en: '/pre-purchase-survey',
     es: '/es/pre-purchase-survey',
+    ru: '/ru/pre-purchase-survey',
     title: 'Inspección precompra de yates en España | All Yacht Service',
     description:
       'Inspección precompra independiente para yates a vela, yates a motor y catamaranes en España y el Mediterráneo.',
@@ -195,6 +196,7 @@ const translatedPages = [
   {
     en: '/insurance-survey',
     es: '/es/insurance-survey',
+    ru: '/ru/insurance-survey',
     title: 'Inspección de yates para seguro en España | All Yacht Service',
     description:
       'Inspecciones independientes de condición para seguro de yates en España y el Mediterráneo, con informes claros sobre estado y seguridad.',
@@ -206,6 +208,7 @@ const translatedPages = [
   {
     en: '/buyer-representation',
     es: '/es/buyer-representation',
+    ru: '/ru/buyer-representation',
     title: 'Representación para compradores de yates | All Yacht Service',
     description:
       'Asistencia técnica independiente para compradores de yates antes, durante y después de la compra en España y el Mediterráneo.',
@@ -217,6 +220,7 @@ const translatedPages = [
   {
     en: '/yacht-delivery',
     es: '/es/yacht-delivery',
+    ru: '/ru/yacht-delivery',
     title:
       'Entrega profesional de yates en el Mediterráneo | All Yacht Service',
     description:
@@ -229,6 +233,7 @@ const translatedPages = [
   {
     en: '/valuation-damage-survey',
     es: '/es/valuation-damage-survey',
+    ru: '/ru/valuation-damage-survey',
     title: 'Valoración y evaluación de daños de yates | All Yacht Service',
     description:
       'Valoración independiente y evaluación de daños de yates en España y el Mediterráneo, con pruebas documentadas e informes claros.',
@@ -240,6 +245,7 @@ const translatedPages = [
   {
     en: '/about-us',
     es: '/es/about-us',
+    ru: '/ru/about-us',
     title: 'Sobre All Yacht Service | Inspector naval de yates',
     description:
       'Conozca All Yacht Service y a Aleksandrs Tolkacovs, inspector naval certificado por IIMS con base en Altea, España.',
@@ -359,7 +365,11 @@ if (existsSync(distDirectory)) {
     '/contact',
     '/es/contact',
     '/ru/contact',
-    ...translatedPages.flatMap(({ en, es }) => [en, es]),
+    ...translatedPages.flatMap(({ en, es, ru }) => [
+      en,
+      es,
+      ...(ru ? [ru] : []),
+    ]),
     ...spanishSurveyTipsPages.flatMap(({ en, es }) => [en, es]),
     spanishYachtsForSalePage.en,
     spanishYachtsForSalePage.es,
@@ -515,19 +525,31 @@ if (existsSync(distDirectory)) {
     const alternates = {
       en: absolute(page.en),
       es: absolute(page.es),
+      ...(page.ru ? { ru: absolute(page.ru) } : {}),
       'x-default': absolute(page.en),
     };
 
     assertHreflangs(english, alternates, page.en);
     assertHreflangs(spanish, alternates, page.es);
-    assertOpenGraphLocales(english, 'en_GB', ['es_ES'], page.en);
-    assertOpenGraphLocales(spanish, 'es_ES', ['en_GB'], page.es);
-
-    assert(
-      !getHreflangs(english).some(({ hreflang }) => hreflang === 'ru') &&
-        !getHreflangs(spanish).some(({ hreflang }) => hreflang === 'ru'),
-      `${page.en} or ${page.es} exposes a Russian homepage fallback as hreflang.`,
+    assertOpenGraphLocales(
+      english,
+      'en_GB',
+      page.ru ? ['es_ES', 'ru_RU'] : ['es_ES'],
+      page.en,
     );
+    assertOpenGraphLocales(
+      spanish,
+      'es_ES',
+      page.ru ? ['en_GB', 'ru_RU'] : ['en_GB'],
+      page.es,
+    );
+    if (!page.ru) {
+      assert(
+        !getHreflangs(english).some(({ hreflang }) => hreflang === 'ru') &&
+          !getHreflangs(spanish).some(({ hreflang }) => hreflang === 'ru'),
+        `${page.en} or ${page.es} exposes a Russian homepage fallback as hreflang.`,
+      );
+    }
     assert(
       spanish.includes('<html lang="es">'),
       `${page.es} must use html lang="es".`,

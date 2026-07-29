@@ -1,0 +1,44 @@
+---
+import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import { russianInsuranceSurveyPage } from '../../data/ru/insurance-survey';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import { createLocalizedServicePageSchemas } from '../../utils/localizedSeo';
+
+const schemas = createLocalizedServicePageSchemas({
+  pathname: russianInsuranceSurveyPage.pathname,
+  locale: 'ru',
+  pageName: russianInsuranceSurveyPage.heading,
+  pageDescription: russianInsuranceSurveyPage.description,
+  serviceName: 'Сюрвейерский осмотр яхты для страхования',
+  serviceType: 'Осмотр состояния яхты для страхования',
+  serviceDescription: russianInsuranceSurveyPage.schemaDescription,
+  areaServed: russianInsuranceSurveyPage.areaServed,
+});
+---
+
+<ServiceLayout
+  title={russianInsuranceSurveyPage.title}
+  description={russianInsuranceSurveyPage.description}
+  locale="ru"
+  routeId="insuranceSurvey"
+  pathname={russianInsuranceSurveyPage.pathname}
+  heading={russianInsuranceSurveyPage.heading}
+  eyebrow={russianInsuranceSurveyPage.eyebrow}
+  summary={russianInsuranceSurveyPage.summary}
+  heroImage={russianInsuranceSurveyPage.heroImage}
+  socialImageAlt={russianInsuranceSurveyPage.socialImageAlt}
+  breadcrumbs={russianInsuranceSurveyPage.breadcrumbs}
+  breadcrumbLabel="Навигационная цепочка"
+  primaryCta={russianInsuranceSurveyPage.primaryCta}
+  secondaryCta={russianInsuranceSurveyPage.secondaryCta}
+  relatedServices={russianInsuranceSurveyPage.relatedServices}
+  relatedHeading="Связанные услуги"
+  finalCta={russianInsuranceSurveyPage.finalCta}
+  finalCtaEyebrow="Контакты"
+  structuredData={schemas}
+>
+  <LocalizedServiceSections
+    sections={russianInsuranceSurveyPage.sections}
+    locale="ru"
+  />
+</ServiceLayout>

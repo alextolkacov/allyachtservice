@@ -1,0 +1,44 @@
+---
+import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import { russianBuyerRepresentationPage } from '../../data/ru/buyer-representation';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import { createLocalizedServicePageSchemas } from '../../utils/localizedSeo';
+
+const schemas = createLocalizedServicePageSchemas({
+  pathname: russianBuyerRepresentationPage.pathname,
+  locale: 'ru',
+  pageName: russianBuyerRepresentationPage.heading,
+  pageDescription: russianBuyerRepresentationPage.description,
+  serviceName: 'Независимое представительство покупателя яхты',
+  serviceType: 'Техническое представительство покупателя яхты',
+  serviceDescription: russianBuyerRepresentationPage.schemaDescription,
+  areaServed: russianBuyerRepresentationPage.areaServed,
+});
+---
+
+<ServiceLayout
+  title={russianBuyerRepresentationPage.title}
+  description={russianBuyerRepresentationPage.description}
+  locale="ru"
+  routeId="buyerRepresentation"
+  pathname={russianBuyerRepresentationPage.pathname}
+  heading={russianBuyerRepresentationPage.heading}
+  eyebrow={russianBuyerRepresentationPage.eyebrow}
+  summary={russianBuyerRepresentationPage.summary}
+  heroImage={russianBuyerRepresentationPage.heroImage}
+  socialImageAlt={russianBuyerRepresentationPage.socialImageAlt}
+  breadcrumbs={russianBuyerRepresentationPage.breadcrumbs}
+  breadcrumbLabel="Навигационная цепочка"
+  primaryCta={russianBuyerRepresentationPage.primaryCta}
+  secondaryCta={russianBuyerRepresentationPage.secondaryCta}
+  relatedServices={russianBuyerRepresentationPage.relatedServices}
+  relatedHeading="Связанные услуги"
+  finalCta={russianBuyerRepresentationPage.finalCta}
+  finalCtaEyebrow="Контакты"
+  structuredData={schemas}
+>
+  <LocalizedServiceSections
+    sections={russianBuyerRepresentationPage.sections}
+    locale="ru"
+  />
+</ServiceLayout>
