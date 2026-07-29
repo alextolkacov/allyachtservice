@@ -1,35 +1,74 @@
 ---
 import { siteConfig } from '../data/site';
+import type { Locale } from '../data/languages';
+import { spanishFooter } from '../i18n/footer';
 import SocialLinks from './SocialLinks.astro';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'en' } = Astro.props;
+const isSpanish = locale === 'es';
+const copy = isSpanish
+  ? {
+      eyebrow: 'Contacto',
+      location:
+        'Con base en Marina Greenwich, Altea, y disponible en toda España y el Mediterráneo.',
+      enquiry: 'Enviar una consulta',
+      office: 'Oficina',
+      direct: 'Contacto directo',
+      phone: 'Teléfono',
+      email: 'Correo electrónico',
+      openingHours: 'Horario',
+    }
+  : {
+      eyebrow: 'Contact',
+      location:
+        'Based at Marina Greenwich in Altea and available throughout Spain and the Mediterranean.',
+      enquiry: 'Send an Enquiry',
+      office: 'Office',
+      direct: 'Direct contact',
+      phone: 'Phone',
+      email: 'Email',
+      openingHours: 'Opening hours',
+    };
+const addressLines = isSpanish
+  ? spanishFooter.address
+  : siteConfig.address.lines;
+const workingHours = isSpanish
+  ? spanishFooter.hours
+  : siteConfig.workingHours.label;
+const officeVisits = isSpanish
+  ? spanishFooter.appointments
+  : siteConfig.officeVisits;
+const contactHref = isSpanish ? '/es/contact' : '/contact';
 ---
 
 <section id="contact" class="contact-section" aria-labelledby="contact-heading">
   <div class="site-container contact-section-inner">
     <div class="contact-introduction">
-      <p class="eyebrow eyebrow-light">Contact</p>
+      <p class="eyebrow eyebrow-light">{copy.eyebrow}</p>
       <h2 id="contact-heading">All Yacht Service</h2>
-      <p>
-        Based at Marina Greenwich in Altea and available throughout Spain and
-        the Mediterranean.
-      </p>
-      <a class="button button-light contact-section-button" href="/contact">
-        Send an Enquiry
+      <p>{copy.location}</p>
+      <a class="button button-light contact-section-button" href={contactHref}>
+        {copy.enquiry}
       </a>
-      <SocialLinks theme="light" showLabels={true} />
+      <SocialLinks theme="light" showLabels={true} {locale} />
     </div>
 
     <div class="contact-details">
       <div>
-        <h3>Office</h3>
+        <h3>{copy.office}</h3>
         <address>
-          {siteConfig.address.lines.map((line) => <span>{line}</span>)}
+          {addressLines.map((line) => <span>{line}</span>)}
         </address>
       </div>
       <div>
-        <h3>Direct contact</h3>
+        <h3>{copy.direct}</h3>
         <dl>
           <div>
-            <dt>Phone</dt>
+            <dt>{copy.phone}</dt>
             <dd>
               <a href={siteConfig.contact.phoneHref}
                 >{siteConfig.contact.phone}</a
@@ -49,7 +88,7 @@ import SocialLinks from './SocialLinks.astro';
             </dd>
           </div>
           <div>
-            <dt>Email</dt>
+            <dt>{copy.email}</dt>
             <dd>
               <a href={siteConfig.contact.emailHref}
                 >{siteConfig.contact.email}</a
@@ -59,9 +98,9 @@ import SocialLinks from './SocialLinks.astro';
         </dl>
       </div>
       <div>
-        <h3>Opening hours</h3>
-        <p>{siteConfig.workingHours.label}</p>
-        <p>{siteConfig.officeVisits}</p>
+        <h3>{copy.openingHours}</h3>
+        <p>{workingHours}</p>
+        <p>{officeVisits}</p>
       </div>
     </div>
   </div>

@@ -1,12 +1,18 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AboutSection from '../../components/AboutSection.astro';
+import ContactSection from '../../components/ContactSection.astro';
 import Hero from '../../components/Hero.astro';
 import ServicesGrid from '../../components/ServicesGrid.astro';
+import WhyChooseUs from '../../components/WhyChooseUs.astro';
 import {
+  spanishHomeAbout,
   spanishHomeHero,
+  spanishHomeIntroduction,
   spanishHomeServices,
   spanishKnowledgeResources,
   spanishOnlineTools,
+  spanishWhyChooseUs,
 } from '../../data/es/home';
 ---
 
@@ -16,9 +22,20 @@ import {
   locale="es"
   routeId="home"
   pathname="/es"
-  imagePath="/images/hero-sailing-yacht.webp"
+  imagePath={spanishHomeHero.image.src}
+  imageAlt={spanishHomeHero.image.alt}
 >
   <Hero {...spanishHomeHero} />
+  <section class="intro-section" aria-labelledby="intro-heading">
+    <div class="site-container intro-section-inner">
+      <p class="eyebrow">{spanishHomeIntroduction.eyebrow}</p>
+      <h2 id="intro-heading" class="section-heading">
+        {spanishHomeIntroduction.heading}
+      </h2>
+      <p class="intro-lead">{spanishHomeIntroduction.body}</p>
+      <p class="trust-line">{spanishHomeIntroduction.trustLine}</p>
+    </div>
+  </section>
   <ServicesGrid
     heading="Servicios para yates"
     eyebrow="Inspección y asistencia técnica"
@@ -58,5 +75,9 @@ import {
     eyebrow="Centro de conocimiento"
     services={spanishKnowledgeResources}
     linkLabel="Leer los consejos"
+    sectionId="knowledge-resources"
   />
+  <WhyChooseUs {...spanishWhyChooseUs} />
+  <AboutSection {...spanishHomeAbout} />
+  <ContactSection locale="es" />
 </BaseLayout>

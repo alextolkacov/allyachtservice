@@ -16,6 +16,8 @@ import {
 
 const pageUrl = toAbsoluteUrl(spanishContactPage.pathname);
 const ui = getSharedUi('es');
+const contactHeroAlt =
+  'Velero en el Mediterráneo, dentro de la zona de servicio de All Yacht Service';
 const contactPageSchema: StructuredData = {
   '@context': 'https://schema.org',
   '@type': 'ContactPage',
@@ -37,14 +39,14 @@ const contactPageSchema: StructuredData = {
   routeId="contact"
   pathname={spanishContactPage.pathname}
   imagePath={contactPage.heroImage.src}
-  imageAlt={contactPage.heroImage.alt}
+  imageAlt={contactHeroAlt}
   structuredData={contactPageSchema}
 >
   <header class="service-hero contact-page-hero">
     <img
       class="service-hero-image"
       src={contactPage.heroImage.src}
-      alt="Velero en el Mediterráneo, dentro de la zona de servicio de All Yacht Service"
+      alt={contactHeroAlt}
       width={contactPage.heroImage.width}
       height={contactPage.heroImage.height}
       loading="eager"

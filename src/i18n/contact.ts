@@ -215,7 +215,7 @@ export const contactFormCopy = {
       vesselType: 'Tipo de embarcación',
       vesselLength: 'Eslora',
       vesselLocation: 'Ubicación del yate',
-      preferredDate: 'Fecha preferida para la inspección',
+      preferredDate: 'Fecha preferida',
       message: 'Mensaje',
       attachments: 'Adjuntar archivos',
     },
@@ -420,7 +420,7 @@ export const contactCalculatorCopy = {
         'Hull-out inspection': 'Inspección con varada',
         'Sea trial': 'Prueba de mar',
         'Engine inspection': 'Inspección del motor',
-        'Rigging and sails inspection': 'Inspección de jarcia y velas',
+        'Rigging and sails inspection': 'Inspección del aparejo y las velas',
       },
     },
     delivery: {

@@ -7,6 +7,7 @@ interface Props {
   services: readonly HomeService[];
   linkLabel?: string;
   eyebrow?: string;
+  sectionId?: string;
 }
 
 const {
@@ -14,18 +15,20 @@ const {
   services,
   linkLabel = 'More info',
   eyebrow = 'Surveying & technical support',
+  sectionId = 'services',
 } = Astro.props;
+const headingId = `${sectionId}-heading`;
 ---
 
 <section
-  id="services"
+  id={sectionId}
   class="section services-section"
-  aria-labelledby="services-heading"
+  aria-labelledby={headingId}
 >
   <div class="site-container">
     <div class="section-heading-wrap section-heading-centered">
       <p class="eyebrow">{eyebrow}</p>
-      <h2 id="services-heading" class="section-heading">{heading}</h2>
+      <h2 id={headingId} class="section-heading">{heading}</h2>
     </div>
     <div class="services-grid">
       {

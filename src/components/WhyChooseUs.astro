@@ -6,9 +6,16 @@ interface Props {
   introduction: string;
   points: readonly string[];
   image: HomeImage;
+  eyebrow?: string;
 }
 
-const { heading, introduction, points, image } = Astro.props;
+const {
+  heading,
+  introduction,
+  points,
+  image,
+  eyebrow = 'Independent marine expertise',
+} = Astro.props;
 ---
 
 <section class="section why-section" aria-labelledby="why-heading">
@@ -24,7 +31,7 @@ const { heading, introduction, points, image } = Astro.props;
       />
     </div>
     <div class="split-section-content">
-      <p class="eyebrow">Independent marine expertise</p>
+      <p class="eyebrow">{eyebrow}</p>
       <h2 id="why-heading" class="section-heading">{heading}</h2>
       <p class="section-lead">{introduction}</p>
       <ul class="check-list" role="list">

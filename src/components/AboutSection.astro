@@ -5,9 +5,15 @@ interface Props {
   heading: string;
   paragraphs: readonly string[];
   image: HomeImage;
+  eyebrow?: string;
 }
 
-const { heading, paragraphs, image } = Astro.props;
+const {
+  heading,
+  paragraphs,
+  image,
+  eyebrow = 'About All Yacht Service',
+} = Astro.props;
 ---
 
 <section class="section about-section" aria-labelledby="about-heading">
@@ -23,7 +29,7 @@ const { heading, paragraphs, image } = Astro.props;
       />
     </div>
     <div class="split-section-content">
-      <p class="eyebrow">About All Yacht Service</p>
+      <p class="eyebrow">{eyebrow}</p>
       <h2 id="about-heading" class="section-heading">{heading}</h2>
       <div class="about-copy">
         {paragraphs.map((paragraph) => <p>{paragraph}</p>)}

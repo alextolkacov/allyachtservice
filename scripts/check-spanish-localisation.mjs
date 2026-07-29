@@ -429,6 +429,66 @@ if (existsSync(distDirectory)) {
       !spanishHome.includes('Contenido pendiente'),
     'The Spanish homepage hero must contain the completed Spanish copy.',
   );
+  for (const requiredSpanishHomeCopy of [
+    'Inspector naval independiente en la Costa Blanca, España',
+    '¿Por qué elegir All Yacht Service?',
+    'Experiencia, precisión y atención personalizada',
+    'Con base en Marina Greenwich, Altea, y disponible en toda España y el Mediterráneo.',
+    'href="/es/contact"',
+  ]) {
+    assert(
+      spanishHome.includes(requiredSpanishHomeCopy),
+      `/es homepage is missing its translated content: ${requiredSpanishHomeCopy}`,
+    );
+  }
+  for (const unintendedEnglishHomeCopy of [
+    'Independent marine expertise',
+    'About All Yacht Service',
+    'Based at Marina Greenwich in Altea and available throughout Spain and the Mediterranean.',
+    'Send an Enquiry',
+    'Opening hours',
+  ]) {
+    assert(
+      !spanishHome.includes(unintendedEnglishHomeCopy),
+      `/es homepage exposes untranslated English UI: ${unintendedEnglishHomeCopy}`,
+    );
+  }
+  assert(
+    spanishHome.includes(
+      '<meta property="og:image:alt" content="Velero navegando en el mar">',
+    ) &&
+      spanishHome.includes(
+        '<meta name="twitter:image:alt" content="Velero navegando en el mar">',
+      ),
+    '/es homepage must use a Spanish social-image description.',
+  );
+  assert(
+    spanishContact.includes(
+      '<meta property="og:image:alt" content="Velero en el Mediterráneo, dentro de la zona de servicio de All Yacht Service">',
+    ) &&
+      spanishContact.includes(
+        '<meta name="twitter:image:alt" content="Velero en el Mediterráneo, dentro de la zona de servicio de All Yacht Service">',
+      ),
+    '/es/contact must use a Spanish social-image description.',
+  );
+  assert(
+    spanishContact.includes('>Fecha preferida<') &&
+      !spanishContact.includes('>Fecha preferida para la inspección<'),
+    '/es/contact must use a service-neutral preferred-date label.',
+  );
+  const spanishHomeIds = [...spanishHome.matchAll(/\sid="([^"]+)"/gu)].map(
+    (match) => match[1],
+  );
+  assert(
+    new Set(spanishHomeIds).size === spanishHomeIds.length,
+    '/es homepage must not contain duplicate IDs.',
+  );
+  assert(
+    spanishHome.includes(
+      '<section id="knowledge-resources" class="section services-section" aria-labelledby="knowledge-resources-heading">',
+    ),
+    '/es homepage knowledge resources must have an independent accessible section label.',
+  );
 
   for (const page of translatedPages) {
     const english = getBuiltPage(page.en);

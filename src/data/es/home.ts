@@ -14,6 +14,14 @@ export const spanishHomeHero = {
   },
 } as const;
 
+export const spanishHomeIntroduction = {
+  eyebrow: 'Inspección de yates en España',
+  heading: 'Inspector naval independiente en la Costa Blanca, España',
+  body: 'Inspecciones precompra, para seguros y de valoración, entrega de yates y representación del comprador en toda España y el Mediterráneo.',
+  trustLine:
+    'Servicios prestados por un inspector naval de yates y embarcaciones menores certificado por IIMS y capitán titulado.',
+} as const;
+
 export const spanishHomeServices = [
   {
     title: 'Inspección precompra',
@@ -137,3 +145,43 @@ export const spanishKnowledgeResources = [
     },
   },
 ] satisfies readonly HomeService[];
+
+export const spanishWhyChooseUs = {
+  eyebrow: 'Experiencia náutica independiente',
+  heading: '¿Por qué elegir All Yacht Service?',
+  introduction:
+    'Asesoramiento técnico independiente, experiencia náutica práctica e informes claros para propietarios y compradores de yates.',
+  points: [
+    'Enfoque independiente centrado en el comprador',
+    'Inspector naval de yates y embarcaciones menores certificado por IIMS',
+    'Yacht & Small Craft Professional Qualification',
+    'Capitán titulado con experiencia en entrega de yates y regatas',
+    'Más de 20 años de experiencia en ingeniería, control de calidad y gestión',
+    'Informes de inspección claros, detallados y prácticos',
+    'Con base en Marina Greenwich, Altea',
+    'Servicios en toda España y el Mediterráneo',
+    'Inspecciones y entregas de yates en otros lugares de Europa e internacionalmente, previa consulta',
+  ],
+  image: {
+    src: '/images/why-choose-all-yacht-service.webp',
+    alt: 'Firma de documentación profesional para la inspección de un yate',
+    width: 1280,
+    height: 719,
+  },
+} as const;
+
+export const spanishHomeAbout = {
+  eyebrow: 'Sobre All Yacht Service',
+  heading: 'Experiencia, precisión y atención personalizada',
+  paragraphs: [
+    'All Yacht Service está dirigido por Aleksandrs Tolkacovs, inspector naval de yates y embarcaciones menores certificado por IIMS y capitán titulado, con experiencia práctica en la operación de veleros y yates a motor en el Mediterráneo, el mar Báltico, el canal de la Mancha y el golfo de Vizcaya.',
+    'Los servicios cuentan con el respaldo de más de 20 años de experiencia en ingeniería, control de calidad y gestión.',
+    'Los clientes reciben informes claros, prácticos e imparciales, concebidos para ayudarles a tomar decisiones más seguras y mejor fundamentadas.',
+  ],
+  image: {
+    src: '/images/about-all-yacht-service.webp',
+    alt: 'Coordinación de asistencia técnica profesional',
+    width: 1280,
+    height: 719,
+  },
+} as const;
