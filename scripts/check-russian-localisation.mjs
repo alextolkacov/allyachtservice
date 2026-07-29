@@ -1,4 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { relative, resolve } from 'node:path';
 import process from 'node:process';
 
@@ -76,6 +77,15 @@ const deliveryCalculatorSource = read(
 const russianHomeSource = read('src/data/ru/home.ts');
 const russianSurveySource = read('src/data/ru/pre-purchase-survey.ts');
 const russianDeliverySource = read('src/data/ru/yacht-delivery.ts');
+const russianSurveyTipsSource = read('src/data/ru/yacht-survey-tips.ts');
+const russianDeckArticleSource = read(
+  'src/data/ru/yacht-survey-tips/deck-moisture-soft-spots.ts',
+);
+const russianShinyArticleSource = read(
+  'src/data/ru/yacht-survey-tips/shiny-hull.ts',
+);
+const surveyArticleCardSource = read('src/components/SurveyArticleCard.astro');
+const globalStyles = read('src/styles/global.css');
 
 assert(
   languageSource.includes(
@@ -193,6 +203,57 @@ for (const route of translatedCalculatorRoutes) {
     `Published source route ${route.ru} is missing.`,
   );
 }
+const translatedSurveyTipsRoutes = [
+  {
+    en: '/yacht-survey-tips',
+    es: '/es/yacht-survey-tips',
+    ru: '/ru/yacht-survey-tips',
+    title: 'Советы по осмотру яхт | All Yacht Service',
+    description:
+      'Профессиональные советы для покупателей и владельцев яхт о сюрвейерских осмотрах, типичных дефектах, техническом состоянии и обслуживании.',
+    heading: 'Советы по сюрвейерскому осмотру яхт',
+    article: false,
+  },
+  {
+    en: '/yacht-survey-tips/deck-moisture-soft-spots',
+    es: '/es/yacht-survey-tips/deck-moisture-soft-spots',
+    ru: '/ru/yacht-survey-tips/deck-moisture-soft-spots',
+    title: 'Влага и мягкие участки палубы яхты | All Yacht Service',
+    description:
+      'Узнайте, как влага попадает в палубу яхты, какие признаки может заметить покупатель и как состояние палубы оценивается при предпокупочном осмотре.',
+    heading: 'Влага и мягкие участки палубы: что нужно знать покупателю яхты',
+    article: true,
+    datePublished: '2026-07',
+    dateModified: '2026-07-28',
+    articleSection: 'Предпокупочный осмотр · Палуба и конструкции',
+    image: '/images/yacht-survey-tips/deck-moisture-soft-spots.png',
+  },
+  {
+    en: '/yacht-survey-tips/shiny-hull',
+    es: '/es/yacht-survey-tips/shiny-hull',
+    ru: '/ru/yacht-survey-tips/shiny-hull',
+    title: 'Блестящий корпус и следы ремонта яхты | All Yacht Service',
+    description:
+      'Блестящая поверхность корпуса может сделать следы предыдущего ремонта менее заметными. Узнайте, что проверить перед покупкой подержанной яхты.',
+    heading:
+      'Можно ли доверять блестящему корпусу? Что проверить покупателю подержанной яхты',
+    article: true,
+    datePublished: '2026-07-28',
+    dateModified: '2026-07-28',
+    articleSection: 'Предпокупочный осмотр · Корпус и конструкции',
+    image: '/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png',
+  },
+];
+for (const route of translatedSurveyTipsRoutes) {
+  assert(
+    navigationSource.includes(`ru: '${route.ru}'`),
+    `Route equivalence does not include ${route.ru}.`,
+  );
+  assert(
+    existsSync(resolve(projectRoot, `src/pages/${route.ru.slice(1)}.astro`)),
+    `Published source route ${route.ru} is missing.`,
+  );
+}
 assert(
   contactCopySource.includes("locale: 'ru-RU'") &&
     contactCopySource.includes(
@@ -259,6 +320,18 @@ assert(
   'Russian calculator links still use English routes or English-language notes.',
 );
 assert(
+  russianHomeSource.includes("href: '/ru/yacht-survey-tips'") &&
+    footerSource.includes(
+      "yachtSurveyTips: 'Советы по сюрвейерскому осмотру яхт'",
+    ) &&
+    surveyArticleCardSource.includes("'Читать материал'") &&
+    surveyArticleCardSource.includes("'Читать статью'") &&
+    !footerSource.includes(
+      "yachtSurveyTips: 'Советы по сюрвейерскому осмотру яхт — на английском'",
+    ),
+  'Russian Survey Tips links or shared article-card labels are incomplete.',
+);
+assert(
   headerSource.includes("event.key === 'ArrowDown'") &&
     headerSource.includes("'ArrowUp'") &&
     headerSource.includes("event.key === 'Escape'") &&
@@ -282,7 +355,6 @@ assert(
 );
 
 const unsupportedRussianRoutes = [
-  '/ru/yacht-survey-tips',
   '/ru/yachts-for-sale',
   '/ru/privacy-policy',
   '/ru/cookie-policy',
@@ -323,6 +395,11 @@ if (existsSync(distDirectory)) {
     '/privacy-policy',
     ...translatedServiceRoutes.map((route) => route.ru),
     ...translatedCalculatorRoutes.map((route) => route.ru),
+    ...translatedSurveyTipsRoutes.flatMap((route) => [
+      route.en,
+      route.es,
+      route.ru,
+    ]),
   ]) {
     assert(
       builtPages.has(routeToFile(pathname)),
@@ -401,6 +478,24 @@ if (existsSync(distDirectory)) {
             actual.some((item) => item.code === code && item.href === href),
           ),
         `${pathname} has incorrect EN/ES/RU calculator hreflang equivalence.`,
+      );
+    }
+  }
+  for (const route of translatedSurveyTipsRoutes) {
+    const expected = [
+      ['en', absolute(route.en)],
+      ['es', absolute(route.es)],
+      ['ru', absolute(route.ru)],
+      ['x-default', absolute(route.en)],
+    ];
+    for (const pathname of [route.en, route.es, route.ru]) {
+      const actual = getHreflangs(getBuiltPage(pathname));
+      assert(
+        actual.length === expected.length &&
+          expected.every(([code, href]) =>
+            actual.some((item) => item.code === code && item.href === href),
+          ),
+        `${pathname} has incorrect EN/ES/RU Survey Tips hreflang equivalence.`,
       );
     }
   }
@@ -639,6 +734,170 @@ if (existsSync(distDirectory)) {
       `${route.ru} is missing its localized BreadcrumbList schema.`,
     );
   }
+  for (const route of translatedSurveyTipsRoutes) {
+    const html = getBuiltPage(route.ru);
+    const schemas = getSchemas(html, route.ru);
+    assert(
+      html.includes('<html lang="ru">') &&
+        html.includes(`<title>${route.title}</title>`) &&
+        html.includes(
+          `<meta name="description" content="${route.description}">`,
+        ) &&
+        html.includes(`<link rel="canonical" href="${absolute(route.ru)}">`) &&
+        html.includes(
+          `<meta property="og:url" content="${absolute(route.ru)}">`,
+        ) &&
+        html.includes(`<meta property="og:title" content="${route.title}">`) &&
+        html.includes(`<meta name="twitter:title" content="${route.title}">`) &&
+        html.includes('<meta property="og:locale" content="ru_RU">') &&
+        html.includes(`<h1>${route.heading}</h1>`) &&
+        html.includes('<meta name="robots" content="noindex, nofollow">'),
+      `${route.ru} is missing required Russian Survey Tips metadata or H1.`,
+    );
+    assert(
+      (html.match(/<h1(?:\s|>)/gu) ?? []).length === 1,
+      `${route.ru} must contain exactly one H1.`,
+    );
+    assert(
+      schemas.some(
+        (schema) =>
+          schema['@type'] === 'WebPage' &&
+          schema['@id'] === `${absolute(route.ru)}#page` &&
+          schema.inLanguage === 'ru' &&
+          schema.about?.['@id'] === 'https://www.allyachtservice.com/#business',
+      ) &&
+        schemas.some(
+          (schema) =>
+            schema['@type'] === 'BreadcrumbList' &&
+            schema.itemListElement?.[0]?.name === 'Главная',
+        ),
+      `${route.ru} is missing stable Russian WebPage or BreadcrumbList schema.`,
+    );
+    if (route.article) {
+      const articleSchema = schemas.find(
+        (schema) => schema['@type'] === 'Article',
+      );
+      assert(
+        articleSchema?.['@id'] === `${absolute(route.ru)}#article` &&
+          articleSchema.inLanguage === 'ru' &&
+          articleSchema.datePublished === route.datePublished &&
+          articleSchema.dateModified === route.dateModified &&
+          articleSchema.timeRequired === 'PT5M' &&
+          articleSchema.articleSection === route.articleSection &&
+          articleSchema.author?.['@id'] ===
+            'https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs' &&
+          articleSchema.publisher?.['@id'] ===
+            'https://www.allyachtservice.com/#business',
+        `${route.ru} has incomplete or unstable Russian Article schema.`,
+      );
+      assert(
+        html.includes(`src="${route.image}"`) &&
+          html.includes('width="1122"') &&
+          html.includes('height="1402"') &&
+          html.includes('<dd>5 минут чтения</dd>'),
+        `${route.ru} does not preserve article image dimensions or reading time.`,
+      );
+    }
+    for (const unintended of [
+      'Featured Guide',
+      'Latest Articles',
+      'Read article',
+      'Read guide',
+      '>Published<',
+      '>Updated<',
+      'Related Services',
+      'More Yacht Survey Tips',
+      'Request a quote',
+      'Opens in a new tab',
+    ]) {
+      assert(
+        !visibleText(html).includes(unintended.replace(/^>|<$/gu, '')),
+        `${route.ru} exposes untranslated Survey Tips text: ${unintended}.`,
+      );
+    }
+  }
+
+  const russianSurveyTipsHub = getBuiltPage('/ru/yacht-survey-tips');
+  const featuredSection =
+    russianSurveyTipsHub.match(
+      /survey-tips-featured-section[\s\S]*?survey-tips-categories-section/u,
+    )?.[0] ?? '';
+  const latestSection =
+    russianSurveyTipsHub.match(
+      /survey-tips-latest-section[\s\S]*?survey-tips-trust-section/u,
+    )?.[0] ?? '';
+  const deckTitle =
+    'Влага и мягкие участки палубы: что нужно знать покупателю яхты';
+  const shinyTitle =
+    'Можно ли доверять блестящему корпусу? Что проверить покупателю подержанной яхты';
+  assert(
+    featuredSection.includes(deckTitle) &&
+      !featuredSection.includes(shinyTitle),
+    'Deck Moisture must remain the Russian Featured Guide.',
+  );
+  assert(
+    latestSection.indexOf(shinyTitle) >= 0 &&
+      latestSection.indexOf(shinyTitle) < latestSection.indexOf(deckTitle),
+    'Russian latest articles are not ordered Shiny Hull then Deck Moisture.',
+  );
+  assert(
+    russianSurveyTipsHub.includes(
+      'src="/images/yacht-survey-tips-background.jpg"',
+    ) &&
+      russianHome.includes('href="/ru/yacht-survey-tips"') &&
+      !russianHome.includes(
+        'Советы по сюрвейерскому осмотру яхт — на английском',
+      ),
+    'The Russian hub background or Russian homepage link is incorrect.',
+  );
+
+  const articleGraphicCss =
+    globalStyles.match(
+      /\.survey-article-image-link img\s*\{([\s\S]*?)\}/u,
+    )?.[1] ?? '';
+  const guideGraphicCss =
+    globalStyles.match(/\.survey-guide-figure img\s*\{([\s\S]*?)\}/u)?.[1] ??
+    '';
+  assert(
+    /width:\s*100%/u.test(articleGraphicCss) &&
+      /height:\s*auto/u.test(articleGraphicCss) &&
+      /object-fit:\s*contain/u.test(articleGraphicCss) &&
+      !/object-fit:\s*cover/u.test(articleGraphicCss) &&
+      /width:\s*100%/u.test(guideGraphicCss) &&
+      /height:\s*auto/u.test(guideGraphicCss) &&
+      /object-fit:\s*contain/u.test(guideGraphicCss) &&
+      !/object-fit:\s*cover/u.test(guideGraphicCss),
+    'Russian Survey Tips must retain the shared full-image no-crop rules.',
+  );
+  const protectedImageHashes = {
+    'public/images/yacht-survey-tips/deck-moisture-soft-spots.png':
+      '77c20ed2604f30518f9e56b2e122b24ddd15481261f1861d38504279ec006404',
+    'public/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png':
+      'e2e93efaba4cf5ee1c9280ce9c6d017f5836cbb7fd61ceb6a022abd507668ada',
+    'public/images/yacht-survey-tips-background.jpg':
+      'b82784e706d0549b1f421cebefd21af883e3b85686510f4db351778f27467c15',
+  };
+  for (const [path, expectedHash] of Object.entries(protectedImageHashes)) {
+    const actualHash = createHash('sha256')
+      .update(readFileSync(resolve(projectRoot, path)))
+      .digest('hex');
+    assert(
+      actualHash === expectedHash,
+      `${path} changed during Russian Survey Tips localisation.`,
+    );
+  }
+  assert(
+    russianDeckArticleSource.includes(
+      "src: '/images/yacht-survey-tips/deck-moisture-soft-spots.png'",
+    ) &&
+      russianShinyArticleSource.includes(
+        "src: '/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png'",
+      ) &&
+      !/\/images\/yacht-survey-tips\/ru\//u.test(
+        `${russianSurveyTipsSource}\n${russianDeckArticleSource}\n${russianShinyArticleSource}`,
+      ),
+    'Russian pages do not reuse the protected English article graphics.',
+  );
   const russianValuation = getBuiltPage('/ru/valuation-damage-survey');
   assert(
     getSchemas(russianValuation, '/ru/valuation-damage-survey').filter(
@@ -670,6 +929,11 @@ if (existsSync(distDirectory)) {
       route.ru,
     ]),
     ...translatedCalculatorRoutes.flatMap((route) => [
+      route.en,
+      route.es,
+      route.ru,
+    ]),
+    ...translatedSurveyTipsRoutes.flatMap((route) => [
       route.en,
       route.es,
       route.ru,
@@ -732,6 +996,12 @@ if (existsSync(distDirectory)) {
     );
   }
   for (const route of translatedCalculatorRoutes) {
+    assert(
+      sitemap.includes(`<loc>${absolute(route.ru)}</loc>`),
+      `The sitemap does not contain ${route.ru}.`,
+    );
+  }
+  for (const route of translatedSurveyTipsRoutes) {
     assert(
       sitemap.includes(`<loc>${absolute(route.ru)}</loc>`),
       `The sitemap does not contain ${route.ru}.`,

@@ -1,0 +1,254 @@
+---
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SurveyArticleCard from '../../components/SurveyArticleCard.astro';
+import { russianYachtSurveyTipsPage as page } from '../../data/ru/yacht-survey-tips';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(page.pathname);
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: page.title,
+  description: page.description,
+  inLanguage: 'ru',
+  about: {
+    '@id': businessEntityId,
+  },
+};
+---
+
+<BaseLayout
+  title={page.title}
+  description={page.description}
+  locale="ru"
+  routeId="yachtSurveyTips"
+  pathname={page.pathname}
+  imagePath={page.heroImage.src}
+  imageAlt={page.heroImage.alt}
+  structuredData={webPageSchema}
+>
+  <article class="survey-tips-page">
+    <header class="survey-tips-hero">
+      <img
+        class="survey-tips-hero-image"
+        src={page.heroImage.src}
+        alt={page.heroImage.alt}
+        width={page.heroImage.width}
+        height={page.heroImage.height}
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="survey-tips-hero-overlay" aria-hidden="true"></div>
+      <div class="survey-tips-hero-inner site-container">
+        <Breadcrumbs
+          items={page.breadcrumbs}
+          ariaLabel="Навигационная цепочка"
+          theme="light"
+        />
+        <div class="survey-tips-hero-copy">
+          <p class="eyebrow eyebrow-light">
+            Центр знаний о сюрвейерском осмотре яхт
+          </p>
+          <h1>{page.heading}</h1>
+          <p>{page.summary}</p>
+          <div class="survey-tips-hero-actions">
+            <a class="button button-light" href={page.primaryCta.href}>
+              {page.primaryCta.label}
+            </a>
+            <a
+              class="button button-outline-light"
+              href={page.secondaryCta.href}
+            >
+              {page.secondaryCta.label}
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section
+      class="survey-tips-introduction"
+      aria-labelledby="survey-tips-introduction-heading"
+    >
+      <div class="site-container survey-tips-reading-width">
+        <p class="eyebrow">Независимые рекомендации</p>
+        <h2 id="survey-tips-introduction-heading">
+          Как понять состояние яхты перед покупкой или обслуживанием
+        </h2>
+        <div class="survey-tips-introduction-copy">
+          <p>
+            Покупка и владение яхтой требуют многих технических решений.
+            Профессиональный сюрвейерский осмотр помогает определить наблюдаемое
+            состояние судна, понять возможные риски и принять более обоснованное
+            решение.
+          </p>
+          <p>
+            В этом разделе собраны практические статьи о типичных дефектах яхт,
+            методах осмотра, вопросах обслуживания и подготовке к
+            профессиональному обследованию.
+          </p>
+          <p>
+            Рекомендации All Yacht Service основаны на практическом опыте
+            эксплуатации яхт, инженерной работе, обеспечении качества и морском
+            сюрвейерском осмотре.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="survey-tips-section survey-tips-featured-section"
+      aria-labelledby="featured-guide-heading"
+    >
+      <div class="site-container">
+        <div class="survey-tips-section-heading">
+          <p class="eyebrow">Главный материал</p>
+          <h2 id="featured-guide-heading">
+            Главный материал о сюрвейерском осмотре
+          </h2>
+        </div>
+        <SurveyArticleCard
+          {...page.featuredArticle}
+          featured={true}
+          locale="ru"
+        />
+      </div>
+    </section>
+
+    <section
+      class="survey-tips-section survey-tips-categories-section"
+      aria-labelledby="survey-categories-heading"
+    >
+      <div class="site-container">
+        <div class="survey-tips-section-heading">
+          <p class="eyebrow">Разделы знаний</p>
+          <h2 id="survey-categories-heading">Темы сюрвейерского осмотра яхт</h2>
+          <p>
+            Практические рекомендации по участкам яхты, бортовым системам и
+            этапам процесса осмотра.
+          </p>
+        </div>
+        <div class="survey-category-grid">
+          {
+            page.categories.map((category, index) => (
+              <article class="survey-category-card">
+                <p class="survey-category-number" aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </p>
+                <h3>{category.title}</h3>
+                <p>{category.description}</p>
+                <h4>Планируемые материалы</h4>
+                <ul>
+                  {category.futureArticles.map((article) => (
+                    <li>{article}</li>
+                  ))}
+                </ul>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="survey-tips-section survey-tips-latest-section"
+      aria-labelledby="latest-survey-articles-heading"
+    >
+      <div class="site-container">
+        <div class="survey-tips-section-heading">
+          <p class="eyebrow">Недавние публикации</p>
+          <h2 id="latest-survey-articles-heading">
+            Последние статьи об осмотре яхт
+          </h2>
+        </div>
+        <div class="survey-article-grid">
+          {
+            page.latestArticles.map((article) => (
+              <SurveyArticleCard {...article} locale="ru" />
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="survey-tips-trust-section"
+      aria-labelledby="why-learn-heading"
+    >
+      <div class="site-container survey-tips-trust-inner">
+        <div>
+          <p class="eyebrow eyebrow-light">Профессиональный взгляд</p>
+          <h2 id="why-learn-heading">
+            Зачем изучать рекомендации яхтенного сюрвейера?
+          </h2>
+        </div>
+        <ul class="survey-tips-reason-list">
+          {page.guideReasons.map((reason) => <li>{reason}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section
+      class="survey-tips-section survey-tips-services-section"
+      aria-labelledby="professional-inspection-heading"
+    >
+      <div class="site-container">
+        <div class="survey-tips-section-heading survey-tips-reading-width">
+          <p class="eyebrow">Услуги сюрвейера</p>
+          <h2 id="professional-inspection-heading">
+            Нужен профессиональный осмотр яхты?
+          </h2>
+          <p>
+            Статьи помогают лучше понимать техническое состояние яхты, а
+            профессиональный сюрвейерский осмотр даёт независимую оценку
+            конкретного судна.
+          </p>
+        </div>
+        <div class="survey-tips-service-grid">
+          {
+            page.relatedServices.map((service) => (
+              <article>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <a class="text-arrow-link" href={service.href}>
+                  Подробнее об услуге <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="survey-tips-final-cta" aria-labelledby="survey-cta-heading">
+      <div class="site-container survey-tips-final-cta-inner">
+        <div>
+          <p class="eyebrow eyebrow-light">Контакты</p>
+          <h2 id="survey-cta-heading">{page.finalCta.heading}</h2>
+          <p>{page.finalCta.body}</p>
+        </div>
+        <div class="survey-tips-final-cta-actions">
+          <a class="button button-light" href={page.finalCta.primaryLink.href}>
+            {page.finalCta.primaryLink.label}
+          </a>
+          <a
+            class="button button-outline-light"
+            href={page.finalCta.secondaryLink.href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {page.finalCta.secondaryLink.label}
+            <span class="sr-only">, откроется в новой вкладке</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

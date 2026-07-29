@@ -283,6 +283,7 @@ const spanishSurveyTipsPages = [
   {
     en: '/yacht-survey-tips',
     es: '/es/yacht-survey-tips',
+    ru: '/ru/yacht-survey-tips',
     title: 'Consejos para la inspección de yates | All Yacht Service',
     description:
       'Consejos profesionales para compradores y propietarios de yates sobre inspecciones, defectos habituales, mantenimiento y evaluación del estado.',
@@ -292,6 +293,7 @@ const spanishSurveyTipsPages = [
   {
     en: '/yacht-survey-tips/deck-moisture-soft-spots',
     es: '/es/yacht-survey-tips/deck-moisture-soft-spots',
+    ru: '/ru/yacht-survey-tips/deck-moisture-soft-spots',
     title: 'Humedad y zonas blandas en la cubierta | All Yacht Service',
     description:
       'Aprenda por qué aparece humedad en la cubierta de un yate, qué señales debe buscar un comprador y cómo se evalúan durante una inspección precompra.',
@@ -304,6 +306,7 @@ const spanishSurveyTipsPages = [
   {
     en: '/yacht-survey-tips/shiny-hull',
     es: '/es/yacht-survey-tips/shiny-hull',
+    ru: '/ru/yacht-survey-tips/shiny-hull',
     title: 'Casco brillante y reparaciones anteriores | All Yacht Service',
     description:
       'Un casco brillante puede hacer menos visibles reparaciones o daños anteriores. Descubra qué debe comprobar un comprador antes de adquirir un yate usado.',
@@ -372,7 +375,7 @@ if (existsSync(distDirectory)) {
       es,
       ...(ru ? [ru] : []),
     ]),
-    ...spanishSurveyTipsPages.flatMap(({ en, es }) => [en, es]),
+    ...spanishSurveyTipsPages.flatMap(({ en, es, ru }) => [en, es, ru]),
     spanishYachtsForSalePage.en,
     spanishYachtsForSalePage.es,
     ...spanishLegalPages.flatMap(({ en, es }) => [en, es]),
@@ -388,9 +391,6 @@ if (existsSync(distDirectory)) {
     '/fr',
     '/it',
     '/gr',
-    '/ru/yacht-survey-tips',
-    '/ru/yacht-survey-tips/deck-moisture-soft-spots',
-    '/ru/yacht-survey-tips/shiny-hull',
     '/ru/yachts-for-sale',
     '/ru/privacy-policy',
     '/ru/cookie-policy',
@@ -636,21 +636,20 @@ if (existsSync(distDirectory)) {
   for (const page of spanishSurveyTipsPages) {
     const english = getBuiltPage(page.en);
     const spanish = getBuiltPage(page.es);
+    const russian = getBuiltPage(page.ru);
     const alternates = {
       en: absolute(page.en),
       es: absolute(page.es),
+      ru: absolute(page.ru),
       'x-default': absolute(page.en),
     };
 
     assertHreflangs(english, alternates, page.en);
     assertHreflangs(spanish, alternates, page.es);
-    assertOpenGraphLocales(english, 'en_GB', ['es_ES'], page.en);
-    assertOpenGraphLocales(spanish, 'es_ES', ['en_GB'], page.es);
-    assert(
-      !getHreflangs(english).some(({ hreflang }) => hreflang === 'ru') &&
-        !getHreflangs(spanish).some(({ hreflang }) => hreflang === 'ru'),
-      `${page.en} or ${page.es} exposes a Russian homepage fallback as hreflang.`,
-    );
+    assertHreflangs(russian, alternates, page.ru);
+    assertOpenGraphLocales(english, 'en_GB', ['es_ES', 'ru_RU'], page.en);
+    assertOpenGraphLocales(spanish, 'es_ES', ['en_GB', 'ru_RU'], page.es);
+    assertOpenGraphLocales(russian, 'ru_RU', ['en_GB', 'es_ES'], page.ru);
     assert(
       spanish.includes('<html lang="es">'),
       `${page.es} must use html lang="es".`,
@@ -1117,6 +1116,7 @@ if (existsSync(distDirectory)) {
     '/es/contact',
     ...translatedServiceRoutes,
     ...spanishSurveyTipsPages.map(({ es }) => es),
+    ...spanishSurveyTipsPages.map(({ ru }) => ru),
     spanishYachtsForSalePage.es,
     ...spanishLegalPages.map(({ es }) => es),
   ]) {

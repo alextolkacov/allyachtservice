@@ -1,0 +1,468 @@
+---
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import { aboutUsPage } from '../../../data/about-us';
+import { russianDeckMoistureSoftSpotsArticle as article } from '../../../data/ru/yacht-survey-tips/deck-moisture-soft-spots';
+import { siteConfig } from '../../../data/site';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(article.pathname);
+const pageId = `${pageUrl}#page`;
+const articleId = `${pageUrl}#article`;
+const imageUrl = toAbsoluteUrl(article.image.src);
+const personId = new URL(aboutUsPage.person.id, siteConfig.url).toString();
+
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': pageId,
+  url: pageUrl,
+  name: article.seoTitle,
+  description: article.metaDescription,
+  inLanguage: 'ru',
+  mainEntity: {
+    '@id': articleId,
+  },
+  about: {
+    '@id': businessEntityId,
+  },
+};
+
+const articleSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': articleId,
+  headline: article.title,
+  description: article.description,
+  url: pageUrl,
+  mainEntityOfPage: {
+    '@id': pageId,
+  },
+  datePublished: article.publicationDateTime,
+  dateModified: article.modifiedDateTime,
+  articleSection: article.category,
+  timeRequired: article.timeRequired,
+  image: imageUrl,
+  inLanguage: 'ru',
+  author: {
+    '@type': 'Person',
+    '@id': personId,
+    name: article.author.name,
+    jobTitle: article.author.professionalDescription,
+  },
+  publisher: {
+    '@id': businessEntityId,
+  },
+};
+---
+
+<BaseLayout
+  title={article.seoTitle}
+  description={article.metaDescription}
+  locale="ru"
+  routeId="deckMoistureSoftSpots"
+  pathname={article.pathname}
+  imagePath={article.image.src}
+  imageAlt={article.socialImageAlt}
+  structuredData={[webPageSchema, articleSchema]}
+  openGraphType="article"
+  articlePublishedTime={article.publicationDateTime}
+  articleModifiedTime={article.modifiedDateTime}
+  articleSection={article.category}
+  articleAuthor={article.author.name}
+>
+  <article class="survey-guide">
+    <header class="survey-guide-header">
+      <div class="site-container">
+        <Breadcrumbs
+          items={article.breadcrumbs}
+          ariaLabel="Навигационная цепочка"
+        />
+        <div class="survey-guide-header-grid">
+          <div class="survey-guide-heading">
+            <p class="eyebrow">{article.category}</p>
+            <h1>{article.title}</h1>
+            <p class="survey-guide-standfirst">{article.standfirst}</p>
+            <dl class="survey-guide-meta">
+              <div>
+                <dt>Опубликовано</dt>
+                <dd>
+                  <time datetime={article.publicationDateTime}>
+                    {article.publicationDate}
+                  </time>
+                </dd>
+              </div>
+              <div>
+                <dt>Время чтения</dt>
+                <dd>5 минут чтения</dd>
+              </div>
+              <div>
+                <dt>Автор</dt>
+                <dd>
+                  {article.author.name}
+                  <span class="survey-guide-author-description">
+                    {article.author.professionalDescription}
+                  </span>
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <figure class="survey-guide-figure">
+            <img
+              src={article.image.src}
+              alt={article.image.alt}
+              width={article.image.width}
+              height={article.image.height}
+              loading="eager"
+              fetchpriority="high"
+            />
+            <figcaption>{article.imageCaption}</figcaption>
+          </figure>
+        </div>
+      </div>
+    </header>
+
+    <div class="survey-guide-body">
+      <div class="site-container survey-guide-reading-width">
+        <section
+          class="survey-guide-introduction"
+          aria-labelledby="article-introduction-heading"
+        >
+          <h2 id="article-introduction-heading" class="sr-only">Введение</h2>
+          <p>
+            Палубы многих стеклопластиковых яхт имеют сэндвич-конструкцию.
+            Лёгкий заполнитель вклеивается между внутренним и наружным слоями
+            ламината, увеличивая жёсткость без чрезмерного веса.
+          </p>
+          <p>
+            Вода может попасть в заполнитель через плохо герметизированные
+            фитинги, повреждённый ламинат или участки предыдущего ремонта.
+          </p>
+          <p>
+            Видимая поверхность палубы может выглядеть приемлемо даже при
+            наличии влаги внутри конструкции.
+          </p>
+          <ul class="survey-guide-key-list">
+            {article.keyInterpretationPoints.map((point) => <li>{point}</li>)}
+          </ul>
+        </section>
+
+        <section aria-labelledby="why-moisture-matters">
+          <h2 id="why-moisture-matters">
+            1. Почему влага в палубе яхты имеет значение
+          </h2>
+          <p>Длительное воздействие влаги может способствовать:</p>
+          <ul class="survey-guide-list-grid">
+            {
+              article.moistureConsequences.map((consequence) => (
+                <li>{consequence}</li>
+              ))
+            }
+          </ul>
+          <p>
+            Значимость наблюдения зависит от материала заполнителя,
+            продолжительности воздействия, площади участка, нагрузки, качества
+            конструкции и сохранности сцепления ламината.
+          </p>
+          <p>
+            Влажный заполнитель не означает автоматически, что все затронутые
+            участки необходимо заменить. Результаты осмотра следует оценивать
+            вместе с особенностями конструкции яхты.
+          </p>
+        </section>
+
+        <section aria-labelledby="how-moisture-enters">
+          <h2 id="how-moisture-enters">
+            2. Как влага попадает в палубу с заполнителем
+          </h2>
+          <p>
+            Вода обычно проникает в местах отверстий или установки фитингов,
+            если герметизация нарушена, состарилась или была затронута
+            предыдущими работами. Возможные точки проникновения:
+          </p>
+          <ul class="survey-guide-list-grid">
+            {
+              article.moistureEntryPoints.map((entryPoint) => (
+                <li>{entryPoint}</li>
+              ))
+            }
+          </ul>
+          <p>
+            Видимое место протечки и участок с наиболее высокими показаниями
+            могут не совпадать. Вода способна перемещаться по пустотам,
+            отверстиям крепежа или повреждённому заполнителю.
+          </p>
+        </section>
+
+        <section aria-labelledby="warning-signs">
+          <h2 id="warning-signs">
+            3. Признаки, которые может заметить покупатель
+          </h2>
+          <ul class="survey-guide-list-grid">
+            {article.warningSigns.map((warningSign) => <li>{warningSign}</li>)}
+          </ul>
+          <p>
+            Эти признаки дают основание для дальнейшего исследования, но ни один
+            из них сам по себе не подтверждает конструкцию, глубину или полную
+            протяжённость возможного повреждения.
+          </p>
+          <p>
+            Покупателю не следует агрессивно простукивать палубу, сверлить её
+            или применять другие разрушающие методы. Они могут повредить яхту и
+            допустимы только в рамках разрешённого профессионального
+            исследования.
+          </p>
+        </section>
+
+        <section aria-labelledby="soft-deck-area">
+          <h2 id="soft-deck-area">
+            4. Что может означать мягкий участок палубы?
+          </h2>
+          <p>Мягкий или гибкий участок может указывать на:</p>
+          <ul class="survey-guide-list-grid">
+            {article.softAreaCauses.map((cause) => <li>{cause}</li>)}
+          </ul>
+          <p>
+            Некоторые участки палубы от природы более гибкие, чем другие. Для
+            обоснованной оценки требуется сравнение с окружающей конструкцией и
+            понимание проекта яхты.
+          </p>
+          <aside class="survey-guide-key-point">
+            <strong>
+              Мягкий участок является признаком, а не полным диагнозом.
+            </strong>
+          </aside>
+        </section>
+
+        <section aria-labelledby="surveyor-investigation">
+          <h2 id="surveyor-investigation">
+            5. Как яхтенный сюрвейер исследует возможную влагу
+          </h2>
+          <p>
+            Сюрвейер сочетает разные методы и сравнивает результаты с
+            конструкцией яхты, окружающими участками и доступной историей. Ни
+            один отдельный метод не рассматривается как полный диагноз.
+          </p>
+          <div class="survey-guide-methods">
+            {
+              article.inspectionMethods.map((method) => (
+                <section aria-labelledby={method.id}>
+                  <h3 id={method.id}>{method.title}</h3>
+                  <p>{method.summary}</p>
+                  {method.items.length > 0 && (
+                    <ul>
+                      {method.items.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {method.limitations.length > 0 && (
+                    <div class="survey-guide-limitations">
+                      <h4>Ограничения</h4>
+                      <ul>
+                        {method.limitations.map((limitation) => (
+                          <li>{limitation}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </section>
+              ))
+            }
+          </div>
+        </section>
+
+        <section aria-labelledby="moisture-reading-context">
+          <h2 id="moisture-reading-context">
+            6. Почему показания влагомера требуют контекста
+          </h2>
+          <p>
+            Решение о покупке нельзя принимать на основании одного показания.
+            При интерпретации учитывают:
+          </p>
+          <ul class="survey-guide-list-grid">
+            {article.moistureReadingContext.map((factor) => <li>{factor}</li>)}
+          </ul>
+          <aside class="survey-guide-key-point">
+            <strong>
+              Показание влагомера является индикатором при осмотре, а не
+              самостоятельным заключением о состоянии конструкции.
+            </strong>
+          </aside>
+        </section>
+
+        <section aria-labelledby="repair-implications">
+          <h2 id="repair-implications">
+            7. Всегда ли влага означает дорогостоящий ремонт?
+          </h2>
+          <p><strong>Не обязательно.</strong></p>
+          <p>Возможные действия включают:</p>
+          <ul class="survey-guide-list-grid">
+            {article.repairOutcomes.map((outcome) => <li>{outcome}</li>)}
+          </ul>
+          <p>Необходимые меры зависят от:</p>
+          <ul class="survey-guide-list-grid">
+            {article.repairFactors.map((factor) => <li>{factor}</li>)}
+          </ul>
+          <p>
+            Объём ремонта определяют для конкретной яхты после оценки затронутой
+            конструкции. Универсальные цены не дадут надёжного ориентира.
+          </p>
+        </section>
+
+        <section aria-labelledby="buyer-actions">
+          <h2 id="buyer-actions">8. Что следует сделать покупателю</h2>
+          <ol class="survey-guide-action-list">
+            {
+              article.buyerActions.map((action) => (
+                <li>
+                  <div>
+                    <h3>{action.title}</h3>
+                    <p>{action.description}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ol>
+        </section>
+
+        <section aria-labelledby="questions-after-moisture">
+          <h2 id="questions-after-moisture">
+            9. Какие вопросы задать после обнаружения возможной влаги
+          </h2>
+          <ul class="survey-guide-question-list">
+            {
+              article.questionsAfterFinding.map((question) => (
+                <li>{question}</li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <section aria-labelledby="surveyors-key-point">
+          <h2 id="surveyors-key-point">10. Главный вывод сюрвейера</h2>
+          <aside class="survey-guide-key-point survey-guide-key-point-large">
+            <p>
+              Возможную влагу в палубе следует оценивать как часть общего
+              состояния конструкции яхты. Наиболее обоснованный вывод получают
+              из сочетания визуальных признаков, сравнительных измерений, знания
+              конструкции, условий доступа и истории судна, а не из одного
+              показания прибора.
+            </p>
+          </aside>
+        </section>
+
+        <section aria-labelledby="professional-survey">
+          <h2 id="professional-survey">
+            11. Когда следует заказать профессиональный осмотр
+          </h2>
+          <p>
+            <a href="/ru/pre-purchase-survey"
+              >Профессиональный предпокупочный сюрвейерский осмотр</a
+            > особенно полезен, если:
+          </p>
+          <ul class="survey-guide-list-grid">
+            {
+              article.professionalSurveyIndicators.map((indicator) => (
+                <li>{indicator}</li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <section
+      class="survey-guide-related-services"
+      aria-labelledby="article-related-services-heading"
+    >
+      <div class="site-container">
+        <div class="survey-guide-section-heading">
+          <p class="eyebrow">Профессиональная поддержка</p>
+          <h2 id="article-related-services-heading">Связанная услуга</h2>
+        </div>
+        <div class="survey-guide-service-grid">
+          {
+            article.relatedServices.map((service) => (
+              <article>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <a class="text-arrow-link" href={service.href}>
+                  Подробнее об услуге <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="survey-guide-more-tips"
+      aria-labelledby="more-survey-tips-heading"
+    >
+      <div class="site-container survey-guide-more-tips-inner">
+        <div>
+          <p class="eyebrow">{article.category}</p>
+          <h2 id="more-survey-tips-heading">
+            Другие советы по сюрвейерскому осмотру яхт
+          </h2>
+          <p>
+            Продолжите чтение связанного материала или перейдите ко всем
+            опубликованным рекомендациям.
+          </p>
+        </div>
+        <ul class="survey-guide-related-link-list" role="list">
+          {
+            article.relatedArticles.map((relatedArticle) => (
+              <li>
+                <a class="button button-navy" href={relatedArticle.href}>
+                  {relatedArticle.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section
+      class="survey-guide-final-cta"
+      aria-labelledby="deck-moisture-cta-heading"
+    >
+      <div class="site-container survey-guide-final-cta-inner">
+        <div>
+          <p class="eyebrow eyebrow-light">Поддержка перед покупкой</p>
+          <h2 id="deck-moisture-cta-heading">{article.finalCta.heading}</h2>
+          <p>{article.finalCta.body}</p>
+        </div>
+        <div class="survey-guide-final-cta-actions">
+          {
+            article.finalCta.links.map((link, index) => (
+              <a
+                class:list={[
+                  'button',
+                  index === 0 ? 'button-light' : 'button-outline-light',
+                ]}
+                href={link.href}
+                {...('external' in link && link.external
+                  ? { target: '_blank', rel: 'noreferrer' }
+                  : {})}
+              >
+                {link.label}
+                {'external' in link && link.external && (
+                  <span class="sr-only">, откроется в новой вкладке</span>
+                )}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

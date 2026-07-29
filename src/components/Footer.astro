@@ -130,10 +130,7 @@ const localizedFooter = isSpanish
         }
         <li>
           <a
-            href={getRequiredRoutePath(
-              'yachtSurveyTips',
-              isSpanish ? 'es' : 'en',
-            )}
+            href={getRequiredRoutePath('yachtSurveyTips', currentLocale)}
             aria-current={routeId === 'yachtSurveyTips' ||
             routeId === 'deckMoistureSoftSpots' ||
             routeId === 'shinyHull'
@@ -146,14 +143,6 @@ const localizedFooter = isSpanish
                 : isRussian
                   ? russianFooter.yachtSurveyTips
                   : 'Yacht Survey Tips'
-            }
-            {
-              isRussian && (
-                <span class="navigation-language-note">
-                  {' '}
-                  — {russianFooter.englishDestination}
-                </span>
-              )
             }
           </a>
         </li>

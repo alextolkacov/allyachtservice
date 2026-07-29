@@ -1,0 +1,436 @@
+---
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import { aboutUsPage } from '../../../data/about-us';
+import { russianShinyHullArticle as article } from '../../../data/ru/yacht-survey-tips/shiny-hull';
+import { siteConfig } from '../../../data/site';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(article.pathname);
+const pageId = `${pageUrl}#page`;
+const articleId = `${pageUrl}#article`;
+const imageUrl = toAbsoluteUrl(article.image.src);
+const personId = new URL(aboutUsPage.person.id, siteConfig.url).toString();
+
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': pageId,
+  url: pageUrl,
+  name: article.seoTitle,
+  description: article.metaDescription,
+  inLanguage: 'ru',
+  mainEntity: {
+    '@id': articleId,
+  },
+  about: {
+    '@id': businessEntityId,
+  },
+};
+
+const articleSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': articleId,
+  headline: article.title,
+  description: article.description,
+  url: pageUrl,
+  mainEntityOfPage: {
+    '@id': pageId,
+  },
+  datePublished: article.publicationDateTime,
+  dateModified: article.modifiedDateTime,
+  articleSection: article.category,
+  timeRequired: article.timeRequired,
+  image: imageUrl,
+  inLanguage: 'ru',
+  author: {
+    '@type': 'Person',
+    '@id': personId,
+    name: article.author.name,
+    jobTitle: article.author.professionalDescription,
+  },
+  publisher: {
+    '@id': businessEntityId,
+  },
+};
+---
+
+<BaseLayout
+  title={article.seoTitle}
+  description={article.metaDescription}
+  locale="ru"
+  routeId="shinyHull"
+  pathname={article.pathname}
+  imagePath={article.image.src}
+  imageAlt={article.socialImageAlt}
+  structuredData={[webPageSchema, articleSchema]}
+  openGraphType="article"
+  articlePublishedTime={article.publicationDateTime}
+  articleModifiedTime={article.modifiedDateTime}
+  articleSection={article.category}
+  articleAuthor={article.author.name}
+>
+  <article class="survey-guide">
+    <header class="survey-guide-header">
+      <div class="site-container">
+        <Breadcrumbs
+          items={article.breadcrumbs}
+          ariaLabel="Навигационная цепочка"
+        />
+        <div class="survey-guide-header-grid">
+          <div class="survey-guide-heading">
+            <p class="eyebrow">{article.category}</p>
+            <h1>{article.title}</h1>
+            <p class="survey-guide-standfirst">{article.standfirst}</p>
+            <dl class="survey-guide-meta">
+              <div>
+                <dt>Опубликовано</dt>
+                <dd>
+                  <time datetime={article.publicationDateTime}>
+                    {article.publicationDate}
+                  </time>
+                </dd>
+              </div>
+              <div>
+                <dt>Время чтения</dt>
+                <dd>5 минут чтения</dd>
+              </div>
+              <div>
+                <dt>Автор</dt>
+                <dd>
+                  {article.author.name}
+                  <span class="survey-guide-author-description">
+                    {article.author.professionalDescription}
+                  </span>
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <figure id="article-image" class="survey-guide-figure">
+            <img
+              src={article.image.src}
+              alt={article.image.alt}
+              width={article.image.width}
+              height={article.image.height}
+              loading="eager"
+              fetchpriority="high"
+            />
+            <figcaption>{article.imageCaption}</figcaption>
+          </figure>
+        </div>
+      </div>
+    </header>
+
+    <div class="survey-guide-body">
+      <div class="site-container survey-guide-reading-width">
+        <section
+          class="survey-guide-introduction"
+          aria-labelledby="shiny-hull-introduction"
+        >
+          <h2 id="shiny-hull-introduction" class="sr-only">Введение</h2>
+          <p>
+            Недавно отполированная или окрашенная яхта может произвести отличное
+            первое впечатление. Чистая надводная часть, глубокий блеск и внешне
+            безупречная поверхность могут создавать впечатление, что за яхтой
+            тщательно ухаживали.
+          </p>
+          <p>Однако внешний вид и техническое состояние — не одно и то же.</p>
+          <p>
+            Полировка, окраска и локальный поверхностный ремонт улучшают внешний
+            вид, но не объясняют, что происходило с конструкцией. Следы удара,
+            ремонт гелькоута, трещины, работы с ламинатом или проблемы,
+            связанные с влагой, могут быть незаметны при обычном просмотре.
+          </p>
+          <p>
+            Это не означает, что каждая блестящая яхта скрывает проблему.
+            Внешний вид является лишь одной частью осмотра.
+          </p>
+        </section>
+
+        <section aria-labelledby="glossy-finish-misleading">
+          <h2 id="glossy-finish-misleading">
+            Почему блестящее покрытие может вводить в заблуждение
+          </h2>
+          <p>
+            Профессиональная полировка может временно сделать менее заметными
+            выцветший гелькоут, лёгкое окисление и небольшие поверхностные
+            следы. Новое лакокрасочное покрытие также может скрыть прежние
+            различия цвета, отремонтированные участки и мелкие неровности.
+          </p>
+          <p>
+            Новые покрытия или локальное восстановление могут сделать менее
+            заметными признаки:
+          </p>
+          <ul class="survey-guide-list-grid">
+            {article.finishMayConceal.map((item) => <li>{item}</li>)}
+          </ul>
+          <p>
+            Ниже ватерлинии недавно нанесённое противообрастающее покрытие может
+            придать корпусу чистый и однородный вид, одновременно затрудняя
+            обнаружение прежних пузырей, шпатлёвки или ремонта.
+          </p>
+          <p>
+            Ни одна из этих работ сама по себе не является подозрительной.
+            Регулярная полировка, окраска и нанесение противообрастающего
+            покрытия входят в обычное обслуживание яхты. Блеск не доказывает
+            наличие скрытых повреждений. Важно выяснить, было ли обслуживание
+            плановым или выполнялось после повреждения либо ухудшения состояния.
+          </p>
+        </section>
+
+        <section aria-labelledby="possible-hull-repairs">
+          <h2 id="possible-hull-repairs">
+            Признаки возможного предыдущего ремонта корпуса
+          </h2>
+          <p>
+            Различия покрытия, отражения или плавности обводов могут потребовать
+            более тщательного исследования. Их следует оценивать сравнительно, с
+            учётом конструкции и истории яхты.
+          </p>
+          <div class="survey-guide-methods">
+            {
+              article.repairSigns.map((sign) => (
+                <section aria-labelledby={sign.id}>
+                  <h3 id={sign.id}>{sign.title}</h3>
+                  {sign.body.map((paragraph) => (
+                    <p>{paragraph}</p>
+                  ))}
+                  {sign.items.length > 0 && (
+                    <ul>
+                      {sign.items.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {'note' in sign && sign.note && (
+                    <p class="survey-guide-method-note">{sign.note}</p>
+                  )}
+                </section>
+              ))
+            }
+          </div>
+          <aside class="survey-guide-key-point">
+            <strong>
+              Визуальные различия могут потребовать дополнительного
+              исследования, но сами по себе не доказывают некачественный ремонт
+              или повреждение конструкции.
+            </strong>
+          </aside>
+        </section>
+
+        <section aria-labelledby="questions-for-seller">
+          <h2 id="questions-for-seller">Какие вопросы задать продавцу</h2>
+          <p>
+            До подачи предложения запросите цель, объём и документацию
+            предыдущих работ:
+          </p>
+          <ul class="survey-guide-question-list">
+            {article.sellerQuestions.map((question) => <li>{question}</li>)}
+          </ul>
+          <p>
+            Профессионально выполненный и документированный ремонт не
+            обязательно является причиной отказаться от яхты. Больше вопросов
+            возникает, когда заметны существенные работы, но объяснения и
+            документы отсутствуют.
+          </p>
+        </section>
+
+        <section aria-labelledby="safe-diy-check">
+          <h2 id="safe-diy-check">Безопасная проверка при первом просмотре</h2>
+          <p>
+            Первичный осмотр покупателя нужен для выявления вопросов и
+            наблюдений, а не для замены профессионального сюрвейерского осмотра.
+          </p>
+          <ul class="survey-guide-list-grid">
+            {article.diyChecks.map((check) => <li>{check}</li>)}
+          </ul>
+          <h3 class="survey-guide-subheading">
+            Чего покупателю делать не следует
+          </h3>
+          <ul class="survey-guide-key-list">
+            {article.buyerMustNot.map((restriction) => <li>{restriction}</li>)}
+          </ul>
+        </section>
+
+        <section aria-labelledby="professional-survey-adds">
+          <h2 id="professional-survey-adds">
+            Что даёт профессиональный сюрвейерский осмотр
+          </h2>
+          <p>
+            При предпокупочном осмотре корпус оценивают как часть всей
+            конструкции яхты, а не только по качеству покрытия. В зависимости от
+            яхты, её конструкции и согласованного объёма могут применяться:
+          </p>
+          <ul class="survey-guide-list-grid">
+            {
+              article.professionalSurveyMethods.map((method) => (
+                <li>{method}</li>
+              ))
+            }
+          </ul>
+          <p>
+            Показания влагомера нельзя сводить к результату «норма» или «не
+            норма». На них могут влиять тип покрытия, конструкция ламината,
+            состояние поверхности, температура и расположенные рядом материалы.
+            Показания следует оценивать вместе с визуальными наблюдениями и
+            особенностями конструкции судна.
+          </p>
+          <p>
+            Обычный осмотр не может обнаружить каждый скрытый ремонт или дефект.
+            Если доступные признаки дают основания, сюрвейер может рекомендовать
+            специализированное или разрушающее исследование, которое требует
+            отдельного разрешения.
+          </p>
+        </section>
+
+        <section aria-labelledby="why-findings-matter">
+          <h2 id="why-findings-matter">
+            Почему эти наблюдения важны для покупателя
+          </h2>
+          <p>
+            Предыдущий ремонт не является автоматически неприемлемым. Следует
+            выяснить:
+          </p>
+          <ul class="survey-guide-list-grid">
+            {
+              article.buyerConsiderations.map((consideration) => (
+                <li>{consideration}</li>
+              ))
+            }
+          </ul>
+          <p>
+            Правильно выполненный и документированный ремонт может быть
+            приемлемым. Недостаточно документированные, непоследовательные или
+            технически сомнительные работы могут потребовать дополнительного
+            исследования до покупки.
+          </p>
+          <p>
+            Результаты осмотра помогают покупателю продолжить сделку, запросить
+            дополнительные проверки, пересмотреть условия или решить, что риск
+            слишком велик. Цель состоит не в поиске идеальной яхты, а в
+            понимании состояния приобретаемого судна.
+          </p>
+        </section>
+
+        <section aria-labelledby="shiny-hull-key-point">
+          <h2 id="shiny-hull-key-point">Главный вывод сюрвейера</h2>
+          <aside class="survey-guide-key-point survey-guide-key-point-large">
+            <p>
+              Блестящий корпус является особенностью внешнего вида, а не
+              доказательством технического состояния. Покрытие следует оценивать
+              вместе с плавностью обводов, видимым ремонтом, внутренними
+              признаками, документацией и другими результатами осмотра.
+            </p>
+          </aside>
+        </section>
+
+        <section aria-labelledby="professional-limitations">
+          <h2 id="professional-limitations">
+            Ограничения профессионального осмотра
+          </h2>
+          <ul class="survey-guide-key-list">
+            {
+              article.professionalLimitations.map((limitation) => (
+                <li>{limitation}</li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <section
+      class="survey-guide-related-services"
+      aria-labelledby="shiny-hull-related-services"
+    >
+      <div class="site-container">
+        <div class="survey-guide-section-heading">
+          <p class="eyebrow">Профессиональная поддержка</p>
+          <h2 id="shiny-hull-related-services">Связанные услуги</h2>
+        </div>
+        <div class="survey-guide-service-grid">
+          {
+            article.relatedServices.map((service) => (
+              <article>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <a class="text-arrow-link" href={service.href}>
+                  Подробнее об услуге <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="survey-guide-more-tips"
+      aria-labelledby="more-shiny-hull-tips"
+    >
+      <div class="site-container survey-guide-more-tips-inner">
+        <div>
+          <p class="eyebrow">{article.category}</p>
+          <h2 id="more-shiny-hull-tips">
+            Другие советы по сюрвейерскому осмотру яхт
+          </h2>
+          <p>
+            Продолжите чтение связанного материала или перейдите ко всем
+            опубликованным рекомендациям.
+          </p>
+        </div>
+        <ul class="survey-guide-related-link-list" role="list">
+          {
+            article.relatedArticles.map((relatedArticle) => (
+              <li>
+                <a class="button button-navy" href={relatedArticle.href}>
+                  {relatedArticle.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section
+      class="survey-guide-final-cta"
+      aria-labelledby="shiny-hull-final-cta"
+    >
+      <div class="site-container survey-guide-final-cta-inner">
+        <div>
+          <p class="eyebrow eyebrow-light">Поддержка перед покупкой</p>
+          <h2 id="shiny-hull-final-cta">{article.finalCta.heading}</h2>
+          <p>{article.finalCta.body}</p>
+        </div>
+        <div class="survey-guide-final-cta-actions">
+          {
+            article.finalCta.links.map((link, index) => (
+              <a
+                class:list={[
+                  'button',
+                  index === 0 ? 'button-light' : 'button-outline-light',
+                ]}
+                href={link.href}
+                {...('external' in link && link.external
+                  ? { target: '_blank', rel: 'noreferrer' }
+                  : {})}
+              >
+                {link.label}
+                {'external' in link && link.external && (
+                  <span class="sr-only">, откроется в новой вкладке</span>
+                )}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

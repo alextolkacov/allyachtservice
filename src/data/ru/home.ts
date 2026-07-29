@@ -131,6 +131,21 @@ export const russianOnlineTools = {
   ],
 } as const;
 
+export const russianKnowledgeResources = [
+  {
+    title: 'Советы по сюрвейерскому осмотру яхт',
+    description:
+      'Профессиональные материалы о типичных дефектах, методах обследования и важных вопросах перед покупкой яхты.',
+    href: '/ru/yacht-survey-tips',
+    image: {
+      src: '/images/yacht-survey-tips-background.jpg',
+      alt: 'Корпус яхты, отражающийся в воде марины',
+      width: 1536,
+      height: 1024,
+    },
+  },
+] satisfies readonly HomeService[];
+
 export const russianWhyChooseUs = {
   eyebrow: 'Независимая морская экспертиза',
   heading: 'Почему выбирают All Yacht Service?',

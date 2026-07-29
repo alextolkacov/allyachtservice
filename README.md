@@ -22,10 +22,11 @@ content and technical publication. Russian Translation Batch 1 publishes the
 complete Russian homepage and Contact page, together with shared Russian
 navigation, footer, validation and calculator-summary presentation. Russian
 Translation Batch 2 publishes the six main commercial and company pages, and
-Batch 3 publishes both calculators. Russian Yacht Survey Tips, Yachts for Sale
-and legal pages remain unpublished. Production indexing remains blocked until
-the central legal fields and professional approvals are completed. French,
-Italian and Greek are deferred and not currently supported.
+Batch 3 publishes both calculators. Russian Translation Batch 4 publishes the
+Yacht Survey Tips hub and both current articles. Russian Yachts for Sale and
+legal pages remain unpublished. Production indexing remains blocked until the
+central legal fields and professional approvals are completed. French, Italian
+and Greek are deferred and not currently supported.
 
 ## Local setup
 
@@ -64,26 +65,26 @@ sitemap entries.
 Published route equivalents are declared in the typed `translatedRoutes` map
 in `src/data/navigation.ts`. The current equivalents are:
 
-| Content                         | English                                       | Spanish                                          | Russian                              |
-| ------------------------------- | --------------------------------------------- | ------------------------------------------------ | ------------------------------------ |
-| Home                            | `/`                                           | `/es`                                            | `/ru`                                |
-| Contact                         | `/contact`                                    | `/es/contact`                                    | `/ru/contact`                        |
-| Pre-Purchase Survey             | `/pre-purchase-survey`                        | `/es/pre-purchase-survey`                        | `/ru/pre-purchase-survey`            |
-| Insurance Condition Survey      | `/insurance-survey`                           | `/es/insurance-survey`                           | `/ru/insurance-survey`               |
-| Buyer Representation            | `/buyer-representation`                       | `/es/buyer-representation`                       | `/ru/buyer-representation`           |
-| Yacht Delivery                  | `/yacht-delivery`                             | `/es/yacht-delivery`                             | `/ru/yacht-delivery`                 |
-| Valuation and Damage Assessment | `/valuation-damage-survey`                    | `/es/valuation-damage-survey`                    | `/ru/valuation-damage-survey`        |
-| About Us                        | `/about-us`                                   | `/es/about-us`                                   | `/ru/about-us`                       |
-| Survey Cost Calculator          | `/pre-purchase-survey-calculator`             | `/es/pre-purchase-survey-calculator`             | `/ru/pre-purchase-survey-calculator` |
-| Delivery Cost Calculator        | `/yacht-delivery-calculator`                  | `/es/yacht-delivery-calculator`                  | `/ru/yacht-delivery-calculator`      |
-| Yachts for Sale                 | `/yachts-for-sale`                            | `/es/yachts-for-sale`                            | —                                    |
-| Yacht Survey Tips               | `/yacht-survey-tips`                          | `/es/yacht-survey-tips`                          | —                                    |
-| Deck Moisture article           | `/yacht-survey-tips/deck-moisture-soft-spots` | `/es/yacht-survey-tips/deck-moisture-soft-spots` | —                                    |
-| Shiny Hull article              | `/yacht-survey-tips/shiny-hull`               | `/es/yacht-survey-tips/shiny-hull`               | —                                    |
-| Privacy Policy                  | `/privacy-policy`                             | `/es/privacy-policy`                             | —                                    |
-| Cookie and Storage Policy       | `/cookie-policy`                              | `/es/cookie-policy`                              | —                                    |
-| Legal Notice                    | `/legal-notice`                               | `/es/legal-notice`                               | —                                    |
-| Website Terms                   | `/terms-and-conditions`                       | `/es/terms-and-conditions`                       | —                                    |
+| Content                         | English                                       | Spanish                                          | Russian                                          |
+| ------------------------------- | --------------------------------------------- | ------------------------------------------------ | ------------------------------------------------ |
+| Home                            | `/`                                           | `/es`                                            | `/ru`                                            |
+| Contact                         | `/contact`                                    | `/es/contact`                                    | `/ru/contact`                                    |
+| Pre-Purchase Survey             | `/pre-purchase-survey`                        | `/es/pre-purchase-survey`                        | `/ru/pre-purchase-survey`                        |
+| Insurance Condition Survey      | `/insurance-survey`                           | `/es/insurance-survey`                           | `/ru/insurance-survey`                           |
+| Buyer Representation            | `/buyer-representation`                       | `/es/buyer-representation`                       | `/ru/buyer-representation`                       |
+| Yacht Delivery                  | `/yacht-delivery`                             | `/es/yacht-delivery`                             | `/ru/yacht-delivery`                             |
+| Valuation and Damage Assessment | `/valuation-damage-survey`                    | `/es/valuation-damage-survey`                    | `/ru/valuation-damage-survey`                    |
+| About Us                        | `/about-us`                                   | `/es/about-us`                                   | `/ru/about-us`                                   |
+| Survey Cost Calculator          | `/pre-purchase-survey-calculator`             | `/es/pre-purchase-survey-calculator`             | `/ru/pre-purchase-survey-calculator`             |
+| Delivery Cost Calculator        | `/yacht-delivery-calculator`                  | `/es/yacht-delivery-calculator`                  | `/ru/yacht-delivery-calculator`                  |
+| Yachts for Sale                 | `/yachts-for-sale`                            | `/es/yachts-for-sale`                            | —                                                |
+| Yacht Survey Tips               | `/yacht-survey-tips`                          | `/es/yacht-survey-tips`                          | `/ru/yacht-survey-tips`                          |
+| Deck Moisture article           | `/yacht-survey-tips/deck-moisture-soft-spots` | `/es/yacht-survey-tips/deck-moisture-soft-spots` | `/ru/yacht-survey-tips/deck-moisture-soft-spots` |
+| Shiny Hull article              | `/yacht-survey-tips/shiny-hull`               | `/es/yacht-survey-tips/shiny-hull`               | `/ru/yacht-survey-tips/shiny-hull`               |
+| Privacy Policy                  | `/privacy-policy`                             | `/es/privacy-policy`                             | —                                                |
+| Cookie and Storage Policy       | `/cookie-policy`                              | `/es/cookie-policy`                              | —                                                |
+| Legal Notice                    | `/legal-notice`                               | `/es/legal-notice`                               | —                                                |
+| Website Terms                   | `/terms-and-conditions`                       | `/es/terms-and-conditions`                       | —                                                |
 
 The language switcher uses an equivalent route when the map contains one. If a
 translation is not published, it links to that language's homepage and its
@@ -132,18 +133,21 @@ entities.
 
 The genuine Russian route equivalents currently published are:
 
-| Content                 | English                           | Spanish                              | Russian                              |
-| ----------------------- | --------------------------------- | ------------------------------------ | ------------------------------------ |
-| Home                    | `/`                               | `/es`                                | `/ru`                                |
-| Contact                 | `/contact`                        | `/es/contact`                        | `/ru/contact`                        |
-| Pre-purchase survey     | `/pre-purchase-survey`            | `/es/pre-purchase-survey`            | `/ru/pre-purchase-survey`            |
-| Insurance survey        | `/insurance-survey`               | `/es/insurance-survey`               | `/ru/insurance-survey`               |
-| Buyer representation    | `/buyer-representation`           | `/es/buyer-representation`           | `/ru/buyer-representation`           |
-| Yacht delivery          | `/yacht-delivery`                 | `/es/yacht-delivery`                 | `/ru/yacht-delivery`                 |
-| Valuation & damage      | `/valuation-damage-survey`        | `/es/valuation-damage-survey`        | `/ru/valuation-damage-survey`        |
-| About All Yacht Service | `/about-us`                       | `/es/about-us`                       | `/ru/about-us`                       |
-| Survey calculator       | `/pre-purchase-survey-calculator` | `/es/pre-purchase-survey-calculator` | `/ru/pre-purchase-survey-calculator` |
-| Delivery calculator     | `/yacht-delivery-calculator`      | `/es/yacht-delivery-calculator`      | `/ru/yacht-delivery-calculator`      |
+| Content                 | English                                       | Spanish                                          | Russian                                          |
+| ----------------------- | --------------------------------------------- | ------------------------------------------------ | ------------------------------------------------ |
+| Home                    | `/`                                           | `/es`                                            | `/ru`                                            |
+| Contact                 | `/contact`                                    | `/es/contact`                                    | `/ru/contact`                                    |
+| Pre-purchase survey     | `/pre-purchase-survey`                        | `/es/pre-purchase-survey`                        | `/ru/pre-purchase-survey`                        |
+| Insurance survey        | `/insurance-survey`                           | `/es/insurance-survey`                           | `/ru/insurance-survey`                           |
+| Buyer representation    | `/buyer-representation`                       | `/es/buyer-representation`                       | `/ru/buyer-representation`                       |
+| Yacht delivery          | `/yacht-delivery`                             | `/es/yacht-delivery`                             | `/ru/yacht-delivery`                             |
+| Valuation & damage      | `/valuation-damage-survey`                    | `/es/valuation-damage-survey`                    | `/ru/valuation-damage-survey`                    |
+| About All Yacht Service | `/about-us`                                   | `/es/about-us`                                   | `/ru/about-us`                                   |
+| Survey calculator       | `/pre-purchase-survey-calculator`             | `/es/pre-purchase-survey-calculator`             | `/ru/pre-purchase-survey-calculator`             |
+| Delivery calculator     | `/yacht-delivery-calculator`                  | `/es/yacht-delivery-calculator`                  | `/ru/yacht-delivery-calculator`                  |
+| Yacht Survey Tips       | `/yacht-survey-tips`                          | `/es/yacht-survey-tips`                          | `/ru/yacht-survey-tips`                          |
+| Deck Moisture article   | `/yacht-survey-tips/deck-moisture-soft-spots` | `/es/yacht-survey-tips/deck-moisture-soft-spots` | `/ru/yacht-survey-tips/deck-moisture-soft-spots` |
+| Shiny Hull article      | `/yacht-survey-tips/shiny-hull`               | `/es/yacht-survey-tips/shiny-hull`               | `/ru/yacht-survey-tips/shiny-hull`               |
 
 These route groups emit `en`, `es`, `ru` and English `x-default` alternates.
 Other English or Spanish pages continue to send the visible RU selector to
@@ -176,6 +180,18 @@ Preferred Russian marine terminology includes:
 | Nautical miles             | Морские мили                                |
 | Binding quotation          | Обязательное ценовое предложение            |
 | Licensed captain           | Капитан с действующей квалификацией         |
+| Yacht Survey Tips          | Советы по сюрвейерскому осмотру яхт         |
+| Deck moisture              | Влага в палубе                              |
+| Moisture ingress           | Проникновение влаги                         |
+| Soft spot                  | Мягкий участок                              |
+| Deck core                  | Заполнитель палубной конструкции            |
+| Moisture meter             | Влагомер                                    |
+| Thermal imaging            | Тепловизионное обследование                 |
+| Tap/percussion testing     | Перкуссионная проверка или простукивание    |
+| Hull fairness              | Плавность и правильность обводов корпуса    |
+| Fairing                    | Шпатлевание и выравнивание поверхности      |
+| Re-lamination              | Повторное ламинирование                     |
+| Osmosis                    | Осмос                                       |
 
 Russian service CTAs use `/ru/contact?service=<canonical-service-code>` and
 may add a `source` parameter for analytics. Canonical service codes remain
@@ -183,11 +199,11 @@ language-neutral and must not be translated.
 
 Russian shared interface copy lives beside English and Spanish in `src/i18n/`.
 The Russian header, flat mobile menu, homepage service cards, Contact service
-links and footer use the published Russian commercial and calculator routes.
-Yachts for Sale, Yacht Survey Tips and the legal policies retain real English
-URLs and mark each destination with `— на английском`. No additional Russian
-article, listings or legal route should be added until its complete translation
-is ready.
+links and footer use the published Russian commercial, calculator and Survey
+Tips routes. Yachts for Sale and the legal policies retain real English URLs
+and mark each destination with `— на английском`. No additional Russian
+listings or legal route should be added until its complete translation is
+ready.
 
 The Russian Contact page reuses `POST /api/contact`, Turnstile, attachment
 validation, spam controls and Gmail delivery. It submits `locale=ru` so the
@@ -212,12 +228,11 @@ All locales retain the stable business entity ID
 `https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs`; translated
 pages must not create locale-specific duplicates.
 
-Remaining Russian batches are Yacht Survey Tips, Yachts for Sale, the legal
-pages and a final Russian-wide audit. The production legal guard remains the
-launch blocker for every locale. Spanish Batch 6 is GO for content and
-technical readiness, subject to the same production legal and
-professional-approval blockers. English, Spanish and Russian remain the only
-supported languages.
+Remaining Russian batches are Yachts for Sale, the legal pages and a final
+Russian-wide audit. The production legal guard remains the launch blocker for
+every locale. Spanish Batch 6 is GO for content and technical readiness,
+subject to the same production legal and professional-approval blockers.
+English, Spanish and Russian remain the only supported languages.
 
 ### Spanish marine-survey terminology
 
@@ -466,11 +481,12 @@ the current dimensions, responsive behaviour, and accurate alternative text.
 
 ## Yacht Survey Tips publishing
 
-The English and Spanish knowledge hubs are generated at:
+The English, Spanish and Russian knowledge hubs are generated at:
 
 ```text
 /yacht-survey-tips
 /es/yacht-survey-tips
+/ru/yacht-survey-tips
 ```
 
 The two published article pairs are:
@@ -478,8 +494,10 @@ The two published article pairs are:
 ```text
 /yacht-survey-tips/shiny-hull
 /es/yacht-survey-tips/shiny-hull
+/ru/yacht-survey-tips/shiny-hull
 /yacht-survey-tips/deck-moisture-soft-spots
 /es/yacht-survey-tips/deck-moisture-soft-spots
+/ru/yacht-survey-tips/deck-moisture-soft-spots
 ```
 
 `/yacht-survey-tips/shiny-hull` is the **Pre-Purchase Checks · Hull &
@@ -502,10 +520,12 @@ cannot drift independently. Each published article still has an explicit Astro
 page in `src/pages/yacht-survey-tips/`, rather than a catch-all route.
 Spanish article data follows the same typed structure under
 `src/data/es/yacht-survey-tips/`, and each Spanish route remains an explicit
-Astro page under `src/pages/es/yacht-survey-tips/`. The implemented English
-article is always the translation source: preserve its section order, technical
-limitations, dates, author, CTAs and internal relationships rather than
-translating an earlier draft or introducing unsupported findings.
+Astro page under `src/pages/es/yacht-survey-tips/`. Russian data follows the
+same structure under `src/data/ru/yacht-survey-tips/`, with explicit pages under
+`src/pages/ru/yacht-survey-tips/`. The implemented English article is always
+the translation source: preserve its section order, technical limitations,
+dates, author, CTAs and internal relationships rather than translating an
+earlier draft or introducing unsupported findings.
 
 Survey-tip graphics are editorial content, not decorative crops. The shared
 card displays the full intrinsic image with `width: 100%`, `height: auto`, and
@@ -522,17 +542,20 @@ separate hub asset and must not be reprocessed, repositioned, or replaced when
 article graphics change.
 
 The existing 1122 × 1402 black-and-white English article graphics are reused on
-the Spanish pages with the owner's approval. They remain byte-identical,
-uncropped and fully visible; accurate Spanish alt text, captions and article
-HTML repeat the important educational information so understanding never
-depends on embedded image text. Do not create locale-specific image copies
-unless a future approved design review requires them.
+the Spanish and Russian pages with the owner's approval. They remain
+byte-identical, uncropped and fully visible; accurate localized alt text,
+captions and article HTML repeat the important educational information so
+understanding never depends on embedded English image text. Do not create
+locale-specific image copies unless a future approved design review requires
+them. The portrait standard has an approximate aspect ratio of 0.8003; preserve
+the intrinsic dimensions and let the shared no-crop rules determine rendered
+height on desktop, tablet and mobile.
 
 Article pages retain the global `ProfessionalService` entity and add `WebPage`
 and `Article` entities. The visible breadcrumb component adds the matching
 `BreadcrumbList`. The Article publisher references the stable business ID
-`https://www.allyachtservice.com/#business`; Spanish author data references the
-stable Person ID
+`https://www.allyachtservice.com/#business`; Spanish and Russian author data
+reference the stable Person ID
 `https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs`.
 
 Publication dates reflect the approved editorial precision. If only a month is
@@ -541,18 +564,19 @@ schema rather than inventing a day or time. `dateModified` records the actual
 implementation or substantive content-update date. Do not add `wordCount`
 unless it is calculated from the final rendered article.
 
-The three published Survey Tips route entries contain genuine English and
-Spanish equivalents. SEO alternates therefore include `en`, `es` and
-`x-default`, with `x-default` pointing to English. Russian remains a clearly
-labelled homepage fallback in the visible language switcher and is not emitted
-as article hreflang.
+The three published Survey Tips route entries contain genuine English, Spanish
+and Russian equivalents. SEO alternates therefore include `en`, `es`, `ru` and
+`x-default`, with `x-default` pointing to English.
 
 Spanish article publication labels and visible dates use `es-ES` conventions.
 The approved source publication precision is preserved: Deck Moisture remains
 `2026-07`, while Shiny Hull remains `2026-07-28`. Spanish implementation uses
 `2026-07-28` as `dateModified`. Spanish pre-purchase CTAs use
 `/es/contact?service=pre-purchase-survey`; the service code remains canonical
-and untranslated.
+and untranslated. Russian publication labels and visible dates use `ru-RU`
+conventions: `июль 2026 года` for the reduced-precision Deck date and
+`28 июля 2026 года` for Shiny Hull. Russian pre-purchase CTAs use
+`/ru/contact?service=pre-purchase-survey` with the same canonical service code.
 
 Moisture-meter readings must always be described as comparative inspection
 indicators that require construction, environmental, access, visual, acoustic,

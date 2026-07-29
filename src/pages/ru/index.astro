@@ -8,6 +8,7 @@ import {
   russianHomeAbout,
   russianHomeHero,
   russianHomeIntroduction,
+  russianKnowledgeResources,
   russianHomeServices,
   russianOnlineTools,
   russianWhyChooseUs,
@@ -72,6 +73,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       </div>
     </div>
   </section>
+
+  <ServicesGrid
+    heading="Рекомендации для покупателей и владельцев"
+    eyebrow="Центр знаний"
+    services={russianKnowledgeResources}
+    linkLabel="Читать советы"
+    sectionId="knowledge-resources"
+  />
 
   <WhyChooseUs {...russianWhyChooseUs} />
   <AboutSection {...russianHomeAbout} />

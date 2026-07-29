@@ -33,20 +33,30 @@ const hasMetadata = status || publicationDate || readingTime;
 const readingTimeLabel = readingTime
   ? locale === 'es'
     ? `${readingTime} de lectura`
-    : `${readingTime.replace(/ minutes?$/u, '-minute')} read`
+    : locale === 'ru'
+      ? `${readingTime} чтения`
+      : `${readingTime.replace(/ minutes?$/u, '-minute')} read`
   : undefined;
 const articleDetailsLabel =
-  locale === 'es' ? 'Detalles del artículo' : 'Article details';
+  locale === 'es'
+    ? 'Detalles del artículo'
+    : locale === 'ru'
+      ? 'Сведения о статье'
+      : 'Article details';
 const readLabel =
   locale === 'es'
     ? featured
       ? 'Leer la guía'
       : 'Leer el artículo'
-    : featured
-      ? 'Read guide'
-      : 'Read article';
+    : locale === 'ru'
+      ? featured
+        ? 'Читать материал'
+        : 'Читать статью'
+      : featured
+        ? 'Read guide'
+        : 'Read article';
 const imageLinkLabel =
-  locale === 'es' ? `${readLabel}: ${title}` : `Read ${title}`;
+  locale === 'en' ? `Read ${title}` : `${readLabel}: ${title}`;
 ---
 
 <article
