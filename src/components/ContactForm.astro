@@ -16,7 +16,7 @@ const { locale = 'en' } = Astro.props;
 const contactLocale = getContactLocale(locale);
 const copy = contactFormCopy[contactLocale];
 const services = getContactServiceOptions(contactLocale);
-const calculatorPathPrefix = contactLocale === 'es' ? '/es' : '';
+const calculatorPathPrefix = contactLocale === 'en' ? '' : `/${contactLocale}`;
 const privacyPolicyPath =
   getRoutePath('privacyPolicy', contactLocale) ??
   getRequiredRoutePath('privacyPolicy', 'en');

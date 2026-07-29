@@ -66,6 +66,16 @@ const surveyEstimateSource = read(
 const deliveryEstimateSource = read(
   'src/lib/calculators/yachtDeliveryEstimate.ts',
 );
+const calculatorCopySource = read('src/i18n/calculators.ts');
+const surveyCalculatorSource = read(
+  'src/components/PrePurchaseSurveyCalculator.astro',
+);
+const deliveryCalculatorSource = read(
+  'src/components/YachtDeliveryCalculator.astro',
+);
+const russianHomeSource = read('src/data/ru/home.ts');
+const russianSurveySource = read('src/data/ru/pre-purchase-survey.ts');
+const russianDeliverySource = read('src/data/ru/yacht-delivery.ts');
 
 assert(
   languageSource.includes(
@@ -149,6 +159,40 @@ for (const route of translatedServiceRoutes) {
     `Published source route ${route.ru} is missing.`,
   );
 }
+const translatedCalculatorRoutes = [
+  {
+    en: '/pre-purchase-survey-calculator',
+    es: '/es/pre-purchase-survey-calculator',
+    ru: '/ru/pre-purchase-survey-calculator',
+    title: 'Калькулятор стоимости осмотра яхты | All Yacht Service',
+    description:
+      'Рассчитайте ориентировочную стоимость предпокупочного сюрвейерского осмотра яхты с учётом её длины, типа и выбранного объёма проверки.',
+    heading: 'Калькулятор стоимости предпокупочного сюрвейерского осмотра',
+    contactService: 'pre-purchase-survey',
+    componentMarker: 'data-survey-calculator data-locale="ru"',
+  },
+  {
+    en: '/yacht-delivery-calculator',
+    es: '/es/yacht-delivery-calculator',
+    ru: '/ru/yacht-delivery-calculator',
+    title: 'Калькулятор стоимости перегона яхты | All Yacht Service',
+    description:
+      'Рассчитайте ориентировочное расстояние по морскому маршруту и начальную стоимость профессионального перегона яхты по Средиземноморью.',
+    heading: 'Калькулятор стоимости профессионального перегона яхты',
+    contactService: 'yacht-delivery',
+    componentMarker: 'data-delivery-calculator data-locale="ru"',
+  },
+];
+for (const route of translatedCalculatorRoutes) {
+  assert(
+    navigationSource.includes(`ru: '${route.ru}'`),
+    `Route equivalence does not include ${route.ru}.`,
+  );
+  assert(
+    existsSync(resolve(projectRoot, `src/pages/${route.ru.slice(1)}.astro`)),
+    `Published source route ${route.ru} is missing.`,
+  );
+}
 assert(
   contactCopySource.includes("locale: 'ru-RU'") &&
     contactCopySource.includes(
@@ -191,6 +235,30 @@ assert(
   'Calculator storage keys changed or a Russian-only storage key was added.',
 );
 assert(
+  calculatorCopySource.includes(
+    "export type CalculatorLocale = 'en' | 'es' | 'ru'",
+  ) &&
+    calculatorCopySource.includes("locale: 'ru-RU'") &&
+    surveyCalculatorSource.includes('calculateSurveyEstimate') &&
+    surveyCalculatorSource.includes('SURVEY_ESTIMATE_STORAGE_KEY') &&
+    deliveryCalculatorSource.includes('calculateDeliveryEstimate') &&
+    deliveryCalculatorSource.includes('DELIVERY_ESTIMATE_STORAGE_KEY'),
+  'The Russian calculators are not using the shared locale-aware engines.',
+);
+assert(
+  russianHomeSource.includes("href: '/ru/pre-purchase-survey-calculator'") &&
+    russianHomeSource.includes("href: '/ru/yacht-delivery-calculator'") &&
+    russianSurveySource.includes(
+      "href: '/ru/pre-purchase-survey-calculator'",
+    ) &&
+    russianDeliverySource.includes("href: '/ru/yacht-delivery-calculator'") &&
+    !/Рассчитать стоимость — на английском/u.test(russianHomeSource) &&
+    !/languageNote:\s*'на английском'/u.test(
+      `${russianSurveySource}\n${russianDeliverySource}`,
+    ),
+  'Russian calculator links still use English routes or English-language notes.',
+);
+assert(
   headerSource.includes("event.key === 'ArrowDown'") &&
     headerSource.includes("'ArrowUp'") &&
     headerSource.includes("event.key === 'Escape'") &&
@@ -214,8 +282,6 @@ assert(
 );
 
 const unsupportedRussianRoutes = [
-  '/ru/pre-purchase-survey-calculator',
-  '/ru/yacht-delivery-calculator',
   '/ru/yacht-survey-tips',
   '/ru/yachts-for-sale',
   '/ru/privacy-policy',
@@ -256,6 +322,7 @@ if (existsSync(distDirectory)) {
     '/ru/contact',
     '/privacy-policy',
     ...translatedServiceRoutes.map((route) => route.ru),
+    ...translatedCalculatorRoutes.map((route) => route.ru),
   ]) {
     assert(
       builtPages.has(routeToFile(pathname)),
@@ -319,6 +386,24 @@ if (existsSync(distDirectory)) {
       );
     }
   }
+  for (const route of translatedCalculatorRoutes) {
+    const expected = [
+      ['en', absolute(route.en)],
+      ['es', absolute(route.es)],
+      ['ru', absolute(route.ru)],
+      ['x-default', absolute(route.en)],
+    ];
+    for (const pathname of [route.en, route.es, route.ru]) {
+      const actual = getHreflangs(getBuiltPage(pathname));
+      assert(
+        actual.length === expected.length &&
+          expected.every(([code, href]) =>
+            actual.some((item) => item.code === code && item.href === href),
+          ),
+        `${pathname} has incorrect EN/ES/RU calculator hreflang equivalence.`,
+      );
+    }
+  }
 
   const russianHome = getBuiltPage('/ru');
   const russianContact = getBuiltPage('/ru/contact');
@@ -332,6 +417,9 @@ if (existsSync(distDirectory)) {
         '<meta property="og:image:alt" content="Парусная яхта в море">',
       ) &&
       russianHome.includes('href="/ru/contact"') &&
+      russianHome.includes('href="/ru/pre-purchase-survey-calculator"') &&
+      russianHome.includes('href="/ru/yacht-delivery-calculator"') &&
+      !russianHome.includes('Рассчитать стоимость — на английском') &&
       !russianHome.includes('Содержание готовится'),
     '/ru homepage metadata, Contact route or completed content is incorrect.',
   );
@@ -362,6 +450,8 @@ if (existsSync(distDirectory)) {
     russianContact.includes('name="locale" value="ru"') &&
       russianContact.includes('novalidate') &&
       russianContact.includes('>Предпочтительная дата<') &&
+      russianContact.includes('href="/ru/pre-purchase-survey-calculator"') &&
+      russianContact.includes('href="/ru/yacht-delivery-calculator"') &&
       russianContact.includes('href="/privacy-policy"') &&
       russianContact.includes(
         'В настоящее время доступна на английском языке.',
@@ -480,6 +570,75 @@ if (existsSync(distDirectory)) {
       );
     }
   }
+  for (const route of translatedCalculatorRoutes) {
+    const html = getBuiltPage(route.ru);
+    assert(
+      html.includes('<html lang="ru">') &&
+        html.includes(`<title>${route.title}</title>`) &&
+        html.includes(
+          `<meta name="description" content="${route.description}">`,
+        ) &&
+        html.includes(`<link rel="canonical" href="${absolute(route.ru)}">`) &&
+        html.includes(
+          `<meta property="og:url" content="${absolute(route.ru)}">`,
+        ) &&
+        html.includes(`<meta property="og:title" content="${route.title}">`) &&
+        html.includes(`<meta name="twitter:title" content="${route.title}">`) &&
+        html.includes('<meta property="og:locale" content="ru_RU">') &&
+        html.includes(`<h1>${route.heading}</h1>`) &&
+        html.includes(route.componentMarker) &&
+        html.includes(`href="/ru/contact?service=${route.contactService}`),
+      `${route.ru} is missing required Russian calculator metadata, content or Contact routing.`,
+    );
+    assert(
+      (html.match(/<h1(?:\s|>)/gu) ?? []).length === 1,
+      `${route.ru} must contain exactly one H1.`,
+    );
+    for (const unintended of [
+      'Calculate Estimate',
+      'Start a New',
+      'Request a Formal Quotation',
+      'No ports found',
+      'Please select a valid',
+      'Estimated survey cost',
+      'Reset',
+      'New route',
+      'Select port',
+      'Search port',
+      'Required',
+      'Invalid',
+      'Estimate reference',
+      'Request a quote',
+      'Remove estimate',
+      'Opens in a new tab',
+      'Start typing',
+    ]) {
+      assert(
+        !visibleText(html).includes(unintended),
+        `${route.ru} exposes untranslated calculator text: ${unintended}.`,
+      );
+    }
+    const routeSchemas = getSchemas(html, route.ru);
+    assert(
+      routeSchemas.some(
+        (schema) =>
+          schema['@type'] === 'WebPage' &&
+          schema['@id'] === `${absolute(route.ru)}#page` &&
+          schema.inLanguage === 'ru' &&
+          schema.about?.['@id'] === 'https://www.allyachtservice.com/#business',
+      ),
+      `${route.ru} is missing its stable Russian WebPage schema.`,
+    );
+    assert(
+      routeSchemas.some(
+        (schema) =>
+          schema['@type'] === 'BreadcrumbList' &&
+          schema.itemListElement?.[0]?.name === 'Главная' &&
+          schema.itemListElement?.at(-1)?.name === 'Калькулятор стоимости',
+      ),
+      `${route.ru} is missing its localized BreadcrumbList schema.`,
+    );
+  }
   const russianValuation = getBuiltPage('/ru/valuation-damage-survey');
   assert(
     getSchemas(russianValuation, '/ru/valuation-damage-survey').filter(
@@ -506,6 +665,11 @@ if (existsSync(distDirectory)) {
     '/es/contact',
     '/ru/contact',
     ...translatedServiceRoutes.flatMap((route) => [
+      route.en,
+      route.es,
+      route.ru,
+    ]),
+    ...translatedCalculatorRoutes.flatMap((route) => [
       route.en,
       route.es,
       route.ru,
@@ -562,6 +726,12 @@ if (existsSync(distDirectory)) {
     'The sitemap does not contain /ru/contact.',
   );
   for (const route of translatedServiceRoutes) {
+    assert(
+      sitemap.includes(`<loc>${absolute(route.ru)}</loc>`),
+      `The sitemap does not contain ${route.ru}.`,
+    );
+  }
+  for (const route of translatedCalculatorRoutes) {
     assert(
       sitemap.includes(`<loc>${absolute(route.ru)}</loc>`),
       `The sitemap does not contain ${route.ru}.`,

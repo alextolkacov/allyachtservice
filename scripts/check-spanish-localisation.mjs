@@ -256,6 +256,7 @@ const translatedPages = [
   {
     en: '/pre-purchase-survey-calculator',
     es: '/es/pre-purchase-survey-calculator',
+    ru: '/ru/pre-purchase-survey-calculator',
     title: 'Calculadora de inspección precompra | All Yacht Service',
     description:
       'Calcule una estimación inicial del coste de una inspección precompra de un yate según su eslora, tipo y alcance de inspección.',
@@ -267,6 +268,7 @@ const translatedPages = [
   {
     en: '/yacht-delivery-calculator',
     es: '/es/yacht-delivery-calculator',
+    ru: '/ru/yacht-delivery-calculator',
     title: 'Calculadora de entrega de yates | All Yacht Service',
     description:
       'Calcule una estimación inicial de la distancia marítima y los honorarios profesionales para la entrega de un yate en el Mediterráneo.',

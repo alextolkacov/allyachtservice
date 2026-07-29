@@ -42,10 +42,12 @@ export const translatedRoutes: Record<
   prePurchaseSurveyCalculator: {
     en: '/pre-purchase-survey-calculator',
     es: '/es/pre-purchase-survey-calculator',
+    ru: '/ru/pre-purchase-survey-calculator',
   },
   yachtDeliveryCalculator: {
     en: '/yacht-delivery-calculator',
     es: '/es/yacht-delivery-calculator',
+    ru: '/ru/yacht-delivery-calculator',
   },
   insuranceSurvey: {
     en: '/insurance-survey',

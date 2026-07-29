@@ -29,8 +29,7 @@ const sections: readonly LocalizedSection[] = [
       'Рассчитайте ориентировочное расстояние и начальную стоимость. Окончательное предложение зависит от состояния яхты, маршрута, экипажа, сезона и расходов третьих лиц.',
     link: {
       label: 'Рассчитать ориентировочную стоимость перегона',
-      href: '/yacht-delivery-calculator',
-      languageNote: 'на английском',
+      href: '/ru/yacht-delivery-calculator',
       analyticsEvent: 'yacht-delivery-calculator',
     },
   },

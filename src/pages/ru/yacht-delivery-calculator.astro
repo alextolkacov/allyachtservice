@@ -1,0 +1,126 @@
+---
+import YachtDeliveryCalculator from '../../components/YachtDeliveryCalculator.astro';
+import { russianYachtDeliveryCalculatorPage as page } from '../../data/ru/yacht-delivery-calculator';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(page.pathname);
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: page.title,
+  description: page.description,
+  inLanguage: 'ru',
+  about: {
+    '@id': businessEntityId,
+  },
+};
+---
+
+<ServiceLayout
+  title={page.title}
+  description={page.description}
+  locale="ru"
+  routeId="yachtDeliveryCalculator"
+  pathname={page.pathname}
+  heading={page.heading}
+  eyebrow={page.eyebrow}
+  summary={page.summary}
+  heroImage={page.heroImage}
+  socialImageAlt={page.socialImageAlt}
+  breadcrumbs={page.breadcrumbs}
+  breadcrumbLabel="Навигационная цепочка"
+  primaryCta={page.primaryCta}
+  secondaryCta={page.secondaryCta}
+  relatedServices={page.relatedServices}
+  relatedHeading={page.relatedHeading}
+  finalCta={page.finalCta}
+  structuredData={webPageSchema}
+>
+  <section aria-labelledby="predvaritelnyi-peregon-heading">
+    <h2 id="predvaritelnyi-peregon-heading">
+      Рассчитайте ориентировочную стоимость перегона
+    </h2>
+    <p>
+      Выберите порт отправления и назначения, тип и диапазон длины яхты, а также
+      предполагаемые условия перегона, чтобы рассчитать ориентировочное
+      расстояние по морскому маршруту и начальную стоимость профессиональных
+      услуг.
+    </p>
+    <p>
+      Расстояние определяется по приблизительному морскому маршруту и не
+      заменяет планирование перехода. Точное предложение будет подготовлено
+      после рассмотрения яхты, маршрута, сроков, требуемого экипажа и
+      эксплуатационных требований.
+    </p>
+  </section>
+
+  <YachtDeliveryCalculator locale="ru" />
+
+  <section aria-labelledby="kak-rasschityvaetsya-marshrut-heading">
+    <h2 id="kak-rasschityvaetsya-marshrut-heading">
+      Как рассчитывается ориентировочный маршрут?
+    </h2>
+    <p>
+      Калькулятор использует упрощённый граф портов и морских коридоров
+      Средиземноморья и близлежащей части Атлантики. Он объединяет расстояния
+      между связанными точками, чтобы определить ориентировочный морской
+      коридор.
+    </p>
+    <p>
+      Результат не является планом перехода и не должен использоваться для
+      навигации.
+    </p>
+  </section>
+
+  <section aria-labelledby="faktory-stoimosti-heading">
+    <h2 id="faktory-stoimosti-heading">
+      Что влияет на окончательную стоимость?
+    </h2>
+    <ul class="defect-grid">
+      {page.quotationFactors.map((factor) => <li>{factor}</li>)}
+    </ul>
+  </section>
+
+  <section aria-labelledby="otdelnye-raskhody-heading">
+    <h2 id="otdelnye-raskhody-heading">
+      Какие расходы обычно рассчитываются отдельно?
+    </h2>
+    <ul class="service-check-list">
+      {page.separatelyQuoted.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+
+  <section aria-labelledby="sleduyushchie-shagi-peregona-heading">
+    <h2 id="sleduyushchie-shagi-peregona-heading">Что происходит дальше?</h2>
+    <ol class="process-list">
+      {
+        page.nextSteps.map((step, index) => (
+          <li>
+            <div>
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+    <p>
+      Подробнее об услуге можно узнать на странице
+      {' '}<a class="text-link" href="/ru/yacht-delivery"
+        >профессионального перегона яхт</a
+      >.
+    </p>
+  </section>
+</ServiceLayout>

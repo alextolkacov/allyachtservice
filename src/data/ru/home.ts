@@ -118,15 +118,15 @@ export const russianOnlineTools = {
       title: 'Калькулятор стоимости предпокупочного осмотра',
       description:
         'Рассчитайте ориентировочную стоимость с учётом длины и типа яхты, а также объёма осмотра.',
-      label: 'Рассчитать стоимость — на английском',
-      href: '/pre-purchase-survey-calculator',
+      label: 'Рассчитать стоимость',
+      href: '/ru/pre-purchase-survey-calculator',
     },
     {
       title: 'Калькулятор стоимости перегона яхты',
       description:
         'Рассчитайте ориентировочное расстояние по морю и начальную стоимость профессионального перегона.',
-      label: 'Рассчитать стоимость — на английском',
-      href: '/yacht-delivery-calculator',
+      label: 'Рассчитать стоимость',
+      href: '/ru/yacht-delivery-calculator',
     },
   ],
 } as const;

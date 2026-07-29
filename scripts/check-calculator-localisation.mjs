@@ -87,7 +87,9 @@ try {
   for (const testCase of surveyCases) {
     const englishCanonical = survey.calculateSurveyEstimate(testCase.input);
     const spanishCanonical = survey.calculateSurveyEstimate(testCase.input);
+    const russianCanonical = survey.calculateSurveyEstimate(testCase.input);
     assert.deepEqual(spanishCanonical, englishCanonical);
+    assert.deepEqual(russianCanonical, englishCanonical);
     assert.equal(englishCanonical.estimatedPriceEur, testCase.price);
     assert.equal(englishCanonical.packageDiscountEur, testCase.discount);
     assert.match(
@@ -101,6 +103,13 @@ try {
       presentation.formatCalculatorCurrency(
         'es',
         spanishCanonical.estimatedPriceEur,
+      ),
+      /€|EUR/u,
+    );
+    assert.match(
+      presentation.formatCalculatorCurrency(
+        'ru',
+        russianCanonical.estimatedPriceEur,
       ),
       /€|EUR/u,
     );
@@ -192,7 +201,9 @@ try {
   for (const testCase of deliveryCases) {
     const englishCanonical = delivery.calculateDeliveryEstimate(testCase.input);
     const spanishCanonical = delivery.calculateDeliveryEstimate(testCase.input);
+    const russianCanonical = delivery.calculateDeliveryEstimate(testCase.input);
     assert.deepEqual(spanishCanonical, englishCanonical);
+    assert.deepEqual(russianCanonical, englishCanonical);
     assert.equal(englishCanonical.route.roundedDistanceNm, testCase.distance);
     assert.equal(englishCanonical.price.estimatedStartingFeeEur, testCase.fee);
     assert.equal(
@@ -346,18 +357,25 @@ try {
   assert.equal(surveyPayloads.SURVEY_ESTIMATE_PAYLOAD_VERSION, 1);
   assert.equal(deliveryPayloads.DELIVERY_ESTIMATE_PAYLOAD_VERSION, 1);
 
-  const spanishSources = [
+  const localizedSources = [
     'src/data/es/pre-purchase-survey-calculator.ts',
     'src/data/es/yacht-delivery-calculator.ts',
     'src/pages/es/pre-purchase-survey-calculator.astro',
     'src/pages/es/yacht-delivery-calculator.astro',
+    'src/data/ru/pre-purchase-survey-calculator.ts',
+    'src/data/ru/yacht-delivery-calculator.ts',
+    'src/pages/ru/pre-purchase-survey-calculator.astro',
+    'src/pages/ru/yacht-delivery-calculator.astro',
     'src/i18n/calculators.ts',
   ]
     .map(read)
     .join('\n');
-  assert(!spanishSources.includes('deliveryEdges ='));
-  assert(!spanishSources.includes('const rates:'));
-  assert(!spanishSources.includes('FULL_PACKAGE_DISCOUNT_RATE ='));
+  assert(!localizedSources.includes('deliveryEdges ='));
+  assert(!localizedSources.includes('const rates:'));
+  assert(!localizedSources.includes('FULL_PACKAGE_DISCOUNT_RATE ='));
+  assert.equal(presentation.getCalculatorLocale('ru'), 'ru');
+  assert.equal(presentation.surveyCalculatorCopy.ru.client.locale, 'ru-RU');
+  assert.equal(presentation.deliveryCalculatorCopy.ru.client.locale, 'ru-RU');
 
   const surveyComponent = read(
     'src/components/PrePurchaseSurveyCalculator.astro',
@@ -371,7 +389,7 @@ try {
   assert(deliveryComponent.includes('DELIVERY_ESTIMATE_STORAGE_KEY'));
 
   process.stdout.write(
-    'Calculator localisation regression passed: 4 survey cases, 5 delivery routes, EN/ES canonical equality, graph invariants, and payload tamper/expiry/reference checks.\n',
+    'Calculator localisation regression passed: 4 survey cases, 5 delivery routes, EN/ES/RU canonical equality, graph invariants, and payload tamper/expiry/reference checks.\n',
   );
 } finally {
   await server.close();

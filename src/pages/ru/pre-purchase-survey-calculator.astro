@@ -1,0 +1,123 @@
+---
+import PrePurchaseSurveyCalculator from '../../components/PrePurchaseSurveyCalculator.astro';
+import { russianPrePurchaseSurveyCalculatorPage as page } from '../../data/ru/pre-purchase-survey-calculator';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(page.pathname);
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: page.title,
+  description: page.description,
+  inLanguage: 'ru',
+  about: {
+    '@id': businessEntityId,
+  },
+};
+---
+
+<ServiceLayout
+  title={page.title}
+  description={page.description}
+  locale="ru"
+  routeId="prePurchaseSurveyCalculator"
+  pathname={page.pathname}
+  heading={page.heading}
+  eyebrow={page.eyebrow}
+  summary={page.summary}
+  heroImage={page.heroImage}
+  socialImageAlt={page.socialImageAlt}
+  breadcrumbs={page.breadcrumbs}
+  breadcrumbLabel="Навигационная цепочка"
+  primaryCta={page.primaryCta}
+  secondaryCta={page.secondaryCta}
+  relatedServices={page.relatedServices}
+  finalCta={page.finalCta}
+  structuredData={webPageSchema}
+>
+  <section aria-labelledby="predvaritelnyi-raschet-heading">
+    <h2 id="predvaritelnyi-raschet-heading">
+      Рассчитайте ориентировочную стоимость осмотра
+    </h2>
+    <p>
+      Калькулятор даёт первоначальный ориентир стоимости профессионального
+      предпокупочного сюрвейерского осмотра. Укажите длину и тип яхты, а также
+      объём проверки, который соответствует вашим требованиям.
+    </p>
+    <p>
+      Результат предназначен для предварительного планирования и не является
+      обязательным ценовым предложением. Окончательный объём работ и стоимость
+      подтверждаются после рассмотрения данных яхты, её местонахождения,
+      доступности и требуемого объёма осмотра.
+    </p>
+  </section>
+
+  <PrePurchaseSurveyCalculator locale="ru" />
+
+  <section aria-labelledby="chto-mozhet-vhodit-heading">
+    <h2 id="chto-mozhet-vhodit-heading">Что может входить в осмотр?</h2>
+    <ul class="service-check-list">
+      {page.includedItems.map((item) => <li>{item}</li>)}
+    </ul>
+    <p>
+      Подробнее о процессе осмотра и отчёте можно узнать на
+      {' '}<a class="text-link" href="/ru/pre-purchase-survey"
+        >странице предпокупочного сюрвейерского осмотра</a
+      >.
+    </p>
+  </section>
+
+  <section aria-labelledby="pochemu-stoimost-menyaetsya-heading">
+    <h2 id="pochemu-stoimost-menyaetsya-heading">
+      Почему окончательная стоимость может отличаться?
+    </h2>
+    <p>
+      Калькулятор применяет утверждённые правила расчёта по длине яхты и объёму
+      осмотра, но не может полностью учесть все особенности предстоящих работ:
+    </p>
+    <ul class="defect-grid">
+      {page.quotationFactors.map((factor) => <li>{factor}</li>)}
+    </ul>
+  </section>
+
+  <section aria-labelledby="sleduyushchie-shagi-heading">
+    <h2 id="sleduyushchie-shagi-heading">Что происходит дальше?</h2>
+    <ol class="process-list">
+      {
+        page.nextSteps.map((step, index) => (
+          <li>
+            <div>
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <aside
+    class="related-online-tool"
+    aria-labelledby="svyazannyi-instrument-heading"
+  >
+    <h2 id="svyazannyi-instrument-heading">Связанный онлайн-инструмент</h2>
+    <p>
+      Планируете перемещение яхты?
+      {' '}<a class="text-link" href="/ru/yacht-delivery-calculator"
+        >Воспользуйтесь калькулятором стоимости перегона яхты</a
+      >.
+    </p>
+  </aside>
+</ServiceLayout>

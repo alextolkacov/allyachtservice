@@ -167,9 +167,9 @@ const localizedFooter = isSpanish
           <a
             href={getRequiredRoutePath(
               'prePurchaseSurveyCalculator',
-              isSpanish ? 'es' : 'en',
+              isSpanish ? 'es' : isRussian ? 'ru' : 'en',
             )}
-            lang={isRussian ? undefined : isSpanish ? undefined : 'en'}
+            lang={isSpanish || isRussian ? undefined : 'en'}
           >
             {
               isSpanish
@@ -178,23 +178,15 @@ const localizedFooter = isSpanish
                   ? russianFooter.tools.survey
                   : 'Survey Cost Calculator'
             }
-            {
-              isRussian && (
-                <span class="navigation-language-note">
-                  {' '}
-                  — {russianFooter.englishDestination}
-                </span>
-              )
-            }
           </a>
         </li>
         <li>
           <a
             href={getRequiredRoutePath(
               'yachtDeliveryCalculator',
-              isSpanish ? 'es' : 'en',
+              isSpanish ? 'es' : isRussian ? 'ru' : 'en',
             )}
-            lang={isRussian ? undefined : isSpanish ? undefined : 'en'}
+            lang={isSpanish || isRussian ? undefined : 'en'}
           >
             {
               isSpanish
@@ -202,14 +194,6 @@ const localizedFooter = isSpanish
                 : isRussian
                   ? russianFooter.tools.delivery
                   : 'Yacht Delivery Cost Calculator'
-            }
-            {
-              isRussian && (
-                <span class="navigation-language-note">
-                  {' '}
-                  — {russianFooter.englishDestination}
-                </span>
-              )
             }
           </a>
         </li>

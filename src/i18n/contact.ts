@@ -357,9 +357,9 @@ export const contactFormCopy = {
       'Для защищённой проверки требуется JavaScript. Вместо формы напишите на',
     noscriptAfter: 'для отправки запроса.',
     surveyCalculatorSuggestion:
-      'Сначала рассчитать ориентировочную стоимость осмотра — на английском',
+      'Сначала рассчитать ориентировочную стоимость осмотра',
     deliveryCalculatorSuggestion:
-      'Сначала рассчитать ориентировочную стоимость перегона — на английском',
+      'Сначала рассчитать ориентировочную стоимость перегона',
     valuationDamageHelper:
       'Укажите, требуется ли оценка стоимости, оценка ущерба или комплексное задание.',
     transferred: 'Перенесённый расчёт',
@@ -613,7 +613,7 @@ export const contactCalculatorCopy = {
         'Afloat inspection only': 'Осмотр только на плаву',
         'Hull-out inspection': 'Осмотр с подъёмом яхты',
         'Sea trial': 'Ходовые испытания',
-        'Engine inspection': 'Осмотр двигателя',
+        'Engine inspection': 'Осмотр двигателей',
         'Rigging and sails inspection': 'Осмотр такелажа и парусов',
       },
     },

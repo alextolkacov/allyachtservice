@@ -92,8 +92,7 @@ const sections: readonly LocalizedSection[] = [
       'Укажите основные данные яхты и предполагаемый объём работ, чтобы получить ориентировочный расчёт. Итоговое предложение зависит от местонахождения, доступа и согласованного задания.',
     link: {
       label: 'Рассчитать ориентировочную стоимость осмотра',
-      href: '/pre-purchase-survey-calculator',
-      languageNote: 'на английском',
+      href: '/ru/pre-purchase-survey-calculator',
       analyticsEvent: 'pre-purchase-survey-calculator',
     },
   },

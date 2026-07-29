@@ -13,6 +13,8 @@ interface Props {
 const { locale = 'en' } = Astro.props;
 const calculatorLocale = getCalculatorLocale(locale);
 const copy = deliveryCalculatorCopy[calculatorLocale];
+const calculatorPathPrefix =
+  calculatorLocale === 'en' ? '' : `/${calculatorLocale}`;
 ---
 
 <section
@@ -123,7 +125,7 @@ const copy = deliveryCalculatorCopy[calculatorLocale];
         {copy.route.coverageBefore}
         {' '}<a
           class="text-link"
-          href={`${calculatorLocale === 'es' ? '/es' : ''}/contact?service=yacht-delivery&source=delivery-calculator`}
+          href={`${calculatorPathPrefix}/contact?service=yacht-delivery&source=delivery-calculator`}
           >{copy.route.coverageLink}</a
         >.
       </p>
@@ -322,7 +324,7 @@ const copy = deliveryCalculatorCopy[calculatorLocale];
     <div class="delivery-result-actions">
       <a
         class="button button-navy"
-        href={`${calculatorLocale === 'es' ? '/es' : ''}/contact?service=yacht-delivery`}
+        href={`${calculatorPathPrefix}/contact?service=yacht-delivery`}
         data-analytics-event="delivery-calculator-quote-request"
         data-delivery-quote-link
       >
@@ -404,7 +406,7 @@ const copy = deliveryCalculatorCopy[calculatorLocale];
   if (calculator) {
     const locale = getCalculatorLocale(calculator.dataset.locale ?? 'en');
     const localizedCopy = deliveryCalculatorCopy[locale];
-    const contactPath = locale === 'es' ? '/es/contact' : '/contact';
+    const contactPath = locale === 'en' ? '/contact' : `/${locale}/contact`;
     const form = calculator.querySelector<HTMLFormElement>(
       '[data-delivery-calculator-form]',
     );

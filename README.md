@@ -21,10 +21,11 @@ The complete Spanish implementation and Spanish-wide audit are ready for
 content and technical publication. Russian Translation Batch 1 publishes the
 complete Russian homepage and Contact page, together with shared Russian
 navigation, footer, validation and calculator-summary presentation. Russian
-service pages, calculators, Yacht Survey Tips, Yachts for Sale and legal pages
-remain unpublished. Production indexing remains blocked until the central
-legal fields and professional approvals are completed. French, Italian and
-Greek are deferred and not currently supported.
+Translation Batch 2 publishes the six main commercial and company pages, and
+Batch 3 publishes both calculators. Russian Yacht Survey Tips, Yachts for Sale
+and legal pages remain unpublished. Production indexing remains blocked until
+the central legal fields and professional approvals are completed. French,
+Italian and Greek are deferred and not currently supported.
 
 ## Local setup
 
@@ -61,28 +62,28 @@ routes, selector entries, hreflang records, Open Graph locale alternates or
 sitemap entries.
 
 Published route equivalents are declared in the typed `translatedRoutes` map
-in `src/data/navigation.ts`. The current Spanish equivalents are:
+in `src/data/navigation.ts`. The current equivalents are:
 
-| Content                         | English                                       | Spanish                                          |
-| ------------------------------- | --------------------------------------------- | ------------------------------------------------ |
-| Home                            | `/`                                           | `/es`                                            |
-| Contact                         | `/contact`                                    | `/es/contact`                                    |
-| Pre-Purchase Survey             | `/pre-purchase-survey`                        | `/es/pre-purchase-survey`                        |
-| Insurance Condition Survey      | `/insurance-survey`                           | `/es/insurance-survey`                           |
-| Buyer Representation            | `/buyer-representation`                       | `/es/buyer-representation`                       |
-| Yacht Delivery                  | `/yacht-delivery`                             | `/es/yacht-delivery`                             |
-| Valuation and Damage Assessment | `/valuation-damage-survey`                    | `/es/valuation-damage-survey`                    |
-| About Us                        | `/about-us`                                   | `/es/about-us`                                   |
-| Survey Cost Calculator          | `/pre-purchase-survey-calculator`             | `/es/pre-purchase-survey-calculator`             |
-| Delivery Cost Calculator        | `/yacht-delivery-calculator`                  | `/es/yacht-delivery-calculator`                  |
-| Yachts for Sale                 | `/yachts-for-sale`                            | `/es/yachts-for-sale`                            |
-| Yacht Survey Tips               | `/yacht-survey-tips`                          | `/es/yacht-survey-tips`                          |
-| Deck Moisture article           | `/yacht-survey-tips/deck-moisture-soft-spots` | `/es/yacht-survey-tips/deck-moisture-soft-spots` |
-| Shiny Hull article              | `/yacht-survey-tips/shiny-hull`               | `/es/yacht-survey-tips/shiny-hull`               |
-| Privacy Policy                  | `/privacy-policy`                             | `/es/privacy-policy`                             |
-| Cookie and Storage Policy       | `/cookie-policy`                              | `/es/cookie-policy`                              |
-| Legal Notice                    | `/legal-notice`                               | `/es/legal-notice`                               |
-| Website Terms                   | `/terms-and-conditions`                       | `/es/terms-and-conditions`                       |
+| Content                         | English                                       | Spanish                                          | Russian                              |
+| ------------------------------- | --------------------------------------------- | ------------------------------------------------ | ------------------------------------ |
+| Home                            | `/`                                           | `/es`                                            | `/ru`                                |
+| Contact                         | `/contact`                                    | `/es/contact`                                    | `/ru/contact`                        |
+| Pre-Purchase Survey             | `/pre-purchase-survey`                        | `/es/pre-purchase-survey`                        | `/ru/pre-purchase-survey`            |
+| Insurance Condition Survey      | `/insurance-survey`                           | `/es/insurance-survey`                           | `/ru/insurance-survey`               |
+| Buyer Representation            | `/buyer-representation`                       | `/es/buyer-representation`                       | `/ru/buyer-representation`           |
+| Yacht Delivery                  | `/yacht-delivery`                             | `/es/yacht-delivery`                             | `/ru/yacht-delivery`                 |
+| Valuation and Damage Assessment | `/valuation-damage-survey`                    | `/es/valuation-damage-survey`                    | `/ru/valuation-damage-survey`        |
+| About Us                        | `/about-us`                                   | `/es/about-us`                                   | `/ru/about-us`                       |
+| Survey Cost Calculator          | `/pre-purchase-survey-calculator`             | `/es/pre-purchase-survey-calculator`             | `/ru/pre-purchase-survey-calculator` |
+| Delivery Cost Calculator        | `/yacht-delivery-calculator`                  | `/es/yacht-delivery-calculator`                  | `/ru/yacht-delivery-calculator`      |
+| Yachts for Sale                 | `/yachts-for-sale`                            | `/es/yachts-for-sale`                            | —                                    |
+| Yacht Survey Tips               | `/yacht-survey-tips`                          | `/es/yacht-survey-tips`                          | —                                    |
+| Deck Moisture article           | `/yacht-survey-tips/deck-moisture-soft-spots` | `/es/yacht-survey-tips/deck-moisture-soft-spots` | —                                    |
+| Shiny Hull article              | `/yacht-survey-tips/shiny-hull`               | `/es/yacht-survey-tips/shiny-hull`               | —                                    |
+| Privacy Policy                  | `/privacy-policy`                             | `/es/privacy-policy`                             | —                                    |
+| Cookie and Storage Policy       | `/cookie-policy`                              | `/es/cookie-policy`                              | —                                    |
+| Legal Notice                    | `/legal-notice`                               | `/es/legal-notice`                               | —                                    |
+| Website Terms                   | `/terms-and-conditions`                       | `/es/terms-and-conditions`                       | —                                    |
 
 The language switcher uses an equivalent route when the map contains one. If a
 translation is not published, it links to that language's homepage and its
@@ -95,13 +96,15 @@ exists.
 The small typed dictionaries in `src/i18n/` contain shared Spanish interface,
 footer, Contact, validation and calculator presentation strings. Both
 calculator components read `src/i18n/calculators.ts`; the locale changes only
-visible copy and `en-GB`/`es-ES` formatting. Pure calculations, canonical enum
-values and estimate contracts remain locale-free in `src/lib/calculators/`.
-Page-specific Spanish content lives in typed modules under `src/data/es/` and
-is rendered through the shared layouts and localized content components. The
-current English page component, data, metadata, schema, CTA destinations,
-limitations, images and internal links are the source of truth for every
-translation; do not translate an earlier draft or add unsupported claims.
+visible copy and `en-GB`/`es-ES`/`ru-RU` formatting. Pure calculations,
+canonical enum values and estimate contracts remain locale-free in
+`src/lib/calculators/`.
+Page-specific Spanish and Russian content lives in typed modules under
+`src/data/es/` and `src/data/ru/` and is rendered through the shared layouts
+and localized content components. The current English page component, data,
+metadata, schema, CTA destinations, limitations, images and internal links are
+the source of truth for every translation; do not translate an earlier draft
+or add unsupported claims.
 
 Internal Contact service values remain canonical English slugs such as
 `pre-purchase-survey`; only their labels are translated. Contact CTAs from
@@ -112,31 +115,35 @@ translating visitor text or changing Reply-To behaviour.
 
 Valid calculator payloads are still read from the existing versioned
 `sessionStorage` keys, matched to their references, limited to 24 hours, and
-recomputed by the original pricing logic. Spanish Contact translates only the
-visible summary and uses `es-ES` date, number, and euro formatting. It does not
-translate enum values, stored payloads, formulas, routes, or amounts.
+recomputed by the original pricing logic. Spanish and Russian Contact translate
+only the visible summary and use `es-ES` or `ru-RU` date, number, and euro
+formatting. They do not translate enum values, stored payloads, formulas,
+routes, or amounts.
 
-For each genuine page pair, SEO alternates contain the English URL, Spanish URL
-and `x-default` pointing to English. The Russian homepage fallback shown in the
-language selector is never emitted as a service-page hreflang. The global
-business entity remains `https://www.allyachtservice.com/#business`, and the
-About page reuses the existing stable Aleksandrs Person ID rather than creating
-locale-specific entities.
+For each genuine route group, SEO alternates contain only the published English,
+Spanish and Russian equivalents, with `x-default` pointing to English.
+Homepage fallbacks shown in the language selector are never emitted as
+page-equivalent hreflang. The global business entity remains
+`https://www.allyachtservice.com/#business`, and the About page reuses the
+existing stable Aleksandrs Person ID rather than creating locale-specific
+entities.
 
 ### Russian localisation
 
 The genuine Russian route equivalents currently published are:
 
-| Content                 | English                    | Spanish                       | Russian                       |
-| ----------------------- | -------------------------- | ----------------------------- | ----------------------------- |
-| Home                    | `/`                        | `/es`                         | `/ru`                         |
-| Contact                 | `/contact`                 | `/es/contact`                 | `/ru/contact`                 |
-| Pre-purchase survey     | `/pre-purchase-survey`     | `/es/pre-purchase-survey`     | `/ru/pre-purchase-survey`     |
-| Insurance survey        | `/insurance-survey`        | `/es/insurance-survey`        | `/ru/insurance-survey`        |
-| Buyer representation    | `/buyer-representation`    | `/es/buyer-representation`    | `/ru/buyer-representation`    |
-| Yacht delivery          | `/yacht-delivery`          | `/es/yacht-delivery`          | `/ru/yacht-delivery`          |
-| Valuation & damage      | `/valuation-damage-survey` | `/es/valuation-damage-survey` | `/ru/valuation-damage-survey` |
-| About All Yacht Service | `/about-us`                | `/es/about-us`                | `/ru/about-us`                |
+| Content                 | English                           | Spanish                              | Russian                              |
+| ----------------------- | --------------------------------- | ------------------------------------ | ------------------------------------ |
+| Home                    | `/`                               | `/es`                                | `/ru`                                |
+| Contact                 | `/contact`                        | `/es/contact`                        | `/ru/contact`                        |
+| Pre-purchase survey     | `/pre-purchase-survey`            | `/es/pre-purchase-survey`            | `/ru/pre-purchase-survey`            |
+| Insurance survey        | `/insurance-survey`               | `/es/insurance-survey`               | `/ru/insurance-survey`               |
+| Buyer representation    | `/buyer-representation`           | `/es/buyer-representation`           | `/ru/buyer-representation`           |
+| Yacht delivery          | `/yacht-delivery`                 | `/es/yacht-delivery`                 | `/ru/yacht-delivery`                 |
+| Valuation & damage      | `/valuation-damage-survey`        | `/es/valuation-damage-survey`        | `/ru/valuation-damage-survey`        |
+| About All Yacht Service | `/about-us`                       | `/es/about-us`                       | `/ru/about-us`                       |
+| Survey calculator       | `/pre-purchase-survey-calculator` | `/es/pre-purchase-survey-calculator` | `/ru/pre-purchase-survey-calculator` |
+| Delivery calculator     | `/yacht-delivery-calculator`      | `/es/yacht-delivery-calculator`      | `/ru/yacht-delivery-calculator`      |
 
 These route groups emit `en`, `es`, `ru` and English `x-default` alternates.
 Other English or Spanish pages continue to send the visible RU selector to
@@ -150,19 +157,25 @@ silently translating an older content version.
 
 Preferred Russian marine terminology includes:
 
-| English concept            | Preferred Russian term              |
-| -------------------------- | ----------------------------------- |
-| Yacht surveyor             | Яхтенный сюрвейер                   |
-| Marine surveyor            | Сюрвейер яхт и маломерных судов     |
-| Pre-purchase survey        | Предпокупочный сюрвейерский осмотр  |
-| Insurance condition survey | Сюрвейерский осмотр для страхования |
-| Buyer representation       | Представительство покупателя        |
-| Yacht delivery             | Перегон яхт                         |
-| Valuation                  | Оценка стоимости                    |
-| Damage assessment          | Оценка ущерба                       |
-| Haul-out                   | Подъём яхты                         |
-| Sea trial                  | Ходовые испытания                   |
-| Licensed captain           | Капитан с действующей квалификацией |
+| English concept            | Preferred Russian term                      |
+| -------------------------- | ------------------------------------------- |
+| Yacht surveyor             | Яхтенный сюрвейер                           |
+| Marine surveyor            | Сюрвейер яхт и маломерных судов             |
+| Pre-purchase survey        | Предпокупочный сюрвейерский осмотр          |
+| Insurance condition survey | Сюрвейерский осмотр для страхования         |
+| Buyer representation       | Представительство покупателя                |
+| Yacht delivery             | Перегон яхт                                 |
+| Valuation                  | Оценка стоимости                            |
+| Damage assessment          | Оценка ущерба                               |
+| Haul-out                   | Подъём яхты                                 |
+| Sea trial                  | Ходовые испытания                           |
+| Survey calculator          | Калькулятор стоимости сюрвейерского осмотра |
+| Delivery calculator        | Калькулятор стоимости перегона яхты         |
+| Length overall             | Габаритная длина яхты                       |
+| Initial estimate           | Ориентировочный расчёт                      |
+| Nautical miles             | Морские мили                                |
+| Binding quotation          | Обязательное ценовое предложение            |
+| Licensed captain           | Капитан с действующей квалификацией         |
 
 Russian service CTAs use `/ru/contact?service=<canonical-service-code>` and
 may add a `source` parameter for analytics. Canonical service codes remain
@@ -170,11 +183,11 @@ language-neutral and must not be translated.
 
 Russian shared interface copy lives beside English and Spanish in `src/i18n/`.
 The Russian header, flat mobile menu, homepage service cards, Contact service
-links and footer use the published Russian commercial routes. Yachts for Sale,
-both calculators, Yacht Survey Tips and the legal policies retain real English
-URLs and mark each destination with `— на английском`. No additional
-`/ru/...` calculator, article, listings or legal route should be added until
-its complete translation is ready.
+links and footer use the published Russian commercial and calculator routes.
+Yachts for Sale, Yacht Survey Tips and the legal policies retain real English
+URLs and mark each destination with `— на английском`. No additional Russian
+article, listings or legal route should be added until its complete translation
+is ready.
 
 The Russian Contact page reuses `POST /api/contact`, Turnstile, attachment
 validation, spam controls and Gmail delivery. It submits `locale=ru` so the
@@ -185,10 +198,11 @@ avoid native English browser messages. Until the Russian Privacy Policy exists,
 the acknowledgement links to `/privacy-policy` and explicitly identifies it as
 currently available in English.
 
-Valid English or Spanish calculator transfers are accepted by `/ru/contact`
-without changing their payloads, references, 24-hour expiry, recomputation or
-storage keys. Survey and delivery summaries are presented in Russian with
-`ru-RU` date, number and euro formatting. The canonical storage keys remain:
+Valid English, Spanish or Russian calculator transfers are accepted by
+`/ru/contact` without changing their payloads, references, 24-hour expiry,
+recomputation or storage keys. Survey and delivery summaries are presented in
+Russian with `ru-RU` date, number and euro formatting. The canonical storage
+keys remain:
 
 - `ays:pre-purchase-survey-estimate:v1`
 - `ays:yacht-delivery-estimate:v1`
@@ -198,10 +212,10 @@ All locales retain the stable business entity ID
 `https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs`; translated
 pages must not create locale-specific duplicates.
 
-Remaining Russian batches are both calculators, Yacht Survey Tips, Yachts for
-Sale, the legal pages and a final Russian-wide audit. The production legal
-guard remains the launch blocker for every locale. Spanish Batch 6 is GO for
-content and technical readiness, subject to the same production legal and
+Remaining Russian batches are Yacht Survey Tips, Yachts for Sale, the legal
+pages and a final Russian-wide audit. The production legal guard remains the
+launch blocker for every locale. Spanish Batch 6 is GO for content and
+technical readiness, subject to the same production legal and
 professional-approval blockers. English, Spanish and Russian remain the only
 supported languages.
 
@@ -741,11 +755,12 @@ test pair. They must never be used in production.
 
 ## Pre-purchase survey calculator
 
-The English and Spanish calculators are generated at:
+The English, Spanish and Russian calculators are generated at:
 
 ```text
 /pre-purchase-survey-calculator
 /es/pre-purchase-survey-calculator
+/ru/pre-purchase-survey-calculator
 ```
 
 The pricing logic was ported into this repository from the approved source
@@ -765,17 +780,17 @@ The `pys-calculators` repository remains unchanged. All runtime code is stored
 inside `allyachtservice`, uses no client-side API key, and does not load scripts,
 iframes, modules, or other assets from the source repository.
 
-The two routes use the same calculator component and pricing functions. The
-Spanish route formats visible numbers and euros with `es-ES`, but never stores
-translated labels in the payload or changes a canonical value. Do not copy
-pricing bands, multipliers, the range, discount or rounding rules into a
-localized page or data module.
+The three routes use the same calculator component and pricing functions.
+Spanish formats visible numbers and euros with `es-ES`; Russian uses `ru-RU`.
+Neither translation stores localized labels in the payload or changes a
+canonical value. Do not copy pricing bands, multipliers, the range, discount
+or rounding rules into a localized page or data module.
 
 The result is explicitly approximate and non-binding. Completing a calculation
 stores a versioned, non-personal payload in `sessionStorage`. Requesting a
-formal quotation navigates to `/contact` or `/es/contact` with only the
-service, source, and estimate reference in the URL. The Contact form validates
-the stored payload,
+formal quotation navigates to `/contact`, `/es/contact` or `/ru/contact` with
+only the service, source, and estimate reference in the URL. The Contact form
+validates the stored payload,
 shows the complete transferred summary for review, prefills the service, LOA
 and yacht location, and includes that visible summary in the submitted email.
 The visitor may remove it before submission. Malformed, mismatched, expired or
@@ -795,11 +810,12 @@ pricing bands.
 
 ## Yacht delivery calculator
 
-The English and Spanish calculators are generated at:
+The English, Spanish and Russian calculators are generated at:
 
 ```text
 /yacht-delivery-calculator
 /es/yacht-delivery-calculator
+/ru/yacht-delivery-calculator
 ```
 
 The Mediterranean port graph, shortest-route behaviour, and pricing logic were
@@ -820,12 +836,12 @@ The `pys-calculators` repository remains unchanged. Its graph and pricing code
 were ported into `allyachtservice`; there is no runtime import, iframe,
 submodule, routing API, mapping API, client-side secret, or API key.
 
-Both localized routes use the same 75-node, 108-edge graph, 74 selectable
-ports, internal Ponza waypoint, bidirectional shortest-route implementation and
+All three routes use the same 75-node, 108-edge graph, 74 selectable ports,
+internal Ponza waypoint, bidirectional shortest-route implementation and
 pricing module. Never duplicate the graph, port IDs, rates, base or minimum
 fee, multipliers, correction factors or rounding rules in localized content.
-Spanish changes only the visitor-facing presentation and uses `es-ES`
-formatting.
+Spanish and Russian change only visitor-facing presentation and use `es-ES`
+and `ru-RU` formatting respectively.
 
 The graph is a simplified network of approved Mediterranean and nearby Atlantic
 ports and internal route waypoints. It calculates an approximate marine
@@ -851,9 +867,10 @@ modified payloads are ignored safely.
 `npm run check:calculators` covers the 5–40 metre survey boundaries, base,
 custom and full packages, discount behaviour, short/medium/long and cross-graph
 delivery routes, the Ponza waypoint, minimum and non-minimum fees, canonical
-English/Spanish equality, and reference, tamper and 24-hour expiry validation.
-The Spanish Contact page renders the validated result in Spanish while using
-the unchanged keys `ays:pre-purchase-survey-estimate:v1` and
+English/Spanish/Russian equality, and reference, tamper and 24-hour expiry
+validation. Spanish and Russian Contact render the validated result in the
+selected language while using the unchanged keys
+`ays:pre-purchase-survey-estimate:v1` and
 `ays:yacht-delivery-estimate:v1`, both with payload version `1`.
 
 To update ports or graph connections, edit
