@@ -1,5 +1,19 @@
 import type { HomeService } from '../home';
 
+export const spanishHomeHero = {
+  heading: 'All Yacht Service',
+  supportingText:
+    'Servicios náuticos de confianza respaldados por experiencia, precisión y atención personalizada',
+  serviceLine:
+    'Peritajes de precompra, para seguros y de valoración, traslado de yates y representación de compradores en toda España y el Mediterráneo.',
+  image: {
+    src: '/images/hero-sailing-yacht.webp',
+    alt: 'Velero navegando en el mar',
+    width: 1277,
+    height: 618,
+  },
+} as const;
+
 export const spanishHomeServices = [
   {
     title: 'Inspección precompra',

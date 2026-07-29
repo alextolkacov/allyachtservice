@@ -161,6 +161,10 @@ assert(
     ),
   'The desktop Services menu must retain its native clickable disclosure.',
 );
+assert(
+  !/dropdown\.addEventListener\(\s*['"]click['"]/u.test(headerSource),
+  'The desktop Services menu must not intercept native link clicks.',
+);
 
 for (const locale of ['fr', 'it', 'gr']) {
   assert(
@@ -415,6 +419,16 @@ if (existsSync(distDirectory)) {
   assertOpenGraphLocales(russianHome, 'ru_RU', ['en_GB', 'es_ES'], '/ru');
   assertOpenGraphLocales(englishContact, 'en_GB', ['es_ES'], '/contact');
   assertOpenGraphLocales(spanishContact, 'es_ES', ['en_GB'], '/es/contact');
+  assert(
+    spanishHome.includes(
+      'Servicios náuticos de confianza respaldados por experiencia, precisión y atención personalizada',
+    ) &&
+      spanishHome.includes(
+        'Peritajes de precompra, para seguros y de valoración, traslado de yates y representación de compradores en toda España y el Mediterráneo.',
+      ) &&
+      !spanishHome.includes('Contenido pendiente'),
+    'The Spanish homepage hero must contain the completed Spanish copy.',
+  );
 
   for (const page of translatedPages) {
     const english = getBuiltPage(page.en);

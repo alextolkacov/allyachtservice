@@ -264,8 +264,8 @@ const servicesAreCurrent = isServiceRoute(routeId);
       }
     });
 
-    dropdown.addEventListener('click', (event) => {
-      if ((event.target as HTMLElement).closest('a')) closeMenu();
-    });
+    // Let the browser complete native anchor activation. Closing the parent
+    // details element during the same click can hide the link before some
+    // browsers perform their default navigation.
   });
 </script>

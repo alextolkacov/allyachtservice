@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PendingHomepage from '../../components/PendingHomepage.astro';
+import Hero from '../../components/Hero.astro';
 import ServicesGrid from '../../components/ServicesGrid.astro';
 import {
+  spanishHomeHero,
   spanishHomeServices,
   spanishKnowledgeResources,
   spanishOnlineTools,
@@ -17,11 +18,7 @@ import {
   pathname="/es"
   imagePath="/images/hero-sailing-yacht.webp"
 >
-  <PendingHomepage
-    heading="Sitio web de All Yacht Service"
-    notice="Contenido pendiente"
-    imageAlt="Velero navegando en el mar"
-  />
+  <Hero {...spanishHomeHero} />
   <ServicesGrid
     heading="Servicios para yates"
     eyebrow="Inspección y asistencia técnica"
