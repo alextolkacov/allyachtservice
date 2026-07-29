@@ -84,6 +84,10 @@ const russianDeckArticleSource = read(
 const russianShinyArticleSource = read(
   'src/data/ru/yacht-survey-tips/shiny-hull.ts',
 );
+const russianYachtsForSaleSource = read('src/data/ru/yachts-for-sale.ts');
+const russianYachtsForSalePageSource = read(
+  'src/pages/ru/yachts-for-sale.astro',
+);
 const surveyArticleCardSource = read('src/components/SurveyArticleCard.astro');
 const globalStyles = read('src/styles/global.css');
 
@@ -254,6 +258,59 @@ for (const route of translatedSurveyTipsRoutes) {
     `Published source route ${route.ru} is missing.`,
   );
 }
+const translatedYachtsForSaleRoute = {
+  en: '/yachts-for-sale',
+  es: '/es/yachts-for-sale',
+  ru: '/ru/yachts-for-sale',
+  title: 'Яхты на продажу в Испании и Средиземноморье | All Yacht Service',
+  description:
+    'Просматривайте яхты, представленные Premium Yachts Spain, и получите независимую техническую поддержку All Yacht Service перед покупкой.',
+  heading: 'Яхты на продажу',
+};
+assert(
+  navigationSource.includes("ru: '/ru/yachts-for-sale'"),
+  'Yachts for Sale route equivalence does not include /ru/yachts-for-sale.',
+);
+assert(
+  existsSync(resolve(projectRoot, 'src/pages/ru/yachts-for-sale.astro')),
+  'Published source route /ru/yachts-for-sale is missing.',
+);
+for (const externalHref of [
+  'https://www.premiumyachts.es/yacht-brokerage',
+  'https://www.premiumyachts.es/yacht-brokerage/sailing-boats',
+  'https://www.premiumyachts.es/yacht-brokerage/power-boats',
+]) {
+  assert(
+    russianYachtsForSaleSource.includes(`href: '${externalHref}'`) ||
+      russianYachtsForSaleSource.includes(
+        externalHref === 'https://www.premiumyachts.es/yacht-brokerage'
+          ? 'href: yachtsForSalePage.primaryCta.href'
+          : externalHref.includes('sailing-boats')
+            ? 'href: sailingYachts.href'
+            : 'href: motorYachts.href',
+      ),
+    `Russian Yachts for Sale data does not preserve ${externalHref}.`,
+  );
+}
+assert(
+  russianYachtsForSalePageSource.includes(
+    'Важная информация о коммерческих отношениях и независимости',
+  ) &&
+    /Покупатель вправе выбрать любого другого независимого сюрвейера\.\s+Выводы и\s+технические заключения All Yacht Service должны оставаться/u.test(
+      russianYachtsForSalePageSource,
+    ),
+  'Russian Yachts for Sale does not preserve the commercial relationship and independence disclosure.',
+);
+assert(
+  !/<iframe\b/iu.test(russianYachtsForSalePageSource) &&
+    !/\bfetch\s*\(/u.test(
+      `${russianYachtsForSaleSource}\n${russianYachtsForSalePageSource}`,
+    ) &&
+    !/[€$£]\s*\d|\d\s*[€$£]/u.test(
+      `${russianYachtsForSaleSource}\n${russianYachtsForSalePageSource}`,
+    ),
+  'Russian Yachts for Sale must not add an iframe, runtime feed or copied prices.',
+);
 assert(
   contactCopySource.includes("locale: 'ru-RU'") &&
     contactCopySource.includes(
@@ -332,6 +389,11 @@ assert(
   'Russian Survey Tips links or shared article-card labels are incomplete.',
 );
 assert(
+  russianHomeSource.includes("href: '/ru/yachts-for-sale'") &&
+    contactCopySource.includes("href: '/ru/yachts-for-sale'"),
+  'Russian homepage or Contact guidance does not link to /ru/yachts-for-sale.',
+);
+assert(
   headerSource.includes("event.key === 'ArrowDown'") &&
     headerSource.includes("'ArrowUp'") &&
     headerSource.includes("event.key === 'Escape'") &&
@@ -355,7 +417,6 @@ assert(
 );
 
 const unsupportedRussianRoutes = [
-  '/ru/yachts-for-sale',
   '/ru/privacy-policy',
   '/ru/cookie-policy',
   '/ru/legal-notice',
@@ -400,6 +461,9 @@ if (existsSync(distDirectory)) {
       route.es,
       route.ru,
     ]),
+    translatedYachtsForSaleRoute.en,
+    translatedYachtsForSaleRoute.es,
+    translatedYachtsForSaleRoute.ru,
   ]) {
     assert(
       builtPages.has(routeToFile(pathname)),
@@ -499,6 +563,25 @@ if (existsSync(distDirectory)) {
       );
     }
   }
+  {
+    const route = translatedYachtsForSaleRoute;
+    const expected = [
+      ['en', absolute(route.en)],
+      ['es', absolute(route.es)],
+      ['ru', absolute(route.ru)],
+      ['x-default', absolute(route.en)],
+    ];
+    for (const pathname of [route.en, route.es, route.ru]) {
+      const actual = getHreflangs(getBuiltPage(pathname));
+      assert(
+        actual.length === expected.length &&
+          expected.every(([code, href]) =>
+            actual.some((item) => item.code === code && item.href === href),
+          ),
+        `${pathname} has incorrect EN/ES/RU Yachts for Sale hreflang equivalence.`,
+      );
+    }
+  }
 
   const russianHome = getBuiltPage('/ru');
   const russianContact = getBuiltPage('/ru/contact');
@@ -535,6 +618,13 @@ if (existsSync(distDirectory)) {
         '<meta property="og:image:alt" content="Парусная яхта в Средиземном море, в зоне работы All Yacht Service">',
       ),
     '/ru/contact metadata is incomplete or incorrect.',
+  );
+  assert(
+    russianHome.includes('href="/ru/yachts-for-sale"') &&
+      russianContact.includes('href="/ru/yachts-for-sale"') &&
+      !russianHome.includes('Яхты на продажу — на английском') &&
+      !russianContact.includes('Яхты на продажу — на английском'),
+    'Russian homepage or Contact still exposes the English Yachts for Sale fallback.',
   );
   assert(
     (russianContact.match(/<h1(?:\s|>)/gu) ?? []).length === 1 &&
@@ -817,6 +907,150 @@ if (existsSync(distDirectory)) {
     }
   }
 
+  {
+    const route = translatedYachtsForSaleRoute;
+    const html = getBuiltPage(route.ru);
+    const schemas = getSchemas(html, route.ru);
+    const visible = visibleText(html);
+
+    assert(
+      html.includes('<html lang="ru">') &&
+        html.includes(`<title>${route.title}</title>`) &&
+        html.includes(
+          `<meta name="description" content="${route.description}">`,
+        ) &&
+        html.includes(`<link rel="canonical" href="${absolute(route.ru)}">`) &&
+        html.includes(
+          `<meta property="og:url" content="${absolute(route.ru)}">`,
+        ) &&
+        html.includes(`<meta property="og:title" content="${route.title}">`) &&
+        html.includes(`<meta name="twitter:title" content="${route.title}">`) &&
+        html.includes('<meta property="og:locale" content="ru_RU">') &&
+        html.includes(`<h1>${route.heading}</h1>`) &&
+        html.includes('<meta name="robots" content="noindex, nofollow">'),
+      `${route.ru} is missing required Russian metadata, canonical, social metadata or H1.`,
+    );
+    assert(
+      (html.match(/<h1(?:\s|>)/gu) ?? []).length === 1,
+      `${route.ru} must contain exactly one H1.`,
+    );
+    assert(
+      (html.match(/href="\/ru\/yachts-for-sale"/gu) ?? []).length >= 4 &&
+        !visible.includes('Яхты на продажу — на английском'),
+      `${route.ru} shared header, mobile navigation, footer or breadcrumbs still use an English fallback.`,
+    );
+    assert(
+      schemas.some(
+        (schema) =>
+          schema['@type'] === 'WebPage' &&
+          schema['@id'] === `${absolute(route.ru)}#page` &&
+          schema.inLanguage === 'ru' &&
+          schema.about?.['@id'] === 'https://www.allyachtservice.com/#business',
+      ) &&
+        schemas.some(
+          (schema) =>
+            schema['@type'] === 'BreadcrumbList' &&
+            schema.itemListElement?.[0]?.name === 'Главная' &&
+            schema.itemListElement?.[1]?.name === 'Яхты на продажу',
+        ),
+      `${route.ru} is missing stable Russian WebPage or BreadcrumbList schema.`,
+    );
+    assert(
+      !schemas.some((schema) =>
+        [
+          'Product',
+          'Offer',
+          'ItemList',
+          'Vehicle',
+          'Boat',
+          'PriceSpecification',
+        ].includes(schema['@type']),
+      ),
+      `${route.ru} must not expose inventory, yacht, product, offer or price schema.`,
+    );
+    for (const href of [
+      'https://www.premiumyachts.es/yacht-brokerage',
+      'https://www.premiumyachts.es/yacht-brokerage/sailing-boats',
+      'https://www.premiumyachts.es/yacht-brokerage/power-boats',
+    ]) {
+      const escapedHref = href.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+      assert(
+        new RegExp(
+          `<a\\b(?=[^>]*href="${escapedHref}")(?=[^>]*target="_blank")(?=[^>]*rel="noopener noreferrer")[^>]*>`,
+          'u',
+        ).test(html),
+        `${route.ru} does not preserve secure external link behaviour for ${href}.`,
+      );
+      assert(
+        !href.includes('?'),
+        `${route.ru} external brokerage links must not contain tracking parameters.`,
+      );
+    }
+    for (const href of [
+      '/ru/buyer-representation',
+      '/ru/pre-purchase-survey',
+      '/ru/pre-purchase-survey-calculator',
+      '/ru/valuation-damage-survey',
+      '/ru/yacht-survey-tips',
+      '/ru/contact?service=buyer-representation',
+      '/ru/contact?service=pre-purchase-survey',
+    ]) {
+      assert(
+        html.includes(`href="${href}"`),
+        `${route.ru} does not link to ${href}.`,
+      );
+    }
+    for (const requiredDisclosure of [
+      'Premium Yachts Spain и All Yacht Service осуществляют отдельные виды деятельности',
+      'эта связь раскрывается до того, как All Yacht Service примет задание',
+      'Покупатель вправе выбрать любого другого независимого сюрвейера',
+      'технические заключения All Yacht Service должны оставаться профессионально независимыми',
+    ]) {
+      assert(
+        visible.includes(requiredDisclosure),
+        `${route.ru} is missing disclosure text: ${requiredDisclosure}.`,
+      );
+    }
+    for (const unintended of [
+      'Yachts for Sale',
+      'Sailing Yachts',
+      'Motor Yachts',
+      'View Listings',
+      'Learn More',
+      'Buyer Support',
+      'Important Disclosure',
+      'Contact Us',
+      'Opens in a new tab',
+    ]) {
+      assert(
+        !visible.includes(unintended),
+        `${route.ru} exposes untranslated Yachts for Sale UI: ${unintended}.`,
+      );
+    }
+    assert(
+      html.includes('src="/images/yachts-for-sale-marina.jpg"') &&
+        html.includes('width="2048"') &&
+        html.includes('height="1536"') &&
+        html.includes('src="/images/yachts-for-sale-sailing.jpg"') &&
+        html.includes('width="1280"') &&
+        html.includes('height="719"') &&
+        html.includes('src="/images/yachts-for-sale-power.jpg"') &&
+        html.includes('width="1100"') &&
+        html.includes('height="618"') &&
+        visible.includes(
+          'Изображения используются в иллюстративных целях и не представляют полный или актуальный перечень яхт, доступных к продаже.',
+        ),
+      `${route.ru} does not preserve the approved image dimensions and illustrative-image disclosure.`,
+    );
+    assert(
+      !/<iframe\b/iu.test(html) &&
+        !visible.includes('€') &&
+        !visible.includes('VAT paid') &&
+        !visible.includes('Tax paid'),
+      `${route.ru} exposes copied inventory, prices, tax status or an embedded feed.`,
+    );
+  }
+
   const russianSurveyTipsHub = getBuiltPage('/ru/yacht-survey-tips');
   const featuredSection =
     russianSurveyTipsHub.match(
@@ -886,6 +1120,25 @@ if (existsSync(distDirectory)) {
       `${path} changed during Russian Survey Tips localisation.`,
     );
   }
+  const protectedYachtsForSaleImageHashes = {
+    'public/images/yachts-for-sale-marina.jpg':
+      '50f43618ec197cd209084d514075e2ae79cc3b923e2463966270eb3cb421bd7c',
+    'public/images/yachts-for-sale-sailing.jpg':
+      '1953eba2d9de58d3042969ddb58fa682914d7dc9dbb5fa7b70e05302a0bfb1ad',
+    'public/images/yachts-for-sale-power.jpg':
+      'c1a6f8c92806f5d10232146171c9cc4d14fdd74d1693b47f8ef8f68ba5cb6e32',
+  };
+  for (const [path, expectedHash] of Object.entries(
+    protectedYachtsForSaleImageHashes,
+  )) {
+    const actualHash = createHash('sha256')
+      .update(readFileSync(resolve(projectRoot, path)))
+      .digest('hex');
+    assert(
+      actualHash === expectedHash,
+      `${path} changed during Russian Yachts for Sale localisation.`,
+    );
+  }
   assert(
     russianDeckArticleSource.includes(
       "src: '/images/yacht-survey-tips/deck-moisture-soft-spots.png'",
@@ -938,6 +1191,9 @@ if (existsSync(distDirectory)) {
       route.es,
       route.ru,
     ]),
+    translatedYachtsForSaleRoute.en,
+    translatedYachtsForSaleRoute.es,
+    translatedYachtsForSaleRoute.ru,
   ]);
   for (const [path, html] of builtPages) {
     const pathname =
@@ -1007,6 +1263,10 @@ if (existsSync(distDirectory)) {
       `The sitemap does not contain ${route.ru}.`,
     );
   }
+  assert(
+    sitemap.includes(`<loc>${absolute(translatedYachtsForSaleRoute.ru)}</loc>`),
+    'The sitemap does not contain /ru/yachts-for-sale.',
+  );
   for (const pathname of unsupportedRussianRoutes) {
     assert(
       !sitemap.includes(`<loc>${absolute(pathname)}</loc>`),

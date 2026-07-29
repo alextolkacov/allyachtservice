@@ -23,10 +23,11 @@ complete Russian homepage and Contact page, together with shared Russian
 navigation, footer, validation and calculator-summary presentation. Russian
 Translation Batch 2 publishes the six main commercial and company pages, and
 Batch 3 publishes both calculators. Russian Translation Batch 4 publishes the
-Yacht Survey Tips hub and both current articles. Russian Yachts for Sale and
-legal pages remain unpublished. Production indexing remains blocked until the
-central legal fields and professional approvals are completed. French, Italian
-and Greek are deferred and not currently supported.
+Yacht Survey Tips hub and both current articles. Russian Translation Batch 5
+publishes the Yachts for Sale referral and buyer-support page. Russian legal
+pages remain unpublished. Production indexing remains blocked until the central
+legal fields and professional approvals are completed. French, Italian and
+Greek are deferred and not currently supported.
 
 ## Local setup
 
@@ -77,7 +78,7 @@ in `src/data/navigation.ts`. The current equivalents are:
 | About Us                        | `/about-us`                                   | `/es/about-us`                                   | `/ru/about-us`                                   |
 | Survey Cost Calculator          | `/pre-purchase-survey-calculator`             | `/es/pre-purchase-survey-calculator`             | `/ru/pre-purchase-survey-calculator`             |
 | Delivery Cost Calculator        | `/yacht-delivery-calculator`                  | `/es/yacht-delivery-calculator`                  | `/ru/yacht-delivery-calculator`                  |
-| Yachts for Sale                 | `/yachts-for-sale`                            | `/es/yachts-for-sale`                            | —                                                |
+| Yachts for Sale                 | `/yachts-for-sale`                            | `/es/yachts-for-sale`                            | `/ru/yachts-for-sale`                            |
 | Yacht Survey Tips               | `/yacht-survey-tips`                          | `/es/yacht-survey-tips`                          | `/ru/yacht-survey-tips`                          |
 | Deck Moisture article           | `/yacht-survey-tips/deck-moisture-soft-spots` | `/es/yacht-survey-tips/deck-moisture-soft-spots` | `/ru/yacht-survey-tips/deck-moisture-soft-spots` |
 | Shiny Hull article              | `/yacht-survey-tips/shiny-hull`               | `/es/yacht-survey-tips/shiny-hull`               | `/ru/yacht-survey-tips/shiny-hull`               |
@@ -145,6 +146,7 @@ The genuine Russian route equivalents currently published are:
 | About All Yacht Service | `/about-us`                                   | `/es/about-us`                                   | `/ru/about-us`                                   |
 | Survey calculator       | `/pre-purchase-survey-calculator`             | `/es/pre-purchase-survey-calculator`             | `/ru/pre-purchase-survey-calculator`             |
 | Delivery calculator     | `/yacht-delivery-calculator`                  | `/es/yacht-delivery-calculator`                  | `/ru/yacht-delivery-calculator`                  |
+| Yachts for Sale         | `/yachts-for-sale`                            | `/es/yachts-for-sale`                            | `/ru/yachts-for-sale`                            |
 | Yacht Survey Tips       | `/yacht-survey-tips`                          | `/es/yacht-survey-tips`                          | `/ru/yacht-survey-tips`                          |
 | Deck Moisture article   | `/yacht-survey-tips/deck-moisture-soft-spots` | `/es/yacht-survey-tips/deck-moisture-soft-spots` | `/ru/yacht-survey-tips/deck-moisture-soft-spots` |
 | Shiny Hull article      | `/yacht-survey-tips/shiny-hull`               | `/es/yacht-survey-tips/shiny-hull`               | `/ru/yacht-survey-tips/shiny-hull`               |
@@ -161,37 +163,46 @@ silently translating an older content version.
 
 Preferred Russian marine terminology includes:
 
-| English concept            | Preferred Russian term                      |
-| -------------------------- | ------------------------------------------- |
-| Yacht surveyor             | Яхтенный сюрвейер                           |
-| Marine surveyor            | Сюрвейер яхт и маломерных судов             |
-| Pre-purchase survey        | Предпокупочный сюрвейерский осмотр          |
-| Insurance condition survey | Сюрвейерский осмотр для страхования         |
-| Buyer representation       | Представительство покупателя                |
-| Yacht delivery             | Перегон яхт                                 |
-| Valuation                  | Оценка стоимости                            |
-| Damage assessment          | Оценка ущерба                               |
-| Haul-out                   | Подъём яхты                                 |
-| Sea trial                  | Ходовые испытания                           |
-| Survey calculator          | Калькулятор стоимости сюрвейерского осмотра |
-| Delivery calculator        | Калькулятор стоимости перегона яхты         |
-| Length overall             | Габаритная длина яхты                       |
-| Initial estimate           | Ориентировочный расчёт                      |
-| Nautical miles             | Морские мили                                |
-| Binding quotation          | Обязательное ценовое предложение            |
-| Licensed captain           | Капитан с действующей квалификацией         |
-| Yacht Survey Tips          | Советы по сюрвейерскому осмотру яхт         |
-| Deck moisture              | Влага в палубе                              |
-| Moisture ingress           | Проникновение влаги                         |
-| Soft spot                  | Мягкий участок                              |
-| Deck core                  | Заполнитель палубной конструкции            |
-| Moisture meter             | Влагомер                                    |
-| Thermal imaging            | Тепловизионное обследование                 |
-| Tap/percussion testing     | Перкуссионная проверка или простукивание    |
-| Hull fairness              | Плавность и правильность обводов корпуса    |
-| Fairing                    | Шпатлевание и выравнивание поверхности      |
-| Re-lamination              | Повторное ламинирование                     |
-| Osmosis                    | Осмос                                       |
+| English concept            | Preferred Russian term                       |
+| -------------------------- | -------------------------------------------- |
+| Yacht surveyor             | Яхтенный сюрвейер                            |
+| Marine surveyor            | Сюрвейер яхт и маломерных судов              |
+| Pre-purchase survey        | Предпокупочный сюрвейерский осмотр           |
+| Insurance condition survey | Сюрвейерский осмотр для страхования          |
+| Buyer representation       | Представительство покупателя                 |
+| Yacht delivery             | Перегон яхт                                  |
+| Valuation                  | Оценка стоимости                             |
+| Damage assessment          | Оценка ущерба                                |
+| Haul-out                   | Подъём яхты                                  |
+| Sea trial                  | Ходовые испытания                            |
+| Survey calculator          | Калькулятор стоимости сюрвейерского осмотра  |
+| Delivery calculator        | Калькулятор стоимости перегона яхты          |
+| Length overall             | Габаритная длина яхты                        |
+| Initial estimate           | Ориентировочный расчёт                       |
+| Nautical miles             | Морские мили                                 |
+| Binding quotation          | Обязательное ценовое предложение             |
+| Licensed captain           | Капитан с действующей квалификацией          |
+| Yacht Survey Tips          | Советы по сюрвейерскому осмотру яхт          |
+| Deck moisture              | Влага в палубе                               |
+| Moisture ingress           | Проникновение влаги                          |
+| Soft spot                  | Мягкий участок                               |
+| Deck core                  | Заполнитель палубной конструкции             |
+| Moisture meter             | Влагомер                                     |
+| Thermal imaging            | Тепловизионное обследование                  |
+| Tap/percussion testing     | Перкуссионная проверка или простукивание     |
+| Hull fairness              | Плавность и правильность обводов корпуса     |
+| Fairing                    | Шпатлевание и выравнивание поверхности       |
+| Re-lamination              | Повторное ламинирование                      |
+| Osmosis                    | Осмос                                        |
+| Yachts for Sale            | Яхты на продажу                              |
+| Sailing yachts             | Парусные яхты                                |
+| Motor yachts               | Моторные яхты                                |
+| External listings          | Внешние объявления о продаже                 |
+| Independent buyer support  | Независимая техническая поддержка покупателя |
+| Commercial relationship    | Коммерческие отношения                       |
+| Conflict of interest       | Конфликт интересов                           |
+| Disclosure                 | Раскрытие информации                         |
+| Technical review           | Технический анализ                           |
 
 Russian service CTAs use `/ru/contact?service=<canonical-service-code>` and
 may add a `source` parameter for analytics. Canonical service codes remain
@@ -200,10 +211,9 @@ language-neutral and must not be translated.
 Russian shared interface copy lives beside English and Spanish in `src/i18n/`.
 The Russian header, flat mobile menu, homepage service cards, Contact service
 links and footer use the published Russian commercial, calculator and Survey
-Tips routes. Yachts for Sale and the legal policies retain real English URLs
-and mark each destination with `— на английском`. No additional Russian
-listings or legal route should be added until its complete translation is
-ready.
+Tips routes, including `/ru/yachts-for-sale`. Only the legal policies retain
+real English URLs and mark each destination with `— на английском`. No Russian
+legal route should be added until its complete translation is ready.
 
 The Russian Contact page reuses `POST /api/contact`, Turnstile, attachment
 validation, spam controls and Gmail delivery. It submits `locale=ru` so the
@@ -228,11 +238,11 @@ All locales retain the stable business entity ID
 `https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs`; translated
 pages must not create locale-specific duplicates.
 
-Remaining Russian batches are Yachts for Sale, the legal pages and a final
-Russian-wide audit. The production legal guard remains the launch blocker for
-every locale. Spanish Batch 6 is GO for content and technical readiness,
-subject to the same production legal and professional-approval blockers.
-English, Spanish and Russian remain the only supported languages.
+Remaining Russian batches are the legal pages and a final Russian-wide audit.
+The production legal guard remains the launch blocker for every locale. Spanish
+Batch 6 is GO for content and technical readiness, subject to the same
+production legal and professional-approval blockers. English, Spanish and
+Russian remain the only supported languages.
 
 ### Spanish marine-survey terminology
 
@@ -283,10 +293,10 @@ npm run check:calculators
 
 ## Yachts for Sale referral page
 
-`/yachts-for-sale` and `/es/yachts-for-sale` are static English and Spanish
-gateways to current yacht listings on Premium Yachts Spain and to independent
-buyer-side technical support from All Yacht Service. The verified external
-destinations are:
+`/yachts-for-sale`, `/es/yachts-for-sale` and `/ru/yachts-for-sale` are static
+English, Spanish and Russian gateways to current yacht listings on Premium
+Yachts Spain and to independent buyer-side technical support from All Yacht
+Service. The verified external destinations are:
 
 - brokerage overview:
   `https://www.premiumyachts.es/yacht-brokerage`
@@ -301,6 +311,13 @@ iframes, scraping, or runtime requests to the brokerage website. Availability,
 specifications, pricing and brokerage terms remain controlled externally and
 must be confirmed with the listing broker.
 
+The referral-only architecture does not use `Product`, `Offer`, yacht-inventory
+or price structured data. The page exposes WebPage, BreadcrumbList and the
+shared ProfessionalService business entity only. Buyer-support CTAs use
+`/ru/contact?service=buyer-representation` or
+`/ru/contact?service=pre-purchase-survey`; the canonical service codes are never
+translated.
+
 The page includes a prominent disclosure that Aleksandrs Tolkacovs is Chief
 Operating Officer of Premium Yachts Spain and that the two activities have
 different commercial roles. It also explains how a commercial connection is
@@ -311,12 +328,11 @@ maintained.
 `Yachts for Sale` appears in the desktop header, flat mobile menu, homepage
 services grid, footer navigation and concise 404 destinations. Premium Yachts
 Spain links use meaningful text, a visible external-destination label where
-appropriate, `target="_blank"`, and `rel="noopener noreferrer"`. The genuine
-page pair emits `en`, `es` and English `x-default` alternates; the Russian
-homepage fallback remains a navigation convenience and is not an hreflang
-equivalent. The Spanish page reuses the English page's images, external
-destinations, limitations and disclosure while localising only the visitor
-copy, metadata and structured-data fields.
+appropriate, an accessible new-tab announcement, `target="_blank"`, and
+`rel="noopener noreferrer"`. The genuine route group emits `en`, `es`, `ru` and
+English `x-default` alternates. The Spanish and Russian pages reuse the English
+page's images, external destinations, limitations and disclosure while
+localising only visitor copy, metadata and structured-data fields.
 
 The desktop Services disclosure uses native `<details>` and `<summary>`
 behaviour so it remains operable by mouse and keyboard even before JavaScript
@@ -326,7 +342,9 @@ separate and unchanged.
 
 The three local page images are optimized copies of general imagery from the
 verified brokerage overview. They are illustrative only and must not be
-presented as evidence that a pictured yacht is currently available.
+presented as evidence that a pictured yacht is currently available. Localized
+alt text and the visible illustrative-image disclaimer carry that limitation in
+each published language; no locale-specific image duplicates are required.
 
 ## Commands
 

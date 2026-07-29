@@ -1,0 +1,296 @@
+---
+import { russianYachtsForSalePage } from '../../data/ru/yachts-for-sale';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(russianYachtsForSalePage.pathname);
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: russianYachtsForSalePage.title,
+  description: russianYachtsForSalePage.description,
+  inLanguage: 'ru',
+  about: {
+    '@id': businessEntityId,
+  },
+  primaryImageOfPage: {
+    '@type': 'ImageObject',
+    url: toAbsoluteUrl(russianYachtsForSalePage.heroImage.src),
+    caption: russianYachtsForSalePage.socialImageAlt,
+    width: russianYachtsForSalePage.heroImage.width,
+    height: russianYachtsForSalePage.heroImage.height,
+  },
+};
+---
+
+<ServiceLayout
+  {...russianYachtsForSalePage}
+  locale="ru"
+  routeId="yachtsForSale"
+  breadcrumbLabel="Навигационная цепочка"
+  structuredData={webPageSchema}
+  relatedHeading="Услуги для покупателей яхт"
+  finalCtaEyebrow="Контакты"
+>
+  <section aria-labelledby="find-yacht-heading">
+    <p class="eyebrow">
+      Внешние объявления и независимая техническая поддержка
+    </p>
+    <h2 id="find-yacht-heading">
+      Найдите подходящую яхту с профессиональной поддержкой
+    </h2>
+    <p>
+      All Yacht Service не ведёт и не обслуживает отдельный перечень яхт на
+      продажу. Актуальные объявления размещает и поддерживает Premium Yachts
+      Spain.
+    </p>
+    <p>
+      Покупатель может просмотреть предложения на внешнем сайте, а затем
+      заказать независимую техническую поддержку. Она может включать
+      представительство покупателя, предпокупочный сюрвейерский осмотр,
+      поддержку во время ходовых испытаний и отчёт о техническом состоянии.
+    </p>
+    <p class="service-note">
+      Доступность яхты, характеристики, цена, налоговый статус и условия
+      брокерской сделки всегда должны подтверждаться непосредственно у брокера,
+      разместившего объявление.
+    </p>
+  </section>
+
+  <section
+    class="brokerage-destinations"
+    aria-labelledby="browse-listings-heading"
+  >
+    <p class="eyebrow">Premium Yachts Spain</p>
+    <h2 id="browse-listings-heading">Просмотреть яхты на продажу</h2>
+    <div class="brokerage-destination-grid">
+      {
+        russianYachtsForSalePage.brokerageDestinations.map((destination) => (
+          <article class="brokerage-destination-card">
+            <img
+              src={destination.image.src}
+              alt={destination.image.alt}
+              width={destination.image.width}
+              height={destination.image.height}
+              loading="lazy"
+              decoding="async"
+            />
+            <div>
+              <p class="external-destination-label">
+                Внешний сайт на английском языке
+              </p>
+              <h3>{destination.title}</h3>
+              <p>{destination.description}</p>
+              <a
+                class="text-arrow-link"
+                href={destination.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {destination.label}
+                <span aria-hidden="true">↗</span>
+                <span class="sr-only">
+                  на внешнем сайте Premium Yachts Spain, откроется в новой
+                  вкладке
+                </span>
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+    <p class="brokerage-listing-notice">
+      Объявления, характеристики, цены и доступность могут изменяться.
+      Подтвердите все сведения непосредственно у Premium Yachts Spain, прежде
+      чем полагаться на них.
+    </p>
+    <p class="brokerage-image-note">
+      Изображения используются в иллюстративных целях и не представляют полный
+      или актуальный перечень яхт, доступных к продаже.
+    </p>
+  </section>
+
+  <section aria-labelledby="buyer-support-heading">
+    <h2 id="buyer-support-heading">Независимая поддержка перед покупкой</h2>
+    <p>
+      Объявление о продаже содержит первоначальную коммерческую информацию, но
+      не заменяет независимую техническую оценку конкретной яхты.
+    </p>
+    <p>
+      В пределах согласованного задания All Yacht Service может помочь
+      покупателю оценить яхту, доступные документы, наблюдаемое состояние и
+      практические риски покупки.
+    </p>
+    <p>Поддержка может включать:</p>
+    <ul class="service-check-list buyer-support-list">
+      {
+        russianYachtsForSalePage.buyerSupportItems.map((item) => (
+          <li>{item}</li>
+        ))
+      }
+    </ul>
+    <a
+      class="button button-outline-navy contextual-cta"
+      href="/ru/buyer-representation"
+    >
+      Подробнее о представительстве покупателя
+    </a>
+  </section>
+
+  <section aria-labelledby="pre-purchase-heading">
+    <h2 id="pre-purchase-heading">
+      Закажите предпокупочный сюрвейерский осмотр яхты
+    </h2>
+    <p>
+      Предпокупочный осмотр заказывает потенциальный покупатель, чтобы оценить
+      доступное техническое состояние яхты и выявить существенные результаты до
+      завершения покупки.
+    </p>
+    <p>
+      В зависимости от согласованного объёма осмотр может включать корпус,
+      палубу, конструкции, механизмы, электрические и водяные системы,
+      спасательное оборудование, такелаж, подводную часть и ходовые испытания.
+    </p>
+    <p class="service-note">
+      Возможность осмотра и испытаний зависит от доступа, работоспособности
+      систем, разрешений и согласованного объёма. Сюрвейерский осмотр не
+      гарантирует, что каждую систему удастся проверить полностью.
+    </p>
+    <div class="buyer-page-actions">
+      <a class="button button-navy" href="/ru/pre-purchase-survey">
+        Подробнее о предпокупочном осмотре
+      </a>
+      <a
+        class="button button-outline-navy"
+        href="/ru/pre-purchase-survey-calculator"
+      >
+        Рассчитать ориентировочную стоимость осмотра
+      </a>
+      <a
+        class="button button-outline-navy"
+        href="/ru/contact?service=pre-purchase-survey"
+      >
+        Запросить предпокупочный сюрвейерский осмотр
+      </a>
+    </div>
+  </section>
+
+  <section class="commercial-disclosure" aria-labelledby="relationship-heading">
+    <p class="eyebrow eyebrow-light">
+      Раскрытие информации о коммерческих отношениях
+    </p>
+    <h2 id="relationship-heading">
+      Важная информация о коммерческих отношениях и независимости
+    </h2>
+    <p>
+      Aleksandrs Tolkacovs занимает должность Chief Operating Officer в Premium
+      Yachts Spain. Premium Yachts Spain и All Yacht Service осуществляют
+      отдельные виды деятельности и выполняют разные коммерческие роли.
+    </p>
+    <p>
+      Premium Yachts Spain оказывает брокерские услуги по продаже яхт. All Yacht
+      Service отдельно оказывает услуги морского сюрвейера и технической
+      поддержки.
+    </p>
+    <p>
+      Если яхта размещена, представлена или коммерчески связана с Premium Yachts
+      Spain, эта связь раскрывается до того, как All Yacht Service примет
+      задание на сюрвейерский осмотр или поддержку покупателя.
+    </p>
+    <p>
+      Покупатель вправе выбрать любого другого независимого сюрвейера. Выводы и
+      технические заключения All Yacht Service должны оставаться профессионально
+      независимыми.
+    </p>
+    <p>
+      All Yacht Service может отказаться от задания или рекомендовать другого
+      сюрвейера, если коммерческую связь невозможно надлежащим образом раскрыть
+      или урегулировать.
+    </p>
+  </section>
+
+  <section aria-labelledby="conflicts-heading">
+    <h2 id="conflicts-heading">
+      Как рассматриваются возможные конфликты интересов
+    </h2>
+    <ul class="service-check-list">
+      {russianYachtsForSalePage.conflictItems.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="service-note">
+      Сюрвейерский отчёт не является брокерской рекомендацией, советом о покупке
+      или гарантией будущего состояния яхты.
+    </p>
+  </section>
+
+  <section aria-labelledby="buyer-journey-heading">
+    <h2 id="buyer-journey-heading">Практический путь покупателя</h2>
+    <ol class="process-list">
+      {
+        russianYachtsForSalePage.buyerJourney.map((step, index) => (
+          <li>
+            <div>
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section aria-labelledby="buyer-documents-heading">
+    <h2 id="buyer-documents-heading">Какие сведения запросить до осмотра</h2>
+    <ul class="document-request-grid">
+      {russianYachtsForSalePage.documentItems.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="service-note">
+      Анализ документов ограничен предоставленными материалами и не является
+      юридической проверкой права собственности, владельца, финансирования,
+      налогового статуса или регистрации.
+    </p>
+  </section>
+
+  <section aria-labelledby="survey-brokerage-heading">
+    <h2 id="survey-brokerage-heading">
+      Зачем осматривать яхту, продаваемую через брокера?
+    </h2>
+    <ul class="service-check-list">
+      {russianYachtsForSalePage.surveyReasons.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="service-note">
+      Сюрвейерский осмотр снижает неопределённость, но не устраняет все риски
+      покупки и не выявляет каждый скрытый дефект.
+    </p>
+  </section>
+
+  <section aria-labelledby="buyer-coverage-heading">
+    <h2 id="buyer-coverage-heading">
+      Поддержка покупателей яхт в Испании и Средиземноморье
+    </h2>
+    <p>
+      All Yacht Service помогает покупателям парусных яхт, моторных яхт и
+      катамаранов в Испании и других регионах Средиземноморья.
+    </p>
+    <p>
+      All Yacht Service базируется в Marina Greenwich в Альтее. По согласованию
+      задания могут выполняться в Аликанте, на Коста-Бланке, в Валенсии,
+      Барселоне, материковой Испании, на Балеарских островах, а также во
+      Франции, Италии, Греции и других регионах.
+    </p>
+    <p class="service-note">
+      Расходы на поездки, проживание, доступ в марину, подъём яхты и привлечение
+      профильных специалистов рассчитываются отдельно, когда применимо.
+    </p>
+  </section>
+</ServiceLayout>

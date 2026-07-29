@@ -321,6 +321,7 @@ const spanishSurveyTipsPages = [
 const spanishYachtsForSalePage = {
   en: '/yachts-for-sale',
   es: '/es/yachts-for-sale',
+  ru: '/ru/yachts-for-sale',
   title: 'Yates en venta y asistencia al comprador | All Yacht Service',
   description:
     'Consulte yates en venta a través de Premium Yachts Spain y solicite representación del comprador o una inspección precompra independiente.',
@@ -378,6 +379,7 @@ if (existsSync(distDirectory)) {
     ...spanishSurveyTipsPages.flatMap(({ en, es, ru }) => [en, es, ru]),
     spanishYachtsForSalePage.en,
     spanishYachtsForSalePage.es,
+    spanishYachtsForSalePage.ru,
     ...spanishLegalPages.flatMap(({ en, es }) => [en, es]),
   ];
   for (const pathname of requiredRoutes) {
@@ -391,7 +393,6 @@ if (existsSync(distDirectory)) {
     '/fr',
     '/it',
     '/gr',
-    '/ru/yachts-for-sale',
     '/ru/privacy-policy',
     '/ru/cookie-policy',
     '/ru/legal-notice',
@@ -733,21 +734,20 @@ if (existsSync(distDirectory)) {
     const page = spanishYachtsForSalePage;
     const english = getBuiltPage(page.en);
     const spanish = getBuiltPage(page.es);
+    const russian = getBuiltPage(page.ru);
     const alternates = {
       en: absolute(page.en),
       es: absolute(page.es),
+      ru: absolute(page.ru),
       'x-default': absolute(page.en),
     };
 
     assertHreflangs(english, alternates, page.en);
     assertHreflangs(spanish, alternates, page.es);
-    assertOpenGraphLocales(english, 'en_GB', ['es_ES'], page.en);
-    assertOpenGraphLocales(spanish, 'es_ES', ['en_GB'], page.es);
-    assert(
-      !getHreflangs(english).some(({ hreflang }) => hreflang === 'ru') &&
-        !getHreflangs(spanish).some(({ hreflang }) => hreflang === 'ru'),
-      `${page.en} or ${page.es} exposes a Russian homepage fallback as hreflang.`,
-    );
+    assertHreflangs(russian, alternates, page.ru);
+    assertOpenGraphLocales(english, 'en_GB', ['es_ES', 'ru_RU'], page.en);
+    assertOpenGraphLocales(spanish, 'es_ES', ['en_GB', 'ru_RU'], page.es);
+    assertOpenGraphLocales(russian, 'ru_RU', ['en_GB', 'es_ES'], page.ru);
     assert(
       spanish.includes('<html lang="es">') &&
         (spanish.match(/<h1(?:\s|>)/gu) ?? []).length === 1 &&
@@ -1118,6 +1118,7 @@ if (existsSync(distDirectory)) {
     ...spanishSurveyTipsPages.map(({ es }) => es),
     ...spanishSurveyTipsPages.map(({ ru }) => ru),
     spanishYachtsForSalePage.es,
+    spanishYachtsForSalePage.ru,
     ...spanishLegalPages.map(({ es }) => es),
   ]) {
     assert(

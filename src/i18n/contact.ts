@@ -762,6 +762,10 @@ export const russianContactPage = {
         href: '/ru/buyer-representation',
       },
       {
+        label: 'Яхты на продажу',
+        href: '/ru/yachts-for-sale',
+      },
+      {
         label: 'Перегон яхт',
         href: '/ru/yacht-delivery',
       },

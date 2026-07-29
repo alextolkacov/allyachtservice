@@ -87,7 +87,7 @@ export const russianHomeServices = [
     title: 'Яхты на продажу',
     description:
       'Просмотрите актуальные предложения и закажите независимый осмотр или техническую поддержку перед покупкой.',
-    href: '/yachts-for-sale',
+    href: '/ru/yachts-for-sale',
     image: {
       src: '/images/yachts-for-sale-marina.jpg',
       alt: 'Яхты у причалов средиземноморской марины',

@@ -82,6 +82,7 @@ export const translatedRoutes: Record<
   yachtsForSale: {
     en: '/yachts-for-sale',
     es: '/es/yachts-for-sale',
+    ru: '/ru/yachts-for-sale',
   },
   yachtSurveyTips: {
     en: '/yacht-survey-tips',
