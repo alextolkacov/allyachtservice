@@ -1,7 +1,7 @@
 ---
 import { siteConfig } from '../data/site';
 import type { Locale } from '../data/languages';
-import { spanishFooter } from '../i18n/footer';
+import { russianFooter, spanishFooter } from '../i18n/footer';
 import SocialLinks from './SocialLinks.astro';
 
 interface Props {
@@ -10,39 +10,64 @@ interface Props {
 
 const { locale = 'en' } = Astro.props;
 const isSpanish = locale === 'es';
-const copy = isSpanish
-  ? {
-      eyebrow: 'Contacto',
-      location:
-        'Con base en Marina Greenwich, Altea, y disponible en toda España y el Mediterráneo.',
-      enquiry: 'Enviar una consulta',
-      office: 'Oficina',
-      direct: 'Contacto directo',
-      phone: 'Teléfono',
-      email: 'Correo electrónico',
-      openingHours: 'Horario',
-    }
-  : {
-      eyebrow: 'Contact',
-      location:
-        'Based at Marina Greenwich in Altea and available throughout Spain and the Mediterranean.',
-      enquiry: 'Send an Enquiry',
-      office: 'Office',
-      direct: 'Direct contact',
-      phone: 'Phone',
-      email: 'Email',
-      openingHours: 'Opening hours',
-    };
+const isRussian = locale === 'ru';
+const copy =
+  locale === 'es'
+    ? {
+        eyebrow: 'Contacto',
+        location:
+          'Con base en Marina Greenwich, Altea, y disponible en toda España y el Mediterráneo.',
+        enquiry: 'Enviar una consulta',
+        office: 'Oficina',
+        direct: 'Contacto directo',
+        phone: 'Teléfono',
+        email: 'Correo electrónico',
+        openingHours: 'Horario',
+      }
+    : locale === 'ru'
+      ? {
+          eyebrow: 'Контакты',
+          location:
+            'Офис расположен в Marina Greenwich, Альтеа. Услуги доступны по всей Испании и Средиземноморью.',
+          enquiry: 'Отправить запрос',
+          office: 'Офис',
+          direct: 'Прямой контакт',
+          phone: 'Телефон',
+          email: 'Электронная почта',
+          openingHours: 'Часы работы',
+        }
+      : {
+          eyebrow: 'Contact',
+          location:
+            'Based at Marina Greenwich in Altea and available throughout Spain and the Mediterranean.',
+          enquiry: 'Send an Enquiry',
+          office: 'Office',
+          direct: 'Direct contact',
+          phone: 'Phone',
+          email: 'Email',
+          openingHours: 'Opening hours',
+        };
 const addressLines = isSpanish
   ? spanishFooter.address
-  : siteConfig.address.lines;
+  : isRussian
+    ? russianFooter.address
+    : siteConfig.address.lines;
 const workingHours = isSpanish
   ? spanishFooter.hours
-  : siteConfig.workingHours.label;
+  : isRussian
+    ? russianFooter.hours
+    : siteConfig.workingHours.label;
 const officeVisits = isSpanish
   ? spanishFooter.appointments
-  : siteConfig.officeVisits;
-const contactHref = isSpanish ? '/es/contact' : '/contact';
+  : isRussian
+    ? russianFooter.appointments
+    : siteConfig.officeVisits;
+const contactHref =
+  locale === 'es'
+    ? '/es/contact'
+    : locale === 'ru'
+      ? '/ru/contact'
+      : '/contact';
 ---
 
 <section id="contact" class="contact-section" aria-labelledby="contact-heading">

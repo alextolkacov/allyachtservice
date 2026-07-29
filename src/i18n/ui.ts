@@ -83,16 +83,54 @@ export const sharedUi = {
     backHome: 'Volver al inicio',
     externalWebsite: 'Sitio web externo',
   },
-} as const satisfies Record<'en' | 'es', SharedUiCopy>;
+  ru: {
+    skipToContent: 'Перейти к содержимому',
+    primaryNavigation: 'Основная навигация',
+    services: 'Услуги',
+    language: 'Язык',
+    menu: 'Меню',
+    openMenu: 'Открыть меню навигации',
+    closeMenu: 'Закрыть меню навигации',
+    homepage: 'главная страница',
+    currentPage: 'текущая страница',
+    version: 'версия',
+    languageHomepage: 'главная страница',
+    englishFallback: 'на английском',
+    englishFallbackLowercase: 'на английском',
+    opensNewTab: 'откроется в новой вкладке',
+    learnMore: 'Подробнее',
+    requestQuote: 'Запросить расчёт',
+    contactUs: 'Связаться с нами',
+    whatsapp: 'WhatsApp',
+    email: 'Электронная почта',
+    readMore: 'Читать далее',
+    viewService: 'Подробнее об услуге',
+    onlineTools: 'Онлайн-инструменты',
+    relatedServices: 'Связанные услуги',
+    backHome: 'Вернуться на главную',
+    externalWebsite: 'Внешний сайт',
+  },
+} as const satisfies Record<Locale, SharedUiCopy>;
 
 export function getSharedUi(locale: Locale): SharedUiCopy {
-  return locale === 'es' ? sharedUi.es : sharedUi.en;
+  return sharedUi[locale];
 }
 
 const languageNamesInSpanish: Record<Locale, string> = {
   en: 'inglés',
   es: 'español',
   ru: 'ruso',
+};
+
+const languageNamesInRussian: Record<Locale, string> = {
+  en: 'английском',
+  es: 'испанском',
+  ru: 'русском',
+};
+const languageNamesForRussianCurrentPage: Record<Locale, string> = {
+  en: 'Английский',
+  es: 'Испанский',
+  ru: 'Русский',
 };
 
 export function getLanguageSwitcherLabel(input: {
@@ -105,22 +143,32 @@ export function getLanguageSwitcherLabel(input: {
   const { currentLocale, targetLocale, targetLabel, isEquivalent, isCurrent } =
     input;
 
-  if (currentLocale !== 'es') {
+  if (currentLocale === 'en') {
     if (isCurrent) return `${targetLabel}, current page`;
     return isEquivalent ? `${targetLabel} version` : `${targetLabel} homepage`;
   }
 
-  const languageName = languageNamesInSpanish[targetLocale];
-  if (isCurrent) {
-    const currentLanguageName =
-      languageName.charAt(0).toUpperCase() + languageName.slice(1);
-    return `${currentLanguageName}, página actual`;
+  if (currentLocale === 'es') {
+    const languageName = languageNamesInSpanish[targetLocale];
+    if (isCurrent) {
+      const currentLanguageName =
+        languageName.charAt(0).toUpperCase() + languageName.slice(1);
+      return `${currentLanguageName}, página actual`;
+    }
+    return isEquivalent
+      ? `Versión en ${languageName}`
+      : `Página de inicio en ${languageName}`;
   }
+
+  if (isCurrent) {
+    return `${languageNamesForRussianCurrentPage[targetLocale]}, текущая страница`;
+  }
+  const languageName = languageNamesInRussian[targetLocale];
   return isEquivalent
-    ? `Versión en ${languageName}`
-    : `Página de inicio en ${languageName}`;
+    ? `Версия на ${languageName} языке`
+    : `Главная страница на ${languageName} языке`;
 }
 
 export function isEnglishFallback(locale: Locale, linkLanguage?: string) {
-  return locale === 'es' && linkLanguage === 'en';
+  return (locale === 'es' || locale === 'ru') && linkLanguage === 'en';
 }

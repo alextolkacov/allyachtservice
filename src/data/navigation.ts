@@ -65,6 +65,7 @@ export const translatedRoutes: Record<
   contact: {
     en: '/contact',
     es: '/es/contact',
+    ru: '/ru/contact',
   },
   yachtDelivery: {
     en: '/yacht-delivery',
@@ -136,7 +137,7 @@ export const primaryNavigation = [
     labels: {
       en: 'Pre-Purchase Survey',
       es: 'Inspección precompra',
-      ru: 'Осмотр перед покупкой',
+      ru: 'Предпокупочный сюрвейерский осмотр',
     },
   },
   {
@@ -145,7 +146,7 @@ export const primaryNavigation = [
     labels: {
       en: 'Insurance Survey',
       es: 'Inspección de condición para seguro',
-      ru: 'Страховой осмотр',
+      ru: 'Сюрвейерский осмотр для страхования',
     },
   },
   {
@@ -154,7 +155,7 @@ export const primaryNavigation = [
     labels: {
       en: 'Valuation & Damage',
       es: 'Valoración y evaluación de daños',
-      ru: 'Valuation & Damage',
+      ru: 'Оценка стоимости и ущерба',
     },
   },
   {
@@ -181,7 +182,7 @@ export const primaryNavigation = [
     labels: {
       en: 'Yachts for Sale',
       es: 'Yates en venta',
-      ru: 'Yachts for Sale',
+      ru: 'Яхты на продажу',
     },
   },
   {

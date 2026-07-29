@@ -1,10 +1,10 @@
 import type { Locale } from '../data/languages';
 import type { ContactService } from '../utils/contact';
 
-export type ContactLocale = 'en' | 'es';
+export type ContactLocale = 'en' | 'es' | 'ru';
 
 export function getContactLocale(locale: Locale): ContactLocale {
-  return locale === 'es' ? 'es' : 'en';
+  return locale;
 }
 
 export const contactServiceLabels = {
@@ -23,6 +23,14 @@ export const contactServiceLabels = {
     'yacht-delivery': 'Entrega profesional de yates',
     'valuation-damage-survey': 'Valoración o evaluación de daños',
     'general-enquiry': 'Consulta general',
+  },
+  ru: {
+    'pre-purchase-survey': 'Предпокупочный сюрвейерский осмотр',
+    'insurance-survey': 'Сюрвейерский осмотр для страхования',
+    'buyer-representation': 'Представительство покупателя',
+    'yacht-delivery': 'Перегон яхты',
+    'valuation-damage-survey': 'Оценка стоимости или ущерба',
+    'general-enquiry': 'Общий запрос',
   },
 } as const satisfies Record<ContactLocale, Record<ContactService, string>>;
 
@@ -63,6 +71,9 @@ export interface ContactFormCopy {
   vesselLocationPlaceholder: string;
   messageHelp: string;
   attachmentsHelp: string;
+  chooseFiles: string;
+  noFilesSelected: string;
+  selectedFiles: string;
   acknowledgementBefore: string;
   privacyPolicy: string;
   acknowledgementAfter: string;
@@ -145,6 +156,9 @@ export const contactFormCopy = {
       'Include the yacht model, age and any known concerns where available.',
     attachmentsHelp:
       'Up to 3 PDF, JPEG, PNG or WebP files. Maximum 2 MB per file and 3 MB combined. Do not upload identity, payment or other highly sensitive documents.',
+    chooseFiles: 'Choose files',
+    noFilesSelected: 'No files selected',
+    selectedFiles: 'Files selected:',
     acknowledgementBefore: 'I confirm that I have read the',
     privacyPolicy: 'Privacy Policy',
     acknowledgementAfter:
@@ -233,6 +247,9 @@ export const contactFormCopy = {
       'Incluya el modelo, la antigüedad y cualquier cuestión conocida del yate, si dispone de estos datos.',
     attachmentsHelp:
       'Hasta 3 archivos PDF, JPEG, PNG o WebP. Máximo de 2 MB por archivo y 3 MB en total. No adjunte documentos de identidad, datos de pago ni otra información altamente sensible.',
+    chooseFiles: 'Seleccionar archivos',
+    noFilesSelected: 'No hay archivos seleccionados',
+    selectedFiles: 'Archivos seleccionados:',
     acknowledgementBefore: 'Confirmo que he leído la',
     privacyPolicy: 'Política de privacidad',
     acknowledgementAfter:
@@ -288,6 +305,98 @@ export const contactFormCopy = {
       corridor: 'Corredor marítimo aproximado',
       note: 'Esta estimación de ruta y honorarios es aproximada y no vinculante. No es una ruta de navegación ni un plan de travesía. All Yacht Service debe revisar el alcance y preparar el presupuesto final.',
       remove: 'Eliminar estimación',
+    },
+  },
+  ru: {
+    eyebrow: 'Запрос расчёта',
+    heading: 'Расскажите, что вам требуется',
+    requiredIntro: 'Обязательные поля отмечены',
+    requiredMarker: 'звёздочкой',
+    honeypot: 'Оставьте это поле пустым',
+    fields: {
+      name: 'Имя',
+      email: 'Электронная почта',
+      phone: 'Телефон / WhatsApp',
+      service: 'Требуемая услуга',
+      vesselType: 'Тип судна',
+      vesselLength: 'Длина яхты',
+      vesselLocation: 'Местонахождение яхты',
+      preferredDate: 'Предпочтительная дата',
+      message: 'Сообщение',
+      attachments: 'Прикрепить файлы',
+    },
+    selectService: 'Выберите услугу',
+    vesselTypes: {
+      select: 'Выберите тип судна',
+      sailing: 'Парусная яхта',
+      motor: 'Моторная яхта',
+      catamaran: 'Катамаран',
+      other: 'Другой или пока неизвестен',
+    },
+    vesselLengthHelp: 'Достаточно указать приблизительную длину.',
+    vesselLocationPlaceholder: 'Марина, город и страна',
+    messageHelp:
+      'По возможности укажите модель, возраст яхты и известные вам особенности.',
+    attachmentsHelp:
+      'До 3 файлов PDF, JPEG, PNG или WebP. Не более 2 МБ на файл и 3 МБ в сумме. Не прикрепляйте документы, удостоверяющие личность, платёжные данные или другую строго конфиденциальную информацию.',
+    chooseFiles: 'Выбрать файлы',
+    noFilesSelected: 'Файлы не выбраны',
+    selectedFiles: 'Выбрано файлов:',
+    acknowledgementBefore: 'Подтверждаю, что прочитал(а)',
+    privacyPolicy: 'Политику конфиденциальности',
+    acknowledgementAfter:
+      'и понимаю, как будет обрабатываться информация из моего обращения.',
+    privacyLanguageNote: 'В настоящее время доступна на английском языке.',
+    configurationNotice:
+      'Защищённая форма не настроена в этой среде. Свяжитесь с нами по телефону, WhatsApp или электронной почте.',
+    submit: 'Отправить запрос',
+    submitting: 'Отправка…',
+    responseNote:
+      'Доступность услуг и окончательная стоимость подтверждаются индивидуально.',
+    noscriptBefore:
+      'Для защищённой проверки требуется JavaScript. Вместо формы напишите на',
+    noscriptAfter: 'для отправки запроса.',
+    surveyCalculatorSuggestion:
+      'Сначала рассчитать ориентировочную стоимость осмотра — на английском',
+    deliveryCalculatorSuggestion:
+      'Сначала рассчитать ориентировочную стоимость перегона — на английском',
+    valuationDamageHelper:
+      'Укажите, требуется ли оценка стоимости, оценка ущерба или комплексное задание.',
+    transferred: 'Перенесённый расчёт',
+    surveyEstimate: {
+      heading: 'Ориентировочная стоимость сюрвейерского осмотра',
+      intro:
+        'Проверьте расчёт, перенесённый из калькулятора, перед отправкой запроса.',
+      reference: 'Номер расчёта',
+      price: 'Ориентировочная стоимость',
+      created: 'Дата расчёта',
+      loa: 'Длина яхты',
+      vessel: 'Тип судна',
+      package: 'Выбранный объём осмотра',
+      hull: 'Осмотр корпуса',
+      location: 'Местонахождение яхты',
+      discount: 'Скидка за полный пакет',
+      items: 'Включённые пункты осмотра',
+      note: 'Расчёт является ориентировочным и не имеет обязательной силы. Окончательный объём работ и стоимость определяются All Yacht Service после проверки данных.',
+      remove: 'Удалить расчёт',
+    },
+    deliveryEstimate: {
+      heading: 'Ориентировочная стоимость перегона яхты',
+      intro:
+        'Проверьте расчёт маршрута, перенесённый из калькулятора, перед отправкой запроса.',
+      reference: 'Номер расчёта',
+      created: 'Дата расчёта',
+      departure: 'Порт отправления',
+      destination: 'Порт назначения',
+      distance: 'Ориентировочное расстояние по морскому маршруту',
+      fee: 'Ориентировочная начальная стоимость профессионального перегона',
+      yachtType: 'Тип яхты',
+      lengthBand: 'Диапазон длины яхты',
+      complexity: 'Сложность перегона',
+      timing: 'Сроки',
+      corridor: 'Ориентировочный морской коридор',
+      note: 'Расчёт маршрута и стоимости является ориентировочным и не имеет обязательной силы. Он не является навигационным маршрутом или планом перехода. Окончательный объём работ и стоимость определяются All Yacht Service после проверки данных.',
+      remove: 'Удалить расчёт',
     },
   },
 } as const satisfies Record<ContactLocale, ContactFormCopy>;
@@ -370,6 +479,44 @@ export const contactClientCopy = {
       generic: 'Revise este campo e inténtelo de nuevo.',
     },
   },
+  ru: {
+    locale: 'ru-RU',
+    metres: 'м',
+    nauticalMiles: 'морских миль',
+    successHeading: 'Запрос отправлен',
+    successMessage:
+      'Спасибо. Мы получили ваш запрос и ответим в ближайшее время.',
+    errorHeading: 'Не удалось отправить запрос',
+    errorMessage:
+      'Проверьте отмеченные поля и попробуйте ещё раз. Вы также можете связаться с нами по телефону, WhatsApp или электронной почте.',
+    connectionError:
+      'Соединение было прервано. Попробуйте ещё раз или свяжитесь с нами по телефону, WhatsApp или электронной почте.',
+    reference: 'Номер обращения',
+    errors: {
+      name: 'Введите имя длиной от 2 до 100 символов.',
+      email: 'Введите действительный адрес электронной почты.',
+      phone: 'Введите действительный номер телефона или WhatsApp.',
+      service: 'Выберите действительную услугу.',
+      vesselType: 'Выберите действительный тип судна.',
+      vesselLength: 'Укажите длину яхты от 1 до 99 метров.',
+      vesselLocation: 'Для местонахождения используйте не более 120 символов.',
+      preferredDate: 'Укажите действительную предпочтительную дату.',
+      message: 'Введите сообщение длиной от 20 до 5 000 символов.',
+      consent:
+        'Подтвердите, что прочитали Политику конфиденциальности и понимаете, как будет обрабатываться информация из вашего обращения.',
+      verification: 'Пройдите защищённую проверку перед отправкой запроса.',
+      verificationExpired:
+        'Срок действия сеанса формы истёк. Обновите страницу и попробуйте ещё раз.',
+      attachmentsCount: 'Прикрепите не более 3 файлов.',
+      attachmentsType: 'Допускаются только файлы PDF, JPEG, PNG или WebP.',
+      attachmentsFileSize: 'Размер каждого файла не должен превышать 2 МБ.',
+      attachmentsTotalSize:
+        'Общий размер прикреплённых файлов не должен превышать 3 МБ.',
+      attachmentsSignature:
+        'Содержимое одного или нескольких файлов не соответствует выбранному типу.',
+      generic: 'Проверьте это поле и попробуйте ещё раз.',
+    },
+  },
 } as const;
 
 export const serverErrorMessageKeys = {
@@ -445,6 +592,53 @@ export const contactCalculatorCopy = {
       },
     },
   },
+  ru: {
+    survey: {
+      vesselType: {
+        sailing: 'Парусная яхта',
+        motor: 'Моторная яхта',
+      },
+      packageType: {
+        base: 'Базовый осмотр',
+        custom: 'Индивидуальный объём осмотра',
+        full: 'Полный пакет осмотра',
+      },
+      hullInspection: {
+        afloat: 'Осмотр на плаву',
+        'hull-out': 'Осмотр с подъёмом яхты',
+      },
+      items: {
+        'Base pre-purchase condition survey':
+          'Базовый предпокупочный осмотр состояния',
+        'Afloat inspection only': 'Осмотр только на плаву',
+        'Hull-out inspection': 'Осмотр с подъёмом яхты',
+        'Sea trial': 'Ходовые испытания',
+        'Engine inspection': 'Осмотр двигателя',
+        'Rigging and sails inspection': 'Осмотр такелажа и парусов',
+      },
+    },
+    delivery: {
+      yachtType: {
+        sailing: 'Парусная яхта',
+        motor: 'Моторная яхта',
+      },
+      lengthBand: {
+        small: 'До 12 м',
+        medium: 'Более 12 м, до 18 м',
+        large: 'Более 18 м, до 24 м',
+        xlarge: 'Более 24 м',
+      },
+      complexity: {
+        standard: 'Стандартный перегон по Средиземноморью',
+        offshore: 'Дальний или морской переход',
+        complex: 'Сложный перегон или маршрут с несколькими формальностями',
+      },
+      urgency: {
+        standard: 'Стандартное планирование',
+        urgent: 'Срочный перегон',
+      },
+    },
+  },
 } as const;
 
 export const spanishContactPage = {
@@ -515,5 +709,78 @@ export const spanishContactPage = {
       'No adjunte pasaportes, datos de pago, información médica ni otros documentos altamente sensibles. Consulte la',
     secondAfter:
       'para obtener información sobre las finalidades, bases jurídicas, proveedores, criterios de conservación y sus derechos.',
+  },
+} as const;
+
+export const russianContactPage = {
+  title: 'Контакты | All Yacht Service',
+  description:
+    'Свяжитесь с All Yacht Service, чтобы запросить сюрвейерский осмотр яхты, оценку стоимости или ущерба, поддержку покупателя или профессиональный перегон.',
+  pathname: '/ru/contact',
+  heading: 'Связаться с All Yacht Service',
+  eyebrow: 'Запросы и расчёты',
+  summary:
+    'Расскажите, какой сюрвейерский осмотр, техническая поддержка или услуга по перегону яхты вам требуется. Укажите основные данные яхты и её местонахождение, чтобы мы могли подготовить подходящий ответ.',
+  breadcrumbs: [
+    { label: 'Главная', href: '/ru' },
+    { label: 'Контакты', href: '/ru/contact' },
+  ],
+  sidebar: {
+    ariaLabel: 'Контактные данные All Yacht Service',
+    directEyebrow: 'Прямой контакт',
+    directHeading: 'Связаться с All Yacht Service',
+    phone: 'Телефон',
+    whatsapp: 'WhatsApp',
+    email: 'Электронная почта',
+    officeEyebrow: 'Офис',
+    officeHeading: 'Marina Greenwich, Альтеа',
+    openingHours: 'Понедельник–пятница, 09:00–18:00',
+    appointments: 'Рекомендуется предварительная запись.',
+    google: 'Посмотреть на Google',
+    helpfulEyebrow: 'Полезные сведения',
+    helpfulHeading: 'Что указать в запросе',
+    whatToInclude: [
+      'Требуемую услугу',
+      'Тип, длину и возраст яхты, если они известны',
+      'Текущее местонахождение судна',
+      'Предпочтительные даты осмотра или перегона',
+      'Соответствующие формы страховой компании, объявление или фотографии',
+    ],
+    servicesEyebrow: 'Информация об услугах',
+    servicesHeading: 'Выберите нужную услугу',
+    services: [
+      {
+        label: 'Предпокупочный сюрвейерский осмотр — на английском',
+        href: '/pre-purchase-survey',
+      },
+      {
+        label: 'Сюрвейерский осмотр для страхования — на английском',
+        href: '/insurance-survey',
+      },
+      {
+        label: 'Представительство покупателя — на английском',
+        href: '/buyer-representation',
+      },
+      {
+        label: 'Перегон яхт — на английском',
+        href: '/yacht-delivery',
+      },
+      {
+        label: 'Оценка стоимости и ущерба — на английском',
+        href: '/valuation-damage-survey',
+      },
+    ],
+  },
+  privacy: {
+    eyebrow: 'Конфиденциальность',
+    heading: 'Обработка данных из запроса',
+    first:
+      'All Yacht Service использует информацию, отправленную через эту форму, только для рассмотрения вашего запроса, подготовки расчёта и общения по поводу требуемой услуги. Форма защищена Cloudflare Turnstile, а запрос направляется на',
+    second:
+      'Не прикрепляйте паспорта, платёжные данные, медицинскую информацию или другие строго конфиденциальные документы. Ознакомьтесь с',
+    policy: 'Политикой конфиденциальности',
+    languageNote: 'В настоящее время доступна на английском языке.',
+    secondAfter:
+      'В ней описаны цели и правовые основания обработки, поставщики услуг, критерии хранения данных и ваши права.',
   },
 } as const;

@@ -1,18 +1,79 @@
 ---
+import AboutSection from '../../components/AboutSection.astro';
+import ContactSection from '../../components/ContactSection.astro';
+import Hero from '../../components/Hero.astro';
+import ServicesGrid from '../../components/ServicesGrid.astro';
+import WhyChooseUs from '../../components/WhyChooseUs.astro';
+import {
+  russianHomeAbout,
+  russianHomeHero,
+  russianHomeIntroduction,
+  russianHomeServices,
+  russianOnlineTools,
+  russianWhyChooseUs,
+} from '../../data/ru/home';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PendingHomepage from '../../components/PendingHomepage.astro';
 ---
 
 <BaseLayout
-  title="All Yacht Service | Русский"
-  description="Временная русскоязычная главная страница All Yacht Service. Содержание готовится."
+  title="Морской сюрвейер в Испании | All Yacht Service"
+  description="Независимые сюрвейерские осмотры яхт, перегон и представительство покупателей по всей Испании и Средиземноморью из Marina Greenwich в Альтеа."
   locale="ru"
   routeId="home"
   pathname="/ru"
-  imagePath="/images/hero-sailing-yacht.webp"
+  imagePath={russianHomeHero.image.src}
+  imageAlt={russianHomeHero.image.alt}
 >
-  <PendingHomepage
-    heading="Сайт All Yacht Service"
-    notice="Содержание готовится"
+  <Hero {...russianHomeHero} />
+
+  <section class="intro-section" aria-labelledby="intro-heading">
+    <div class="site-container intro-section-inner">
+      <p class="eyebrow">{russianHomeIntroduction.eyebrow}</p>
+      <h2 id="intro-heading" class="section-heading">
+        {russianHomeIntroduction.heading}
+      </h2>
+      <p class="intro-lead">{russianHomeIntroduction.body}</p>
+      <p class="trust-line">{russianHomeIntroduction.trustLine}</p>
+    </div>
+  </section>
+
+  <ServicesGrid
+    heading="Услуги для яхт"
+    eyebrow="Сюрвейерские осмотры и техническая поддержка"
+    services={russianHomeServices}
+    linkLabel="Подробнее — на английском"
   />
+
+  <section class="online-tools-section" aria-labelledby="online-tools-heading">
+    <div class="site-container">
+      <div class="online-tools-heading">
+        <div>
+          <p class="eyebrow">Поддержка при планировании</p>
+          <h2 id="online-tools-heading" class="section-heading">
+            {russianOnlineTools.heading}
+          </h2>
+        </div>
+        <p>{russianOnlineTools.introduction}</p>
+      </div>
+      <div class="online-tools-grid">
+        {
+          russianOnlineTools.items.map((tool) => (
+            <article>
+              <div>
+                <h3>{tool.title}</h3>
+                <p>{tool.description}</p>
+              </div>
+              <a class="button button-outline-navy" href={tool.href}>
+                {tool.label}
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <WhyChooseUs {...russianWhyChooseUs} />
+  <AboutSection {...russianHomeAbout} />
+  <ContactSection locale="ru" />
 </BaseLayout>

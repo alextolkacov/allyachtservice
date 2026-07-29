@@ -1,0 +1,200 @@
+---
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import SocialLinks from '../../components/SocialLinks.astro';
+import { contactPage } from '../../data/contact';
+import { siteConfig } from '../../data/site';
+import { russianContactPage } from '../../i18n/contact';
+import { russianFooter } from '../../i18n/footer';
+import { getSharedUi } from '../../i18n/ui';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../../utils/seo';
+
+const pageUrl = toAbsoluteUrl(russianContactPage.pathname);
+const ui = getSharedUi('ru');
+const contactHeroAlt =
+  'Парусная яхта в Средиземном море, в зоне работы All Yacht Service';
+const contactPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  '@id': `${pageUrl}#page`,
+  url: pageUrl,
+  name: russianContactPage.heading,
+  description: russianContactPage.description,
+  inLanguage: 'ru',
+  mainEntity: {
+    '@id': businessEntityId,
+  },
+};
+---
+
+<BaseLayout
+  title={russianContactPage.title}
+  description={russianContactPage.description}
+  locale="ru"
+  routeId="contact"
+  pathname={russianContactPage.pathname}
+  imagePath={contactPage.heroImage.src}
+  imageAlt={contactHeroAlt}
+  structuredData={contactPageSchema}
+>
+  <header class="service-hero contact-page-hero">
+    <img
+      class="service-hero-image"
+      src={contactPage.heroImage.src}
+      alt={contactHeroAlt}
+      width={contactPage.heroImage.width}
+      height={contactPage.heroImage.height}
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="service-hero-overlay" aria-hidden="true"></div>
+    <div class="service-hero-content site-container">
+      <Breadcrumbs
+        items={russianContactPage.breadcrumbs}
+        ariaLabel="Навигационная цепочка"
+        theme="light"
+      />
+      <div class="service-hero-copy">
+        <p class="eyebrow eyebrow-light">{russianContactPage.eyebrow}</p>
+        <h1>{russianContactPage.heading}</h1>
+        <p>{russianContactPage.summary}</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="contact-page-main site-container">
+    <div class="contact-page-grid">
+      <ContactForm locale="ru" />
+
+      <aside
+        class="contact-sidebar"
+        aria-label={russianContactPage.sidebar.ariaLabel}
+      >
+        <section aria-labelledby="direct-contact-heading">
+          <p class="eyebrow">
+            {russianContactPage.sidebar.directEyebrow}
+          </p>
+          <h2 id="direct-contact-heading">
+            {russianContactPage.sidebar.directHeading}
+          </h2>
+          <dl class="contact-sidebar-list">
+            <div>
+              <dt>{russianContactPage.sidebar.phone}</dt>
+              <dd>
+                <a href={siteConfig.contact.phoneHref}
+                  >{siteConfig.contact.phone}</a
+                >
+              </dd>
+            </div>
+            <div>
+              <dt>{russianContactPage.sidebar.whatsapp}</dt>
+              <dd>
+                <a
+                  href={siteConfig.contact.whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {siteConfig.contact.whatsapp}
+                  <span class="sr-only">, {ui.opensNewTab}</span>
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt>{russianContactPage.sidebar.email}</dt>
+              <dd>
+                <a href={siteConfig.contact.emailHref}
+                  >{siteConfig.contact.email}</a
+                >
+              </dd>
+            </div>
+          </dl>
+          <SocialLinks theme="dark" showLabels={true} locale="ru" />
+        </section>
+
+        <section aria-labelledby="office-heading">
+          <p class="eyebrow">{russianContactPage.sidebar.officeEyebrow}</p>
+          <h2 id="office-heading">
+            {russianContactPage.sidebar.officeHeading}
+          </h2>
+          <address>
+            {russianFooter.address.map((line) => <span>{line}</span>)}
+          </address>
+          <p>{russianContactPage.sidebar.openingHours}</p>
+          <p>{russianContactPage.sidebar.appointments}</p>
+          <a
+            class="text-arrow-link"
+            href={siteConfig.businessProfiles.google}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {russianContactPage.sidebar.google}
+            <span aria-hidden="true">→</span>
+            <span class="sr-only">, {ui.opensNewTab}</span>
+          </a>
+        </section>
+
+        <section aria-labelledby="include-heading">
+          <p class="eyebrow">{russianContactPage.sidebar.helpfulEyebrow}</p>
+          <h2 id="include-heading">
+            {russianContactPage.sidebar.helpfulHeading}
+          </h2>
+          <ul class="service-check-list">
+            {
+              russianContactPage.sidebar.whatToInclude.map((item) => (
+                <li>{item}</li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <section aria-labelledby="contact-services-heading">
+          <p class="eyebrow">
+            {russianContactPage.sidebar.servicesEyebrow}
+          </p>
+          <h2 id="contact-services-heading">
+            {russianContactPage.sidebar.servicesHeading}
+          </h2>
+          <ul class="service-check-list">
+            {
+              russianContactPage.sidebar.services.map((service) => (
+                <li>
+                  <a href={service.href}>{service.label}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </aside>
+    </div>
+
+    <section
+      id="privacy-notice"
+      class="contact-privacy-notice"
+      aria-labelledby="privacy-notice-heading"
+    >
+      <p class="eyebrow">{russianContactPage.privacy.eyebrow}</p>
+      <h2 id="privacy-notice-heading">
+        {russianContactPage.privacy.heading}
+      </h2>
+      <p>
+        {russianContactPage.privacy.first}
+        {' '}<a href={siteConfig.contact.emailHref}
+          >{siteConfig.contact.email}</a
+        >.
+      </p>
+      <p>
+        {russianContactPage.privacy.second}
+        {' '}<a href="/privacy-policy">{russianContactPage.privacy.policy}</a>. <span
+          class="privacy-language-note"
+          >{russianContactPage.privacy.languageNote}</span
+        >
+        {' '}{russianContactPage.privacy.secondAfter}
+      </p>
+    </section>
+  </div>
+</BaseLayout>

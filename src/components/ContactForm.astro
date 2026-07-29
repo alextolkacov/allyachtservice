@@ -1,7 +1,7 @@
 ---
 import { contactPage } from '../data/contact';
 import type { Locale } from '../data/languages';
-import { getRequiredRoutePath } from '../data/navigation';
+import { getRequiredRoutePath, getRoutePath } from '../data/navigation';
 import {
   contactFormCopy,
   getContactLocale,
@@ -17,7 +17,13 @@ const contactLocale = getContactLocale(locale);
 const copy = contactFormCopy[contactLocale];
 const services = getContactServiceOptions(contactLocale);
 const calculatorPathPrefix = contactLocale === 'es' ? '/es' : '';
-const privacyPolicyPath = getRequiredRoutePath('privacyPolicy', contactLocale);
+const privacyPolicyPath =
+  getRoutePath('privacyPolicy', contactLocale) ??
+  getRequiredRoutePath('privacyPolicy', 'en');
+const vesselLengthUnit = contactLocale === 'ru' ? 'м' : 'm';
+const messageCharacterLimit = new Intl.NumberFormat(
+  contactLocale === 'en' ? 'en-GB' : contactLocale === 'es' ? 'es-ES' : 'ru-RU',
+).format(5000);
 const turnstileSiteKey =
   import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
 const turnstileIsConfigured = turnstileSiteKey.length > 0;
@@ -41,7 +47,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
     method="post"
     enctype="multipart/form-data"
     aria-labelledby="contact-form-heading"
-    novalidate={contactLocale === 'es'}
+    novalidate={contactLocale !== 'en'}
     data-contact-form
     data-locale={contactLocale}
   >
@@ -346,7 +352,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
             placeholder="12.5"
             aria-describedby="contact-vessel-length-help contact-vesselLength-error"
           />
-          <span aria-hidden="true">m</span>
+          <span aria-hidden="true">{vesselLengthUnit}</span>
         </div>
         <p id="contact-vessel-length-help" class="form-field-help">
           {copy.vesselLengthHelp}
@@ -416,7 +422,9 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         <p id="contact-message-help" class="form-field-help">
           {copy.messageHelp}
         </p>
-        <p class="form-character-count" data-message-count>0 / 5,000</p>
+        <p class="form-character-count" data-message-count>
+          0 / {messageCharacterLimit}
+        </p>
       </div>
       <p
         id="contact-message-error"
@@ -428,15 +436,36 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
     </div>
 
     <div class="form-field">
-      <label for="contact-attachments">{copy.fields.attachments}</label>
-      <input
-        id="contact-attachments"
-        name="attachments"
-        type="file"
-        accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp"
-        multiple
-        aria-describedby="contact-attachments-help contact-attachments-error"
-      />
+      <p id="contact-attachments-label" class="form-field-label">
+        {copy.fields.attachments}
+      </p>
+      <div class="contact-file-picker">
+        <input
+          id="contact-attachments"
+          class="contact-file-input sr-only"
+          name="attachments"
+          type="file"
+          accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp"
+          multiple
+          aria-labelledby="contact-attachments-label contact-attachments-button"
+          aria-describedby="contact-attachment-selection contact-attachments-help contact-attachments-error"
+        />
+        <label
+          id="contact-attachments-button"
+          class="button button-outline-navy contact-file-button"
+          for="contact-attachments"
+        >
+          {copy.chooseFiles}
+        </label>
+        <span
+          id="contact-attachment-selection"
+          class="contact-file-selection"
+          data-attachment-selection
+          aria-live="polite"
+        >
+          {copy.noFilesSelected}
+        </span>
+      </div>
       <p id="contact-attachments-help" class="form-field-help">
         {copy.attachmentsHelp}
       </p>
@@ -597,8 +626,14 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
 
   if (form) {
     const contactLocale: ContactLocale =
-      form.dataset.locale === 'es' ? 'es' : 'en';
+      form.dataset.locale === 'es'
+        ? 'es'
+        : form.dataset.locale === 'ru'
+          ? 'ru'
+          : 'en';
     const clientCopy = contactClientCopy[contactLocale];
+    const calculatorCopy =
+      contactLocale === 'en' ? undefined : contactCalculatorCopy[contactLocale];
     const submitButton = form.querySelector<HTMLButtonElement>(
       '[data-submit-button]',
     );
@@ -609,6 +644,9 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       '[data-message-count]',
     );
     const attachments = form.elements.namedItem('attachments');
+    const attachmentSelection = form.querySelector<HTMLElement>(
+      '[data-attachment-selection]',
+    );
     const serviceField = form.elements.namedItem('service');
     const surveyEstimatePanel = form.querySelector<HTMLElement>(
       '[data-survey-estimate-summary]',
@@ -899,23 +937,18 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       );
       setSurveyEstimateText(
         '[data-contact-estimate-vessel]',
-        contactLocale === 'es'
-          ? contactCalculatorCopy.es.survey.vesselType[estimate.vesselType]
-          : surveyLabels.vesselType[estimate.vesselType],
+        calculatorCopy?.survey.vesselType[estimate.vesselType] ??
+          surveyLabels.vesselType[estimate.vesselType],
       );
       setSurveyEstimateText(
         '[data-contact-estimate-package]',
-        contactLocale === 'es'
-          ? contactCalculatorCopy.es.survey.packageType[estimate.packageType]
-          : surveyLabels.packageType[estimate.packageType],
+        calculatorCopy?.survey.packageType[estimate.packageType] ??
+          surveyLabels.packageType[estimate.packageType],
       );
       setSurveyEstimateText(
         '[data-contact-estimate-hull]',
-        contactLocale === 'es'
-          ? contactCalculatorCopy.es.survey.hullInspection[
-              estimate.hullInspection
-            ]
-          : surveyLabels.hullInspection[estimate.hullInspection],
+        calculatorCopy?.survey.hullInspection[estimate.hullInspection] ??
+          surveyLabels.hullInspection[estimate.hullInspection],
       );
       setSurveyEstimateText(
         '[data-contact-estimate-location]',
@@ -944,12 +977,11 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         items.replaceChildren(
           ...estimate.includedItems.map((item) => {
             const listItem = document.createElement('li');
-            listItem.textContent =
-              contactLocale === 'es'
-                ? (contactCalculatorCopy.es.survey.items[
-                    item as keyof typeof contactCalculatorCopy.es.survey.items
-                  ] ?? item)
-                : item;
+            listItem.textContent = calculatorCopy
+              ? (calculatorCopy.survey.items[
+                  item as keyof typeof calculatorCopy.survey.items
+                ] ?? item)
+              : item;
             return listItem;
           }),
         );
@@ -1041,27 +1073,23 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       );
       setDeliveryEstimateText(
         '[data-contact-delivery-yacht-type]',
-        contactLocale === 'es'
-          ? contactCalculatorCopy.es.delivery.yachtType[estimate.yachtType]
-          : deliveryLabels.yachtType[estimate.yachtType],
+        calculatorCopy?.delivery.yachtType[estimate.yachtType] ??
+          deliveryLabels.yachtType[estimate.yachtType],
       );
       setDeliveryEstimateText(
         '[data-contact-delivery-length-band]',
-        contactLocale === 'es'
-          ? contactCalculatorCopy.es.delivery.lengthBand[estimate.lengthBand]
-          : deliveryLabels.lengthBand[estimate.lengthBand],
+        calculatorCopy?.delivery.lengthBand[estimate.lengthBand] ??
+          deliveryLabels.lengthBand[estimate.lengthBand],
       );
       setDeliveryEstimateText(
         '[data-contact-delivery-complexity]',
-        contactLocale === 'es'
-          ? contactCalculatorCopy.es.delivery.complexity[estimate.complexity]
-          : deliveryLabels.complexity[estimate.complexity],
+        calculatorCopy?.delivery.complexity[estimate.complexity] ??
+          deliveryLabels.complexity[estimate.complexity],
       );
       setDeliveryEstimateText(
         '[data-contact-delivery-urgency]',
-        contactLocale === 'es'
-          ? contactCalculatorCopy.es.delivery.urgency[estimate.urgency]
-          : deliveryLabels.urgency[estimate.urgency],
+        calculatorCopy?.delivery.urgency[estimate.urgency] ??
+          deliveryLabels.urgency[estimate.urgency],
       );
       setDeliveryEstimateText(
         '[data-contact-delivery-corridor]',
@@ -1123,7 +1151,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
     };
 
     const translateServerError = (field: string, messageText: string) => {
-      if (contactLocale !== 'es') return messageText;
+      if (contactLocale === 'en') return messageText;
       const key =
         serverErrorMessageKeys[
           messageText as keyof typeof serverErrorMessageKeys
@@ -1244,6 +1272,19 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       )} / ${Number(5000).toLocaleString(clientCopy.locale)}`;
     };
 
+    const updateAttachmentSelection = () => {
+      if (!(attachments instanceof HTMLInputElement) || !attachmentSelection) {
+        return;
+      }
+      const count = attachments.files?.length ?? 0;
+      attachmentSelection.textContent =
+        count === 0
+          ? contactFormCopy[contactLocale].noFilesSelected
+          : `${contactFormCopy[contactLocale].selectedFiles} ${formatNumber(
+              count,
+            )}`;
+    };
+
     const validateAttachments = (): string | undefined => {
       if (!(attachments instanceof HTMLInputElement) || !attachments.files) {
         return undefined;
@@ -1274,6 +1315,9 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
 
     if (message instanceof HTMLTextAreaElement) {
       message.addEventListener('input', updateMessageCount);
+    }
+    if (attachments instanceof HTMLInputElement) {
+      attachments.addEventListener('change', updateAttachmentSelection);
     }
     if (serviceField instanceof HTMLSelectElement) {
       serviceField.addEventListener('change', () => {
@@ -1309,6 +1353,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         ?.focus();
     });
     updateMessageCount();
+    updateAttachmentSelection();
     resetRequestMetadata();
     applyPrefill();
     applySurveyEstimate();
@@ -1342,10 +1387,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
 
       if (submitButton) submitButton.disabled = true;
       if (submitLabel) {
-        submitLabel.textContent =
-          contactLocale === 'es'
-            ? contactFormCopy.es.submitting
-            : contactFormCopy.en.submitting;
+        submitLabel.textContent = contactFormCopy[contactLocale].submitting;
       }
 
       try {
@@ -1366,7 +1408,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
             ]),
           );
           showErrors(translatedErrors);
-          if (contactLocale === 'es') {
+          if (contactLocale !== 'en') {
             setStatus(
               'error',
               clientCopy.errorHeading,
@@ -1382,7 +1424,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
           return;
         }
 
-        if (contactLocale === 'es') {
+        if (contactLocale !== 'en') {
           const referenceText = payload.reference
             ? ` ${clientCopy.reference}: ${payload.reference}.`
             : '';
@@ -1408,8 +1450,9 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
         applySurveyEstimate();
         applyDeliveryEstimate();
         updateMessageCount();
+        updateAttachmentSelection();
       } catch {
-        if (contactLocale === 'es') {
+        if (contactLocale !== 'en') {
           setStatus(
             'error',
             clientCopy.errorHeading,
@@ -1424,10 +1467,7 @@ const turnstileIsConfigured = turnstileSiteKey.length > 0;
       } finally {
         if (submitButton) submitButton.disabled = false;
         if (submitLabel) {
-          submitLabel.textContent =
-            contactLocale === 'es'
-              ? contactFormCopy.es.submit
-              : contactFormCopy.en.submit;
+          submitLabel.textContent = contactFormCopy[contactLocale].submit;
         }
         (window as TurnstileWindow).turnstile?.reset();
       }

@@ -9,7 +9,7 @@ import {
   type RouteId,
 } from '../data/navigation';
 import { siteConfig } from '../data/site';
-import { footerCopy, spanishFooter } from '../i18n/footer';
+import { footerCopy, russianFooter, spanishFooter } from '../i18n/footer';
 import { getSharedUi, isEnglishFallback } from '../i18n/ui';
 import SocialLinks from './SocialLinks.astro';
 
@@ -22,6 +22,12 @@ const { currentLocale, routeId } = Astro.props;
 const text = footerCopy[currentLocale];
 const ui = getSharedUi(currentLocale);
 const isSpanish = currentLocale === 'es';
+const isRussian = currentLocale === 'ru';
+const localizedFooter = isSpanish
+  ? spanishFooter
+  : isRussian
+    ? russianFooter
+    : undefined;
 ---
 
 <footer class="site-footer">
@@ -48,27 +54,27 @@ const isSpanish = currentLocale === 'es';
       <h2>{text.contact}</h2>
       <address>
         {
-          (isSpanish ? spanishFooter.address : siteConfig.address.lines).map(
-            (line) => <span>{line}</span>,
-          )
+          (localizedFooter?.address ?? siteConfig.address.lines).map((line) => (
+            <span>{line}</span>
+          ))
         }
       </address>
       <ul class="footer-link-list" role="list">
         <li>
           <a href={siteConfig.contact.phoneHref}>
-            {isSpanish && `${spanishFooter.phone}: `}
+            {localizedFooter && `${localizedFooter.phone}: `}
             {siteConfig.contact.phone}
           </a>
         </li>
         {
-          isSpanish && (
+          localizedFooter && (
             <li>
               <a
                 href={siteConfig.contact.whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {spanishFooter.whatsapp}: {siteConfig.contact.whatsapp}
+                {localizedFooter.whatsapp}: {siteConfig.contact.whatsapp}
                 <span class="sr-only">, {ui.opensNewTab}</span>
               </a>
             </li>
@@ -76,19 +82,19 @@ const isSpanish = currentLocale === 'es';
         }
         <li>
           <a href={siteConfig.contact.emailHref}>
-            {isSpanish && `${spanishFooter.email}: `}
+            {localizedFooter && `${localizedFooter.email}: `}
             {siteConfig.contact.email}
           </a>
         </li>
       </ul>
       {
-        isSpanish && (
+        localizedFooter && (
           <div class="footer-office-details">
             <p>
-              <strong>{spanishFooter.openingHours}:</strong>{' '}
-              {spanishFooter.hours}
+              <strong>{localizedFooter.openingHours}:</strong>{' '}
+              {localizedFooter.hours}
             </p>
-            <p>{spanishFooter.appointments}</p>
+            <p>{localizedFooter.appointments}</p>
           </div>
         )
       }
@@ -128,16 +134,27 @@ const isSpanish = currentLocale === 'es';
               'yachtSurveyTips',
               isSpanish ? 'es' : 'en',
             )}
-            lang={currentLocale === 'en' || currentLocale === 'es'
-              ? undefined
-              : 'en'}
             aria-current={routeId === 'yachtSurveyTips' ||
             routeId === 'deckMoistureSoftSpots' ||
             routeId === 'shinyHull'
               ? 'page'
               : undefined}
           >
-            {isSpanish ? spanishFooter.yachtSurveyTips : 'Yacht Survey Tips'}
+            {
+              isSpanish
+                ? spanishFooter.yachtSurveyTips
+                : isRussian
+                  ? russianFooter.yachtSurveyTips
+                  : 'Yacht Survey Tips'
+            }
+            {
+              isRussian && (
+                <span class="navigation-language-note">
+                  {' '}
+                  — {russianFooter.englishDestination}
+                </span>
+              )
+            }
           </a>
         </li>
       </ul>
@@ -152,9 +169,23 @@ const isSpanish = currentLocale === 'es';
               'prePurchaseSurveyCalculator',
               isSpanish ? 'es' : 'en',
             )}
-            lang={isSpanish ? undefined : 'en'}
+            lang={isRussian ? undefined : isSpanish ? undefined : 'en'}
           >
-            {isSpanish ? spanishFooter.tools.survey : 'Survey Cost Calculator'}
+            {
+              isSpanish
+                ? spanishFooter.tools.survey
+                : isRussian
+                  ? russianFooter.tools.survey
+                  : 'Survey Cost Calculator'
+            }
+            {
+              isRussian && (
+                <span class="navigation-language-note">
+                  {' '}
+                  — {russianFooter.englishDestination}
+                </span>
+              )
+            }
           </a>
         </li>
         <li>
@@ -163,12 +194,22 @@ const isSpanish = currentLocale === 'es';
               'yachtDeliveryCalculator',
               isSpanish ? 'es' : 'en',
             )}
-            lang={isSpanish ? undefined : 'en'}
+            lang={isRussian ? undefined : isSpanish ? undefined : 'en'}
           >
             {
               isSpanish
                 ? spanishFooter.tools.delivery
-                : 'Yacht Delivery Cost Calculator'
+                : isRussian
+                  ? russianFooter.tools.delivery
+                  : 'Yacht Delivery Cost Calculator'
+            }
+            {
+              isRussian && (
+                <span class="navigation-language-note">
+                  {' '}
+                  — {russianFooter.englishDestination}
+                </span>
+              )
             }
           </a>
         </li>
@@ -184,28 +225,70 @@ const isSpanish = currentLocale === 'es';
               'privacyPolicy',
               isSpanish ? 'es' : 'en',
             )}
-            lang={currentLocale === 'ru' ? 'en' : undefined}
+            lang={undefined}
             aria-current={routeId === 'privacyPolicy' ? 'page' : undefined}
           >
-            {isSpanish ? spanishFooter.legal.privacy : 'Privacy Policy'}
+            {
+              isSpanish
+                ? spanishFooter.legal.privacy
+                : isRussian
+                  ? russianFooter.legal.privacy
+                  : 'Privacy Policy'
+            }
+            {
+              isRussian && (
+                <span class="navigation-language-note">
+                  {' '}
+                  — {russianFooter.englishDestination}
+                </span>
+              )
+            }
           </a>
         </li>
         <li>
           <a
             href={getRequiredRoutePath('cookiePolicy', isSpanish ? 'es' : 'en')}
-            lang={currentLocale === 'ru' ? 'en' : undefined}
+            lang={undefined}
             aria-current={routeId === 'cookiePolicy' ? 'page' : undefined}
           >
-            {isSpanish ? spanishFooter.legal.cookies : 'Cookie Policy'}
+            {
+              isSpanish
+                ? spanishFooter.legal.cookies
+                : isRussian
+                  ? russianFooter.legal.cookies
+                  : 'Cookie Policy'
+            }
+            {
+              isRussian && (
+                <span class="navigation-language-note">
+                  {' '}
+                  — {russianFooter.englishDestination}
+                </span>
+              )
+            }
           </a>
         </li>
         <li>
           <a
             href={getRequiredRoutePath('legalNotice', isSpanish ? 'es' : 'en')}
-            lang={currentLocale === 'ru' ? 'en' : undefined}
+            lang={undefined}
             aria-current={routeId === 'legalNotice' ? 'page' : undefined}
           >
-            {isSpanish ? spanishFooter.legal.notice : 'Legal Notice'}
+            {
+              isSpanish
+                ? spanishFooter.legal.notice
+                : isRussian
+                  ? russianFooter.legal.notice
+                  : 'Legal Notice'
+            }
+            {
+              isRussian && (
+                <span class="navigation-language-note">
+                  {' '}
+                  — {russianFooter.englishDestination}
+                </span>
+              )
+            }
           </a>
         </li>
         <li>
@@ -214,10 +297,24 @@ const isSpanish = currentLocale === 'es';
               'termsAndConditions',
               isSpanish ? 'es' : 'en',
             )}
-            lang={currentLocale === 'ru' ? 'en' : undefined}
+            lang={undefined}
             aria-current={routeId === 'termsAndConditions' ? 'page' : undefined}
           >
-            {isSpanish ? spanishFooter.legal.terms : 'Terms and Conditions'}
+            {
+              isSpanish
+                ? spanishFooter.legal.terms
+                : isRussian
+                  ? russianFooter.legal.terms
+                  : 'Terms and Conditions'
+            }
+            {
+              isRussian && (
+                <span class="navigation-language-note">
+                  {' '}
+                  — {russianFooter.englishDestination}
+                </span>
+              )
+            }
           </a>
         </li>
       </ul>

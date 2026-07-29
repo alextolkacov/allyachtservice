@@ -358,6 +358,7 @@ if (existsSync(distDirectory)) {
     '/ru',
     '/contact',
     '/es/contact',
+    '/ru/contact',
     ...translatedPages.flatMap(({ en, es }) => [en, es]),
     ...spanishSurveyTipsPages.flatMap(({ en, es }) => [en, es]),
     spanishYachtsForSalePage.en,
@@ -375,7 +376,6 @@ if (existsSync(distDirectory)) {
     '/fr',
     '/it',
     '/gr',
-    '/ru/contact',
     '/ru/yacht-survey-tips',
     '/ru/yacht-survey-tips/deck-moisture-soft-spots',
     '/ru/yacht-survey-tips/shiny-hull',
@@ -397,6 +397,7 @@ if (existsSync(distDirectory)) {
   const russianHome = getBuiltPage('/ru');
   const englishContact = getBuiltPage('/contact');
   const spanishContact = getBuiltPage('/es/contact');
+  const russianContact = getBuiltPage('/ru/contact');
   const homepageAlternates = {
     en: absolute('/'),
     es: absolute('/es'),
@@ -406,6 +407,7 @@ if (existsSync(distDirectory)) {
   const contactAlternates = {
     en: absolute('/contact'),
     es: absolute('/es/contact'),
+    ru: absolute('/ru/contact'),
     'x-default': absolute('/contact'),
   };
 
@@ -414,11 +416,28 @@ if (existsSync(distDirectory)) {
   assertHreflangs(russianHome, homepageAlternates, '/ru');
   assertHreflangs(englishContact, contactAlternates, '/contact');
   assertHreflangs(spanishContact, contactAlternates, '/es/contact');
+  assertHreflangs(russianContact, contactAlternates, '/ru/contact');
   assertOpenGraphLocales(englishHome, 'en_GB', ['es_ES', 'ru_RU'], '/');
   assertOpenGraphLocales(spanishHome, 'es_ES', ['en_GB', 'ru_RU'], '/es');
   assertOpenGraphLocales(russianHome, 'ru_RU', ['en_GB', 'es_ES'], '/ru');
-  assertOpenGraphLocales(englishContact, 'en_GB', ['es_ES'], '/contact');
-  assertOpenGraphLocales(spanishContact, 'es_ES', ['en_GB'], '/es/contact');
+  assertOpenGraphLocales(
+    englishContact,
+    'en_GB',
+    ['es_ES', 'ru_RU'],
+    '/contact',
+  );
+  assertOpenGraphLocales(
+    spanishContact,
+    'es_ES',
+    ['en_GB', 'ru_RU'],
+    '/es/contact',
+  );
+  assertOpenGraphLocales(
+    russianContact,
+    'ru_RU',
+    ['en_GB', 'es_ES'],
+    '/ru/contact',
+  );
   assert(
     spanishHome.includes(
       'Servicios náuticos de confianza respaldados por experiencia, precisión y atención personalizada',

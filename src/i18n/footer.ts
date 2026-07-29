@@ -34,8 +34,8 @@ export const footerCopy = {
     navigation: 'Навигация',
     contact: 'Контакты',
     languages: 'Языки',
-    tools: 'Инструменты',
-    legal: 'Legal',
+    tools: 'Онлайн-инструменты',
+    legal: 'Юридическая информация',
   },
 } as const satisfies Record<Locale, FooterCopy>;
 
@@ -62,4 +62,30 @@ export const spanishFooter = {
     notice: 'Aviso legal',
     terms: 'Términos y condiciones',
   },
+} as const;
+
+export const russianFooter = {
+  address: [
+    'Edificio Timonel, помещение 73',
+    'Puerto Deportivo Luis Campomanes / Marina Greenwich',
+    '03599 Альтеа, Аликанте, Испания',
+  ],
+  phone: 'Телефон',
+  whatsapp: 'WhatsApp',
+  email: 'Электронная почта',
+  openingHours: 'Часы работы',
+  hours: 'Понедельник–пятница, 09:00–18:00',
+  appointments: 'Рекомендуется предварительная запись.',
+  yachtSurveyTips: 'Советы по сюрвейерскому осмотру яхт',
+  tools: {
+    survey: 'Калькулятор стоимости сюрвейерского осмотра',
+    delivery: 'Калькулятор стоимости перегона яхты',
+  },
+  legal: {
+    privacy: 'Политика конфиденциальности',
+    cookies: 'Политика cookies и хранения данных',
+    notice: 'Юридическая информация',
+    terms: 'Условия использования сайта',
+  },
+  englishDestination: 'на английском',
 } as const;

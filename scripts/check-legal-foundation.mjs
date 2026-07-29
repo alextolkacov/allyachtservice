@@ -129,9 +129,8 @@ for (const route of [
 }
 
 assert(
-  contactForm.includes(
-    "getRequiredRoutePath('privacyPolicy', contactLocale)",
-  ) &&
+  contactForm.includes("getRoutePath('privacyPolicy', contactLocale)") &&
+    contactForm.includes("getRequiredRoutePath('privacyPolicy', 'en')") &&
     contactCopy.includes('I confirm that I have read the') &&
     contactCopy.includes(
       'and understand how my enquiry information will be handled.',

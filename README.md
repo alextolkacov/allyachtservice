@@ -17,15 +17,14 @@ The English Yachts for Sale and Buyer Support referral page is available at
 `/yachts-for-sale`.
 The Contact page uses a Cloudflare Pages Function, Turnstile, and the existing
 Google Workspace mailbox to validate and deliver enquiries securely.
-Spanish Translation Batch 6 publishes six complete Spanish service and business
-pages, both calculator pages, the Yacht Survey Tips hub and its two published
-articles, the Yachts for Sale referral page, the four legal and policy pages,
-the Spanish homepage and Contact page. The Russian homepage retains its
-localized development placeholder inside the same shared visual system. The
-remaining Spanish sprint is a final Spanish-wide language, accessibility, legal
-and SEO audit. The remaining Russian translation backlog includes all routes
-beyond its localized homepage. French, Italian and Greek are deferred and not
-currently supported.
+The complete Spanish implementation and Spanish-wide audit are ready for
+content and technical publication. Russian Translation Batch 1 publishes the
+complete Russian homepage and Contact page, together with shared Russian
+navigation, footer, validation and calculator-summary presentation. Russian
+service pages, calculators, Yacht Survey Tips, Yachts for Sale and legal pages
+remain unpublished. Production indexing remains blocked until the central
+legal fields and professional approvals are completed. French, Italian and
+Greek are deferred and not currently supported.
 
 ## Local setup
 
@@ -45,7 +44,7 @@ npm run dev
 The development server prints the local URL. Astro does not perform automatic
 browser-language redirects.
 
-## Spanish localisation
+## Localisation
 
 Locale metadata remains central in `src/data/languages.ts`. The only supported
 languages are English, Spanish and Russian:
@@ -56,9 +55,10 @@ languages are English, Spanish and Russian:
 | Spanish  | `es`       | `es`          | `/es`    | `ES`  |
 | Russian  | `ru`       | `ru`          | `/ru`    | `RU`  |
 
-Spanish formatting uses `es-ES`. French, Italian and Greek are deferred and not
-currently supported; they have no routes, selector entries, hreflang records,
-Open Graph locale alternates or sitemap entries.
+Spanish formatting uses `es-ES` and Russian formatting uses `ru-RU`. French,
+Italian and Greek are deferred and not currently supported; they have no
+routes, selector entries, hreflang records, Open Graph locale alternates or
+sitemap entries.
 
 Published route equivalents are declared in the typed `translatedRoutes` map
 in `src/data/navigation.ts`. The current Spanish equivalents are:
@@ -123,6 +123,49 @@ business entity remains `https://www.allyachtservice.com/#business`, and the
 About page reuses the existing stable Aleksandrs Person ID rather than creating
 locale-specific entities.
 
+### Russian Translation Batch 1
+
+The genuine Russian route equivalents currently published are:
+
+| Content | English    | Spanish       | Russian       |
+| ------- | ---------- | ------------- | ------------- |
+| Home    | `/`        | `/es`         | `/ru`         |
+| Contact | `/contact` | `/es/contact` | `/ru/contact` |
+
+These two route groups emit `en`, `es`, `ru` and English `x-default`
+alternates. Every other English or Spanish page continues to send the visible
+RU selector to `/ru` as a homepage fallback; that fallback is identified
+accessibly and is never emitted as page-equivalent hreflang.
+
+Russian shared interface copy lives beside English and Spanish in `src/i18n/`.
+The Russian header, flat mobile menu and footer retain real English URLs for
+untranslated content and mark each destination with `— на английском`. The
+legal links use Russian labels but continue to point to the four published
+English policies. No `/ru/...` service, calculator, article, listings or legal
+route should be added until its complete translation is ready.
+
+The Russian Contact page reuses `POST /api/contact`, Turnstile, attachment
+validation, spam controls and Gmail delivery. It submits `locale=ru` so the
+internal email records `Website language: Russian`; canonical service codes
+such as `pre-purchase-survey` remain unchanged. Client validation and
+visitor-facing success and failure states are Russian and use `novalidate` to
+avoid native English browser messages. Until the Russian Privacy Policy exists,
+the acknowledgement links to `/privacy-policy` and explicitly identifies it as
+currently available in English.
+
+Valid English or Spanish calculator transfers are accepted by `/ru/contact`
+without changing their payloads, references, 24-hour expiry, recomputation or
+storage keys. Survey and delivery summaries are presented in Russian with
+`ru-RU` date, number and euro formatting. The canonical storage keys remain:
+
+- `ays:pre-purchase-survey-estimate:v1`
+- `ays:yacht-delivery-estimate:v1`
+
+Remaining Russian batches are the main commercial pages, both calculators,
+Yacht Survey Tips, Yachts for Sale, the legal pages and a final Russian-wide
+audit. The Spanish version is GO for content and technical readiness; the
+production legal guard remains the launch blocker for every locale.
+
 ### Spanish marine-survey terminology
 
 | English concept            | Preferred Spanish term              |
@@ -157,15 +200,13 @@ professional description is appropriate. Natural contextual variations are
 allowed when they preserve the same technical meaning; never translate
 “survey” as a customer questionnaire.
 
-This remains staged localisation. All four Spanish legal policies are pending,
-as are Russian translations beyond the homepage. English fallback links must
-identify their language until each real translation is published. The Spanish
-version must not be presented as complete until the legal-policy batch and a
-final native-language, accessibility, legal and SEO review have passed.
-Production indexing remains blocked by the unresolved central legal
-configuration; keep `PUBLIC_SITE_INDEXABLE=false`.
+This remains staged localisation. English fallback links must identify their
+language until each real Russian translation is published. Spanish is GO for
+content and technical readiness. Production indexing remains blocked by the
+unresolved central legal configuration; keep `PUBLIC_SITE_INDEXABLE=false`.
 
-After a build, validate the current Spanish publishing boundary with:
+After a build, validate the current Spanish and Russian publishing boundary
+with:
 
 ```sh
 npm run check:i18n
@@ -331,6 +372,9 @@ The Contact service value `valuation-damage-survey` selects the visible label
 Cloudflare Pages Function validate this value, and submitted emails use the
 same service label. Selecting it also asks the client to state whether the
 required assignment is a valuation, damage assessment, or a combined scope.
+English, Spanish and Russian forms post to this single endpoint; internal
+emails identify the website language without translating the visitor's
+message.
 
 ## Yacht valuation and damage assessment
 

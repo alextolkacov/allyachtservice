@@ -66,6 +66,12 @@ function buildSubject(submission: ContactSubmission): string {
   return `[All Yacht Service] ${topic} — ${submission.name}`.slice(0, 180);
 }
 
+function getWebsiteLanguage(submission: ContactSubmission): string {
+  if (submission.locale === 'es') return 'Spanish';
+  if (submission.locale === 'ru') return 'Russian';
+  return 'English';
+}
+
 function buildPlainText(submission: ContactSubmission): string {
   const attachmentNames = submission.attachments.length
     ? submission.attachments.map((item) => `- ${item.filename}`).join('\n')
@@ -82,7 +88,7 @@ function buildPlainText(submission: ContactSubmission): string {
     `Vessel length: ${submission.vesselLength ? `${submission.vesselLength} m` : 'Not provided'}`,
     `Vessel location: ${submission.vesselLocation || 'Not provided'}`,
     `Preferred date: ${submission.preferredDate || 'Not provided'}`,
-    `Website language: ${submission.locale === 'es' ? 'Spanish' : 'English'}`,
+    `Website language: ${getWebsiteLanguage(submission)}`,
     `Source: ${submission.source}`,
     `Page: ${submission.pageUrl || 'Not provided'}`,
     `Calculator estimate: ${submission.estimateReference || 'Not provided'}`,
@@ -112,7 +118,7 @@ function buildHtml(submission: ContactSubmission): string {
     ],
     ['Vessel location', submission.vesselLocation || 'Not provided'],
     ['Preferred date', submission.preferredDate || 'Not provided'],
-    ['Website language', submission.locale === 'es' ? 'Spanish' : 'English'],
+    ['Website language', getWebsiteLanguage(submission)],
     ['Source', submission.source],
     ['Page', submission.pageUrl || 'Not provided'],
     ['Calculator estimate', submission.estimateReference || 'Not provided'],

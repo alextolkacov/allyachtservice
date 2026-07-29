@@ -24,7 +24,7 @@ const vesselTypeLabels = {
 
 type ServiceValue = keyof typeof serviceLabels;
 type VesselTypeValue = keyof typeof vesselTypeLabels;
-type SubmissionLocale = 'en' | 'es';
+type SubmissionLocale = 'en' | 'es' | 'ru';
 
 export interface ContactAttachment {
   file: File;
@@ -249,7 +249,8 @@ export async function validateContactForm(
     getText(formData, 'calculatorSummary'),
   ).slice(0, 4000);
   const localeRaw = normalizeSingleLine(getText(formData, 'locale'));
-  const locale: SubmissionLocale = localeRaw === 'es' ? 'es' : 'en';
+  const locale: SubmissionLocale =
+    localeRaw === 'es' ? 'es' : localeRaw === 'ru' ? 'ru' : 'en';
   const turnstileToken = getText(formData, 'cf-turnstile-response');
   const startedAt = Number(getText(formData, 'formStartedAt'));
   const suppliedSubmissionId = normalizeSingleLine(

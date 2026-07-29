@@ -1477,12 +1477,17 @@
     min-width: 0;
   }
 
-  .form-field label {
+  .form-field label,
+  .form-field-label {
     display: inline-block;
     margin-bottom: 0.45rem;
     color: var(--color-navy);
     font-size: 0.93rem;
     font-weight: 750;
+  }
+
+  .form-field-label {
+    margin-top: 0;
   }
 
   .form-field input,
@@ -1536,6 +1541,29 @@
     background: rgb(10 29 47 / 5%);
     color: var(--color-navy);
     font-weight: 750;
+  }
+
+  .contact-file-picker {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+  }
+
+  .contact-file-picker .contact-file-button {
+    min-height: 2.75rem;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .contact-file-input:focus-visible + .contact-file-button {
+    outline: 3px solid #6bb6df;
+    outline-offset: 3px;
+  }
+
+  .contact-file-selection {
+    color: rgb(37 43 49 / 72%);
+    font-size: 0.9rem;
   }
 
   .form-field-help,

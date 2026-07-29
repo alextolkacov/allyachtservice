@@ -11,6 +11,12 @@ interface Props {
 
 const { theme = 'dark', showLabels = false, locale = 'en' } = Astro.props;
 const ui = getSharedUi(locale);
+const accountLabel =
+  locale === 'es'
+    ? 'All Yacht Service en'
+    : locale === 'ru'
+      ? 'All Yacht Service в'
+      : 'All Yacht Service on';
 ---
 
 <ul class:list={['social-links', `social-links-${theme}`]} role="list">
@@ -19,7 +25,7 @@ const ui = getSharedUi(locale);
       href={siteConfig.social.instagram}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`All Yacht Service ${locale === 'es' ? 'en' : 'on'} Instagram, ${ui.opensNewTab}`}
+      aria-label={`${accountLabel} Instagram, ${ui.opensNewTab}`}
     >
       <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
         <rect x="3" y="3" width="18" height="18" rx="5"></rect>
@@ -34,7 +40,7 @@ const ui = getSharedUi(locale);
       href={siteConfig.social.linkedin}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`All Yacht Service ${locale === 'es' ? 'en' : 'on'} LinkedIn, ${ui.opensNewTab}`}
+      aria-label={`${accountLabel} LinkedIn, ${ui.opensNewTab}`}
     >
       <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
         <rect x="4" y="9" width="4" height="11"></rect>
