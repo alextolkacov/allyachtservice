@@ -2,6 +2,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { relative, resolve } from 'node:path';
 import process from 'node:process';
+import { URL } from 'node:url';
 
 const projectRoot = resolve(import.meta.dirname, '..');
 const read = (path) => readFileSync(resolve(projectRoot, path), 'utf8');
@@ -56,6 +57,7 @@ const languageSource = read('src/data/languages.ts');
 const uiSource = read('src/i18n/ui.ts');
 const footerSource = read('src/i18n/footer.ts');
 const sharedFooterSource = read('src/components/Footer.astro');
+const contactSectionSource = read('src/components/ContactSection.astro');
 const contactCopySource = read('src/i18n/contact.ts');
 const contactFormSource = read('src/components/ContactForm.astro');
 const policyCopySource = read('src/i18n/policy.ts');
@@ -78,9 +80,14 @@ const surveyCalculatorSource = read(
 const deliveryCalculatorSource = read(
   'src/components/YachtDeliveryCalculator.astro',
 );
+const russianHomePageSource = read('src/pages/ru/index.astro');
 const russianHomeSource = read('src/data/ru/home.ts');
 const russianSurveySource = read('src/data/ru/pre-purchase-survey.ts');
 const russianDeliverySource = read('src/data/ru/yacht-delivery.ts');
+const russianAboutSource = read('src/data/ru/about-us.ts');
+const russianBuyerRepresentationSource = read(
+  'src/data/ru/buyer-representation.ts',
+);
 const russianSurveyTipsSource = read('src/data/ru/yacht-survey-tips.ts');
 const russianDeckArticleSource = read(
   'src/data/ru/yacht-survey-tips/deck-moisture-soft-spots.ts',
@@ -468,8 +475,33 @@ assert(
     !/Рассчитать стоимость — на английском/u.test(russianHomeSource) &&
     !/languageNote:\s*'на английском'/u.test(
       `${russianSurveySource}\n${russianDeliverySource}`,
-    ),
+    ) &&
+    !/Подробнее — на английском/u.test(russianHomePageSource),
   'Russian calculator links still use English routes or English-language notes.',
+);
+assert(
+  !/[Мм]орской сюрвейер/u.test(
+    `${russianHomePageSource}\n${russianHomeSource}`,
+  ) &&
+    russianHomePageSource.includes(
+      'title="Яхтенный сюрвейер в Испании | All Yacht Service"',
+    ) &&
+    russianHomeSource.includes('Независимый яхтенный сюрвейер') &&
+    russianHomeSource.includes('сюрвейер яхт и маломерных судов'),
+  'Russian homepage surveyor terminology does not match the approved terms.',
+);
+assert(
+  !/Chief Operating Officer/u.test(
+    `${russianAboutSource}\n${russianBuyerRepresentationSource}\n${russianYachtsForSalePageSource}`,
+  ) &&
+    russianAboutSource.includes('директора по операционной деятельности') &&
+    russianBuyerRepresentationSource.includes(
+      'директора по операционной деятельности',
+    ) &&
+    /директора по операционной\s+деятельности/u.test(
+      russianYachtsForSalePageSource,
+    ),
+  'Russian commercial disclosures contain an untranslated role title.',
 );
 assert(
   russianHomeSource.includes("href: '/ru/yacht-survey-tips'") &&
@@ -501,6 +533,21 @@ assert(
   mobileSource.includes('primaryNavigation.map') &&
     !mobileSource.includes('serviceNavigation.map'),
   'The mobile navigation must remain a flat list.',
+);
+assert(
+  /\.footer-link-list a\s*\{[^}]*display:\s*flex;[^}]*min-height:\s*2\.75rem;/u.test(
+    globalStyles,
+  ) &&
+    /\.footer-legal a\s*\{[^}]*display:\s*inline-flex;[^}]*min-height:\s*2\.75rem;/u.test(
+      globalStyles,
+    ),
+  'Footer links do not retain a continuous 44-pixel target when long labels wrap.',
+);
+assert(
+  contactSectionSource.includes('{ui.opensNewTab}') &&
+    surveyCalculatorSource.includes('{ui.opensNewTab}') &&
+    deliveryCalculatorSource.includes('{ui.opensNewTab}'),
+  'A shared WhatsApp link opens a new tab without a localized announcement.',
 );
 assert(
   uiSource.includes("skipToContent: 'Перейти к содержимому'") &&
@@ -1494,37 +1541,85 @@ if (existsSync(distDirectory)) {
     .filter((path) => existsSync(resolve(projectRoot, path)))
     .map(read)
     .join('\n');
-  assert(
-    sitemap.includes('<loc>https://www.allyachtservice.com/ru/contact</loc>'),
-    'The sitemap does not contain /ru/contact.',
+  const sitemapEntries = [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/gu)].map(
+    ([, entry]) => ({
+      loc: entry.match(/<loc>([^<]+)<\/loc>/u)?.[1] ?? '',
+      links: [...entry.matchAll(/<xhtml:link\s+([^>]+)\/>/gu)].map(
+        ([, attributes]) => ({
+          code: attributes.match(/hreflang="([^"]+)"/u)?.[1] ?? '',
+          href: attributes.match(/href="([^"]+)"/u)?.[1] ?? '',
+        }),
+      ),
+    }),
   );
-  for (const route of translatedServiceRoutes) {
-    assert(
-      sitemap.includes(`<loc>${absolute(route.ru)}</loc>`),
-      `The sitemap does not contain ${route.ru}.`,
-    );
-  }
-  for (const route of translatedCalculatorRoutes) {
-    assert(
-      sitemap.includes(`<loc>${absolute(route.ru)}</loc>`),
-      `The sitemap does not contain ${route.ru}.`,
-    );
-  }
-  for (const route of translatedSurveyTipsRoutes) {
-    assert(
-      sitemap.includes(`<loc>${absolute(route.ru)}</loc>`),
-      `The sitemap does not contain ${route.ru}.`,
-    );
-  }
   assert(
-    sitemap.includes(`<loc>${absolute(translatedYachtsForSaleRoute.ru)}</loc>`),
-    'The sitemap does not contain /ru/yachts-for-sale.',
+    sitemapEntries.length === russianEquivalentPages.size,
+    `The sitemap must contain exactly ${russianEquivalentPages.size} public URLs; found ${sitemapEntries.length}.`,
   );
-  for (const route of translatedLegalRoutes) {
+  const sitemapPathnames = sitemapEntries.map(({ loc }) => {
+    try {
+      return new URL(loc).pathname;
+    } catch {
+      failures.push(
+        `The sitemap contains an invalid URL: ${loc || '(empty)'}.`,
+      );
+      return '';
+    }
+  });
+  assert(
+    sitemapPathnames.length === new Set(sitemapPathnames).size,
+    'The sitemap contains duplicate public routes.',
+  );
+  for (const pathname of russianEquivalentPages) {
     assert(
-      sitemap.includes(`<loc>${absolute(route.ru)}</loc>`),
-      `The sitemap does not contain ${route.ru}.`,
+      sitemapPathnames.includes(pathname),
+      `The sitemap does not contain ${pathname}.`,
     );
+  }
+  for (const pathname of sitemapPathnames) {
+    assert(
+      russianEquivalentPages.has(pathname),
+      `The sitemap contains unsupported route ${pathname}.`,
+    );
+  }
+  for (const [locale, expectedCount] of [
+    ['en', 18],
+    ['es', 18],
+    ['ru', 18],
+  ]) {
+    const actualCount = sitemapPathnames.filter((pathname) => {
+      if (locale === 'en') {
+        return !pathname.startsWith('/es') && !pathname.startsWith('/ru');
+      }
+      return pathname === `/${locale}` || pathname.startsWith(`/${locale}/`);
+    }).length;
+    assert(
+      actualCount === expectedCount,
+      `The sitemap must contain ${expectedCount} ${locale.toUpperCase()} routes; found ${actualCount}.`,
+    );
+  }
+  for (const { loc, links } of sitemapEntries) {
+    const pathname = new URL(loc).pathname;
+    const englishPathname =
+      pathname === '/es' || pathname === '/ru'
+        ? '/'
+        : pathname.replace(/^\/(?:es|ru)(?=\/)/u, '');
+    const expectedLinks = {
+      en: absolute(englishPathname),
+      es: absolute(englishPathname === '/' ? '/es' : `/es${englishPathname}`),
+      ru: absolute(englishPathname === '/' ? '/ru' : `/ru${englishPathname}`),
+      'x-default': absolute(englishPathname),
+    };
+    assert(
+      links.length === 4 && new Set(links.map(({ code }) => code)).size === 4,
+      `${pathname} must expose exactly one EN, ES, RU and x-default sitemap alternate.`,
+    );
+    for (const [code, href] of Object.entries(expectedLinks)) {
+      assert(
+        links.some((link) => link.code === code && link.href === href),
+        `${pathname} has an incorrect or missing ${code} sitemap alternate.`,
+      );
+    }
   }
 }
 

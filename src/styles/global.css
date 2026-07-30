@@ -806,6 +806,18 @@
     color: rgb(245 243 237 / 78%);
   }
 
+  .footer-link-list a {
+    display: flex;
+    min-height: 2.75rem;
+    align-items: center;
+  }
+
+  .footer-legal a {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+  }
+
   .footer-link-list a[aria-current='page'] {
     color: white;
     font-weight: 800;

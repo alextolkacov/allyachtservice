@@ -5,6 +5,7 @@ import {
   surveyCalculatorCopy,
   type CalculatorLocale,
 } from '../i18n/calculators';
+import { getSharedUi } from '../i18n/ui';
 
 interface Props {
   locale?: CalculatorLocale;
@@ -13,6 +14,7 @@ interface Props {
 const { locale = 'en' } = Astro.props;
 const calculatorLocale = getCalculatorLocale(locale);
 const copy = surveyCalculatorCopy[calculatorLocale];
+const ui = getSharedUi(calculatorLocale);
 const calculatorPathPrefix =
   calculatorLocale === 'en' ? '' : `/${calculatorLocale}`;
 ---
@@ -301,6 +303,7 @@ const calculatorPathPrefix =
         data-analytics-event="survey-calculator-whatsapp"
       >
         {copy.result.whatsapp}
+        <span class="sr-only">, {ui.opensNewTab}</span>
       </a>
       <button
         class="button button-outline-navy"

@@ -205,7 +205,7 @@ const sections: readonly LocalizedSection[] = [
       {
         type: 'paragraph',
         content:
-          'Aleksandrs Tolkacovs также занимает должность Chief Operating Officer в Premium Yachts Spain — отдельном бизнесе по продаже яхт и морским услугам.',
+          'Aleksandrs Tolkacovs также занимает должность директора по операционной деятельности в Premium Yachts Spain — отдельном бизнесе по продаже яхт и морским услугам.',
       },
       {
         type: 'paragraph',

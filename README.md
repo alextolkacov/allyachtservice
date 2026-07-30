@@ -17,18 +17,14 @@ The English Yachts for Sale and Buyer Support referral page is available at
 `/yachts-for-sale`.
 The Contact page uses a Cloudflare Pages Function, Turnstile, and the existing
 Google Workspace mailbox to validate and deliver enquiries securely.
-The complete Spanish implementation and Spanish-wide audit are ready for
-content and technical publication. Russian Translation Batch 1 publishes the
-complete Russian homepage and Contact page, together with shared Russian
-navigation, footer, validation and calculator-summary presentation. Russian
-Translation Batch 2 publishes the six main commercial and company pages, and
-Batch 3 publishes both calculators. Russian Translation Batch 4 publishes the
-Yacht Survey Tips hub and both current articles. Russian Translation Batch 5
-publishes the Yachts for Sale referral and buyer-support page. Russian
-Translation Batch 6 publishes all four legal and policy pages through the shared
-legal architecture. Production indexing remains blocked until the central legal
-fields and professional approvals are completed. French, Italian and Greek are
-deferred and not currently supported.
+English, Spanish and Russian each publish the same 18 genuine route
+equivalents. The final Spanish-wide and Russian-wide audits establish content
+and technical readiness for both translations. The preview build generates 55
+HTML documents: 54 public EN/ES/RU routes plus the custom 404 document. The
+sitemap contains the 54 public routes only, with reciprocal EN/ES/RU and English
+`x-default` alternates. Production indexing remains blocked
+until the central legal fields and professional approvals are completed.
+French, Italian and Greek are deferred and not currently supported.
 
 ## Local setup
 
@@ -242,9 +238,24 @@ All locales retain the stable business entity ID
 `https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs`; translated
 pages must not create locale-specific duplicates.
 
-The final remaining Russian sprint is the Russian-wide audit. The production
-legal guard remains the launch blocker for every locale. English, Spanish and
-Russian remain the only supported languages.
+The final Russian-wide audit completed on 30 July 2026. All 18 Russian routes
+passed content, terminology, navigation, Contact, calculator, Survey Tips,
+Yachts for Sale, legal-page, SEO, schema, sitemap, accessibility, responsive,
+console, routing and custom-404 checks. Every route has a genuine English,
+Spanish and Russian equivalent; reciprocal hreflang uses English as
+`x-default`. Calculator amounts, route results, payload validation and
+calculator-to-Contact transfer remain identical across EN/ES/RU, with only the
+visitor-facing presentation localized. Russian Contact retains the shared
+secure Function and all six canonical service values.
+
+Russian content and technical readiness is **GO**. Production/indexable launch
+readiness remains **NO-GO** until the central legal operator, retention,
+applicable-law and professional-review fields are completed. Keep
+`PUBLIC_SITE_INDEXABLE=false`, confirm the Turnstile widget type, pre-clearance
+and security settings in the Cloudflare dashboard, complete professional review
+of all localized policies, then rerun the full validation suite and the
+indexable build guard. English, Spanish and Russian remain the only supported
+languages.
 
 ### Spanish marine-survey terminology
 
@@ -280,10 +291,10 @@ professional description is appropriate. Natural contextual variations are
 allowed when they preserve the same technical meaning; never translate
 “survey” as a customer questionnaire.
 
-This remains staged localisation. English fallback links must identify their
-language until each real Russian translation is published. Spanish is GO for
-content and technical readiness. Production indexing remains blocked by the
-unresolved central legal configuration; keep `PUBLIC_SITE_INDEXABLE=false`.
+English, Spanish and Russian now have complete route-equivalence coverage.
+Spanish and Russian are GO for content and technical readiness. Production
+indexing remains blocked by the unresolved central legal configuration; keep
+`PUBLIC_SITE_INDEXABLE=false`.
 
 After a build, validate the current Spanish and Russian publishing boundary
 with:
@@ -358,10 +369,13 @@ npm run preview:cloudflare # Build and preview static pages plus Pages Functions
 npm run lint         # Run ESLint
 npm run format       # Apply Prettier formatting
 npm run format:check # Check formatting without changing files
+npm run check        # Run Astro diagnostics
 npm run typecheck    # Run Astro and Pages Function TypeScript checks
 npm run functions:types # Regenerate Cloudflare runtime and binding types
-npm run check:i18n   # Validate published Spanish routes and metadata
+npm run check:i18n   # Validate published Spanish and Russian localization
 npm run check:legal  # Validate legal-policy routes and privacy controls
+npm run check:calculators # Validate shared calculator logic and locale parity
+npm run check:ru     # Validate the complete Russian implementation
 ```
 
 Before merging changes, run:
@@ -369,10 +383,13 @@ Before merging changes, run:
 ```sh
 npm run format:check
 npm run lint
+npm run check
 npm run typecheck
-npm run build
+PUBLIC_SITE_INDEXABLE=false npm run build
 npm run check:i18n
 npm run check:legal
+npm run check:calculators
+npm run check:ru
 ```
 
 ## Cloudflare Pages
@@ -760,17 +777,17 @@ dashboard before production. The server continues to validate every accepted
 token with Siteverify.
 
 The English, Spanish and Russian cookie policies reflect the same fresh source
-audit. It found no site-written cookie, `localStorage`, IndexedDB, registered
-service worker, installed analytics provider, advertising tag, marketing
-cookie, social embed or external font. Existing `data-analytics-event`
-attributes have no runtime listener or analytics provider. A cookie banner is
-therefore not implemented for the current necessary calculator session storage
-and form-security implementation, subject to confirming Cloudflare
-dashboard-level Turnstile and security settings before production. Before
-enabling analytics, advertising, non-essential embeds or other optional
-storage, update the technical inventory, reassess consent requirements, update
-all localized policies and activate appropriate consent controls before the
-technology loads.
+audit, most recently repeated on 30 July 2026. It found no site-written cookie,
+`localStorage`, IndexedDB, registered service worker, installed analytics
+provider, advertising tag, marketing cookie, social embed or external font.
+Existing `data-analytics-event` attributes have no runtime listener or
+analytics provider. A cookie banner is therefore not implemented for the
+current necessary calculator session storage and form-security implementation,
+subject to confirming Cloudflare dashboard-level Turnstile and security
+settings before production. Before enabling analytics, advertising,
+non-essential embeds or other optional storage, update the technical inventory,
+reassess consent requirements, update all localized policies and activate
+appropriate consent controls before the technology loads.
 
 Retention configuration must distinguish at least general enquiries,
 unsuccessful quotations, instructed-service records and reports, attachments,

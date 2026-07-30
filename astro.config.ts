@@ -22,6 +22,22 @@ export default defineConfig({
           ru: 'ru',
         },
       },
+      serialize(item) {
+        const englishLink = item.links?.find((link) => link.lang === 'en');
+
+        if (!englishLink) return item;
+
+        return {
+          ...item,
+          links: [
+            ...(item.links ?? []).filter((link) => link.lang !== 'x-default'),
+            {
+              lang: 'x-default',
+              url: englishLink.url,
+            },
+          ],
+        };
+      },
     }),
   ],
   vite: {

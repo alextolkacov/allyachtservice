@@ -2,6 +2,7 @@
 import { siteConfig } from '../data/site';
 import type { Locale } from '../data/languages';
 import { russianFooter, spanishFooter } from '../i18n/footer';
+import { getSharedUi } from '../i18n/ui';
 import SocialLinks from './SocialLinks.astro';
 
 interface Props {
@@ -9,6 +10,7 @@ interface Props {
 }
 
 const { locale = 'en' } = Astro.props;
+const ui = getSharedUi(locale);
 const isSpanish = locale === 'es';
 const isRussian = locale === 'ru';
 const copy =
@@ -109,6 +111,7 @@ const contactHref =
                 rel="noopener noreferrer"
               >
                 {siteConfig.contact.whatsapp}
+                <span class="sr-only">, {ui.opensNewTab}</span>
               </a>
             </dd>
           </div>
