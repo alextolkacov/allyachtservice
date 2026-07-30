@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import process from 'node:process';
 
@@ -90,6 +90,42 @@ const policies = [
       'Condiciones aplicables al uso del sitio web, calculadoras, artículos educativos y enlaces externos de All Yacht Service.',
     h1: 'Términos y condiciones del sitio web',
   },
+  {
+    route: '/ru/privacy-policy',
+    file: 'dist/ru/privacy-policy.html',
+    locale: 'ru',
+    title: 'Политика конфиденциальности | All Yacht Service',
+    description:
+      'Информация о том, как All Yacht Service обрабатывает персональные данные, полученные через сайт, форму обратной связи и деловую переписку.',
+    h1: 'Политика конфиденциальности',
+  },
+  {
+    route: '/ru/cookie-policy',
+    file: 'dist/ru/cookie-policy.html',
+    locale: 'ru',
+    title: 'Политика cookies и хранения данных | All Yacht Service',
+    description:
+      'Информация о cookies, Cloudflare Turnstile и данных калькуляторов, временно сохраняемых в браузере на сайте All Yacht Service.',
+    h1: 'Политика использования cookies и хранения данных в браузере',
+  },
+  {
+    route: '/ru/legal-notice',
+    file: 'dist/ru/legal-notice.html',
+    locale: 'ru',
+    title: 'Юридическая информация | All Yacht Service',
+    description:
+      'Юридическая информация об операторе сайта All Yacht Service, профессиональных услугах, контактах и условиях использования сайта.',
+    h1: 'Юридическая информация',
+  },
+  {
+    route: '/ru/terms-and-conditions',
+    file: 'dist/ru/terms-and-conditions.html',
+    locale: 'ru',
+    title: 'Условия использования сайта | All Yacht Service',
+    description:
+      'Условия использования сайта All Yacht Service, онлайн-калькуляторов, информационных материалов и форм обратной связи.',
+    h1: 'Условия использования сайта',
+  },
 ];
 const footer = read('src/components/Footer.astro');
 const navigation = read('src/data/navigation.ts');
@@ -100,11 +136,25 @@ const contactEndpoint = read('functions/api/contact.ts');
 const turnstileValidation = read('functions/_lib/turnstile.ts');
 const surveyEstimate = read('src/lib/calculators/prePurchaseSurveyEstimate.ts');
 const deliveryEstimate = read('src/lib/calculators/yachtDeliveryEstimate.ts');
+const legalConfiguration = read('src/data/legal.ts');
+const astroConfiguration = read('astro.config.ts');
 const spanishPolicySources = [
   'src/pages/es/privacy-policy.astro',
   'src/pages/es/cookie-policy.astro',
   'src/pages/es/legal-notice.astro',
   'src/pages/es/terms-and-conditions.astro',
+].map(read);
+const russianPolicySources = [
+  'src/pages/ru/privacy-policy.astro',
+  'src/pages/ru/cookie-policy.astro',
+  'src/pages/ru/legal-notice.astro',
+  'src/pages/ru/terms-and-conditions.astro',
+].map(read);
+const russianPolicyDataSources = [
+  'src/data/ru/legal/privacy-policy.ts',
+  'src/data/ru/legal/cookie-policy.ts',
+  'src/data/ru/legal/legal-notice.ts',
+  'src/data/ru/legal/terms-and-conditions.ts',
 ].map(read);
 const sourceFiles = [
   'src/components/ContactForm.astro',
@@ -115,15 +165,39 @@ const sourceFiles = [
   'src/pages/contact.astro',
 ].map(read);
 const sourceCorpus = sourceFiles.join('\n');
+const walkAuditedSource = (directory) =>
+  readdirSync(directory, { withFileTypes: true })
+    .flatMap((entry) => {
+      const path = resolve(directory, entry.name);
+      if (entry.isDirectory()) return walkAuditedSource(path);
+      if (
+        entry.isFile() &&
+        /\.(?:astro|css|js|mjs|ts)$/u.test(entry.name) &&
+        entry.name !== 'types.d.ts'
+      ) {
+        return readFileSync(path, 'utf8');
+      }
+      return [];
+    })
+    .join('\n');
+const auditedImplementationCorpus = [
+  walkAuditedSource(resolve(projectRoot, 'src')),
+  walkAuditedSource(resolve(projectRoot, 'functions')),
+].join('\n');
 
 for (const route of [
   '/es/privacy-policy',
   '/es/cookie-policy',
   '/es/legal-notice',
   '/es/terms-and-conditions',
+  '/ru/privacy-policy',
+  '/ru/cookie-policy',
+  '/ru/legal-notice',
+  '/ru/terms-and-conditions',
 ]) {
+  const locale = route.startsWith('/ru/') ? 'ru' : 'es';
   assert(
-    navigation.includes(`es: '${route}'`),
+    navigation.includes(`${locale}: '${route}'`),
     `Route equivalence is missing ${route}.`,
   );
 }
@@ -150,9 +224,27 @@ assert(
 );
 assert(
   !/(google-analytics\.com|googletagmanager\.com|connect\.facebook\.net|clarity\.ms|plausible\.io|segment\.com)/iu.test(
-    sourceCorpus,
+    auditedImplementationCorpus,
   ),
   'An analytics or advertising script was found; update the cookie inventory and consent controls.',
+);
+assert(
+  !/\bdocument\.cookie\b|\bSet-Cookie\b|\blocalStorage\b|\bindexedDB\b|\bnavigator\.serviceWorker\b/iu.test(
+    auditedImplementationCorpus,
+  ),
+  'A cookie write, localStorage, IndexedDB or service-worker registration was found; update the storage inventory.',
+);
+assert(
+  !/<iframe\b|fonts\.googleapis\.com|use\.typekit\.net|@font-face/iu.test(
+    auditedImplementationCorpus,
+  ),
+  'An external embed or external-font implementation was found; update the storage and consent assessment.',
+);
+assert(
+  !/querySelector(?:All)?\([^)]*data-analytics-event|dataset\.analytics/iu.test(
+    auditedImplementationCorpus,
+  ),
+  'The previously inert analytics data attributes now have runtime handling; update the tracking audit.',
 );
 assert(
   !/\blocalStorage\b/u.test(sourceCorpus),
@@ -173,6 +265,27 @@ assert(
       'DELIVERY_ESTIMATE_MAX_AGE_MS = 24 * 60 * 60 * 1000',
     ),
   'Delivery calculator storage key or 24-hour validation has changed.',
+);
+assert(
+  contactForm.includes("readSessionValue('ays:contact-prefill')") &&
+    contactForm.includes("removeSessionValue('ays:contact-prefill')") &&
+    !/sessionStorage\.setItem\(\s*['"]ays:contact-prefill['"]/u.test(
+      auditedImplementationCorpus,
+    ),
+  'The Contact prefill compatibility key behaviour changed; re-audit the cookie inventory.',
+);
+assert(
+  [
+    read('src/pages/cookie-policy.astro'),
+    ...spanishPolicySources.slice(1, 2),
+    russianPolicySources[1],
+  ].every(
+    (source) =>
+      source.includes('<code>ays:contact-prefill</code>') &&
+      source.includes('<code>ays:pre-purchase-survey-estimate:v1</code>') &&
+      source.includes('<code>ays:yacht-delivery-estimate:v1</code>'),
+  ),
+  'One or more localized cookie policies omit a current sessionStorage key.',
 );
 assert(
   contactValidation.includes('attachmentCount: 3') &&
@@ -198,6 +311,34 @@ assert(
     turnstileValidation.includes("result.action !== 'contact'"),
   'Turnstile server-side validation contract has changed.',
 );
+for (const unresolvedField of [
+  'legalOperatorName: null',
+  'operatorType: null',
+  'legalForm: null',
+  'taxIdRequirement: null',
+  'taxId: null',
+  'registeredAddress: null',
+  'legalContactAddressConfirmed: false',
+  'enquiryRetentionMonths: null',
+  'unsuccessfulQuoteRetentionMonths: null',
+  'clientRecordRetentionDescription: null',
+  'securityRecordRetentionDescription: null',
+  'applicableLawText: null',
+  'finalPolicyReviewApproved: false',
+]) {
+  assert(
+    legalConfiguration.includes(unresolvedField),
+    `Central unresolved legal field changed unexpectedly: ${unresolvedField}.`,
+  );
+}
+assert(
+  astroConfiguration.includes(
+    'assertLegalConfigurationForIndexableBuild(process.env.PUBLIC_SITE_INDEXABLE)',
+  ) &&
+    legalConfiguration.includes("if (siteIndexable !== 'true') return;") &&
+    legalConfiguration.includes('getMissingProductionLegalFields(config)'),
+  'The indexable-build legal guard is missing or weakened.',
+);
 
 const sitemap = ['dist/sitemap-0.xml', 'dist/sitemap-index.xml']
   .map((path) => {
@@ -212,10 +353,9 @@ const sitemap = ['dist/sitemap-0.xml', 'dist/sitemap-index.xml']
 for (const policy of policies) {
   const html = read(policy.file);
   const absoluteUrl = `https://www.allyachtservice.com${policy.route}`;
-  const englishRoute =
-    policy.locale === 'en' ? policy.route : policy.equivalentRoute;
-  const spanishRoute =
-    policy.locale === 'es' ? policy.route : policy.equivalentRoute;
+  const englishRoute = policy.route.replace(/^\/(?:es|ru)/u, '');
+  const spanishRoute = `/es${englishRoute}`;
+  const russianRoute = `/ru${englishRoute}`;
   const h1Count = (html.match(/<h1(?:\s|>)/gu) ?? []).length;
   const ids = [...html.matchAll(/\sid="([^"]+)"/gu)].map((match) => match[1]);
   const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
@@ -235,6 +375,15 @@ for (const policy of policies) {
   const hreflangs = [
     ...html.matchAll(/<link rel="alternate" hreflang="([^"]+)"/gu),
   ].map((match) => match[1]);
+  const openGraphLocale =
+    policy.locale === 'es'
+      ? 'es_ES'
+      : policy.locale === 'ru'
+        ? 'ru_RU'
+        : 'en_GB';
+  const alternateOpenGraphLocales = ['en_GB', 'es_ES', 'ru_RU'].filter(
+    (locale) => locale !== openGraphLocale,
+  );
 
   assert(h1Count === 1, `${policy.route} must contain exactly one H1.`);
   assert(
@@ -267,11 +416,12 @@ for (const policy of policies) {
     `${policy.route} preview must be noindex, nofollow.`,
   );
   assert(
-    hreflangs.length === 3 &&
+    hreflangs.length === 4 &&
       hreflangs.includes('en') &&
       hreflangs.includes('es') &&
+      hreflangs.includes('ru') &&
       hreflangs.includes('x-default'),
-    `${policy.route} must expose only en, es and x-default hreflang.`,
+    `${policy.route} must expose en, es, ru and x-default hreflang.`,
   );
   assert(
     html.includes(
@@ -281,9 +431,21 @@ for (const policy of policies) {
         `<link rel="alternate" hreflang="es" href="https://www.allyachtservice.com${spanishRoute}">`,
       ) &&
       html.includes(
+        `<link rel="alternate" hreflang="ru" href="https://www.allyachtservice.com${russianRoute}">`,
+      ) &&
+      html.includes(
         `<link rel="alternate" hreflang="x-default" href="https://www.allyachtservice.com${englishRoute}">`,
       ),
     `${policy.route} has incorrect legal-policy hreflang URLs.`,
+  );
+  assert(
+    html.includes(`<meta property="og:locale" content="${openGraphLocale}">`) &&
+      alternateOpenGraphLocales.every((locale) =>
+        html.includes(
+          `<meta property="og:locale:alternate" content="${locale}">`,
+        ),
+      ),
+    `${policy.route} has incorrect Open Graph locale metadata.`,
   );
   assert(
     schemaTypes.includes('WebPage') &&
@@ -302,6 +464,20 @@ for (const policy of policies) {
         'https://www.allyachtservice.com/#business',
       ),
     `${policy.route} has incomplete or unstable WebPage structured data.`,
+  );
+  assert(
+    schemaScripts.some(
+      (schema) =>
+        schema['@type'] === 'BreadcrumbList' &&
+        schema.itemListElement?.[0]?.name ===
+          (policy.locale === 'es'
+            ? 'Inicio'
+            : policy.locale === 'ru'
+              ? 'Главная'
+              : 'Home') &&
+        schema.itemListElement?.[1]?.name === policy.h1,
+    ),
+    `${policy.route} has incorrect localized BreadcrumbList data.`,
   );
   assert(
     !schemaTypes.some((type) =>
@@ -339,7 +515,7 @@ for (const policy of policies) {
     `Sitemap is missing ${policy.route}.`,
   );
 
-  if (policy.locale === 'es') {
+  if (policy.locale === 'es' || policy.locale === 'ru') {
     for (const englishLabel of [
       'Last reviewed',
       'On this page',
@@ -348,6 +524,14 @@ for (const policy of policies) {
       'Related legal information',
       'Return to top',
       'Opens in a new tab',
+      'Privacy Policy',
+      'Cookie Policy',
+      'Legal Notice',
+      'Terms and Conditions',
+      'Data controller',
+      'Your rights',
+      'Contact us',
+      'Related policies',
     ]) {
       assert(
         !html.includes(englishLabel),
@@ -359,6 +543,7 @@ for (const policy of policies) {
 
 const englishContact = read('dist/contact.html');
 const spanishContact = read('dist/es/contact.html');
+const russianContact = read('dist/ru/contact.html');
 assert(
   englishContact.includes('href="/privacy-policy"') &&
     !englishContact.includes('href="/es/privacy-policy"'),
@@ -370,19 +555,32 @@ assert(
   'Spanish Contact must use the Spanish Privacy Policy without an English fallback note.',
 );
 assert(
+  russianContact.includes('href="/ru/privacy-policy"') &&
+    !russianContact.includes('href="/privacy-policy"') &&
+    !russianContact.includes('В настоящее время доступна на английском языке.'),
+  'Russian Contact must use the Russian Privacy Policy without an English fallback note.',
+);
+assert(
   footer.includes("'privacyPolicy'") &&
     footer.includes("'cookiePolicy'") &&
     footer.includes("'legalNotice'") &&
-    footer.includes("'termsAndConditions'"),
+    footer.includes("'termsAndConditions'") &&
+    footer.includes(
+      "href={getRequiredRoutePath('privacyPolicy', currentLocale)}",
+    ) &&
+    footer.includes(
+      "href={getRequiredRoutePath('termsAndConditions', currentLocale)}",
+    ),
   'The shared footer no longer resolves all policy route IDs.',
 );
-for (const policy of policies.filter(({ locale }) => locale === 'es')) {
+for (const policy of policies.filter(({ locale }) => locale !== 'en')) {
   const html = read(policy.file);
+  const prefix = policy.locale === 'ru' ? '/ru' : '/es';
   for (const route of [
-    '/es/privacy-policy',
-    '/es/cookie-policy',
-    '/es/legal-notice',
-    '/es/terms-and-conditions',
+    `${prefix}/privacy-policy`,
+    `${prefix}/cookie-policy`,
+    `${prefix}/legal-notice`,
+    `${prefix}/terms-and-conditions`,
   ]) {
     assert(
       html.includes(`href="${route}"`) || route === policy.route,
@@ -398,12 +596,32 @@ assert(
   'Spanish policies do not reuse the shared locale-aware layout and central legal configuration.',
 );
 assert(
+  russianPolicySources.every((source) => source.includes('locale="ru"')) &&
+    russianPolicySources
+      .filter((_, index) => index === 0 || index === 2 || index === 3)
+      .every((source) => source.includes('legalConfig')) &&
+    !russianPolicyDataSources.some((source) =>
+      /\b(?:legalOperatorName|operatorType|legalForm|taxId|registeredAddress|enquiryRetentionMonths|applicableLawText|finalPolicyReviewApproved)\s*:/u.test(
+        source,
+      ),
+    ),
+  'Russian policies must reuse the shared layout and central legal facts without locale-specific factual values.',
+);
+assert(
   !spanishPolicySources.some((source) =>
     /(es una sociedad limitada|número de iva:\s*\S|número de identificación fiscal confirmado|dispone de seguro de responsabilidad profesional|se somete a la jurisdicción exclusiva)/iu.test(
       source,
     ),
   ),
   'A Spanish policy contains an invented company, tax, insurance or jurisdiction claim.',
+);
+assert(
+  !russianPolicySources.some((source) =>
+    /(общество с ограниченной ответственностью|зарегистрированн(?:ая|ое) компания|номер ндс:\s*\S|инн:\s*\S|страховани[ея] профессиональной ответственности имеется|исключительн\w+ юрисдикци\w+ испанск\w+ суд)/iu.test(
+      source,
+    ),
+  ),
+  'A Russian policy contains an invented company, tax, insurance or jurisdiction claim.',
 );
 
 if (failures.length > 0) {

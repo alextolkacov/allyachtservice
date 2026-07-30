@@ -1,4 +1,4 @@
-export type PolicyLocale = 'en' | 'es';
+export type PolicyLocale = 'en' | 'es' | 'ru';
 
 export interface PolicyTocItem {
   id: string;
@@ -82,6 +82,34 @@ export const policyLayoutCopy = {
       {
         routeId: 'termsAndConditions',
         label: 'Términos y condiciones del sitio web',
+      },
+    ],
+  },
+  ru: {
+    home: 'Главная',
+    websiteInformation: 'Информация о сайте',
+    lastReviewed: 'Последняя проверка',
+    draftHeading: 'Черновая версия юридической информации',
+    draftDescription:
+      'Эта неиндексируемая предварительная версия содержит формулировки, основанные на подтверждённой работе сайта. Личность юридического оператора, сроки хранения данных и окончательная формулировка о применимом праве ещё требуют подтверждения и профессиональной проверки перед публикацией.',
+    contents: 'Содержание',
+    contactHeading: 'Вопросы об этой информации',
+    contactByEmail: 'Связаться с All Yacht Service можно по электронной почте',
+    orByPhone: 'или по телефону',
+    relatedHeading: 'Связанные юридические документы',
+    contactLink: 'Связаться с All Yacht Service',
+    returnToTop: 'Вернуться к началу',
+    imageAlt: 'Руки, соединяющие белые детали пазла',
+    relatedPolicies: [
+      { routeId: 'privacyPolicy', label: 'Политика конфиденциальности' },
+      {
+        routeId: 'cookiePolicy',
+        label: 'Политика использования cookies и хранения данных в браузере',
+      },
+      { routeId: 'legalNotice', label: 'Юридическая информация' },
+      {
+        routeId: 'termsAndConditions',
+        label: 'Условия использования сайта',
       },
     ],
   },

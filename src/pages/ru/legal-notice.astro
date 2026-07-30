@@ -1,0 +1,204 @@
+---
+import PolicyPageLayout from '../../components/PolicyPageLayout.astro';
+import { legalConfig } from '../../data/legal';
+import { russianLegalNotice } from '../../data/ru/legal/legal-notice';
+
+const page = russianLegalNotice;
+---
+
+<PolicyPageLayout
+  title={page.title}
+  description={page.description}
+  heading={page.heading}
+  intro={page.intro}
+  pathname={page.pathname}
+  routeId={page.routeId}
+  toc={page.toc}
+  locale="ru"
+>
+  <section id="operator" aria-labelledby="operator-heading">
+    <h2 id="operator-heading">1. Оператор сайта</h2>
+    {
+      legalConfig.legalOperatorName ? (
+        <p>Подтверждённые сведения об операторе сайта:</p>
+      ) : (
+        <p>
+          Окончательная личность юридического оператора и требования к
+          публикации ещё подтверждаются. Непроверенные сведения о личности,
+          налогах и регистрации не отображаются. Подтверждены следующие
+          общедоступные данные:
+        </p>
+      )
+    }
+    <dl class="policy-facts">
+      {
+        legalConfig.legalOperatorName && (
+          <div>
+            <dt>Юридический оператор</dt>
+            <dd>{legalConfig.legalOperatorName}</dd>
+          </div>
+        )
+      }
+      {
+        legalConfig.operatorType === 'natural-person' && (
+          <div>
+            <dt>Статус оператора</dt>
+            <dd>Физическое лицо</dd>
+          </div>
+        )
+      }
+      {
+        legalConfig.legalForm && (
+          <div>
+            <dt>Организационно-правовая форма</dt>
+            <dd>{legalConfig.legalForm}</dd>
+          </div>
+        )
+      }
+      <div>
+        <dt>Торговое наименование</dt><dd>{legalConfig.tradingName}</dd>
+      </div>
+      {
+        legalConfig.taxId && (
+          <div>
+            <dt>Налоговый идентификатор</dt>
+            <dd>{legalConfig.taxId}</dd>
+          </div>
+        )
+      }
+      {
+        legalConfig.registeredAddress && (
+          <div>
+            <dt>Зарегистрированный адрес</dt>
+            <dd>{legalConfig.registeredAddress}</dd>
+          </div>
+        )
+      }
+      <div>
+        <dt>Офис для посетителей</dt>
+        <dd>{legalConfig.publicOfficeAddress}</dd>
+      </div>
+      <div>
+        <dt>Электронная почта</dt>
+        <dd>
+          <a href={`mailto:${legalConfig.email}`}>{legalConfig.email}</a>
+        </dd>
+      </div>
+      <div>
+        <dt>Телефон</dt>
+        <dd>
+          <a href="tel:+34695718540">{legalConfig.phone}</a>
+        </dd>
+      </div>
+      <div>
+        <dt>Домен</dt>
+        <dd>
+          <a href={legalConfig.websiteUrl}>{legalConfig.websiteUrl}</a>
+        </dd>
+      </div>
+      {
+        legalConfig.registryName && legalConfig.registryNumber && (
+          <div>
+            <dt>Регистрация</dt>
+            <dd>
+              {legalConfig.registryName}: {legalConfig.registryNumber}
+            </dd>
+          </div>
+        )
+      }
+    </dl>
+  </section>
+
+  <section
+    id="professional-information"
+    aria-labelledby="professional-information-heading"
+  >
+    <h2 id="professional-information-heading">
+      2. Профессиональная информация
+    </h2>
+    <p>
+      Aleksandrs Tolkacovs — сертифицированный IIMS сюрвейер яхт и маломерных
+      судов и капитан с действующей квалификацией. Это утверждение не
+      представляет IIMS как испанский регулирующий орган, не утверждает, что
+      сюрвейерский осмотр яхт является регулируемой профессией в Испании, и не
+      содержит заявлений о страховании профессиональной ответственности.
+      Дополнительная профессиональная информация представлена на странице
+      <a href="/ru/about-us">«О нас»</a>.
+    </p>
+  </section>
+
+  <section id="purpose" aria-labelledby="purpose-heading">
+    <h2 id="purpose-heading">3. Назначение сайта</h2>
+    <p>
+      Сайт содержит информацию о сюрвейерских осмотрах, перегоне яхт,
+      технической поддержке покупателей, образовательных статьях об осмотре яхт,
+      не имеющих обязательной силы расчётах стоимости и ссылках на внешние
+      объявления о продаже яхт через брокера.
+    </p>
+  </section>
+
+  <section id="contact-details" aria-labelledby="contact-details-heading">
+    <h2 id="contact-details-heading">4. Контакты</h2>
+    <p>
+      Вопросы о сайте можно отправить на
+      <a href={`mailto:${legalConfig.email}`}>{legalConfig.email}</a>, задать по
+      телефону или WhatsApp
+      <a href="tel:+34695718540">{legalConfig.phone}</a> либо направить через
+      <a href="/ru/contact">страницу контактов</a>.
+    </p>
+  </section>
+
+  <section
+    id="intellectual-property"
+    aria-labelledby="intellectual-property-heading"
+  >
+    <h2 id="intellectual-property-heading">
+      5. Интеллектуальная собственность
+    </h2>
+    <p>
+      Тексты, дизайн, фирменные элементы, отчёты и оригинальные изображения
+      сайта защищены, когда это применимо. Материалы третьих лиц остаются
+      объектами соответствующих прав и разрешений. В частности, брокерские
+      изображения третьих лиц не заявляются как оригинальные материалы All Yacht
+      Service только потому, что они размещены с разрешения или ведут к внешнему
+      объявлению.
+    </p>
+  </section>
+
+  <section id="external-links" aria-labelledby="external-links-heading">
+    <h2 id="external-links-heading">6. Внешние ссылки</h2>
+    <p>
+      Внешние сайты самостоятельно контролируют своё содержание, условия,
+      доступность и правила конфиденциальности. Premium Yachts Spain
+      поддерживает собственные актуальные объявления и брокерскую информацию;
+      All Yacht Service не контролирует этот внешний перечень.
+    </p>
+  </section>
+
+  <section id="availability" aria-labelledby="availability-heading">
+    <h2 id="availability-heading">7. Доступность и точность сайта</h2>
+    <p>
+      Принимаются разумные меры для поддержания точности и доступности
+      информации, однако содержание сайта может устареть или временно стать
+      недоступным. Сведения необходимо подтверждать применительно к конкретному
+      заданию. Эта страница не исключает ответственность или обязательные права
+      в случаях, когда такое исключение не допускается законом.
+    </p>
+  </section>
+
+  <section id="applicable-law" aria-labelledby="applicable-law-heading">
+    <h2 id="applicable-law-heading">8. Применимое право</h2>
+    {
+      legalConfig.applicableLawText ? (
+        <p>{legalConfig.applicableLawText}</p>
+      ) : (
+        <p>
+          Окончательная формулировка о применимом праве и юрисдикции ожидает
+          подтверждения юридического оператора и предполагаемой структуры
+          договоров с клиентами. Эта неиндексируемая предварительная версия не
+          устанавливает условие о юрисдикции.
+        </p>
+      )
+    }
+  </section>
+</PolicyPageLayout>

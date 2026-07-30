@@ -172,16 +172,19 @@ export function assertLegalConfigurationForIndexableBuild(
     [
       'Indexable production build blocked: complete the required legal operator, retention, review and applicable-law fields in src/data/legal.ts.',
       details,
-      'Keep PUBLIC_SITE_INDEXABLE=false until the configuration has received final Spanish legal review.',
+      'Keep PUBLIC_SITE_INDEXABLE=false until the configuration and all published language versions have received final professional legal review.',
     ].join('\n'),
   );
 }
 
 export function formatLegalReviewDate(
   date: string,
-  locale: 'en' | 'es' = 'en',
+  locale: 'en' | 'es' | 'ru' = 'en',
 ): string {
-  return new Intl.DateTimeFormat(locale === 'es' ? 'es-ES' : 'en-GB', {
+  const dateLocale =
+    locale === 'es' ? 'es-ES' : locale === 'ru' ? 'ru-RU' : 'en-GB';
+
+  return new Intl.DateTimeFormat(dateLocale, {
     day: 'numeric',
     month: 'long',
     year: 'numeric',

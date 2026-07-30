@@ -90,6 +90,22 @@ const ui = getSharedUi('es');
             <td>Calculadora de entrega y formulario de contacto</td>
           </tr>
           <tr>
+            <th scope="row"><code>ays:contact-prefill</code></th>
+            <td>All Yacht Service</td>
+            <td>
+              Lee valores temporales para completar el formulario de contacto si
+              esta clave de compatibilidad ya está presente. El código fuente
+              actual no crea la clave.
+            </td>
+            <td>Entrada de compatibilidad en <code>sessionStorage</code></td>
+            <td>
+              Sesión del navegador; se elimina después de un envío correcto o
+              cuando los datos están mal formados.
+            </td>
+            <td>No</td>
+            <td>Formulario de contacto</td>
+          </tr>
+          <tr>
             <th scope="row">
               Token de verificación de Turnstile y señales técnicas
             </th>
@@ -128,6 +144,15 @@ const ui = getSharedUi('es');
       el almacenamiento de sesión cuando termina la pestaña o sesión
       correspondiente. Puede eliminar una estimación transferida en el
       formulario de contacto sin enviarla.
+    </p>
+    <p>
+      La página de contacto también comprueba la clave de compatibilidad
+      <code>ays:contact-prefill</code>. Si ya está presente, puede contener
+      valores de servicio, embarcación, fecha, mensaje, origen y resumen de la
+      calculadora utilizados para completar campos limitados del formulario. El
+      código fuente actual no crea esta clave. Elimina los datos mal formados y
+      la clave después de un envío correcto; en los demás casos, su duración
+      depende de la sesión del navegador.
     </p>
   </section>
 

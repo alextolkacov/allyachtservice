@@ -55,8 +55,12 @@ const navigationSource = read('src/data/navigation.ts');
 const languageSource = read('src/data/languages.ts');
 const uiSource = read('src/i18n/ui.ts');
 const footerSource = read('src/i18n/footer.ts');
+const sharedFooterSource = read('src/components/Footer.astro');
 const contactCopySource = read('src/i18n/contact.ts');
 const contactFormSource = read('src/components/ContactForm.astro');
+const policyCopySource = read('src/i18n/policy.ts');
+const policyLayoutSource = read('src/components/PolicyPageLayout.astro');
+const legalConfigSource = read('src/data/legal.ts');
 const headerSource = read('src/components/Header.astro');
 const mobileSource = read('src/components/MobileNavigation.astro');
 const contactValidationSource = read('functions/_lib/contact-form.ts');
@@ -88,6 +92,12 @@ const russianYachtsForSaleSource = read('src/data/ru/yachts-for-sale.ts');
 const russianYachtsForSalePageSource = read(
   'src/pages/ru/yachts-for-sale.astro',
 );
+const russianLegalPageSources = {
+  privacyPolicy: read('src/pages/ru/privacy-policy.astro'),
+  cookiePolicy: read('src/pages/ru/cookie-policy.astro'),
+  legalNotice: read('src/pages/ru/legal-notice.astro'),
+  termsAndConditions: read('src/pages/ru/terms-and-conditions.astro'),
+};
 const surveyArticleCardSource = read('src/components/SurveyArticleCard.astro');
 const globalStyles = read('src/styles/global.css');
 
@@ -311,6 +321,92 @@ assert(
     ),
   'Russian Yachts for Sale must not add an iframe, runtime feed or copied prices.',
 );
+const translatedLegalRoutes = [
+  {
+    routeId: 'privacyPolicy',
+    en: '/privacy-policy',
+    es: '/es/privacy-policy',
+    ru: '/ru/privacy-policy',
+    title: 'Политика конфиденциальности | All Yacht Service',
+    description:
+      'Информация о том, как All Yacht Service обрабатывает персональные данные, полученные через сайт, форму обратной связи и деловую переписку.',
+    heading: 'Политика конфиденциальности',
+  },
+  {
+    routeId: 'cookiePolicy',
+    en: '/cookie-policy',
+    es: '/es/cookie-policy',
+    ru: '/ru/cookie-policy',
+    title: 'Политика cookies и хранения данных | All Yacht Service',
+    description:
+      'Информация о cookies, Cloudflare Turnstile и данных калькуляторов, временно сохраняемых в браузере на сайте All Yacht Service.',
+    heading: 'Политика использования cookies и хранения данных в браузере',
+  },
+  {
+    routeId: 'legalNotice',
+    en: '/legal-notice',
+    es: '/es/legal-notice',
+    ru: '/ru/legal-notice',
+    title: 'Юридическая информация | All Yacht Service',
+    description:
+      'Юридическая информация об операторе сайта All Yacht Service, профессиональных услугах, контактах и условиях использования сайта.',
+    heading: 'Юридическая информация',
+  },
+  {
+    routeId: 'termsAndConditions',
+    en: '/terms-and-conditions',
+    es: '/es/terms-and-conditions',
+    ru: '/ru/terms-and-conditions',
+    title: 'Условия использования сайта | All Yacht Service',
+    description:
+      'Условия использования сайта All Yacht Service, онлайн-калькуляторов, информационных материалов и форм обратной связи.',
+    heading: 'Условия использования сайта',
+  },
+];
+for (const route of translatedLegalRoutes) {
+  assert(
+    navigationSource.includes(`ru: '${route.ru}'`) &&
+      existsSync(resolve(projectRoot, `src/pages/${route.ru.slice(1)}.astro`)),
+    `Russian legal route equivalence or source is missing for ${route.ru}.`,
+  );
+}
+assert(
+  policyCopySource.includes("export type PolicyLocale = 'en' | 'es' | 'ru'") &&
+    policyCopySource.includes(
+      "draftHeading: 'Черновая версия юридической информации'",
+    ) &&
+    policyLayoutSource.includes("locale === 'ru'") &&
+    policyLayoutSource.includes("'Навигационная цепочка'"),
+  'The shared policy layout does not provide Russian interface and draft-warning copy.',
+);
+for (const unresolvedField of [
+  'legalOperatorName: null',
+  'operatorType: null',
+  'taxIdRequirement: null',
+  'registeredAddress: null',
+  'enquiryRetentionMonths: null',
+  'unsuccessfulQuoteRetentionMonths: null',
+  'clientRecordRetentionDescription: null',
+  'securityRecordRetentionDescription: null',
+  'applicableLawText: null',
+  'finalPolicyReviewApproved: false',
+]) {
+  assert(
+    legalConfigSource.includes(unresolvedField),
+    `The central unresolved legal field changed during Russian localisation: ${unresolvedField}.`,
+  );
+}
+assert(
+  Object.values(russianLegalPageSources).every((source) =>
+    source.includes('locale="ru"'),
+  ) &&
+    [
+      russianLegalPageSources.privacyPolicy,
+      russianLegalPageSources.legalNotice,
+      russianLegalPageSources.termsAndConditions,
+    ].every((source) => source.includes('legalConfig')),
+  'Russian legal pages do not reuse the shared layout and central legal configuration.',
+);
 assert(
   contactCopySource.includes("locale: 'ru-RU'") &&
     contactCopySource.includes(
@@ -331,10 +427,9 @@ assert(
 assert(
   contactFormSource.includes("getRoutePath('privacyPolicy', contactLocale)") &&
     contactFormSource.includes("getRequiredRoutePath('privacyPolicy', 'en')") &&
-    !contactFormSource.includes(
-      "getRequiredRoutePath('privacyPolicy', contactLocale)",
-    ),
-  'Russian Contact must fall back explicitly to the published English Privacy Policy.',
+    navigationSource.includes("ru: '/ru/privacy-policy'") &&
+    contactCopySource.includes("privacyLanguageNote: ''"),
+  'Russian Contact does not resolve the published Russian Privacy Policy without a fallback note.',
 );
 assert(
   contactValidationSource.includes(
@@ -415,19 +510,23 @@ assert(
     ),
   'Shared Russian interface or footer copy is incomplete.',
 );
-
-const unsupportedRussianRoutes = [
-  '/ru/privacy-policy',
-  '/ru/cookie-policy',
-  '/ru/legal-notice',
-  '/ru/terms-and-conditions',
-];
-for (const pathname of unsupportedRussianRoutes) {
-  assert(
-    !existsSync(resolve(projectRoot, `src/pages/${pathname.slice(1)}.astro`)),
-    `Unsupported source route ${pathname} must not exist.`,
-  );
-}
+assert(
+  sharedFooterSource.includes(
+    "href={getRequiredRoutePath('privacyPolicy', currentLocale)}",
+  ) &&
+    sharedFooterSource.includes(
+      "href={getRequiredRoutePath('cookiePolicy', currentLocale)}",
+    ) &&
+    sharedFooterSource.includes(
+      "href={getRequiredRoutePath('legalNotice', currentLocale)}",
+    ) &&
+    sharedFooterSource.includes(
+      "href={getRequiredRoutePath('termsAndConditions', currentLocale)}",
+    ) &&
+    !footerSource.includes('englishDestination') &&
+    contactCopySource.includes("privacyLanguageNote: ''"),
+  'Russian footer or Contact still exposes an English legal fallback.',
+);
 
 const distDirectory = resolve(projectRoot, 'dist');
 assert(
@@ -464,13 +563,14 @@ if (existsSync(distDirectory)) {
     translatedYachtsForSaleRoute.en,
     translatedYachtsForSaleRoute.es,
     translatedYachtsForSaleRoute.ru,
+    ...translatedLegalRoutes.flatMap((route) => [route.en, route.es, route.ru]),
   ]) {
     assert(
       builtPages.has(routeToFile(pathname)),
       `dist/${routeToFile(pathname)} is missing.`,
     );
   }
-  for (const pathname of [...unsupportedRussianRoutes, '/fr', '/it', '/gr']) {
+  for (const pathname of ['/fr', '/it', '/gr']) {
     assert(
       !builtPages.has(routeToFile(pathname)),
       `Unsupported route ${pathname} was generated.`,
@@ -582,6 +682,24 @@ if (existsSync(distDirectory)) {
       );
     }
   }
+  for (const route of translatedLegalRoutes) {
+    const expected = [
+      ['en', absolute(route.en)],
+      ['es', absolute(route.es)],
+      ['ru', absolute(route.ru)],
+      ['x-default', absolute(route.en)],
+    ];
+    for (const pathname of [route.en, route.es, route.ru]) {
+      const actual = getHreflangs(getBuiltPage(pathname));
+      assert(
+        actual.length === expected.length &&
+          expected.every(([code, href]) =>
+            actual.some((item) => item.code === code && item.href === href),
+          ),
+        `${pathname} has incorrect EN/ES/RU legal hreflang equivalence.`,
+      );
+    }
+  }
 
   const russianHome = getBuiltPage('/ru');
   const russianContact = getBuiltPage('/ru/contact');
@@ -637,11 +755,11 @@ if (existsSync(distDirectory)) {
       russianContact.includes('>Предпочтительная дата<') &&
       russianContact.includes('href="/ru/pre-purchase-survey-calculator"') &&
       russianContact.includes('href="/ru/yacht-delivery-calculator"') &&
-      russianContact.includes('href="/privacy-policy"') &&
-      russianContact.includes(
+      russianContact.includes('href="/ru/privacy-policy"') &&
+      !russianContact.includes(
         'В настоящее время доступна на английском языке.',
       ),
-    '/ru/contact locale, validation or Privacy Policy fallback is incorrect.',
+    '/ru/contact locale, validation or Russian Privacy Policy link is incorrect.',
   );
   for (const value of [
     'pre-purchase-survey',
@@ -703,6 +821,140 @@ if (existsSync(distDirectory)) {
         schema['@id'] === 'https://www.allyachtservice.com/#business',
     ).length === 1,
     '/ru/contact must expose exactly one stable business entity.',
+  );
+
+  for (const route of translatedLegalRoutes) {
+    const html = getBuiltPage(route.ru);
+    const visible = visibleText(html);
+    const routeSchemas = getSchemas(html, route.ru);
+    const schemaTypes = routeSchemas.map((schema) => schema['@type']);
+
+    assert(
+      html.includes('<html lang="ru">') &&
+        html.includes(`<title>${route.title}</title>`) &&
+        html.includes(
+          `<meta name="description" content="${route.description}">`,
+        ) &&
+        html.includes(`<link rel="canonical" href="${absolute(route.ru)}">`) &&
+        html.includes(
+          `<meta property="og:url" content="${absolute(route.ru)}">`,
+        ) &&
+        html.includes(`<meta property="og:title" content="${route.title}">`) &&
+        html.includes(`<meta name="twitter:title" content="${route.title}">`) &&
+        html.includes('<meta property="og:locale" content="ru_RU">') &&
+        html.includes('<meta name="robots" content="noindex, nofollow">') &&
+        html.includes(`<h1>${route.heading}</h1>`),
+      `${route.ru} has incorrect Russian metadata, canonical, robots directive or H1.`,
+    );
+    assert(
+      (html.match(/<h1(?:\s|>)/gu) ?? []).length === 1,
+      `${route.ru} must contain exactly one H1.`,
+    );
+    assert(
+      visible.includes('Черновая версия юридической информации') &&
+        visible.includes(
+          'Личность юридического оператора, сроки хранения данных и окончательная формулировка о применимом праве ещё требуют подтверждения',
+        ),
+      `${route.ru} is missing the clear Russian draft warning.`,
+    );
+    assert(
+      routeSchemas.some(
+        (schema) =>
+          schema['@type'] === 'WebPage' &&
+          schema['@id'] === `${absolute(route.ru)}#page` &&
+          schema.inLanguage === 'ru' &&
+          schema.about?.['@id'] === 'https://www.allyachtservice.com/#business',
+      ) &&
+        routeSchemas.some(
+          (schema) =>
+            schema['@type'] === 'BreadcrumbList' &&
+            schema.itemListElement?.[0]?.name === 'Главная' &&
+            schema.itemListElement?.[1]?.name === route.heading,
+        ) &&
+        schemaTypes.includes('ProfessionalService'),
+      `${route.ru} is missing stable Russian WebPage, BreadcrumbList or business schema.`,
+    );
+    assert(
+      !schemaTypes.some((type) =>
+        [
+          'LegalService',
+          'Attorney',
+          'GovernmentService',
+          'Product',
+          'Offer',
+          'Review',
+          'AggregateRating',
+        ].includes(type),
+      ),
+      `${route.ru} contains unsupported legal or commercial schema.`,
+    );
+    for (const relatedRoute of translatedLegalRoutes) {
+      assert(
+        relatedRoute.routeId === route.routeId ||
+          html.includes(`href="${relatedRoute.ru}"`),
+        `${route.ru} does not link to related policy ${relatedRoute.ru}.`,
+      );
+    }
+    for (const unintended of [
+      'Privacy Policy',
+      'Cookie Policy',
+      'Legal Notice',
+      'Terms and Conditions',
+      'Draft legal information',
+      'Last reviewed',
+      'Data controller',
+      'Your rights',
+      'Contact us',
+      'Related policies',
+      'Opens in a new tab',
+    ]) {
+      assert(
+        !visible.includes(unintended),
+        `${route.ru} exposes untranslated legal UI: ${unintended}.`,
+      );
+    }
+    assert(
+      !/\b(?:null|undefined|company name here)\b/iu.test(html),
+      `${route.ru} renders an unresolved configuration token.`,
+    );
+  }
+  const russianPrivacyPolicy = getBuiltPage('/ru/privacy-policy');
+  const russianCookiePolicy = getBuiltPage('/ru/cookie-policy');
+  const russianLegalNotice = getBuiltPage('/ru/legal-notice');
+  const russianTerms = getBuiltPage('/ru/terms-and-conditions');
+  assert(
+    visibleText(russianPrivacyPolicy).includes(
+      'Окончательные сроки хранения ожидают утверждения.',
+    ) &&
+      visibleText(russianLegalNotice).includes(
+        'Окончательная формулировка о применимом праве и юрисдикции ожидает подтверждения',
+      ) &&
+      visibleText(russianTerms).includes(
+        'Окончательная формулировка о применимом праве и разрешении споров ожидает подтверждения',
+      ),
+    'Russian legal pages do not expose the unresolved retention, applicable-law or dispute status.',
+  );
+  for (const storageKey of [
+    'ays:pre-purchase-survey-estimate:v1',
+    'ays:yacht-delivery-estimate:v1',
+    'ays:contact-prefill',
+  ]) {
+    assert(
+      russianCookiePolicy.includes(`<code>${storageKey}</code>`),
+      `/ru/cookie-policy does not document ${storageKey}.`,
+    );
+  }
+  assert(
+    visibleText(russianCookiePolicy).includes(
+      'Текущий исходный код не создаёт этот ключ.',
+    ) &&
+      visibleText(russianCookiePolicy).includes(
+        'баннер согласия не реализован',
+      ) &&
+      visibleText(russianCookiePolicy).includes(
+        'настроек Turnstile в панели Cloudflare до запуска',
+      ),
+    '/ru/cookie-policy does not preserve the current storage or consent assessment.',
   );
 
   for (const route of translatedServiceRoutes) {
@@ -1194,6 +1446,7 @@ if (existsSync(distDirectory)) {
     translatedYachtsForSaleRoute.en,
     translatedYachtsForSaleRoute.es,
     translatedYachtsForSaleRoute.ru,
+    ...translatedLegalRoutes.flatMap((route) => [route.en, route.es, route.ru]),
   ]);
   for (const [path, html] of builtPages) {
     const pathname =
@@ -1267,10 +1520,10 @@ if (existsSync(distDirectory)) {
     sitemap.includes(`<loc>${absolute(translatedYachtsForSaleRoute.ru)}</loc>`),
     'The sitemap does not contain /ru/yachts-for-sale.',
   );
-  for (const pathname of unsupportedRussianRoutes) {
+  for (const route of translatedLegalRoutes) {
     assert(
-      !sitemap.includes(`<loc>${absolute(pathname)}</loc>`),
-      `The sitemap contains unsupported route ${pathname}.`,
+      sitemap.includes(`<loc>${absolute(route.ru)}</loc>`),
+      `The sitemap does not contain ${route.ru}.`,
     );
   }
 }

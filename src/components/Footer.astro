@@ -194,10 +194,7 @@ const localizedFooter = isSpanish
       <ul class="footer-link-list" role="list">
         <li>
           <a
-            href={getRequiredRoutePath(
-              'privacyPolicy',
-              isSpanish ? 'es' : 'en',
-            )}
+            href={getRequiredRoutePath('privacyPolicy', currentLocale)}
             lang={undefined}
             aria-current={routeId === 'privacyPolicy' ? 'page' : undefined}
           >
@@ -208,19 +205,11 @@ const localizedFooter = isSpanish
                   ? russianFooter.legal.privacy
                   : 'Privacy Policy'
             }
-            {
-              isRussian && (
-                <span class="navigation-language-note">
-                  {' '}
-                  — {russianFooter.englishDestination}
-                </span>
-              )
-            }
           </a>
         </li>
         <li>
           <a
-            href={getRequiredRoutePath('cookiePolicy', isSpanish ? 'es' : 'en')}
+            href={getRequiredRoutePath('cookiePolicy', currentLocale)}
             lang={undefined}
             aria-current={routeId === 'cookiePolicy' ? 'page' : undefined}
           >
@@ -231,19 +220,11 @@ const localizedFooter = isSpanish
                   ? russianFooter.legal.cookies
                   : 'Cookie Policy'
             }
-            {
-              isRussian && (
-                <span class="navigation-language-note">
-                  {' '}
-                  — {russianFooter.englishDestination}
-                </span>
-              )
-            }
           </a>
         </li>
         <li>
           <a
-            href={getRequiredRoutePath('legalNotice', isSpanish ? 'es' : 'en')}
+            href={getRequiredRoutePath('legalNotice', currentLocale)}
             lang={undefined}
             aria-current={routeId === 'legalNotice' ? 'page' : undefined}
           >
@@ -254,22 +235,11 @@ const localizedFooter = isSpanish
                   ? russianFooter.legal.notice
                   : 'Legal Notice'
             }
-            {
-              isRussian && (
-                <span class="navigation-language-note">
-                  {' '}
-                  — {russianFooter.englishDestination}
-                </span>
-              )
-            }
           </a>
         </li>
         <li>
           <a
-            href={getRequiredRoutePath(
-              'termsAndConditions',
-              isSpanish ? 'es' : 'en',
-            )}
+            href={getRequiredRoutePath('termsAndConditions', currentLocale)}
             lang={undefined}
             aria-current={routeId === 'termsAndConditions' ? 'page' : undefined}
           >
@@ -279,14 +249,6 @@ const localizedFooter = isSpanish
                 : isRussian
                   ? russianFooter.legal.terms
                   : 'Terms and Conditions'
-            }
-            {
-              isRussian && (
-                <span class="navigation-language-note">
-                  {' '}
-                  — {russianFooter.englishDestination}
-                </span>
-              )
             }
           </a>
         </li>

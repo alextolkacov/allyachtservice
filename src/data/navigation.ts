@@ -102,18 +102,22 @@ export const translatedRoutes: Record<
   privacyPolicy: {
     en: '/privacy-policy',
     es: '/es/privacy-policy',
+    ru: '/ru/privacy-policy',
   },
   cookiePolicy: {
     en: '/cookie-policy',
     es: '/es/cookie-policy',
+    ru: '/ru/cookie-policy',
   },
   legalNotice: {
     en: '/legal-notice',
     es: '/es/legal-notice',
+    ru: '/ru/legal-notice',
   },
   termsAndConditions: {
     en: '/terms-and-conditions',
     es: '/es/terms-and-conditions',
+    ru: '/ru/terms-and-conditions',
   },
 };
 

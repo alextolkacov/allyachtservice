@@ -24,10 +24,11 @@ navigation, footer, validation and calculator-summary presentation. Russian
 Translation Batch 2 publishes the six main commercial and company pages, and
 Batch 3 publishes both calculators. Russian Translation Batch 4 publishes the
 Yacht Survey Tips hub and both current articles. Russian Translation Batch 5
-publishes the Yachts for Sale referral and buyer-support page. Russian legal
-pages remain unpublished. Production indexing remains blocked until the central
-legal fields and professional approvals are completed. French, Italian and
-Greek are deferred and not currently supported.
+publishes the Yachts for Sale referral and buyer-support page. Russian
+Translation Batch 6 publishes all four legal and policy pages through the shared
+legal architecture. Production indexing remains blocked until the central legal
+fields and professional approvals are completed. French, Italian and Greek are
+deferred and not currently supported.
 
 ## Local setup
 
@@ -82,10 +83,10 @@ in `src/data/navigation.ts`. The current equivalents are:
 | Yacht Survey Tips               | `/yacht-survey-tips`                          | `/es/yacht-survey-tips`                          | `/ru/yacht-survey-tips`                          |
 | Deck Moisture article           | `/yacht-survey-tips/deck-moisture-soft-spots` | `/es/yacht-survey-tips/deck-moisture-soft-spots` | `/ru/yacht-survey-tips/deck-moisture-soft-spots` |
 | Shiny Hull article              | `/yacht-survey-tips/shiny-hull`               | `/es/yacht-survey-tips/shiny-hull`               | `/ru/yacht-survey-tips/shiny-hull`               |
-| Privacy Policy                  | `/privacy-policy`                             | `/es/privacy-policy`                             | —                                                |
-| Cookie and Storage Policy       | `/cookie-policy`                              | `/es/cookie-policy`                              | —                                                |
-| Legal Notice                    | `/legal-notice`                               | `/es/legal-notice`                               | —                                                |
-| Website Terms                   | `/terms-and-conditions`                       | `/es/terms-and-conditions`                       | —                                                |
+| Privacy Policy                  | `/privacy-policy`                             | `/es/privacy-policy`                             | `/ru/privacy-policy`                             |
+| Cookie and Storage Policy       | `/cookie-policy`                              | `/es/cookie-policy`                              | `/ru/cookie-policy`                              |
+| Legal Notice                    | `/legal-notice`                               | `/es/legal-notice`                               | `/ru/legal-notice`                               |
+| Website Terms                   | `/terms-and-conditions`                       | `/es/terms-and-conditions`                       | `/ru/terms-and-conditions`                       |
 
 The language switcher uses an equivalent route when the map contains one. If a
 translation is not published, it links to that language's homepage and its
@@ -150,11 +151,14 @@ The genuine Russian route equivalents currently published are:
 | Yacht Survey Tips       | `/yacht-survey-tips`                          | `/es/yacht-survey-tips`                          | `/ru/yacht-survey-tips`                          |
 | Deck Moisture article   | `/yacht-survey-tips/deck-moisture-soft-spots` | `/es/yacht-survey-tips/deck-moisture-soft-spots` | `/ru/yacht-survey-tips/deck-moisture-soft-spots` |
 | Shiny Hull article      | `/yacht-survey-tips/shiny-hull`               | `/es/yacht-survey-tips/shiny-hull`               | `/ru/yacht-survey-tips/shiny-hull`               |
+| Privacy Policy          | `/privacy-policy`                             | `/es/privacy-policy`                             | `/ru/privacy-policy`                             |
+| Cookie Policy           | `/cookie-policy`                              | `/es/cookie-policy`                              | `/ru/cookie-policy`                              |
+| Legal Notice            | `/legal-notice`                               | `/es/legal-notice`                               | `/ru/legal-notice`                               |
+| Website Terms           | `/terms-and-conditions`                       | `/es/terms-and-conditions`                       | `/ru/terms-and-conditions`                       |
 
-These route groups emit `en`, `es`, `ru` and English `x-default` alternates.
-Other English or Spanish pages continue to send the visible RU selector to
-`/ru` as a homepage fallback; that fallback is identified accessibly and is
-never emitted as page-equivalent hreflang.
+All current public route groups emit `en`, `es`, `ru` and English `x-default`
+alternates. A homepage fallback must never be emitted as page-equivalent
+hreflang.
 
 The current English page is the source of truth for Russian translations.
 Russian pages must preserve its confirmed scope, qualifications, limitations,
@@ -211,18 +215,18 @@ language-neutral and must not be translated.
 Russian shared interface copy lives beside English and Spanish in `src/i18n/`.
 The Russian header, flat mobile menu, homepage service cards, Contact service
 links and footer use the published Russian commercial, calculator and Survey
-Tips routes, including `/ru/yachts-for-sale`. Only the legal policies retain
-real English URLs and mark each destination with `— на английском`. No Russian
-legal route should be added until its complete translation is ready.
+Tips routes, including `/ru/yachts-for-sale`. The footer legal links use the
+four published `/ru/` policy routes without an English-language fallback.
 
 The Russian Contact page reuses `POST /api/contact`, Turnstile, attachment
 validation, spam controls and Gmail delivery. It submits `locale=ru` so the
 internal email records `Website language: Russian`; canonical service codes
 such as `pre-purchase-survey` remain unchanged. Client validation and
 visitor-facing success and failure states are Russian and use `novalidate` to
-avoid native English browser messages. Until the Russian Privacy Policy exists,
-the acknowledgement links to `/privacy-policy` and explicitly identifies it as
-currently available in English.
+avoid native English browser messages. The required privacy acknowledgement and
+Contact privacy summary link directly to `/ru/privacy-policy`; the
+acknowledgement records that the notice was read and is not universal consent
+for every processing activity.
 
 Valid English, Spanish or Russian calculator transfers are accepted by
 `/ru/contact` without changing their payloads, references, 24-hour expiry,
@@ -238,10 +242,8 @@ All locales retain the stable business entity ID
 `https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs`; translated
 pages must not create locale-specific duplicates.
 
-Remaining Russian batches are the legal pages and a final Russian-wide audit.
-The production legal guard remains the launch blocker for every locale. Spanish
-Batch 6 is GO for content and technical readiness, subject to the same
-production legal and professional-approval blockers. English, Spanish and
+The final remaining Russian sprint is the Russian-wide audit. The production
+legal guard remains the launch blocker for every locale. English, Spanish and
 Russian remain the only supported languages.
 
 ### Spanish marine-survey terminology
@@ -658,25 +660,30 @@ configuration.
 
 ## Legal and policy foundation
 
-The English and Spanish legal routes are:
+The English, Spanish and Russian legal routes are:
 
 ```text
 /privacy-policy
 /es/privacy-policy
+/ru/privacy-policy
 /cookie-policy
 /es/cookie-policy
+/ru/cookie-policy
 /legal-notice
 /es/legal-notice
+/ru/legal-notice
 /terms-and-conditions
 /es/terms-and-conditions
+/ru/terms-and-conditions
 ```
 
 They share the locale-aware `src/components/PolicyPageLayout.astro`. Confirmed
 and unresolved operator information, retention settings, the policy review
 date, and final applicable-law wording are held in `src/data/legal.ts` rather
-than duplicated across languages. Spanish typed policy metadata and section
-navigation live under `src/data/es/legal/`; they do not create a second legal
-identity or completion configuration.
+than duplicated across languages. Spanish and Russian typed policy metadata and
+section navigation live under `src/data/es/legal/` and `src/data/ru/legal/`.
+Neither locale creates a separate operator identity, address, tax value,
+retention schedule, applicable-law wording or approval state.
 
 The legal language uses Spain-appropriate terms including _Responsable del
 tratamiento_, _Datos personales_, _Base jurídica_, _Intereses legítimos_,
@@ -686,12 +693,17 @@ _Presupuesto vinculante_, _Cliente contratante_ and _Uso o confianza en el
 informe_. Technical identifiers such as `sessionStorage`, Turnstile, Google
 Workspace, API URLs and calculator storage keys remain unchanged.
 
-Each genuine English/Spanish policy pair publishes self-referencing canonicals,
-localized titles and descriptions, `en`, `es` and English `x-default`
-hreflang, the appropriate Open Graph locales, a localized `WebPage` and
-`BreadcrumbList`, and the shared
-`https://www.allyachtservice.com/#business` entity. Russian policy routes are
-not generated and never appear as legal-page hreflang.
+Russian policy terminology uses _Оператор персональных данных_, _Персональные
+данные_, _Правовое основание_, _Законные интересы_, _Необходимость исполнения
+договора_, _Международная передача данных_, _Срок хранения_, _Хранилище данных
+сеанса браузера_, _Ограничение ответственности_, _Применимое право_ and
+_Разрешение споров_. These translations change explanatory wording only, not
+the shared factual legal configuration.
+
+Each legal route group publishes self-referencing canonicals, localized titles
+and descriptions, `en`, `es`, `ru` and English `x-default` hreflang, the
+appropriate Open Graph locales, a localized `WebPage` and `BreadcrumbList`, and
+the shared `https://www.allyachtservice.com/#business` entity.
 
 The current verified public information is the trading name, public office,
 email, phone, website URL and country. The legal operator name; natural-person,
@@ -717,9 +729,12 @@ processing. Its English public wording is: “I confirm that I have read the
 Privacy Policy and understand how my enquiry information will be handled.” The
 Spanish acknowledgement links directly to `/es/privacy-policy` and reads:
 “Confirmo que he leído la Política de privacidad y comprendo cómo se tratará la
-información de mi consulta.” The Spanish Contact privacy summary also uses that
-route. The stable request field remains named `consent` to avoid an unnecessary
-API change.
+información de mi consulta.” The Russian acknowledgement links directly to
+`/ru/privacy-policy` and reads: “Подтверждаю, что прочитал(а) Политику
+конфиденциальности и понимаю, как будет обрабатываться информация из моего
+обращения.” Each localized Contact privacy summary uses the corresponding
+policy route. The stable request field remains named `consent` to avoid an
+unnecessary API change.
 
 The current processor and service inventory is:
 
@@ -732,6 +747,10 @@ The current processor and service inventory is:
   `ays:yacht-delivery-estimate:v1` for calculator-to-Contact transfer. The
   application validates each for 24 hours while the storage itself is
   session-based.
+- The Contact form reads the compatibility key `ays:contact-prefill` if it
+  already exists. The current source does not write this key. It may contain
+  bounded service, vessel, date, message, source and calculator-summary values;
+  malformed data and the key after a successful submission are removed.
 
 The Contact page uses Turnstile implicit rendering with the `contact` action
 and light theme. The repository does not explicitly select Managed,
@@ -740,15 +759,18 @@ confirm the widget type, pre-clearance and Offlabel settings in the Cloudflare
 dashboard before production. The server continues to validate every accepted
 token with Siteverify.
 
-The English and Spanish cookie policies reflect the same source audit. It found
-no installed analytics provider, advertising tag, marketing cookie, social
-embed, external font or site-written cookie. A cookie banner is therefore not
-added for the current strictly necessary calculator session storage and
-form-security implementation, subject to confirming Cloudflare dashboard-level
-Turnstile and security settings before production. Before enabling analytics,
-advertising, non-essential embeds or other optional storage, update the
-technical inventory, assess consent requirements, update both policies and
-activate appropriate consent controls before the technology loads.
+The English, Spanish and Russian cookie policies reflect the same fresh source
+audit. It found no site-written cookie, `localStorage`, IndexedDB, registered
+service worker, installed analytics provider, advertising tag, marketing
+cookie, social embed or external font. Existing `data-analytics-event`
+attributes have no runtime listener or analytics provider. A cookie banner is
+therefore not implemented for the current necessary calculator session storage
+and form-security implementation, subject to confirming Cloudflare
+dashboard-level Turnstile and security settings before production. Before
+enabling analytics, advertising, non-essential embeds or other optional
+storage, update the technical inventory, reassess consent requirements, update
+all localized policies and activate appropriate consent controls before the
+technology loads.
 
 Retention configuration must distinguish at least general enquiries,
 unsuccessful quotations, instructed-service records and reports, attachments,
@@ -761,11 +783,11 @@ engagement terms, a yacht-delivery contract, a brokerage agreement, report
 reliance terms, a repair contract or other service-specific agreement.
 
 Before changing `PUBLIC_SITE_INDEXABLE` to `true`, have all four English drafts,
-their four Spanish translations, the central configuration, retention schedule,
-provider/account settings and applicable-law wording reviewed by a qualified
-Spanish legal or data-protection professional. A final native-Spanish legal
-review is required; publishing a translation does not mark `finalApproval` as
-complete. Review the
+their four Spanish and four Russian translations, the central configuration,
+retention schedule, provider/account settings and applicable-law wording
+reviewed by a qualified legal or data-protection professional. Final
+professional review remains required; publishing a translation does not set
+`finalPolicyReviewApproved` to `true`. Review the
 [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng),
 [Spanish LSSI](https://www.boe.es/buscar/act.php?id=BOE-A-2002-13758),
 [AEPD guidance](https://www.aepd.es/),

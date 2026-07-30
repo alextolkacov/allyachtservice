@@ -332,18 +332,22 @@ const spanishLegalPages = [
   {
     en: '/privacy-policy',
     es: '/es/privacy-policy',
+    ru: '/ru/privacy-policy',
   },
   {
     en: '/cookie-policy',
     es: '/es/cookie-policy',
+    ru: '/ru/cookie-policy',
   },
   {
     en: '/legal-notice',
     es: '/es/legal-notice',
+    ru: '/ru/legal-notice',
   },
   {
     en: '/terms-and-conditions',
     es: '/es/terms-and-conditions',
+    ru: '/ru/terms-and-conditions',
   },
 ];
 
@@ -380,7 +384,7 @@ if (existsSync(distDirectory)) {
     spanishYachtsForSalePage.en,
     spanishYachtsForSalePage.es,
     spanishYachtsForSalePage.ru,
-    ...spanishLegalPages.flatMap(({ en, es }) => [en, es]),
+    ...spanishLegalPages.flatMap(({ en, es, ru }) => [en, es, ru]),
   ];
   for (const pathname of requiredRoutes) {
     assert(
@@ -389,15 +393,7 @@ if (existsSync(distDirectory)) {
     );
   }
 
-  const forbiddenRoutes = [
-    '/fr',
-    '/it',
-    '/gr',
-    '/ru/privacy-policy',
-    '/ru/cookie-policy',
-    '/ru/legal-notice',
-    '/ru/terms-and-conditions',
-  ];
+  const forbiddenRoutes = ['/fr', '/it', '/gr'];
   for (const pathname of forbiddenRoutes) {
     assert(
       !builtPages.has(routeToFile(pathname)),
@@ -1120,6 +1116,7 @@ if (existsSync(distDirectory)) {
     spanishYachtsForSalePage.es,
     spanishYachtsForSalePage.ru,
     ...spanishLegalPages.map(({ es }) => es),
+    ...spanishLegalPages.map(({ ru }) => ru),
   ]) {
     assert(
       sitemap.includes(`<loc>${absolute(pathname)}</loc>`),

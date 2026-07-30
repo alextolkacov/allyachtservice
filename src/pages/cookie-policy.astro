@@ -78,6 +78,21 @@ const toc = [
             <td>Delivery calculator and Contact form</td>
           </tr>
           <tr>
+            <th scope="row"><code>ays:contact-prefill</code></th>
+            <td>All Yacht Service</td>
+            <td>
+              Reads temporary Contact-form prefill values if this compatibility
+              key is already present. The current source does not write the key.
+            </td>
+            <td><code>sessionStorage</code> compatibility input</td>
+            <td>
+              Browser session; removed after a successful submission or when
+              malformed.
+            </td>
+            <td>No</td>
+            <td>Contact form</td>
+          </tr>
+          <tr>
             <th scope="row"
               >Turnstile verification token and technical signals</th
             >
@@ -109,6 +124,14 @@ const toc = [
       happens to retain them. The browser normally removes session storage when
       the relevant tab or session ends. You can remove a transferred estimate in
       the Contact form without sending it.
+    </p>
+    <p>
+      The Contact page also checks for the compatibility key
+      <code>ays:contact-prefill</code>. If already present, it may contain
+      service, vessel, date, message, source and calculator-summary values used
+      to prefill bounded form fields. The current source does not create this
+      key. It removes malformed data and removes the key after a successful
+      submission; otherwise the browser session controls its lifetime.
     </p>
   </section>
 

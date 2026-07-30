@@ -87,5 +87,4 @@ export const russianFooter = {
     notice: 'Юридическая информация',
     terms: 'Условия использования сайта',
   },
-  englishDestination: 'на английском',
 } as const;
