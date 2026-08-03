@@ -2,8 +2,10 @@
 import PolicyPageLayout from '../../components/PolicyPageLayout.astro';
 import { spanishTermsAndConditions } from '../../data/es/legal/terms-and-conditions';
 import { legalConfig } from '../../data/legal';
+import { getLegalPolicyWording } from '../../i18n/policy';
 
 const page = spanishTermsAndConditions;
+const legalWording = getLegalPolicyWording('es');
 ---
 
 <PolicyPageLayout
@@ -25,6 +27,10 @@ const page = spanishTermsAndConditions;
       estas condiciones del sitio web. El mero hecho de consultar una página,
       utilizar una calculadora o enviar una consulta no crea un contrato de
       servicios de pago.
+    </p>
+    <p>
+      El sitio web y los servicios ofrecidos bajo la marca All Yacht Service son
+      operados y prestados contractualmente por {legalConfig.legalOperatorName}.
     </p>
   </section>
 
@@ -94,13 +100,14 @@ const page = spanishTermsAndConditions;
   <section id="brokerage" aria-labelledby="brokerage-heading">
     <h2 id="brokerage-heading">7. Yates en venta e intermediación externa</h2>
     <p>
-      Los anuncios de yates se alojan externamente y All Yacht Service no
-      mantiene el inventario. La disponibilidad, el precio, la propiedad, las
+      Los anuncios de yates se alojan en el sitio web externo de intermediación
+      Premium Yachts Spain, un área de servicios comerciales separada operada
+      por la misma entidad jurídica. All Yacht Service no mantiene ese
+      inventario. La disponibilidad, el precio, la propiedad, las
       especificaciones y la información fiscal deben confirmarse con el
-      intermediario del anuncio. All Yacht Service no garantiza la información
-      externa, y las relaciones comerciales pertinentes se comunican cuando
-      corresponde. Una inspección no constituye una recomendación de compra de
-      un yate.
+      intermediario del anuncio. Las relaciones comerciales pertinentes se
+      comunican cuando corresponde. Una inspección no constituye una
+      recomendación de compra de un yate.
     </p>
   </section>
 
@@ -176,18 +183,7 @@ const page = spanishTermsAndConditions;
     <h2 id="governing-law-heading">
       13. Legislación aplicable y controversias
     </h2>
-    {
-      legalConfig.applicableLawText ? (
-        <p>{legalConfig.applicableLawText}</p>
-      ) : (
-        <p>
-          La redacción definitiva sobre legislación aplicable y controversias
-          está pendiente de confirmar la identidad del operador y la estructura
-          de los contratos de servicios. Este borrador no indexable no impone a
-          los consumidores la jurisdicción exclusiva de los tribunales de Altea
-          o de España.
-        </p>
-      )
-    }
+    <p>{legalWording.applicableLawText}</p>
+    <p>{legalWording.disputeText}</p>
   </section>
 </PolicyPageLayout>

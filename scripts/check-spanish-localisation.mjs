@@ -814,7 +814,7 @@ if (existsSync(distDirectory)) {
     }
     assert(
       spanish.includes(
-        'Aleksandrs Tolkacovs es director de operaciones de Premium Yachts Spain.',
+        'Aleksandrs Tolkacovs es Director de Operaciones de Premium Yachts Spain.',
       ) &&
         spanish.includes(
           'El posible comprador mantiene plena libertad para designar a cualquier inspector naval independiente.',

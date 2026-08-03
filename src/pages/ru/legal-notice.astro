@@ -2,8 +2,10 @@
 import PolicyPageLayout from '../../components/PolicyPageLayout.astro';
 import { legalConfig } from '../../data/legal';
 import { russianLegalNotice } from '../../data/ru/legal/legal-notice';
+import { getLegalPolicyWording } from '../../i18n/policy';
 
 const page = russianLegalNotice;
+const legalWording = getLegalPolicyWording('ru');
 ---
 
 <PolicyPageLayout
@@ -18,35 +20,18 @@ const page = russianLegalNotice;
 >
   <section id="operator" aria-labelledby="operator-heading">
     <h2 id="operator-heading">1. Оператор сайта</h2>
-    {
-      legalConfig.legalOperatorName ? (
-        <p>Подтверждённые сведения об операторе сайта:</p>
-      ) : (
-        <p>
-          Окончательная личность юридического оператора и требования к
-          публикации ещё подтверждаются. Непроверенные сведения о личности,
-          налогах и регистрации не отображаются. Подтверждены следующие
-          общедоступные данные:
-        </p>
-      )
-    }
+    <p>Подтверждённые сведения об операторе сайта:</p>
+    <p>
+      All Yacht Service — специализированный бренд и направление услуг,
+      оператором которого является {legalConfig.legalOperatorName}. All Yacht
+      Service и Premium Yachts Spain — отдельные коммерческие бренды и
+      направления услуг одного и того же юридического лица.
+    </p>
     <dl class="policy-facts">
-      {
-        legalConfig.legalOperatorName && (
-          <div>
-            <dt>Юридический оператор</dt>
-            <dd>{legalConfig.legalOperatorName}</dd>
-          </div>
-        )
-      }
-      {
-        legalConfig.operatorType === 'natural-person' && (
-          <div>
-            <dt>Статус оператора</dt>
-            <dd>Физическое лицо</dd>
-          </div>
-        )
-      }
+      <div>
+        <dt>Юридический оператор</dt>
+        <dd>{legalConfig.legalOperatorName}</dd>
+      </div>
       {
         legalConfig.legalForm && (
           <div>
@@ -62,7 +47,7 @@ const page = russianLegalNotice;
         legalConfig.taxId && (
           <div>
             <dt>Налоговый идентификатор</dt>
-            <dd>{legalConfig.taxId}</dd>
+            <dd>NIF: {legalConfig.taxId}</dd>
           </div>
         )
       }
@@ -75,7 +60,7 @@ const page = russianLegalNotice;
         )
       }
       <div>
-        <dt>Офис для посетителей</dt>
+        <dt>Операционный адрес</dt>
         <dd>{legalConfig.publicOfficeAddress}</dd>
       </div>
       <div>
@@ -97,15 +82,29 @@ const page = russianLegalNotice;
         </dd>
       </div>
       {
-        legalConfig.registryName && legalConfig.registryNumber && (
+        legalConfig.registryName && (
           <div>
-            <dt>Регистрация</dt>
-            <dd>
-              {legalConfig.registryName}: {legalConfig.registryNumber}
-            </dd>
+            <dt>Торговый реестр</dt>
+            <dd>{legalConfig.registryName}</dd>
           </div>
         )
       }
+      <div>
+        <dt>Регистрационная запись</dt>
+        <dd>{legalConfig.registryInscription}</dd>
+      </div>
+      <div>
+        <dt>IRUS</dt>
+        <dd>{legalConfig.irus}</dd>
+      </div>
+      <div>
+        <dt>CNAE</dt>
+        <dd>{legalConfig.cnae}</dd>
+      </div>
+      <div>
+        <dt>Ответственное контактное лицо</dt>
+        <dd>{legalConfig.responsibleContactName}, Операционный директор</dd>
+      </div>
     </dl>
   </section>
 
@@ -169,9 +168,10 @@ const page = russianLegalNotice;
     <h2 id="external-links-heading">6. Внешние ссылки</h2>
     <p>
       Внешние сайты самостоятельно контролируют своё содержание, условия,
-      доступность и правила конфиденциальности. Premium Yachts Spain
-      поддерживает собственные актуальные объявления и брокерскую информацию;
-      All Yacht Service не контролирует этот внешний перечень.
+      доступность и правила конфиденциальности. Брокерский сайт Premium Yachts
+      Spain является внешним сайтом и отдельным направлением услуг того же
+      юридического лица; он поддерживает собственные актуальные объявления и
+      брокерскую информацию.
     </p>
   </section>
 
@@ -188,17 +188,6 @@ const page = russianLegalNotice;
 
   <section id="applicable-law" aria-labelledby="applicable-law-heading">
     <h2 id="applicable-law-heading">8. Применимое право</h2>
-    {
-      legalConfig.applicableLawText ? (
-        <p>{legalConfig.applicableLawText}</p>
-      ) : (
-        <p>
-          Окончательная формулировка о применимом праве и юрисдикции ожидает
-          подтверждения юридического оператора и предполагаемой структуры
-          договоров с клиентами. Эта неиндексируемая предварительная версия не
-          устанавливает условие о юрисдикции.
-        </p>
-      )
-    }
+    <p>{legalWording.applicableLawText}</p>
   </section>
 </PolicyPageLayout>

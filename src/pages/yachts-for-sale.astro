@@ -1,5 +1,6 @@
 ---
 import { yachtsForSalePage } from '../data/yachts-for-sale';
+import { legalConfig } from '../data/legal';
 import ServiceLayout from '../layouts/ServiceLayout.astro';
 import { businessEntityId, toAbsoluteUrl } from '../utils/seo';
 
@@ -166,8 +167,9 @@ const webPageSchema = {
     <h2 id="relationship-heading">Relationship With Premium Yachts Spain</h2>
     <p>
       Aleksandrs Tolkacovs is Chief Operating Officer of Premium Yachts Spain.
-      Premium Yachts Spain and All Yacht Service are separate business
-      activities with different commercial roles.
+      Premium Yachts Spain and All Yacht Service are separate commercial brands
+      and service areas operated by {legalConfig.legalOperatorName}, with
+      different commercial roles.
     </p>
     <p>
       Premium Yachts Spain provides brokerage and yacht-sales services. All

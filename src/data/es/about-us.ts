@@ -1,4 +1,5 @@
 import { aboutUsPage } from '../about-us';
+import { legalConfig } from '../legal';
 import { siteConfig } from '../site';
 import { createContactHref } from '../../utils/contact';
 import type { LocalizedSection } from './types';
@@ -296,8 +297,7 @@ export const spanishAboutUsPage = {
       blocks: [
         {
           type: 'paragraph',
-          content:
-            'Aleksandrs Tolkacovs también ejerce como Chief Operating Officer de Premium Yachts Spain, un negocio separado de venta de yates y servicios marinos.',
+          content: `Aleksandrs Tolkacovs es Director de Operaciones de Premium Yachts Spain. All Yacht Service y Premium Yachts Spain son marcas comerciales y áreas de servicio separadas operadas por ${legalConfig.legalOperatorName}.`,
         },
         {
           type: 'paragraph',
@@ -317,13 +317,13 @@ export const spanishAboutUsPage = {
         {
           type: 'paragraph',
           content:
-            'El cliente será informado de cualquier limitación pertinente o posible conflicto para que pueda decidir si desea continuar.',
+            'El cliente será informado de cualquier limitación pertinente o posible conflicto para que pueda decidir si desea continuar o designar a otro inspector naval.',
         },
         {
           type: 'paragraph',
           style: 'note',
           content:
-            'All Yacht Service y Premium Yachts Spain no deben presentarse como la misma entidad jurídica salvo que esa situación se confirme posteriormente.',
+            'Las observaciones y conclusiones de la inspección mantienen su independencia profesional. All Yacht Service puede rechazar un encargo cuando una relación no pueda comunicarse o gestionarse adecuadamente.',
         },
       ],
     },

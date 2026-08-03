@@ -311,24 +311,24 @@ assert(
     turnstileValidation.includes("result.action !== 'contact'"),
   'Turnstile server-side validation contract has changed.',
 );
-for (const unresolvedField of [
-  'legalOperatorName: null',
-  'operatorType: null',
-  'legalForm: null',
-  'taxIdRequirement: null',
-  'taxId: null',
-  'registeredAddress: null',
-  'legalContactAddressConfirmed: false',
-  'enquiryRetentionMonths: null',
-  'unsuccessfulQuoteRetentionMonths: null',
-  'clientRecordRetentionDescription: null',
-  'securityRecordRetentionDescription: null',
-  'applicableLawText: null',
-  'finalPolicyReviewApproved: false',
+for (const confirmedField of [
+  "legalOperatorName: 'PREMIUM YACHTS SPAIN, S.L.'",
+  "operatorType: 'legal-entity'",
+  "legalForm: 'Sociedad de Responsabilidad Limitada (S.L.)'",
+  "taxId: 'B06898027'",
+  'roiViesRegistered: false',
+  "registryName: 'Registro Mercantil de Alicante'",
+  "irus: '1000174884885'",
+  'legalContactAddressConfirmed: true',
+  'enquiryRetentionMonths: 12',
+  'unsuccessfulQuoteRetentionMonths: 12',
+  'finalPolicyOwnerApproved: true',
+  "policyOwnerApprovalDate: '2026-07-30'",
+  'externalLegalReviewCompleted: false',
 ]) {
   assert(
-    legalConfiguration.includes(unresolvedField),
-    `Central unresolved legal field changed unexpectedly: ${unresolvedField}.`,
+    legalConfiguration.includes(confirmedField),
+    `Central confirmed legal field is missing or changed: ${confirmedField}.`,
   );
 }
 assert(
@@ -499,6 +499,12 @@ for (const policy of policies) {
     `${policy.route} renders an unresolved placeholder value.`,
   );
   assert(
+    !/(draft legal information|borrador de información jurídica|черновая версия юридической информации|awaiting confirmation|pendiente de confirmación|ожидает подтверждения)/iu.test(
+      html,
+    ),
+    `${policy.route} renders a draft or unresolved-policy warning.`,
+  );
+  assert(
     !/(spanish limited company|incorporated company|vat registered|professionally insured|fully gdpr compliant|certified gdpr compliant|all data remains in (spain|the eu))/iu.test(
       html,
     ),
@@ -601,7 +607,7 @@ assert(
       .filter((_, index) => index === 0 || index === 2 || index === 3)
       .every((source) => source.includes('legalConfig')) &&
     !russianPolicyDataSources.some((source) =>
-      /\b(?:legalOperatorName|operatorType|legalForm|taxId|registeredAddress|enquiryRetentionMonths|applicableLawText|finalPolicyReviewApproved)\s*:/u.test(
+      /\b(?:legalOperatorName|operatorType|legalForm|taxId|registeredAddress|enquiryRetentionMonths|applicableLawText|finalPolicyOwnerApproved)\s*:/u.test(
         source,
       ),
     ),
@@ -617,7 +623,7 @@ assert(
 );
 assert(
   !russianPolicySources.some((source) =>
-    /(общество с ограниченной ответственностью|зарегистрированн(?:ая|ое) компания|номер ндс:\s*\S|инн:\s*\S|страховани[ея] профессиональной ответственности имеется|исключительн\w+ юрисдикци\w+ испанск\w+ суд)/iu.test(
+    /(номер ндс:\s*\S|инн:\s*\S|страховани[ея] профессиональной ответственности имеется|исключительн\w+ юрисдикци\w+ испанск\w+ суд)/iu.test(
       source,
     ),
   ),

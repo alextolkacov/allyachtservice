@@ -22,8 +22,9 @@ equivalents. The final Spanish-wide and Russian-wide audits establish content
 and technical readiness for both translations. The preview build generates 55
 HTML documents: 54 public EN/ES/RU routes plus the custom 404 document. The
 sitemap contains the 54 public routes only, with reciprocal EN/ES/RU and English
-`x-default` alternates. Production indexing remains blocked
-until the central legal fields and professional approvals are completed.
+`x-default` alternates. The verified central legal fields and internal operator
+approval are complete, so both preview and indexable builds pass the production
+legal guard.
 French, Italian and Greek are deferred and not currently supported.
 
 ## Local setup
@@ -248,14 +249,12 @@ calculator-to-Contact transfer remain identical across EN/ES/RU, with only the
 visitor-facing presentation localized. Russian Contact retains the shared
 secure Function and all six canonical service values.
 
-Russian content and technical readiness is **GO**. Production/indexable launch
-readiness remains **NO-GO** until the central legal operator, retention,
-applicable-law and professional-review fields are completed. Keep
-`PUBLIC_SITE_INDEXABLE=false`, confirm the Turnstile widget type, pre-clearance
-and security settings in the Cloudflare dashboard, complete professional review
-of all localized policies, then rerun the full validation suite and the
-indexable build guard. English, Spanish and Russian remain the only supported
-languages.
+Russian content and technical readiness is **GO**. The central legal operator,
+retention, applicable-law, dispute and operator-approval fields are complete.
+Keep `PUBLIC_SITE_INDEXABLE=false` until the actual launch, and confirm the
+Turnstile widget type, pre-clearance and security settings in the Cloudflare
+dashboard before production. English, Spanish and Russian remain the only
+supported languages.
 
 ### Spanish marine-survey terminology
 
@@ -292,9 +291,9 @@ allowed when they preserve the same technical meaning; never translate
 “survey” as a customer questionnaire.
 
 English, Spanish and Russian now have complete route-equivalence coverage.
-Spanish and Russian are GO for content and technical readiness. Production
-indexing remains blocked by the unresolved central legal configuration; keep
-`PUBLIC_SITE_INDEXABLE=false`.
+Spanish and Russian are GO for content and technical readiness. The legal guard
+now permits an indexable build, but keep `PUBLIC_SITE_INDEXABLE=false` until the
+custom domain is ready to launch.
 
 After a build, validate the current Spanish and Russian publishing boundary
 with:
@@ -332,11 +331,13 @@ shared ProfessionalService business entity only. Buyer-support CTAs use
 translated.
 
 The page includes a prominent disclosure that Aleksandrs Tolkacovs is Chief
-Operating Officer of Premium Yachts Spain and that the two activities have
-different commercial roles. It also explains how a commercial connection is
-disclosed, how the buyer remains free to appoint another surveyor, and when an
-instruction may be declined because independence cannot be appropriately
-maintained.
+Operating Officer of Premium Yachts Spain. All Yacht Service and Premium Yachts
+Spain are separate commercial brands and service areas operated by PREMIUM
+YACHTS SPAIN, S.L., with brokerage and surveying managed as separate activities.
+The disclosure explains how a commercial connection is disclosed, how survey
+findings remain professionally independent, how the buyer remains free to
+appoint another surveyor, and when an instruction may be declined because
+independence cannot be appropriately maintained.
 
 `Yachts for Sale` appears in the desktop header, flat mobile menu, homepage
 services grid, footer navigation and concise 404 destinations. Premium Yachts
@@ -695,8 +696,8 @@ The English, Spanish and Russian legal routes are:
 ```
 
 They share the locale-aware `src/components/PolicyPageLayout.astro`. Confirmed
-and unresolved operator information, retention settings, the policy review
-date, and final applicable-law wording are held in `src/data/legal.ts` rather
+operator information, retention settings, the policy-owner approval date, and
+final applicable-law and dispute wording are held in `src/data/legal.ts` rather
 than duplicated across languages. Spanish and Russian typed policy metadata and
 section navigation live under `src/data/es/legal/` and `src/data/ru/legal/`.
 Neither locale creates a separate operator identity, address, tax value,
@@ -722,19 +723,41 @@ and descriptions, `en`, `es`, `ru` and English `x-default` hreflang, the
 appropriate Open Graph locales, a localized `WebPage` and `BreadcrumbList`, and
 the shared `https://www.allyachtservice.com/#business` entity.
 
-The current verified public information is the trading name, public office,
-email, phone, website URL and country. The legal operator name; natural-person,
-autónomo, company or other legal status; tax-identifier requirement and value;
-registration information; legally valid contact or registered address;
-retention periods; final applicable-law wording; and final legal approval are
-not yet confirmed. Unresolved values are not rendered.
+All Yacht Service is a specialist yacht-surveying and marine-services brand
+operated by **PREMIUM YACHTS SPAIN, S.L.** Premium Yachts Spain and All Yacht
+Service are separate commercial brands and service areas of the same legal
+entity. PREMIUM YACHTS SPAIN, S.L. contracts with clients, issues quotations,
+agreements and invoices, receives payments, provides the services
+contractually, operates the website, and acts as controller of website enquiry
+data.
+
+The central verified company facts are:
+
+- legal form: Sociedad de Responsabilidad Limitada (S.L.), Spain;
+- ordinary Spanish identifier: `NIF: B06898027`;
+- the company is not currently registered in ROI/VIES, so do not publish
+  `ESB06898027`, an `NIF-IVA`, or a `vatID` value;
+- registry: Registro Mercantil de Alicante;
+- inscription: Tomo 4397, Folio 27, Sección 8, Hoja A-175501, Inscripción 2;
+- IRUS: `1000174884885`;
+- CNAE: `3011 — Construcción de barcos y estructuras flotantes`;
+- registered address: C/ Gran Bretaña 2, Esc. 1, 18 A, 03710 Calp, Alicante,
+  Spain;
+- operational/public contact address: Edificio Timonel, Local 73, Puerto
+  Deportivo Luis Campomanes / Marina Greenwich, 03599 Altea, Alicante, Spain;
+- responsible contact: Aleksandrs Tolkacovs, Chief Operating Officer (Spanish:
+  Director de Operaciones; Russian: Операционный директор).
+
+The stable business schema uses `name: All Yacht Service`, `legalName: PREMIUM
+YACHTS SPAIN, S.L.` and `taxID: B06898027`, with the operational Altea address.
+It must never emit `vatID` or an ES-prefixed identifier.
 
 `astro.config.ts` calls the central legal guard before an indexable build.
-`PUBLIC_SITE_INDEXABLE=false` permits local and preview builds and displays a
-restrained draft notice on policy pages. `PUBLIC_SITE_INDEXABLE=true` fails
-with a field-by-field error until the legal configuration is complete and the
-final review is approved. Do not bypass this guard. After each policy or
-technical change, run:
+`PUBLIC_SITE_INDEXABLE=false` permits local and preview builds with
+`noindex, nofollow`. `PUBLIC_SITE_INDEXABLE=true` is now permitted because the
+verified required fields and internal operator approval are complete. The guard
+still fails with a field-by-field error if a required value or approval is
+removed. Do not bypass it. After each policy or technical change, run:
 
 ```sh
 npm run build
@@ -789,22 +812,34 @@ non-essential embeds or other optional storage, update the technical inventory,
 reassess consent requirements, update all localized policies and activate
 appropriate consent controls before the technology loads.
 
-Retention configuration must distinguish at least general enquiries,
-unsuccessful quotations, instructed-service records and reports, attachments,
-security records, and records required for legal, tax or accounting duties.
-Approved periods and criteria must be entered in `src/data/legal.ts`; do not
-insert guessed durations in page content.
+PREMIUM YACHTS SPAIN, S.L. is the controller for data submitted through Contact
+forms, email, WhatsApp, attachments, enquiry communications, quotation requests
+and calculator-to-Contact transfers. General enquiries and unsuccessful quotes
+use approved 12-month periods. Client and service records remain for the
+professional relationship and afterwards for the periods needed for applicable
+accounting, tax, contractual, professional and legal-claims obligations, with
+restricted access after the active engagement. Security and anti-abuse records
+are normally retained for up to 12 months, subject to the documented incident,
+legal-claim and legal-obligation exceptions. Do not turn the client-record
+criteria into a fixed universal deletion period.
 
 These website terms govern website use only. They do not replace survey
 engagement terms, a yacht-delivery contract, a brokerage agreement, report
 reliance terms, a repair contract or other service-specific agreement.
 
-Before changing `PUBLIC_SITE_INDEXABLE` to `true`, have all four English drafts,
-their four Spanish and four Russian translations, the central configuration,
-retention schedule, provider/account settings and applicable-law wording
-reviewed by a qualified legal or data-protection professional. Final
-professional review remains required; publishing a translation does not set
-`finalPolicyReviewApproved` to `true`. Review the
+The website and services are governed by Spanish law without prejudice to
+mandatory consumer protections under the law of the consumer's habitual
+residence. Disputes go to the courts determined by mandatory applicable law;
+the terms do not restrict a consumer's right to use a court competent under
+applicable consumer-protection rules.
+
+The operator approved the completed policy content internally on 2026-07-30.
+This is recorded as `finalPolicyOwnerApproved: true` with
+`policyOwnerApprovalDate: '2026-07-30'`. The informational field
+`externalLegalReviewCompleted` remains `false`. Do not describe the policies as
+reviewed, approved or certified by external legal counsel. Independent legal or
+data-protection review may still be arranged separately without changing the
+meaning of the operator-approval field. Useful primary references include the
 [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng),
 [Spanish LSSI](https://www.boe.es/buscar/act.php?id=BOE-A-2002-13758),
 [AEPD guidance](https://www.aepd.es/),
@@ -813,6 +848,26 @@ professional review remains required; publishing a translation does not set
 and the current
 [Google Cloud Data Processing Addendum](https://cloud.google.com/terms/data-processing-addendum/)
 as part of that review.
+
+### Remaining manual launch work
+
+- Confirm the Turnstile widget mode, hostname allowlist, pre-clearance and other
+  dashboard security settings for both the custom domain and intended preview
+  hostnames.
+- Configure production environment variables and secrets in Cloudflare Pages,
+  including `PUBLIC_SITE_INDEXABLE=true` only for the launch build.
+- Run the complete validation suite against the final build, connect
+  `https://www.allyachtservice.com`, verify DNS/TLS and prevent the `pages.dev`
+  hostname from becoming a duplicate public version.
+- After launch, add the property in Google Search Console and submit
+  `https://www.allyachtservice.com/sitemap-index.xml`.
+
+If a separate All Yacht Service company is registered later, update the single
+central `src/data/legal.ts` source first, re-verify contracts, invoicing,
+payments, controller status, NIF/ROI/VIES, registry details and both addresses,
+obtain a new internal policy-owner approval, rerun all localized and schema
+checks, and only then publish the replacement operator. Do not patch factual
+operator values into locale-specific modules.
 
 - Prefix a value with `PUBLIC_` only when it is safe to expose in browser code.
 - Keep secrets unprefixed and use them only in server-side code or a separate
@@ -1054,7 +1109,9 @@ Astro generates a top-level `404.html` from `src/pages/404.astro`. Do not add a
 SPA fallback such as `/* /index.html 200`; Cloudflare Pages must serve the custom
 404 document with a 404 response for unknown routes.
 
-Do not add ratings or review schema. Do not state a company registration or VAT
-number, registered-company status, or professional-liability-insurance claims.
+Do not add ratings or review schema. Do not invent a VAT identifier,
+ROI/VIES registration, statutory-director status, legal-representative status or
+professional-liability-insurance claim. Publish company facts only through the
+verified central legal configuration.
 The approved professional wording is “IIMS-Certified Yacht and Small Craft
 Marine Surveyor and Licensed Captain.”

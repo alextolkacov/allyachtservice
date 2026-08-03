@@ -1,6 +1,9 @@
 ---
 import PolicyPageLayout from '../components/PolicyPageLayout.astro';
 import { legalConfig } from '../data/legal';
+import { getLegalPolicyWording } from '../i18n/policy';
+
+const legalWording = getLegalPolicyWording('en');
 
 const toc = [
   { id: 'acceptance', label: 'Acceptance of website terms' },
@@ -34,6 +37,10 @@ const toc = [
       By using this website, you agree to use it lawfully and in accordance with
       these website terms. Merely viewing a page, using a calculator or sending
       an enquiry does not create a paid service agreement.
+    </p>
+    <p>
+      The website and services offered under the All Yacht Service brand are
+      operated and contractually provided by {legalConfig.legalOperatorName}.
     </p>
   </section>
 
@@ -95,12 +102,12 @@ const toc = [
   <section id="brokerage" aria-labelledby="brokerage-heading">
     <h2 id="brokerage-heading">7. Yachts for Sale and External Brokerage</h2>
     <p>
-      Yacht listings are hosted externally and All Yacht Service does not
-      maintain the inventory. Availability, price, ownership, specification and
-      tax information must be confirmed with the listing broker. External
-      information is not guaranteed by All Yacht Service, and relevant
-      commercial relationships are disclosed where appropriate. A survey is not
-      a recommendation to buy a yacht.
+      Yacht listings are hosted on the external Premium Yachts Spain brokerage
+      website, a separate commercial service area operated by the same legal
+      entity. All Yacht Service does not maintain that inventory. Availability,
+      price, ownership, specification and tax information must be confirmed with
+      the listing broker. Relevant commercial relationships are disclosed where
+      appropriate. A survey is not a recommendation to buy a yacht.
     </p>
   </section>
 
@@ -170,17 +177,7 @@ const toc = [
 
   <section id="governing-law" aria-labelledby="governing-law-heading">
     <h2 id="governing-law-heading">13. Governing Law and Disputes</h2>
-    {
-      legalConfig.applicableLawText ? (
-        <p>{legalConfig.applicableLawText}</p>
-      ) : (
-        <p>
-          Final governing-law and dispute wording is awaiting confirmation of
-          the operator and service-contract structure. This non-indexable draft
-          does not impose exclusive Altea or Spanish court jurisdiction on
-          consumers.
-        </p>
-      )
-    }
+    <p>{legalWording.applicableLawText}</p>
+    <p>{legalWording.disputeText}</p>
   </section>
 </PolicyPageLayout>

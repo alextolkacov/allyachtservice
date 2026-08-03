@@ -1,3 +1,5 @@
+import { legalConfig } from '../data/legal';
+
 export type PolicyLocale = 'en' | 'es' | 'ru';
 
 export interface PolicyTocItem {
@@ -15,8 +17,6 @@ export interface PolicyLayoutCopy {
   home: string;
   websiteInformation: string;
   lastReviewed: string;
-  draftHeading: string;
-  draftDescription: string;
   contents: string;
   contactHeading: string;
   contactByEmail: string;
@@ -28,14 +28,18 @@ export interface PolicyLayoutCopy {
   relatedPolicies: readonly RelatedPolicy[];
 }
 
+export interface LegalPolicyWording {
+  clientRecordRetentionDescription: string;
+  securityRecordRetentionDescription: string;
+  applicableLawText: string;
+  disputeText: string;
+}
+
 export const policyLayoutCopy = {
   en: {
     home: 'Home',
     websiteInformation: 'Website information',
     lastReviewed: 'Last reviewed',
-    draftHeading: 'Draft legal information',
-    draftDescription:
-      'This non-indexable preview contains implementation wording based on confirmed website behaviour. Operator identity, retention periods and final applicable-law wording still require confirmation and professional review before publication.',
     contents: 'On this page',
     contactHeading: 'Questions about this information',
     contactByEmail: 'Contact All Yacht Service by email at',
@@ -61,9 +65,6 @@ export const policyLayoutCopy = {
     home: 'Inicio',
     websiteInformation: 'Información del sitio web',
     lastReviewed: 'Última revisión',
-    draftHeading: 'Información legal en borrador',
-    draftDescription:
-      'Esta vista previa no indexable contiene textos basados en el funcionamiento confirmado del sitio web. La identidad del operador, los períodos de conservación y la redacción definitiva sobre la legislación aplicable todavía deben confirmarse y someterse a revisión profesional antes de su publicación.',
     contents: 'Contenido',
     contactHeading: 'Preguntas sobre esta información',
     contactByEmail: 'Contacte con All Yacht Service por correo electrónico en',
@@ -89,9 +90,6 @@ export const policyLayoutCopy = {
     home: 'Главная',
     websiteInformation: 'Информация о сайте',
     lastReviewed: 'Последняя проверка',
-    draftHeading: 'Черновая версия юридической информации',
-    draftDescription:
-      'Эта неиндексируемая предварительная версия содержит формулировки, основанные на подтверждённой работе сайта. Личность юридического оператора, сроки хранения данных и окончательная формулировка о применимом праве ещё требуют подтверждения и профессиональной проверки перед публикацией.',
     contents: 'Содержание',
     contactHeading: 'Вопросы об этой информации',
     contactByEmail: 'Связаться с All Yacht Service можно по электронной почте',
@@ -115,6 +113,41 @@ export const policyLayoutCopy = {
   },
 } as const satisfies Record<PolicyLocale, PolicyLayoutCopy>;
 
+export const legalPolicyWording = {
+  en: {
+    clientRecordRetentionDescription:
+      legalConfig.clientRecordRetentionDescription!,
+    securityRecordRetentionDescription:
+      legalConfig.securityRecordRetentionDescription!,
+    applicableLawText: legalConfig.applicableLawText!,
+    disputeText: legalConfig.disputeText!,
+  },
+  es: {
+    clientRecordRetentionDescription:
+      'Los registros de clientes y servicios se conservan durante la relación profesional y, posteriormente, durante los períodos necesarios para cumplir las obligaciones contables, fiscales, contractuales, profesionales y relativas a reclamaciones legales aplicables. El acceso se restringe una vez finalizado el encargo activo.',
+    securityRecordRetentionDescription:
+      'Los registros de seguridad y prevención de abusos se conservan normalmente durante un máximo de 12 meses, salvo que sea necesario conservarlos durante más tiempo para investigar un incidente activo, formular o defender reclamaciones legales o cumplir una obligación legal.',
+    applicableLawText: `El sitio web y los servicios operados por ${legalConfig.legalOperatorName} se rigen por la legislación española, sin perjuicio de las disposiciones imperativas de protección de los consumidores aplicables conforme a la legislación del país de residencia habitual del consumidor.`,
+    disputeText:
+      'Cualquier controversia se someterá a los tribunales que determine la legislación imperativa aplicable. Nada de lo dispuesto en estas condiciones restringe el derecho del consumidor a ejercitar acciones ante un tribunal competente conforme a las normas aplicables de protección de los consumidores.',
+  },
+  ru: {
+    clientRecordRetentionDescription:
+      'Записи о клиентах и услугах хранятся в течение профессиональных отношений, а после их завершения — в течение сроков, необходимых для соблюдения применимых бухгалтерских, налоговых, договорных, профессиональных обязательств и обязательств, связанных с правовыми требованиями. После завершения активного задания доступ к ним ограничивается.',
+    securityRecordRetentionDescription:
+      'Записи безопасности и предотвращения злоупотреблений обычно хранятся до 12 месяцев, если более длительное хранение не требуется для расследования продолжающегося инцидента, предъявления или защиты правовых требований либо исполнения юридической обязанности.',
+    applicableLawText: `Сайт и услуги, оператором которых является ${legalConfig.legalOperatorName}, регулируются законодательством Испании без ущерба для обязательных норм защиты прав потребителей, применимых согласно законодательству страны обычного места жительства потребителя.`,
+    disputeText:
+      'Любой спор передаётся на рассмотрение судов, определяемых обязательными нормами применимого законодательства. Ничто в настоящих условиях не ограничивает право потребителя обратиться в суд, компетентный в соответствии с применимыми нормами защиты прав потребителей.',
+  },
+} as const satisfies Record<PolicyLocale, LegalPolicyWording>;
+
 export function getPolicyLayoutCopy(locale: PolicyLocale): PolicyLayoutCopy {
   return policyLayoutCopy[locale];
+}
+
+export function getLegalPolicyWording(
+  locale: PolicyLocale,
+): LegalPolicyWording {
+  return legalPolicyWording[locale];
 }

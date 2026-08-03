@@ -2,8 +2,10 @@
 import PolicyPageLayout from '../../components/PolicyPageLayout.astro';
 import { spanishLegalNotice } from '../../data/es/legal/legal-notice';
 import { legalConfig } from '../../data/legal';
+import { getLegalPolicyWording } from '../../i18n/policy';
 
 const page = spanishLegalNotice;
+const legalWording = getLegalPolicyWording('es');
 ---
 
 <PolicyPageLayout
@@ -18,35 +20,18 @@ const page = spanishLegalNotice;
 >
   <section id="operator" aria-labelledby="operator-heading">
     <h2 id="operator-heading">1. Operador del sitio web</h2>
-    {
-      legalConfig.legalOperatorName ? (
-        <p>Los datos verificados del operador del sitio web son:</p>
-      ) : (
-        <p>
-          La identidad legal definitiva del operador y los requisitos de
-          publicación se están confirmando. No se muestran datos no verificados
-          sobre identidad, fiscalidad o registros. Los datos públicos
-          verificados son:
-        </p>
-      )
-    }
+    <p>Los datos verificados del operador del sitio web son:</p>
+    <p>
+      All Yacht Service es una marca especializada en inspección de yates y
+      servicios marinos operada por {legalConfig.legalOperatorName}. All Yacht
+      Service y Premium Yachts Spain son marcas comerciales y áreas de servicio
+      separadas operadas por la misma entidad jurídica.
+    </p>
     <dl class="policy-facts">
-      {
-        legalConfig.legalOperatorName && (
-          <div>
-            <dt>Operador legal</dt>
-            <dd>{legalConfig.legalOperatorName}</dd>
-          </div>
-        )
-      }
-      {
-        legalConfig.operatorType === 'natural-person' && (
-          <div>
-            <dt>Condición del operador</dt>
-            <dd>Persona física</dd>
-          </div>
-        )
-      }
+      <div>
+        <dt>Operador legal</dt>
+        <dd>{legalConfig.legalOperatorName}</dd>
+      </div>
       {
         legalConfig.legalForm && (
           <div>
@@ -56,14 +41,10 @@ const page = spanishLegalNotice;
         )
       }
       <div><dt>Nombre comercial</dt><dd>{legalConfig.tradingName}</dd></div>
-      {
-        legalConfig.taxId && (
-          <div>
-            <dt>Identificación fiscal</dt>
-            <dd>{legalConfig.taxId}</dd>
-          </div>
-        )
-      }
+      <div>
+        <dt>Identificación fiscal</dt>
+        <dd>NIF: {legalConfig.taxId}</dd>
+      </div>
       {
         legalConfig.registeredAddress && (
           <div>
@@ -73,7 +54,7 @@ const page = spanishLegalNotice;
         )
       }
       <div>
-        <dt>Oficina abierta al público</dt>
+        <dt>Dirección operativa y de contacto</dt>
         <dd>{legalConfig.publicOfficeAddress}</dd>
       </div>
       <div>
@@ -94,16 +75,22 @@ const page = spanishLegalNotice;
           <a href={legalConfig.websiteUrl}>{legalConfig.websiteUrl}</a>
         </dd>
       </div>
-      {
-        legalConfig.registryName && legalConfig.registryNumber && (
-          <div>
-            <dt>Registro</dt>
-            <dd>
-              {legalConfig.registryName}: {legalConfig.registryNumber}
-            </dd>
-          </div>
-        )
-      }
+      <div>
+        <dt>Registro Mercantil</dt>
+        <dd>{legalConfig.registryName}</dd>
+      </div>
+      <div>
+        <dt>Inscripción registral</dt>
+        <dd>{legalConfig.registryInscription}</dd>
+      </div>
+      <div><dt>IRUS</dt><dd>{legalConfig.irus}</dd></div>
+      <div><dt>CNAE</dt><dd>{legalConfig.cnae}</dd></div>
+      <div>
+        <dt>Contacto responsable</dt>
+        <dd>
+          {legalConfig.responsibleContactName}, Director de Operaciones
+        </dd>
+      </div>
     </dl>
   </section>
 
@@ -163,9 +150,11 @@ const page = spanishLegalNotice;
     <h2 id="external-links-heading">6. Enlaces externos</h2>
     <p>
       Los sitios web externos controlan su propio contenido, condiciones,
-      disponibilidad y prácticas de privacidad. Premium Yachts Spain mantiene
-      sus anuncios activos y la información de intermediación; All Yacht Service
-      no controla ese inventario externo.
+      disponibilidad y prácticas de privacidad. El sitio web de brokerage de
+      Premium Yachts Spain es un área comercial separada operada por la misma
+      entidad jurídica. Sus anuncios y la información de intermediación se
+      gestionan por separado de las actividades de inspección y asistencia
+      técnica de All Yacht Service.
     </p>
   </section>
 
@@ -185,17 +174,6 @@ const page = spanishLegalNotice;
 
   <section id="applicable-law" aria-labelledby="applicable-law-heading">
     <h2 id="applicable-law-heading">8. Legislación aplicable</h2>
-    {
-      legalConfig.applicableLawText ? (
-        <p>{legalConfig.applicableLawText}</p>
-      ) : (
-        <p>
-          La redacción definitiva sobre legislación aplicable y jurisdicción
-          está pendiente de confirmar la identidad del operador legal y la
-          estructura prevista de los contratos con clientes. Este borrador no
-          indexable no impone ninguna cláusula de jurisdicción.
-        </p>
-      )
-    }
+    <p>{legalWording.applicableLawText}</p>
   </section>
 </PolicyPageLayout>

@@ -1,11 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
-import {
-  formatLegalReviewDate,
-  getMissingProductionLegalFields,
-  legalConfig,
-} from '../data/legal';
+import { formatLegalReviewDate, legalConfig } from '../data/legal';
 import { getRequiredRoutePath, type RouteId } from '../data/navigation';
 import {
   getPolicyLayoutCopy,
@@ -53,9 +49,6 @@ const webPageSchema: StructuredData = {
     '@id': businessEntityId,
   },
 };
-const siteIsIndexable = import.meta.env.PUBLIC_SITE_INDEXABLE === 'true';
-const missingLegalFields = getMissingProductionLegalFields();
-const showDraftWarning = !siteIsIndexable && missingLegalFields.length > 0;
 const relatedPolicies = text.relatedPolicies
   .filter((policy) => policy.routeId !== routeId)
   .map((policy) => ({
@@ -104,19 +97,6 @@ const breadcrumbLabel =
   </header>
 
   <div class="policy-shell policy-page site-container">
-    {
-      showDraftWarning && (
-        <aside
-          class="policy-draft-notice"
-          aria-labelledby="policy-draft-heading"
-          role="status"
-        >
-          <h2 id="policy-draft-heading">{text.draftHeading}</h2>
-          <p>{text.draftDescription}</p>
-        </aside>
-      )
-    }
-
     <div class="policy-grid">
       <nav class="policy-toc" aria-labelledby="policy-toc-heading">
         <h2 id="policy-toc-heading">{text.contents}</h2>

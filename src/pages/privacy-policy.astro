@@ -1,6 +1,9 @@
 ---
 import PolicyPageLayout from '../components/PolicyPageLayout.astro';
 import { legalConfig } from '../data/legal';
+import { getLegalPolicyWording } from '../i18n/policy';
+
+const legalWording = getLegalPolicyWording('en');
 
 const toc = [
   { id: 'responsible', label: 'Who is responsible for your personal data?' },
@@ -36,37 +39,20 @@ const toc = [
     <h2 id="responsible-heading">
       1. Who Is Responsible for Your Personal Data?
     </h2>
-    {
-      legalConfig.legalOperatorName ? (
-        <p>
-          The legal operator named below is responsible for the personal data
-          described in this notice.
-        </p>
-      ) : (
-        <p>
-          The final legal identity of the website operator is being confirmed
-          and will be added before this website is made indexable. The following
-          public contact details are verified:
-        </p>
-      )
-    }
+    <p>
+      {legalConfig.legalOperatorName} operates the All Yacht Service brand and is
+      the controller responsible for the personal data described in this notice.
+    </p>
+    <p>
+      This includes personal data submitted through Contact forms, email,
+      WhatsApp, attachments, enquiry communications, quotation requests and
+      calculator-to-Contact transfers.
+    </p>
     <dl class="policy-facts">
-      {
-        legalConfig.legalOperatorName && (
-          <div>
-            <dt>Legal operator</dt>
-            <dd>{legalConfig.legalOperatorName}</dd>
-          </div>
-        )
-      }
-      {
-        legalConfig.operatorType === 'natural-person' && (
-          <div>
-            <dt>Operator status</dt>
-            <dd>Natural person</dd>
-          </div>
-        )
-      }
+      <div>
+        <dt>Data controller and legal operator</dt>
+        <dd>{legalConfig.legalOperatorName}</dd>
+      </div>
       {
         legalConfig.legalForm && (
           <div>
@@ -223,10 +209,10 @@ const toc = [
       <li>Public authorities where disclosure is legally required.</li>
     </ul>
     <p>
-      Information is not shared with Premium Yachts Spain merely because
-      Aleksandrs Tolkacovs has a commercial role there. Any relevant sharing or
-      relationship must have an appropriate purpose and be disclosed where
-      applicable.
+      All Yacht Service and Premium Yachts Spain are separate commercial brands
+      and service areas operated by {legalConfig.legalOperatorName}. Access to
+      enquiry and service information is limited according to its purpose and
+      the relevant professional role.
     </p>
   </section>
 
@@ -297,43 +283,19 @@ const toc = [
 
   <section id="retention" aria-labelledby="retention-heading">
     <h2 id="retention-heading">12. Data Retention</h2>
-    {
-      legalConfig.enquiryRetentionMonths !== null &&
-      legalConfig.unsuccessfulQuoteRetentionMonths !== null &&
-      legalConfig.clientRecordRetentionDescription &&
-      legalConfig.securityRecordRetentionDescription ? (
-        <ul>
-          <li>
-            General enquiries that do not become assignments are retained for up
-            to {legalConfig.enquiryRetentionMonths} months after the last
-            substantive contact.
-          </li>
-          <li>
-            Unsuccessful quotations are retained for up to{' '}
-            {legalConfig.unsuccessfulQuoteRetentionMonths} months after the
-            quotation expires or the last substantive contact, whichever is
-            later.
-          </li>
-          <li>
-            Active client correspondence, reports and instructed-service
-            records: {legalConfig.clientRecordRetentionDescription}
-          </li>
-          <li>
-            Security and spam-prevention records:{' '}
-            {legalConfig.securityRecordRetentionDescription}
-          </li>
-        </ul>
-      ) : (
-        <p>
-          Final retention periods are awaiting approval and this draft cannot be
-          published as an indexable policy until they are configured. The final
-          schedule will distinguish general enquiries, unsuccessful quotations,
-          active client correspondence, instructed-service records and reports,
-          attachments, security records, and records required for legal, tax or
-          accounting duties.
-        </p>
-      )
-    }
+    <ul>
+      <li>
+        General enquiries that do not become assignments are retained for up to
+        {legalConfig.enquiryRetentionMonths} months after the last substantive contact.
+      </li>
+      <li>
+        Unsuccessful quotations are retained for up to{' '}
+        {legalConfig.unsuccessfulQuoteRetentionMonths} months after the quotation
+        expires or the last substantive contact, whichever is later.
+      </li>
+      <li>{legalWording.clientRecordRetentionDescription}</li>
+      <li>{legalWording.securityRecordRetentionDescription}</li>
+    </ul>
     <p>
       Attachments follow the retention of the enquiry, mailbox correspondence or
       instructed-service record to which they relate. Records may be kept longer
@@ -393,9 +355,9 @@ const toc = [
   <section id="third-party-links" aria-labelledby="third-party-links-heading">
     <h2 id="third-party-links-heading">16. Third-Party Links</h2>
     <p>
-      External websites, including Premium Yachts Spain and social networks,
-      control their own content and privacy practices. Review their notices
-      before submitting information to them.
+      External websites, including the Premium Yachts Spain brokerage website
+      and social networks, control their own content and privacy practices.
+      Review their notices before submitting information through those sites.
     </p>
   </section>
 

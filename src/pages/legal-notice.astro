@@ -1,6 +1,9 @@
 ---
 import PolicyPageLayout from '../components/PolicyPageLayout.astro';
 import { legalConfig } from '../data/legal';
+import { getLegalPolicyWording } from '../i18n/policy';
+
+const legalWording = getLegalPolicyWording('en');
 
 const toc = [
   { id: 'operator', label: 'Website operator' },
@@ -25,38 +28,18 @@ const toc = [
 >
   <section id="operator" aria-labelledby="operator-heading">
     <h2 id="operator-heading">1. Website Operator</h2>
-    {
-      legalConfig.legalOperatorName ? (
-        <p>The verified website-operator details are:</p>
-      ) : (
-        <p>
-          The final legal operator identity and publication requirements are
-          being confirmed. Unverified identity, tax and registration fields are
-          not displayed. The verified public details are:
-        </p>
-      )
-    }
+    <p>The verified website-operator details are:</p>
+    <p>
+      All Yacht Service is a specialist yacht-surveying and marine-services
+      brand operated by {legalConfig.legalOperatorName}. All Yacht Service and
+      Premium Yachts Spain are separate commercial brands and service areas
+      operated by the same legal entity.
+    </p>
     <dl class="policy-facts">
-      {
-        legalConfig.legalOperatorName && (
-          <div>
-            <>
-              <dt>Legal operator</dt>
-              <dd>{legalConfig.legalOperatorName}</dd>
-            </>
-          </div>
-        )
-      }
-      {
-        legalConfig.operatorType === 'natural-person' && (
-          <div>
-            <>
-              <dt>Operator status</dt>
-              <dd>Natural person</dd>
-            </>
-          </div>
-        )
-      }
+      <div>
+        <dt>Legal operator</dt>
+        <dd>{legalConfig.legalOperatorName}</dd>
+      </div>
       {
         legalConfig.legalForm && (
           <div>
@@ -68,16 +51,10 @@ const toc = [
         )
       }
       <div><dt>Trading name</dt><dd>{legalConfig.tradingName}</dd></div>
-      {
-        legalConfig.taxId && (
-          <div>
-            <>
-              <dt>Tax identification</dt>
-              <dd>{legalConfig.taxId}</dd>
-            </>
-          </div>
-        )
-      }
+      <div>
+        <dt>Tax identification</dt>
+        <dd>NIF: {legalConfig.taxId}</dd>
+      </div>
       {
         legalConfig.registeredAddress && (
           <div>
@@ -89,7 +66,8 @@ const toc = [
         )
       }
       <div>
-        <dt>Public office</dt><dd>{legalConfig.publicOfficeAddress}</dd>
+        <dt>Operational and contact address</dt>
+        <dd>{legalConfig.publicOfficeAddress}</dd>
       </div>
       <div>
         <dt>Email</dt><dd>
@@ -106,18 +84,24 @@ const toc = [
           <a href={legalConfig.websiteUrl}>{legalConfig.websiteUrl}</a>
         </dd>
       </div>
-      {
-        legalConfig.registryName && legalConfig.registryNumber && (
-          <div>
-            <>
-              <dt>Registration</dt>
-              <dd>
-                {legalConfig.registryName}: {legalConfig.registryNumber}
-              </dd>
-            </>
-          </div>
-        )
-      }
+      <div>
+        <dt>Mercantile Registry</dt>
+        <dd>{legalConfig.registryName}</dd>
+      </div>
+      <div>
+        <dt>Registry inscription</dt>
+        <dd>{legalConfig.registryInscription}</dd>
+      </div>
+      <div><dt>IRUS</dt><dd>{legalConfig.irus}</dd></div>
+      <div><dt>CNAE</dt><dd>{legalConfig.cnae}</dd></div>
+      <div>
+        <dt>Responsible contact</dt>
+        <dd>
+          {legalConfig.responsibleContactName}, {
+            legalConfig.responsibleContactPosition
+          }
+        </dd>
+      </div>
     </dl>
   </section>
 
@@ -173,9 +157,10 @@ const toc = [
     <h2 id="external-links-heading">6. External Links</h2>
     <p>
       External websites control their own content, terms, availability and
-      privacy practices. Premium Yachts Spain maintains its live listings and
-      brokerage information; All Yacht Service does not control that external
-      inventory.
+      privacy practices. The Premium Yachts Spain brokerage website is a
+      separate commercial service area operated by the same legal entity. Its
+      listings and brokerage information are managed separately from All Yacht
+      Service surveying and technical-support activities.
     </p>
   </section>
 
@@ -192,16 +177,6 @@ const toc = [
 
   <section id="applicable-law" aria-labelledby="applicable-law-heading">
     <h2 id="applicable-law-heading">8. Applicable Law</h2>
-    {
-      legalConfig.applicableLawText ? (
-        <p>{legalConfig.applicableLawText}</p>
-      ) : (
-        <p>
-          Final applicable-law and jurisdiction wording is awaiting confirmation
-          of the legal operator and intended client-contract structure. This
-          non-indexable draft does not impose a jurisdiction clause.
-        </p>
-      )
-    }
+    <p>{legalWording.applicableLawText}</p>
   </section>
 </PolicyPageLayout>

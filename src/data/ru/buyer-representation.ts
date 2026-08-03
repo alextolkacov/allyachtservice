@@ -1,4 +1,5 @@
 import { buyerRepresentationPage } from '../buyer-representation';
+import { legalConfig } from '../legal';
 import { siteConfig } from '../site';
 import { createContactHref } from '../../utils/contact';
 import type { LocalizedSection } from '../es/types';
@@ -235,8 +236,7 @@ const sections: readonly LocalizedSection[] = [
       },
       {
         type: 'paragraph',
-        content:
-          'Aleksandrs Tolkacovs также занимает должность директора по операционной деятельности в Premium Yachts Spain — отдельном бизнесе по продаже яхт и морским услугам. Если Premium Yachts Spain, конкретный продавец или брокер связан с рассматриваемой яхтой, эта связь раскрывается до принятия независимого задания.',
+        content: `Aleksandrs Tolkacovs — Операционный директор Premium Yachts Spain. All Yacht Service и Premium Yachts Spain являются отдельными коммерческими брендами и направлениями услуг, оператором которых является ${legalConfig.legalOperatorName}. Если Premium Yachts Spain, конкретный продавец или брокер связан с рассматриваемой яхтой, эта связь раскрывается до принятия независимого задания. Технические выводы остаются профессионально независимыми; клиент вправе выбрать другого сюрвейера, а задание может быть отклонено, если связь невозможно надлежащим образом раскрыть или урегулировать.`,
       },
     ],
   },

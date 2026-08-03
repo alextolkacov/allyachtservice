@@ -1,5 +1,6 @@
 import type { Locale } from '../data/languages';
 import { getLanguage } from '../data/languages';
+import { legalConfig } from '../data/legal';
 import { siteConfig } from '../data/site';
 
 export type StructuredData = Record<string, unknown>;
@@ -75,6 +76,8 @@ export function createProfessionalServiceSchema(): StructuredData {
     '@type': 'ProfessionalService',
     '@id': businessEntityId,
     name: siteConfig.name,
+    legalName: legalConfig.legalOperatorName,
+    taxID: legalConfig.taxId,
     url: siteConfig.url,
     telephone: siteConfig.contact.phone,
     email: siteConfig.contact.email,

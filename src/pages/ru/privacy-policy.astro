@@ -2,10 +2,12 @@
 import PolicyPageLayout from '../../components/PolicyPageLayout.astro';
 import { legalConfig } from '../../data/legal';
 import { russianPrivacyPolicy } from '../../data/ru/legal/privacy-policy';
+import { getLegalPolicyWording } from '../../i18n/policy';
 import { getSharedUi } from '../../i18n/ui';
 
 const page = russianPrivacyPolicy;
 const ui = getSharedUi('ru');
+const legalWording = getLegalPolicyWording('ru');
 ---
 
 <PolicyPageLayout
@@ -22,37 +24,21 @@ const ui = getSharedUi('ru');
     <h2 id="responsible-heading">
       1. Кто является оператором ваших персональных данных?
     </h2>
-    {
-      legalConfig.legalOperatorName ? (
-        <p>
-          Указанный ниже юридический оператор отвечает за персональные данные,
-          описанные в этой политике.
-        </p>
-      ) : (
-        <p>
-          Окончательная юридическая личность оператора сайта ещё подтверждается
-          и будет указана до того, как сайт станет индексируемым. Подтверждены
-          следующие общедоступные контактные данные:
-        </p>
-      )
-    }
+    <p>
+      {legalConfig.legalOperatorName} осуществляет деятельность под брендом All Yacht
+      Service и является оператором персональных данных, описанных в этой политике.
+    </p>
+    <p>
+      Это относится к персональным данным, полученным через формы обратной
+      связи, электронную почту, WhatsApp, прикреплённые файлы, переписку по
+      обращениям, запросы ценовых предложений и передачу данных из калькуляторов
+      в форму обратной связи.
+    </p>
     <dl class="policy-facts">
-      {
-        legalConfig.legalOperatorName && (
-          <div>
-            <dt>Юридический оператор</dt>
-            <dd>{legalConfig.legalOperatorName}</dd>
-          </div>
-        )
-      }
-      {
-        legalConfig.operatorType === 'natural-person' && (
-          <div>
-            <dt>Статус оператора</dt>
-            <dd>Физическое лицо</dd>
-          </div>
-        )
-      }
+      <div>
+        <dt>Оператор персональных данных и юридический оператор</dt>
+        <dd>{legalConfig.legalOperatorName}</dd>
+      </div>
       {
         legalConfig.legalForm && (
           <div>
@@ -237,10 +223,11 @@ const ui = getSharedUi('ru');
       </li>
     </ul>
     <p>
-      Информация не передаётся Premium Yachts Spain только потому, что
-      Aleksandrs Tolkacovs выполняет там коммерческую роль. Любая
-      соответствующая передача данных или связь должна иметь надлежащую цель и
-      раскрываться, когда это применимо.
+      All Yacht Service и Premium Yachts Spain — это отдельные коммерческие
+      бренды и направления услуг, оператором которых является {
+        legalConfig.legalOperatorName
+      }. Доступ к информации об обращениях и услугах ограничивается в
+      соответствии с целью обработки и соответствующей профессиональной ролью.
     </p>
   </section>
 
@@ -318,44 +305,21 @@ const ui = getSharedUi('ru');
 
   <section id="retention" aria-labelledby="retention-heading">
     <h2 id="retention-heading">12. Сроки хранения данных</h2>
-    {
-      legalConfig.enquiryRetentionMonths !== null &&
-      legalConfig.unsuccessfulQuoteRetentionMonths !== null &&
-      legalConfig.clientRecordRetentionDescription &&
-      legalConfig.securityRecordRetentionDescription ? (
-        <ul>
-          <li>
-            Общие обращения, не ставшие заказами, хранятся не более{' '}
-            {legalConfig.enquiryRetentionMonths} месяцев после последнего
-            содержательного контакта.
-          </li>
-          <li>
-            Непринятые ценовые предложения хранятся не более{' '}
-            {legalConfig.unsuccessfulQuoteRetentionMonths} месяцев после
-            окончания срока действия предложения или последнего содержательного
-            контакта, в зависимости от того, что наступит позже.
-          </li>
-          <li>
-            Переписка с действующими клиентами, отчёты и записи о заказанных
-            услугах: {legalConfig.clientRecordRetentionDescription}
-          </li>
-          <li>
-            Записи безопасности и предотвращения спама:{' '}
-            {legalConfig.securityRecordRetentionDescription}
-          </li>
-        </ul>
-      ) : (
-        <p>
-          Окончательные сроки хранения ожидают утверждения. Этот проект нельзя
-          публиковать как индексируемую политику, пока сроки не будут настроены.
-          Окончательный график будет отдельно учитывать общие обращения,
-          непринятые ценовые предложения, переписку с действующими клиентами,
-          записи и отчёты по заказанным услугам, прикреплённые файлы, записи
-          безопасности и записи, необходимые для исполнения юридических,
-          налоговых или бухгалтерских обязанностей.
-        </p>
-      )
-    }
+    <ul>
+      <li>
+        Общие обращения, не ставшие заказами, хранятся не более{' '}
+        {legalConfig.enquiryRetentionMonths} месяцев после последнего содержательного
+        контакта.
+      </li>
+      <li>
+        Непринятые ценовые предложения хранятся не более{' '}
+        {legalConfig.unsuccessfulQuoteRetentionMonths} месяцев после окончания срока
+        действия предложения или последнего содержательного контакта, в зависимости
+        от того, что наступит позже.
+      </li>
+      <li>{legalWording.clientRecordRetentionDescription}</li>
+      <li>{legalWording.securityRecordRetentionDescription}</li>
+    </ul>
     <p>
       Срок хранения прикреплённых файлов соответствует сроку хранения связанного
       обращения, переписки в почтовом ящике или записи о заказанной услуге.
@@ -420,9 +384,10 @@ const ui = getSharedUi('ru');
   <section id="third-party-links" aria-labelledby="third-party-links-heading">
     <h2 id="third-party-links-heading">16. Ссылки на сторонние сайты</h2>
     <p>
-      Внешние сайты, включая Premium Yachts Spain и социальные сети,
-      самостоятельно контролируют своё содержание и правила конфиденциальности.
-      Ознакомьтесь с их политиками до передачи им информации.
+      Внешние сайты, включая брокерский сайт Premium Yachts Spain и социальные
+      сети, самостоятельно контролируют своё содержание и правила
+      конфиденциальности. До передачи информации через такие сайты ознакомьтесь
+      с их политиками.
     </p>
   </section>
 

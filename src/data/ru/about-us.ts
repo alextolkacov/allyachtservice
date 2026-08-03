@@ -1,4 +1,5 @@
 import { aboutUsPage } from '../about-us';
+import { legalConfig } from '../legal';
 import { siteConfig } from '../site';
 import { createContactHref } from '../../utils/contact';
 import type { LocalizedSection } from '../es/types';
@@ -204,8 +205,7 @@ const sections: readonly LocalizedSection[] = [
     blocks: [
       {
         type: 'paragraph',
-        content:
-          'Aleksandrs Tolkacovs также занимает должность директора по операционной деятельности в Premium Yachts Spain — отдельном бизнесе по продаже яхт и морским услугам.',
+        content: `Aleksandrs Tolkacovs — Операционный директор Premium Yachts Spain. All Yacht Service и Premium Yachts Spain являются отдельными коммерческими брендами и направлениями услуг, оператором которых является ${legalConfig.legalOperatorName}.`,
       },
       {
         type: 'paragraph',
@@ -221,7 +221,7 @@ const sections: readonly LocalizedSection[] = [
         type: 'paragraph',
         style: 'note',
         content:
-          'All Yacht Service и Premium Yachts Spain являются отдельными бизнесами и не должны представляться как одно юридическое лицо.',
+          'Выводы сюрвейерского осмотра остаются профессионально независимыми. Клиент вправе выбрать другого сюрвейера, а All Yacht Service может отказаться от задания, если коммерческую связь невозможно надлежащим образом раскрыть или урегулировать.',
       },
     ],
   },

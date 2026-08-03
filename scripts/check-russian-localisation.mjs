@@ -379,28 +379,23 @@ for (const route of translatedLegalRoutes) {
 }
 assert(
   policyCopySource.includes("export type PolicyLocale = 'en' | 'es' | 'ru'") &&
-    policyCopySource.includes(
-      "draftHeading: 'Черновая версия юридической информации'",
-    ) &&
+    policyCopySource.includes('export interface LegalPolicyWording') &&
     policyLayoutSource.includes("locale === 'ru'") &&
     policyLayoutSource.includes("'Навигационная цепочка'"),
-  'The shared policy layout does not provide Russian interface and draft-warning copy.',
+  'The shared policy layout does not provide Russian interface and approved legal wording.',
 );
-for (const unresolvedField of [
-  'legalOperatorName: null',
-  'operatorType: null',
-  'taxIdRequirement: null',
-  'registeredAddress: null',
-  'enquiryRetentionMonths: null',
-  'unsuccessfulQuoteRetentionMonths: null',
-  'clientRecordRetentionDescription: null',
-  'securityRecordRetentionDescription: null',
-  'applicableLawText: null',
-  'finalPolicyReviewApproved: false',
+for (const confirmedField of [
+  "legalOperatorName: 'PREMIUM YACHTS SPAIN, S.L.'",
+  "operatorType: 'legal-entity'",
+  "taxId: 'B06898027'",
+  'enquiryRetentionMonths: 12',
+  'unsuccessfulQuoteRetentionMonths: 12',
+  'finalPolicyOwnerApproved: true',
+  "policyOwnerApprovalDate: '2026-07-30'",
 ]) {
   assert(
-    legalConfigSource.includes(unresolvedField),
-    `The central unresolved legal field changed during Russian localisation: ${unresolvedField}.`,
+    legalConfigSource.includes(confirmedField),
+    `The central approved legal field is missing or changed: ${confirmedField}.`,
   );
 }
 assert(
@@ -494,13 +489,9 @@ assert(
   !/Chief Operating Officer/u.test(
     `${russianAboutSource}\n${russianBuyerRepresentationSource}\n${russianYachtsForSalePageSource}`,
   ) &&
-    russianAboutSource.includes('директора по операционной деятельности') &&
-    russianBuyerRepresentationSource.includes(
-      'директора по операционной деятельности',
-    ) &&
-    /директора по операционной\s+деятельности/u.test(
-      russianYachtsForSalePageSource,
-    ),
+    russianAboutSource.includes('Операционный директор') &&
+    russianBuyerRepresentationSource.includes('Операционный директор') &&
+    /Операционный\s+директор/u.test(russianYachtsForSalePageSource),
   'Russian commercial disclosures contain an untranslated role title.',
 );
 assert(
@@ -898,11 +889,9 @@ if (existsSync(distDirectory)) {
       `${route.ru} must contain exactly one H1.`,
     );
     assert(
-      visible.includes('Черновая версия юридической информации') &&
-        visible.includes(
-          'Личность юридического оператора, сроки хранения данных и окончательная формулировка о применимом праве ещё требуют подтверждения',
-        ),
-      `${route.ru} is missing the clear Russian draft warning.`,
+      !visible.includes('Черновая версия юридической информации') &&
+        !visible.includes('ожидает подтверждения'),
+      `${route.ru} still exposes a Russian draft or unresolved-policy warning.`,
     );
     assert(
       routeSchemas.some(
@@ -970,16 +959,14 @@ if (existsSync(distDirectory)) {
   const russianLegalNotice = getBuiltPage('/ru/legal-notice');
   const russianTerms = getBuiltPage('/ru/terms-and-conditions');
   assert(
-    visibleText(russianPrivacyPolicy).includes(
-      'Окончательные сроки хранения ожидают утверждения.',
-    ) &&
+    visibleText(russianPrivacyPolicy).includes('12 месяцев') &&
       visibleText(russianLegalNotice).includes(
-        'Окончательная формулировка о применимом праве и юрисдикции ожидает подтверждения',
+        'регулируются законодательством Испании',
       ) &&
       visibleText(russianTerms).includes(
-        'Окончательная формулировка о применимом праве и разрешении споров ожидает подтверждения',
+        'Любой спор передаётся на рассмотрение судов',
       ),
-    'Russian legal pages do not expose the unresolved retention, applicable-law or dispute status.',
+    'Russian legal pages do not expose the approved retention, applicable-law or dispute wording.',
   );
   for (const storageKey of [
     'ays:pre-purchase-survey-estimate:v1',
@@ -1300,7 +1287,7 @@ if (existsSync(distDirectory)) {
       );
     }
     for (const requiredDisclosure of [
-      'Premium Yachts Spain и All Yacht Service осуществляют отдельные виды деятельности',
+      'Premium Yachts Spain и All Yacht Service являются отдельными коммерческими',
       'эта связь раскрывается до того, как All Yacht Service примет задание',
       'Покупатель вправе выбрать любого другого независимого сюрвейера',
       'технические заключения All Yacht Service должны оставаться профессионально независимыми',

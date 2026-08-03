@@ -1,4 +1,5 @@
 import { buyerRepresentationPage } from '../buyer-representation';
+import { legalConfig } from '../legal';
 import { siteConfig } from '../site';
 import { createContactHref } from '../../utils/contact';
 import type { LocalizedSection } from './types';
@@ -480,8 +481,7 @@ export const spanishBuyerRepresentationPage = {
         },
         {
           type: 'paragraph',
-          content:
-            'Cuando un yate tenga una relación comercial con All Yacht Service, Premium Yachts Spain u otra parte asociada, dicha relación se comunicará antes de aceptar el encargo.',
+          content: `All Yacht Service y Premium Yachts Spain son marcas comerciales y áreas de servicio separadas operadas por ${legalConfig.legalOperatorName}. Cuando un yate tenga una relación comercial con cualquiera de ellas u otra parte asociada, dicha relación se comunicará antes de aceptar el encargo. Las conclusiones técnicas mantendrán su independencia profesional; el cliente podrá designar a otro inspector naval y el encargo podrá rechazarse si la relación no puede comunicarse o gestionarse adecuadamente.`,
         },
       ],
     },

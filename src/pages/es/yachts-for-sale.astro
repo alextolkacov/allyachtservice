@@ -1,5 +1,6 @@
 ---
 import { spanishYachtsForSalePage } from '../../data/es/yachts-for-sale';
+import { legalConfig } from '../../data/legal';
 import ServiceLayout from '../../layouts/ServiceLayout.astro';
 import {
   businessEntityId,
@@ -184,9 +185,10 @@ const webPageSchema: StructuredData = {
     <p class="eyebrow eyebrow-light">Información sobre la relación comercial</p>
     <h2 id="relationship-heading">Relación con Premium Yachts Spain</h2>
     <p>
-      Aleksandrs Tolkacovs es director de operaciones de Premium Yachts Spain.
-      Premium Yachts Spain y All Yacht Service son actividades empresariales
-      separadas y desempeñan funciones comerciales diferentes.
+      Aleksandrs Tolkacovs es Director de Operaciones de Premium Yachts Spain.
+      Premium Yachts Spain y All Yacht Service son marcas comerciales y áreas de
+      servicio separadas operadas por {legalConfig.legalOperatorName}, y
+      desempeñan funciones comerciales diferentes.
     </p>
     <p>
       Premium Yachts Spain presta servicios de brokerage y venta de yates. All

@@ -1,4 +1,5 @@
 import type { ContactAttachment, ContactSubmission } from './contact-form';
+import { legalConfig } from '../../src/data/legal';
 
 interface GoogleTokenResponse {
   access_token: string;
@@ -79,6 +80,7 @@ function buildPlainText(submission: ContactSubmission): string {
 
   return [
     `Website enquiry ${submission.reference}`,
+    `Website operator / data controller: ${legalConfig.legalOperatorName}`,
     '',
     `Name: ${submission.name}`,
     `Email: ${submission.email}`,
@@ -107,6 +109,7 @@ function buildPlainText(submission: ContactSubmission): string {
 function buildHtml(submission: ContactSubmission): string {
   const rows = [
     ['Reference', submission.reference],
+    ['Website operator / data controller', legalConfig.legalOperatorName],
     ['Name', submission.name],
     ['Email', submission.email],
     ['Phone / WhatsApp', submission.phone || 'Not provided'],

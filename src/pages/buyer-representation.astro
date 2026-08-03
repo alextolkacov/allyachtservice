@@ -1,5 +1,6 @@
 ---
 import { buyerRepresentationPage } from '../data/buyer-representation';
+import { legalConfig } from '../data/legal';
 import ServiceLayout from '../layouts/ServiceLayout.astro';
 import { createServiceSchema } from '../utils/seo';
 
@@ -266,6 +267,13 @@ const serviceSchema = createServiceSchema({
       Where a yacht has a commercial connection with All Yacht Service, Premium
       Yachts Spain or another associated party, that relationship will be
       disclosed before the assignment is accepted.
+    </p>
+    <p class="service-note">
+      All Yacht Service and Premium Yachts Spain are separate commercial brands
+      and service areas operated by {legalConfig.legalOperatorName}. Survey
+      findings remain professionally independent; the client may appoint another
+      surveyor, and the assignment may be declined if a relationship cannot be
+      appropriately disclosed or managed.
     </p>
   </section>
 

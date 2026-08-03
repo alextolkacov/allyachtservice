@@ -2,10 +2,12 @@
 import PolicyPageLayout from '../../components/PolicyPageLayout.astro';
 import { spanishPrivacyPolicy } from '../../data/es/legal/privacy-policy';
 import { legalConfig } from '../../data/legal';
+import { getLegalPolicyWording } from '../../i18n/policy';
 import { getSharedUi } from '../../i18n/ui';
 
 const page = spanishPrivacyPolicy;
 const ui = getSharedUi('es');
+const legalWording = getLegalPolicyWording('es');
 ---
 
 <PolicyPageLayout
@@ -22,37 +24,21 @@ const ui = getSharedUi('es');
     <h2 id="responsible-heading">
       1. ¿Quién es responsable de sus datos personales?
     </h2>
-    {
-      legalConfig.legalOperatorName ? (
-        <p>
-          El operador legal indicado a continuación es responsable de los datos
-          personales descritos en este aviso.
-        </p>
-      ) : (
-        <p>
-          La identidad legal definitiva del operador del sitio web se está
-          confirmando y se añadirá antes de que el sitio web pueda indexarse. Se
-          han verificado los siguientes datos públicos de contacto:
-        </p>
-      )
-    }
+    <p>
+      {legalConfig.legalOperatorName} opera la marca All Yacht Service y es el responsable
+      del tratamiento de los datos personales descritos en este aviso.
+    </p>
+    <p>
+      Esto incluye los datos personales enviados mediante formularios de
+      contacto, correo electrónico, WhatsApp, archivos adjuntos, comunicaciones
+      sobre consultas, solicitudes de presupuesto y transferencias de las
+      calculadoras al formulario de contacto.
+    </p>
     <dl class="policy-facts">
-      {
-        legalConfig.legalOperatorName && (
-          <div>
-            <dt>Operador legal</dt>
-            <dd>{legalConfig.legalOperatorName}</dd>
-          </div>
-        )
-      }
-      {
-        legalConfig.operatorType === 'natural-person' && (
-          <div>
-            <dt>Condición del operador</dt>
-            <dd>Persona física</dd>
-          </div>
-        )
-      }
+      <div>
+        <dt>Responsable del tratamiento y operador legal</dt>
+        <dd>{legalConfig.legalOperatorName}</dd>
+      </div>
       {
         legalConfig.legalForm && (
           <div>
@@ -232,10 +218,10 @@ const ui = getSharedUi('es');
       </li>
     </ul>
     <p>
-      La información no se comparte con Premium Yachts Spain por el mero hecho
-      de que Aleksandrs Tolkacovs desempeñe allí una función comercial.
-      Cualquier comunicación o relación pertinente debe tener una finalidad
-      adecuada y comunicarse cuando corresponda.
+      All Yacht Service y Premium Yachts Spain son marcas comerciales y áreas de
+      servicio separadas operadas por {legalConfig.legalOperatorName}. El acceso
+      a la información sobre consultas y servicios se limita según su finalidad
+      y la función profesional correspondiente.
     </p>
   </section>
 
@@ -317,46 +303,20 @@ const ui = getSharedUi('es');
 
   <section id="retention" aria-labelledby="retention-heading">
     <h2 id="retention-heading">12. Conservación de los datos</h2>
-    {
-      legalConfig.enquiryRetentionMonths !== null &&
-      legalConfig.unsuccessfulQuoteRetentionMonths !== null &&
-      legalConfig.clientRecordRetentionDescription &&
-      legalConfig.securityRecordRetentionDescription ? (
-        <ul>
-          <li>
-            Las consultas generales que no se conviertan en encargos se
-            conservarán durante un máximo de{' '}
-            {legalConfig.enquiryRetentionMonths} meses desde el último contacto
-            sustancial.
-          </li>
-          <li>
-            Los presupuestos no aceptados se conservarán durante un máximo de{' '}
-            {legalConfig.unsuccessfulQuoteRetentionMonths} meses desde el
-            vencimiento del presupuesto o el último contacto sustancial, lo que
-            ocurra más tarde.
-          </li>
-          <li>
-            Correspondencia con clientes activos, informes y registros de
-            servicios contratados:{' '}
-            {legalConfig.clientRecordRetentionDescription}
-          </li>
-          <li>
-            Registros de seguridad y prevención del correo no deseado:{' '}
-            {legalConfig.securityRecordRetentionDescription}
-          </li>
-        </ul>
-      ) : (
-        <p>
-          Los períodos definitivos de conservación están pendientes de
-          aprobación y este borrador no puede publicarse como política indexable
-          hasta que se configuren. El calendario definitivo distinguirá entre
-          consultas generales, presupuestos no aceptados, correspondencia con
-          clientes activos, registros e informes de servicios contratados,
-          archivos adjuntos, registros de seguridad y registros exigidos por
-          obligaciones legales, fiscales o contables.
-        </p>
-      )
-    }
+    <ul>
+      <li>
+        Las consultas generales que no se conviertan en encargos se conservarán
+        durante un máximo de {legalConfig.enquiryRetentionMonths} meses desde el último
+        contacto sustancial.
+      </li>
+      <li>
+        Los presupuestos no aceptados se conservarán durante un máximo de{' '}
+        {legalConfig.unsuccessfulQuoteRetentionMonths} meses desde el vencimiento
+        del presupuesto o el último contacto sustancial, lo que ocurra más tarde.
+      </li>
+      <li>{legalWording.clientRecordRetentionDescription}</li>
+      <li>{legalWording.securityRecordRetentionDescription}</li>
+    </ul>
     <p>
       Los archivos adjuntos siguen el período de conservación de la consulta,
       correspondencia del buzón o registro del servicio contratado con el que
@@ -421,9 +381,10 @@ const ui = getSharedUi('es');
   <section id="third-party-links" aria-labelledby="third-party-links-heading">
     <h2 id="third-party-links-heading">16. Enlaces de terceros</h2>
     <p>
-      Los sitios web externos, incluidos Premium Yachts Spain y las redes
-      sociales, controlan su propio contenido y sus prácticas de privacidad.
-      Consulte sus avisos antes de enviarles información.
+      Los sitios web externos, incluido el sitio web de brokerage de Premium
+      Yachts Spain y las redes sociales, controlan su propio contenido y sus
+      prácticas de privacidad. Consulte sus avisos antes de enviar información a
+      través de dichos sitios.
     </p>
   </section>
 
