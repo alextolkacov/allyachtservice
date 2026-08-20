@@ -252,7 +252,7 @@ export const spanishShinyHullArticle = {
     title:
       '¿Se puede confiar en un casco brillante? Qué debe comprobar un comprador de un yate usado',
     description:
-      'Un casco brillante puede hacer menos visibles algunas reparaciones anteriores o irregularidades. Conozca qué puede comprobar un comprador sin causar daños.',
+      'Un casco brillante puede hacer menos visibles algunas reparaciones anteriores o irregularidades durante una visita.',
     href: '/es/yacht-survey-tips/shiny-hull',
     category: 'Inspección precompra · Casco y estructura',
     status: 'Publicado',

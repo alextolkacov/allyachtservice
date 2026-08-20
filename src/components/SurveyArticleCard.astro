@@ -29,7 +29,8 @@ const {
   featured = false,
   locale = 'en',
 } = Astro.props;
-const hasMetadata = status || publicationDate || readingTime;
+const visibleStatus = featured ? status : undefined;
+const hasMetadata = visibleStatus || publicationDate || readingTime;
 const readingTimeLabel = readingTime
   ? locale === 'es'
     ? `${readingTime} de lectura`
@@ -80,9 +81,10 @@ const imageLinkLabel =
     {image.caption && <figcaption>{image.caption}</figcaption>}
   </figure>
   <div class="survey-article-content">
-    {category && <p class="survey-article-category">{category}</p>}
+    {featured && category && <p class="survey-article-category">{category}</p>}
     <h3><a href={href}>{title}</a></h3>
     <p class="survey-article-description">{description}</p>
+    {!featured && category && <p class="survey-article-category">{category}</p>}
     {
       hasMetadata && (
         <ul
@@ -90,7 +92,7 @@ const imageLinkLabel =
           aria-label={articleDetailsLabel}
           role="list"
         >
-          {status && <li>{status}</li>}
+          {visibleStatus && <li>{visibleStatus}</li>}
           {publicationDate && (
             <li>
               <time datetime={publicationDateTime}>{publicationDate}</time>

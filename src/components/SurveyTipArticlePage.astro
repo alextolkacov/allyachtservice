@@ -1,0 +1,274 @@
+---
+import { aboutUsPage } from '../data/about-us';
+import type { Locale } from '../data/languages';
+import type { RouteId } from '../data/navigation';
+import type { SurveyTipArticlePageData } from '../data/yacht-survey-tips/types';
+import { siteConfig } from '../data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  businessEntityId,
+  toAbsoluteUrl,
+  type StructuredData,
+} from '../utils/seo';
+import Breadcrumbs from './Breadcrumbs.astro';
+
+interface Props {
+  article: SurveyTipArticlePageData;
+  locale: Locale;
+  routeId: RouteId;
+}
+
+const { article, locale, routeId } = Astro.props;
+const pageUrl = toAbsoluteUrl(article.pathname);
+const pageId = `${pageUrl}#page`;
+const articleId = `${pageUrl}#article`;
+const imageUrl = toAbsoluteUrl(article.image.src);
+const personId = new URL(aboutUsPage.person.id, siteConfig.url).toString();
+
+const webPageSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': pageId,
+  url: pageUrl,
+  name: article.seoTitle,
+  description: article.metaDescription,
+  inLanguage: locale,
+  mainEntity: {
+    '@id': articleId,
+  },
+  about: {
+    '@id': businessEntityId,
+  },
+};
+
+const articleSchema: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': articleId,
+  headline: article.title,
+  description: article.description,
+  url: pageUrl,
+  mainEntityOfPage: {
+    '@id': pageId,
+  },
+  datePublished: article.publicationDateTime,
+  dateModified: article.modifiedDateTime,
+  articleSection: article.category,
+  timeRequired: article.timeRequired,
+  image: imageUrl,
+  inLanguage: locale,
+  author: {
+    '@type': 'Person',
+    '@id': personId,
+    name: article.author.name,
+    jobTitle: article.author.professionalDescription,
+  },
+  publisher: {
+    '@id': businessEntityId,
+  },
+};
+---
+
+<BaseLayout
+  title={article.seoTitle}
+  description={article.metaDescription}
+  locale={locale}
+  routeId={routeId}
+  pathname={article.pathname}
+  imagePath={article.image.src}
+  imageAlt={article.socialImageAlt}
+  structuredData={[webPageSchema, articleSchema]}
+  openGraphType="article"
+  articlePublishedTime={article.publicationDateTime}
+  articleModifiedTime={article.modifiedDateTime}
+  articleSection={article.category}
+  articleAuthor={article.author.name}
+>
+  <article class="survey-guide">
+    <header class="survey-guide-header">
+      <div class="site-container">
+        <Breadcrumbs
+          items={article.breadcrumbs}
+          ariaLabel={article.labels.breadcrumb}
+        />
+        <div class="survey-guide-header-grid">
+          <div class="survey-guide-heading">
+            <p class="eyebrow">{article.category}</p>
+            <h1>{article.title}</h1>
+            <p class="survey-guide-standfirst">{article.standfirst}</p>
+            <dl class="survey-guide-meta">
+              <div>
+                <dt>{article.labels.published}</dt>
+                <dd>
+                  <time datetime={article.publicationDateTime}>
+                    {article.publicationDate}
+                  </time>
+                </dd>
+              </div>
+              <div>
+                <dt>{article.labels.readingTime}</dt>
+                <dd>{article.readingTime}</dd>
+              </div>
+              <div>
+                <dt>{article.labels.author}</dt>
+                <dd>
+                  {article.labels.authorPrefix}
+                  {' '}
+                  {article.author.name}
+                  <span class="survey-guide-author-description">
+                    {article.author.professionalDescription}
+                  </span>
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <figure id="article-image" class="survey-guide-figure">
+            <img
+              src={article.image.src}
+              alt={article.image.alt}
+              width={article.image.width}
+              height={article.image.height}
+              loading="eager"
+              fetchpriority="high"
+            />
+            <figcaption>{article.imageCaption}</figcaption>
+          </figure>
+        </div>
+      </div>
+    </header>
+
+    <div class="survey-guide-body">
+      <div class="site-container survey-guide-reading-width">
+        <section
+          class="survey-guide-introduction"
+          aria-labelledby={article.introduction.id}
+        >
+          <h2 id={article.introduction.id} class="sr-only">
+            {article.introduction.label}
+          </h2>
+          {
+            article.introduction.paragraphs.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))
+          }
+        </section>
+
+        {
+          article.sections.map((section) => (
+            <section aria-labelledby={section.id}>
+              <h2 id={section.id}>{section.title}</h2>
+              {section.paragraphs.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+              {section.items && section.items.length > 0 && (
+                <ul class="survey-guide-list-grid">
+                  {section.items.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              )}
+              {section.closingParagraphs?.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+              {section.note && (
+                <aside class="survey-guide-key-point">
+                  <strong>{section.note}</strong>
+                </aside>
+              )}
+            </section>
+          ))
+        }
+
+        <section aria-labelledby={article.keyPoint.id}>
+          <h2 id={article.keyPoint.id}>{article.keyPoint.title}</h2>
+          <aside class="survey-guide-key-point survey-guide-key-point-large">
+            <p>{article.keyPoint.body}</p>
+          </aside>
+        </section>
+      </div>
+    </div>
+
+    <section
+      class="survey-guide-related-services"
+      aria-labelledby={`${article.slug}-related-services`}
+    >
+      <div class="site-container">
+        <div class="survey-guide-section-heading">
+          <p class="eyebrow">{article.labels.professionalSupport}</p>
+          <h2 id={`${article.slug}-related-services`}>
+            {article.labels.relatedServices}
+          </h2>
+        </div>
+        <div class="survey-guide-service-grid">
+          {
+            article.relatedServices.map((service) => (
+              <article>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <a class="text-arrow-link" href={service.href}>
+                  {article.labels.viewService} <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="survey-guide-more-tips"
+      aria-labelledby={`${article.slug}-more-tips`}
+    >
+      <div class="site-container survey-guide-more-tips-inner">
+        <div>
+          <p class="eyebrow">{article.category}</p>
+          <h2 id={`${article.slug}-more-tips`}>{article.labels.moreTips}</h2>
+          <p>{article.labels.moreTipsBody}</p>
+        </div>
+        <ul class="survey-guide-related-link-list" role="list">
+          {
+            article.relatedArticles.map((relatedArticle) => (
+              <li>
+                <a class="button button-navy" href={relatedArticle.href}>
+                  {relatedArticle.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section
+      class="survey-guide-final-cta"
+      aria-labelledby={`${article.slug}-final-cta`}
+    >
+      <div class="site-container survey-guide-final-cta-inner">
+        <div>
+          <p class="eyebrow eyebrow-light">{article.labels.finalCtaEyebrow}</p>
+          <h2 id={`${article.slug}-final-cta`}>{article.finalCta.heading}</h2>
+          <p>{article.finalCta.body}</p>
+        </div>
+        <div class="survey-guide-final-cta-actions">
+          {
+            article.finalCta.links.map((link, index) => (
+              <a
+                class:list={[
+                  'button',
+                  index === 0 ? 'button-light' : 'button-outline-light',
+                ]}
+                href={link.href}
+                {...(link.external
+                  ? { target: '_blank', rel: 'noreferrer' }
+                  : {})}
+              >
+                {link.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

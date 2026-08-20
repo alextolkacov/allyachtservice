@@ -2772,7 +2772,71 @@
 
   .survey-article-grid {
     display: grid;
-    gap: 1.5rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .survey-article-grid .survey-article-card {
+    grid-template-rows: auto 1fr;
+    border: 0;
+    border-top: 1px solid rgb(10 29 47 / 16%);
+    box-shadow: none;
+  }
+
+  .survey-article-grid .survey-article-card:last-child {
+    border-bottom: 1px solid rgb(10 29 47 / 16%);
+  }
+
+  .survey-article-grid .survey-article-figure {
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    background: #e7e7e5;
+  }
+
+  .survey-article-grid .survey-article-image-link {
+    position: relative;
+    display: block;
+    height: 100%;
+  }
+
+  .survey-article-grid .survey-article-image-link img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .survey-article-grid .survey-article-content {
+    padding: 1.25rem 0 1.75rem;
+  }
+
+  .survey-article-grid .survey-article-category {
+    margin: 1rem 0 0;
+    font-size: 0.68rem;
+  }
+
+  .survey-article-grid .survey-article-card h3 {
+    font-size: clamp(1.2rem, 4.5vw, 1.5rem);
+  }
+
+  .survey-article-grid .survey-article-description {
+    flex-grow: 0;
+    margin-top: 0.75rem;
+    font-size: 0.94rem;
+    line-height: 1.6;
+  }
+
+  .survey-article-grid .survey-article-meta {
+    margin-top: 0.75rem;
+    padding-top: 0;
+    border-top: 0;
+    font-size: 0.76rem;
+  }
+
+  .survey-article-grid .survey-article-read-link {
+    margin-top: auto;
+    padding-top: 1rem;
   }
 
   .survey-category-grid {
@@ -3712,8 +3776,23 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .survey-article-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .survey-article-grid .survey-article-card {
+    grid-template-columns: clamp(11.25rem, 26vw, 13.75rem) minmax(0, 1fr);
+    grid-template-rows: auto;
+    align-items: stretch;
+    padding-block: 1.25rem;
+  }
+
+  .survey-article-grid .survey-article-figure {
+    align-self: start;
+  }
+
+  .survey-article-grid .survey-article-content {
+    padding: 0.25rem 0.25rem 0.25rem 1.5rem;
+  }
+
+  .survey-article-grid .survey-article-card h3 {
+    font-size: clamp(1.45rem, 3vw, 1.8rem);
   }
 
   .inspection-grid,
@@ -3930,8 +4009,13 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .survey-article-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .survey-article-grid .survey-article-card {
+    grid-template-columns: 15rem minmax(0, 1fr);
+    padding-block: 1.5rem;
+  }
+
+  .survey-article-grid .survey-article-content {
+    padding-left: 2rem;
   }
 
   .survey-tips-service-grid {

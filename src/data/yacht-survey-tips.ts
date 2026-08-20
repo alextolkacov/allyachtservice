@@ -1,3 +1,5 @@
+import { checkYachtSeacocksArticle } from './yacht-survey-tips/check-yacht-seacocks';
+import { checkYachtSteeringArticle } from './yacht-survey-tips/check-yacht-steering';
 import { deckMoistureSoftSpotsArticle } from './yacht-survey-tips/deck-moisture-soft-spots';
 import { shinyHullArticle } from './yacht-survey-tips/shiny-hull';
 import type {
@@ -85,7 +87,12 @@ export const yachtSurveyTipsPage = {
       ],
     },
   ] satisfies readonly SurveyTipsCategory[],
-  latestArticles: [shinyHullArticle.card, deckMoistureSoftSpotsArticle.card],
+  latestArticles: [
+    checkYachtSteeringArticle.card,
+    checkYachtSeacocksArticle.card,
+    shinyHullArticle.card,
+    deckMoistureSoftSpotsArticle.card,
+  ],
   guideReasons: [
     'Independent technical perspective',
     'Practical experience with sailing and motor yachts',

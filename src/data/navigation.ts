@@ -13,6 +13,8 @@ export type RouteId =
   | 'yachtDelivery'
   | 'yachtsForSale'
   | 'yachtSurveyTips'
+  | 'checkYachtSteering'
+  | 'checkYachtSeacocks'
   | 'deckMoistureSoftSpots'
   | 'shinyHull'
   | 'privacyPolicy'
@@ -88,6 +90,16 @@ export const translatedRoutes: Record<
     en: '/yacht-survey-tips',
     es: '/es/yacht-survey-tips',
     ru: '/ru/yacht-survey-tips',
+  },
+  checkYachtSteering: {
+    en: '/yacht-survey-tips/check-yacht-steering',
+    es: '/es/yacht-survey-tips/check-yacht-steering',
+    ru: '/ru/yacht-survey-tips/check-yacht-steering',
+  },
+  checkYachtSeacocks: {
+    en: '/yacht-survey-tips/check-yacht-seacocks',
+    es: '/es/yacht-survey-tips/check-yacht-seacocks',
+    ru: '/ru/yacht-survey-tips/check-yacht-seacocks',
   },
   deckMoistureSoftSpots: {
     en: '/yacht-survey-tips/deck-moisture-soft-spots',

@@ -291,6 +291,41 @@ const spanishSurveyTipsPages = [
     article: false,
   },
   {
+    en: '/yacht-survey-tips/check-yacht-steering',
+    es: '/es/yacht-survey-tips/check-yacht-steering',
+    ru: '/ru/yacht-survey-tips/check-yacht-steering',
+    title:
+      'Comprobar el gobierno de un yate antes de comprar | All Yacht Service',
+    description:
+      'Conozca las señales de alerta del sistema de gobierno de un yate y por qué una prueba de mar bien realizada importa antes de comprar.',
+    h1: 'Compruebe el sistema de gobierno antes de confiar en él: qué debe observar un comprador',
+    article: true,
+    datePublished: '2026-08-19',
+    dateModified: '2026-08-19',
+    timeRequired: 'PT5M',
+    image:
+      '/images/yacht-survey-tips/check-yacht-steering-before-you-trust-it.png',
+    width: 1092,
+    height: 1440,
+  },
+  {
+    en: '/yacht-survey-tips/check-yacht-seacocks',
+    es: '/es/yacht-survey-tips/check-yacht-seacocks',
+    ru: '/ru/yacht-survey-tips/check-yacht-seacocks',
+    title:
+      'Válvulas de fondo: qué debe comprobar al comprar | All Yacht Service',
+    description:
+      'Sepa qué comprobar en válvulas de fondo, mangueras y abrazaderas, y por qué la corrosión o las fugas requieren más investigación.',
+    h1: 'No ignore las válvulas de fondo: qué debe comprobar un comprador de un yate usado',
+    article: true,
+    datePublished: '2026-08-05',
+    dateModified: '2026-08-05',
+    timeRequired: 'PT4M',
+    image: '/images/yacht-survey-tips/check-yacht-seacocks-below-waterline.png',
+    width: 1092,
+    height: 1440,
+  },
+  {
     en: '/yacht-survey-tips/deck-moisture-soft-spots',
     es: '/es/yacht-survey-tips/deck-moisture-soft-spots',
     ru: '/ru/yacht-survey-tips/deck-moisture-soft-spots',
@@ -301,7 +336,10 @@ const spanishSurveyTipsPages = [
     article: true,
     datePublished: '2026-07',
     dateModified: '2026-07-28',
+    timeRequired: 'PT5M',
     image: '/images/yacht-survey-tips/deck-moisture-soft-spots.png',
+    width: 1122,
+    height: 1402,
   },
   {
     en: '/yacht-survey-tips/shiny-hull',
@@ -314,7 +352,10 @@ const spanishSurveyTipsPages = [
     article: true,
     datePublished: '2026-07-28',
     dateModified: '2026-07-28',
+    timeRequired: 'PT5M',
     image: '/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png',
+    width: 1122,
+    height: 1402,
   },
 ];
 
@@ -710,7 +751,7 @@ if (existsSync(distDirectory)) {
           articleSchema.inLanguage === 'es' &&
           articleSchema.datePublished === page.datePublished &&
           articleSchema.dateModified === page.dateModified &&
-          articleSchema.timeRequired === 'PT5M' &&
+          articleSchema.timeRequired === page.timeRequired &&
           articleSchema.author?.['@id'] ===
             'https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs' &&
           articleSchema.publisher?.['@id'] ===
@@ -719,8 +760,8 @@ if (existsSync(distDirectory)) {
       );
       assert(
         spanish.includes(`src="${page.image}"`) &&
-          spanish.includes('width="1122"') &&
-          spanish.includes('height="1402"'),
+          spanish.includes(`width="${page.width}"`) &&
+          spanish.includes(`height="${page.height}"`),
         `${page.es} does not preserve the complete intrinsic article graphic.`,
       );
     }
@@ -896,12 +937,18 @@ if (existsSync(distDirectory)) {
   );
   assert(
     getBuiltPage('/es/yacht-survey-tips').includes(
-      'href="/es/yacht-survey-tips/shiny-hull"',
+      'href="/es/yacht-survey-tips/check-yacht-steering"',
     ) &&
+      getBuiltPage('/es/yacht-survey-tips').includes(
+        'href="/es/yacht-survey-tips/check-yacht-seacocks"',
+      ) &&
+      getBuiltPage('/es/yacht-survey-tips').includes(
+        'href="/es/yacht-survey-tips/shiny-hull"',
+      ) &&
       getBuiltPage('/es/yacht-survey-tips').includes(
         'href="/es/yacht-survey-tips/deck-moisture-soft-spots"',
       ),
-    'The Spanish Survey Tips hub does not link to both published articles.',
+    'The Spanish Survey Tips hub does not link to all published articles.',
   );
 
   for (const [path, html] of builtPages) {
@@ -997,6 +1044,8 @@ if (existsSync(distDirectory)) {
     'src/data/es/valuation-damage-survey.ts',
     'src/data/es/about-us.ts',
     'src/data/es/yacht-survey-tips.ts',
+    'src/data/es/yacht-survey-tips/check-yacht-steering.ts',
+    'src/data/es/yacht-survey-tips/check-yacht-seacocks.ts',
     'src/data/es/yacht-survey-tips/deck-moisture-soft-spots.ts',
     'src/data/es/yacht-survey-tips/shiny-hull.ts',
     'src/data/es/yachts-for-sale.ts',
@@ -1050,22 +1099,27 @@ if (existsSync(distDirectory)) {
     spanishHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-trust-section/u,
     )?.[0] ?? '';
+  const steeringTitle =
+    'Compruebe el sistema de gobierno antes de confiar en él';
+  const seacocksTitle = 'No ignore las válvulas de fondo';
+  const shinyTitle =
+    '¿Se puede confiar en un casco brillante? Qué debe comprobar un comprador de un yate usado';
+  const deckTitle =
+    'Humedad y zonas blandas en la cubierta: qué deben saber los compradores de yates';
   assert(
-    featuredSection.includes(
-      'Humedad y zonas blandas en la cubierta: qué deben saber los compradores de yates',
-    ) &&
-      !featuredSection.includes(
-        '¿Se puede confiar en un casco brillante? Qué debe comprobar un comprador de un yate usado',
-      ),
+    featuredSection.includes(deckTitle) &&
+      !featuredSection.includes(shinyTitle) &&
+      !featuredSection.includes(steeringTitle) &&
+      !featuredSection.includes(seacocksTitle),
     'Deck Moisture must remain the Spanish Featured Guide.',
   );
   assert(
-    latestSection.indexOf(
-      '¿Se puede confiar en un casco brillante? Qué debe comprobar un comprador de un yate usado',
-    ) <
-      latestSection.indexOf(
-        'Humedad y zonas blandas en la cubierta: qué deben saber los compradores de yates',
-      ),
+    latestSection.indexOf(steeringTitle) >= 0 &&
+      latestSection.indexOf(steeringTitle) <
+        latestSection.indexOf(seacocksTitle) &&
+      latestSection.indexOf(seacocksTitle) <
+        latestSection.indexOf(shinyTitle) &&
+      latestSection.indexOf(shinyTitle) < latestSection.indexOf(deckTitle),
     'Spanish latest articles are not in newest-first order.',
   );
   const articleGraphicCss =
@@ -1088,6 +1142,10 @@ if (existsSync(distDirectory)) {
     'Article graphics must retain the shared full-image no-crop rules.',
   );
   const englishImageHashes = {
+    'public/images/yacht-survey-tips/check-yacht-steering-before-you-trust-it.png':
+      '6f19bb491e63b46e3b3e25bdd50ead416fcfede145f792644aedca6e4d7b2799',
+    'public/images/yacht-survey-tips/check-yacht-seacocks-below-waterline.png':
+      '243ed2c54a5b11406214480e7cf01a62765f5b855239462a3b736146d7643062',
     'public/images/yacht-survey-tips/deck-moisture-soft-spots.png':
       '77c20ed2604f30518f9e56b2e122b24ddd15481261f1861d38504279ec006404',
     'public/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png':

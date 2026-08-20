@@ -332,7 +332,7 @@ export const deckMoistureSoftSpotsArticle = {
   card: {
     title: 'Deck Moisture and Soft Spots: What Yacht Buyers Should Know',
     description:
-      'Moisture intrusion and soft deck areas are among the most common concerns found during yacht inspections. Learn how moisture enters yacht structures, how surveyors investigate it and what buyers should consider before purchase.',
+      'Moisture intrusion and soft deck areas can indicate a condition that deserves closer investigation before purchase.',
     href: '/yacht-survey-tips/deck-moisture-soft-spots',
     category: 'Structural Condition',
     status: 'Published',

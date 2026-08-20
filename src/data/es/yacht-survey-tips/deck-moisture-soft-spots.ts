@@ -336,7 +336,7 @@ export const spanishDeckMoistureSoftSpotsArticle = {
     title:
       'Humedad y zonas blandas en la cubierta: qué deben saber los compradores de yates',
     description:
-      'Conozca cómo puede entrar la humedad en la cubierta, cómo investiga un inspector naval y qué debe valorar antes de comprar.',
+      'La humedad y las zonas blandas de la cubierta pueden indicar un problema que requiere más investigación antes de comprar.',
     href: '/es/yacht-survey-tips/deck-moisture-soft-spots',
     category: 'Inspección precompra · Cubierta y estructura',
     status: 'Publicado',

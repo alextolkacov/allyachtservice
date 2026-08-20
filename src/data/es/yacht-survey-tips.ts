@@ -2,6 +2,8 @@ import type {
   SurveyTipsCategory,
   SurveyTipsImage,
 } from '../yacht-survey-tips/types';
+import { spanishCheckYachtSeacocksArticle } from './yacht-survey-tips/check-yacht-seacocks';
+import { spanishCheckYachtSteeringArticle } from './yacht-survey-tips/check-yacht-steering';
 import { spanishDeckMoistureSoftSpotsArticle } from './yacht-survey-tips/deck-moisture-soft-spots';
 import { spanishShinyHullArticle } from './yacht-survey-tips/shiny-hull';
 
@@ -89,6 +91,8 @@ export const spanishYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    spanishCheckYachtSteeringArticle.card,
+    spanishCheckYachtSeacocksArticle.card,
     spanishShinyHullArticle.card,
     spanishDeckMoistureSoftSpotsArticle.card,
   ],

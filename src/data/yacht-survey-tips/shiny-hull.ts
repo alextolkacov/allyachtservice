@@ -243,7 +243,7 @@ export const shinyHullArticle = {
   card: {
     title: 'Can You Trust a Shiny Hull? What Used-Yacht Buyers Should Check',
     description:
-      'A glossy hull can look reassuring while making previous repair areas or surface inconsistencies less obvious. Learn what buyers can safely check and when professional investigation is appropriate.',
+      'A glossy hull can make previous repair areas or surface inconsistencies less obvious during a viewing.',
     href: '/yacht-survey-tips/shiny-hull',
     category: 'Pre-Purchase Checks · Hull & Structure',
     status: 'Published',

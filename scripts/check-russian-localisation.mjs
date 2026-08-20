@@ -95,6 +95,12 @@ const russianDeckArticleSource = read(
 const russianShinyArticleSource = read(
   'src/data/ru/yacht-survey-tips/shiny-hull.ts',
 );
+const russianSteeringArticleSource = read(
+  'src/data/ru/yacht-survey-tips/check-yacht-steering.ts',
+);
+const russianSeacocksArticleSource = read(
+  'src/data/ru/yacht-survey-tips/check-yacht-seacocks.ts',
+);
 const russianYachtsForSaleSource = read('src/data/ru/yachts-for-sale.ts');
 const russianYachtsForSalePageSource = read(
   'src/pages/ru/yachts-for-sale.astro',
@@ -236,6 +242,47 @@ const translatedSurveyTipsRoutes = [
     article: false,
   },
   {
+    en: '/yacht-survey-tips/check-yacht-steering',
+    es: '/es/yacht-survey-tips/check-yacht-steering',
+    ru: '/ru/yacht-survey-tips/check-yacht-steering',
+    title:
+      'Проверка рулевого управления яхты перед покупкой | All Yacht Service',
+    description:
+      'Узнайте о признаках неисправностей рулевого управления яхты и роли ходовых испытаний перед покупкой подержанной яхты.',
+    heading:
+      'Проверьте рулевое управление, прежде чем ему доверять: на что обратить внимание покупателю',
+    article: true,
+    datePublished: '2026-08-19',
+    dateModified: '2026-08-19',
+    timeRequired: 'PT5M',
+    readingTime: '5 минут чтения',
+    articleSection:
+      'Предпокупочная проверка · Рулевое управление и ходовые испытания',
+    image:
+      '/images/yacht-survey-tips/check-yacht-steering-before-you-trust-it.png',
+    width: 1092,
+    height: 1440,
+  },
+  {
+    en: '/yacht-survey-tips/check-yacht-seacocks',
+    es: '/es/yacht-survey-tips/check-yacht-seacocks',
+    ru: '/ru/yacht-survey-tips/check-yacht-seacocks',
+    title: 'Кингстоны яхты: что проверить перед покупкой | All Yacht Service',
+    description:
+      'Узнайте, что проверить у кингстонов, шлангов и хомутов яхты и почему коррозия или следы утечек требуют исследования.',
+    heading:
+      'Не игнорируйте кингстоны: что проверить покупателю подержанной яхты',
+    article: true,
+    datePublished: '2026-08-05',
+    dateModified: '2026-08-05',
+    timeRequired: 'PT4M',
+    readingTime: '4 минуты чтения',
+    articleSection: 'Предпокупочная проверка · Забортная арматура',
+    image: '/images/yacht-survey-tips/check-yacht-seacocks-below-waterline.png',
+    width: 1092,
+    height: 1440,
+  },
+  {
     en: '/yacht-survey-tips/deck-moisture-soft-spots',
     es: '/es/yacht-survey-tips/deck-moisture-soft-spots',
     ru: '/ru/yacht-survey-tips/deck-moisture-soft-spots',
@@ -246,8 +293,12 @@ const translatedSurveyTipsRoutes = [
     article: true,
     datePublished: '2026-07',
     dateModified: '2026-07-28',
+    timeRequired: 'PT5M',
+    readingTime: '5 минут чтения',
     articleSection: 'Предпокупочный осмотр · Палуба и конструкции',
     image: '/images/yacht-survey-tips/deck-moisture-soft-spots.png',
+    width: 1122,
+    height: 1402,
   },
   {
     en: '/yacht-survey-tips/shiny-hull',
@@ -261,8 +312,12 @@ const translatedSurveyTipsRoutes = [
     article: true,
     datePublished: '2026-07-28',
     dateModified: '2026-07-28',
+    timeRequired: 'PT5M',
+    readingTime: '5 минут чтения',
     articleSection: 'Предпокупочный осмотр · Корпус и конструкции',
     image: '/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png',
+    width: 1122,
+    height: 1402,
   },
 ];
 for (const route of translatedSurveyTipsRoutes) {
@@ -1158,7 +1213,7 @@ if (existsSync(distDirectory)) {
           articleSchema.inLanguage === 'ru' &&
           articleSchema.datePublished === route.datePublished &&
           articleSchema.dateModified === route.dateModified &&
-          articleSchema.timeRequired === 'PT5M' &&
+          articleSchema.timeRequired === route.timeRequired &&
           articleSchema.articleSection === route.articleSection &&
           articleSchema.author?.['@id'] ===
             'https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs' &&
@@ -1168,9 +1223,9 @@ if (existsSync(distDirectory)) {
       );
       assert(
         html.includes(`src="${route.image}"`) &&
-          html.includes('width="1122"') &&
-          html.includes('height="1402"') &&
-          html.includes('<dd>5 минут чтения</dd>'),
+          html.includes(`width="${route.width}"`) &&
+          html.includes(`height="${route.height}"`) &&
+          html.includes(`<dd>${route.readingTime}</dd>`),
         `${route.ru} does not preserve article image dimensions or reading time.`,
       );
     }
@@ -1350,15 +1405,23 @@ if (existsSync(distDirectory)) {
     'Влага и мягкие участки палубы: что нужно знать покупателю яхты';
   const shinyTitle =
     'Можно ли доверять блестящему корпусу? Что проверить покупателю подержанной яхты';
+  const steeringTitle = 'Проверьте рулевое управление, прежде чем ему доверять';
+  const seacocksTitle = 'Не игнорируйте кингстоны яхты';
   assert(
     featuredSection.includes(deckTitle) &&
-      !featuredSection.includes(shinyTitle),
+      !featuredSection.includes(shinyTitle) &&
+      !featuredSection.includes(steeringTitle) &&
+      !featuredSection.includes(seacocksTitle),
     'Deck Moisture must remain the Russian Featured Guide.',
   );
   assert(
-    latestSection.indexOf(shinyTitle) >= 0 &&
+    latestSection.indexOf(steeringTitle) >= 0 &&
+      latestSection.indexOf(steeringTitle) <
+        latestSection.indexOf(seacocksTitle) &&
+      latestSection.indexOf(seacocksTitle) <
+        latestSection.indexOf(shinyTitle) &&
       latestSection.indexOf(shinyTitle) < latestSection.indexOf(deckTitle),
-    'Russian latest articles are not ordered Shiny Hull then Deck Moisture.',
+    'Russian latest articles are not in newest-first order.',
   );
   assert(
     russianSurveyTipsHub.includes(
@@ -1390,6 +1453,10 @@ if (existsSync(distDirectory)) {
     'Russian Survey Tips must retain the shared full-image no-crop rules.',
   );
   const protectedImageHashes = {
+    'public/images/yacht-survey-tips/check-yacht-steering-before-you-trust-it.png':
+      '6f19bb491e63b46e3b3e25bdd50ead416fcfede145f792644aedca6e4d7b2799',
+    'public/images/yacht-survey-tips/check-yacht-seacocks-below-waterline.png':
+      '243ed2c54a5b11406214480e7cf01a62765f5b855239462a3b736146d7643062',
     'public/images/yacht-survey-tips/deck-moisture-soft-spots.png':
       '77c20ed2604f30518f9e56b2e122b24ddd15481261f1861d38504279ec006404',
     'public/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png':
@@ -1432,8 +1499,14 @@ if (existsSync(distDirectory)) {
       russianShinyArticleSource.includes(
         "src: '/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png'",
       ) &&
+      russianSteeringArticleSource.includes(
+        "src: '/images/yacht-survey-tips/check-yacht-steering-before-you-trust-it.png'",
+      ) &&
+      russianSeacocksArticleSource.includes(
+        "src: '/images/yacht-survey-tips/check-yacht-seacocks-below-waterline.png'",
+      ) &&
       !/\/images\/yacht-survey-tips\/ru\//u.test(
-        `${russianSurveyTipsSource}\n${russianDeckArticleSource}\n${russianShinyArticleSource}`,
+        `${russianSurveyTipsSource}\n${russianDeckArticleSource}\n${russianShinyArticleSource}\n${russianSteeringArticleSource}\n${russianSeacocksArticleSource}`,
       ),
     'Russian pages do not reuse the protected English article graphics.',
   );
@@ -1570,9 +1643,9 @@ if (existsSync(distDirectory)) {
     );
   }
   for (const [locale, expectedCount] of [
-    ['en', 18],
-    ['es', 18],
-    ['ru', 18],
+    ['en', 20],
+    ['es', 20],
+    ['ru', 20],
   ]) {
     const actualCount = sitemapPathnames.filter((pathname) => {
       if (locale === 'en') {
