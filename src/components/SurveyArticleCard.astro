@@ -8,11 +8,9 @@ interface Props {
   href: string;
   image: SurveyTipsImage;
   category?: string;
-  status?: string;
   publicationDate?: string;
   publicationDateTime?: string;
   readingTime?: string;
-  featured?: boolean;
   locale?: Locale;
 }
 
@@ -22,15 +20,12 @@ const {
   href,
   image,
   category,
-  status,
   publicationDate,
   publicationDateTime,
   readingTime,
-  featured = false,
   locale = 'en',
 } = Astro.props;
-const visibleStatus = featured ? status : undefined;
-const hasMetadata = visibleStatus || publicationDate || readingTime;
+const hasMetadata = publicationDate || readingTime;
 const readingTimeLabel = readingTime
   ? locale === 'es'
     ? `${readingTime} de lectura`
@@ -46,23 +41,15 @@ const articleDetailsLabel =
       : 'Article details';
 const readLabel =
   locale === 'es'
-    ? featured
-      ? 'Leer la guía'
-      : 'Leer el artículo'
+    ? 'Leer el artículo'
     : locale === 'ru'
-      ? featured
-        ? 'Читать материал'
-        : 'Читать статью'
-      : featured
-        ? 'Read guide'
-        : 'Read article';
+      ? 'Читать статью'
+      : 'Read article';
 const imageLinkLabel =
   locale === 'en' ? `Read ${title}` : `${readLabel}: ${title}`;
 ---
 
-<article
-  class:list={['survey-article-card', featured && 'survey-article-featured']}
->
+<article class="survey-article-card">
   <figure class="survey-article-figure">
     <a
       class="survey-article-image-link"
@@ -81,10 +68,9 @@ const imageLinkLabel =
     {image.caption && <figcaption>{image.caption}</figcaption>}
   </figure>
   <div class="survey-article-content">
-    {featured && category && <p class="survey-article-category">{category}</p>}
     <h3><a href={href}>{title}</a></h3>
     <p class="survey-article-description">{description}</p>
-    {!featured && category && <p class="survey-article-category">{category}</p>}
+    {category && <p class="survey-article-category">{category}</p>}
     {
       hasMetadata && (
         <ul
@@ -92,7 +78,6 @@ const imageLinkLabel =
           aria-label={articleDetailsLabel}
           role="list"
         >
-          {visibleStatus && <li>{visibleStatus}</li>}
           {publicationDate && (
             <li>
               <time datetime={publicationDateTime}>{publicationDate}</time>

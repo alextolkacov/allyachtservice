@@ -2599,7 +2599,6 @@
     background: white;
   }
 
-  .survey-tips-featured-section,
   .survey-tips-latest-section {
     background: var(--color-ivory);
   }
@@ -3859,11 +3858,6 @@
 @media (min-width: 48rem) {
   .site-container {
     width: min(100% - 4rem, 76rem);
-  }
-
-  .survey-article-featured {
-    grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
-    align-items: start;
   }
 
   .survey-guide-list-grid,

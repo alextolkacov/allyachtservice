@@ -97,15 +97,23 @@ const webPageSchema: StructuredData = {
     </section>
 
     <section
-      class="survey-tips-section survey-tips-featured-section"
-      aria-labelledby="featured-guide-heading"
+      class="survey-tips-section survey-tips-latest-section"
+      aria-labelledby="latest-survey-articles-heading"
     >
       <div class="site-container">
         <div class="survey-tips-section-heading">
-          <p class="eyebrow">Featured guide</p>
-          <h2 id="featured-guide-heading">Featured Yacht Survey Advice</h2>
+          <p class="eyebrow">Recently published</p>
+          <h2 id="latest-survey-articles-heading">
+            Latest Yacht Survey Articles
+          </h2>
         </div>
-        <SurveyArticleCard {...page.featuredArticle} featured={true} />
+        <div class="survey-article-grid">
+          {
+            page.latestArticles.map((article) => (
+              <SurveyArticleCard {...article} />
+            ))
+          }
+        </div>
       </div>
     </section>
 
@@ -138,27 +146,6 @@ const webPageSchema: StructuredData = {
                   ))}
                 </ul>
               </article>
-            ))
-          }
-        </div>
-      </div>
-    </section>
-
-    <section
-      class="survey-tips-section survey-tips-latest-section"
-      aria-labelledby="latest-survey-articles-heading"
-    >
-      <div class="site-container">
-        <div class="survey-tips-section-heading">
-          <p class="eyebrow">Recently published</p>
-          <h2 id="latest-survey-articles-heading">
-            Latest Yacht Survey Articles
-          </h2>
-        </div>
-        <div class="survey-article-grid">
-          {
-            page.latestArticles.map((article) => (
-              <SurveyArticleCard {...article} />
             ))
           }
         </div>

@@ -61,6 +61,16 @@ const getLinkTexts = (fragment) =>
       .trim(),
   );
 
+const visibleText = (html) =>
+  html
+    .replace(/<script\b[\s\S]*?<\/script>/giu, ' ')
+    .replace(/<style\b[\s\S]*?<\/style>/giu, ' ')
+    .replace(/<[^>]+>/gu, ' ')
+    .replace(/&(?:amp|#38);/gu, '&')
+    .replace(/&(?:nbsp|#160);/gu, ' ')
+    .replace(/\s+/gu, ' ')
+    .trim();
+
 const assertSameValues = (actual, expected, message) => {
   assert(
     actual.length === expected.length &&
@@ -307,6 +317,23 @@ const spanishSurveyTipsPages = [
       '/images/yacht-survey-tips/check-yacht-steering-before-you-trust-it.png',
     width: 1092,
     height: 1440,
+  },
+  {
+    en: '/yacht-survey-tips/yacht-electrical-corrosion',
+    es: '/es/yacht-survey-tips/yacht-electrical-corrosion',
+    ru: '/ru/yacht-survey-tips/yacht-electrical-corrosion',
+    title: 'Corrosión eléctrica en yates | All Yacht Service',
+    description:
+      'Conozca las señales visibles de corrosión eléctrica en un yate, por qué importan y qué comprobaciones visuales pueden realizarse con seguridad.',
+    h1: 'Corrosión en los sistemas eléctricos del yate: señales para compradores y propietarios',
+    article: true,
+    datePublished: '2026-08-25',
+    dateModified: '2026-08-25',
+    timeRequired: 'PT5M',
+    image: '/images/yacht-survey-tips/electrical-corrosion-on-yachts.png',
+    width: 1122,
+    height: 1402,
+    authorLine: 'Por Aleksandrs Tolkacovs',
   },
   {
     en: '/yacht-survey-tips/check-yacht-seacocks',
@@ -752,6 +779,7 @@ if (existsSync(distDirectory)) {
           articleSchema.datePublished === page.datePublished &&
           articleSchema.dateModified === page.dateModified &&
           articleSchema.timeRequired === page.timeRequired &&
+          articleSchema.author?.name === 'Aleksandrs Tolkacovs' &&
           articleSchema.author?.['@id'] ===
             'https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs' &&
           articleSchema.publisher?.['@id'] ===
@@ -764,6 +792,12 @@ if (existsSync(distDirectory)) {
           spanish.includes(`height="${page.height}"`),
         `${page.es} does not preserve the complete intrinsic article graphic.`,
       );
+      if (page.authorLine) {
+        assert(
+          visibleText(spanish).includes(page.authorLine),
+          `${page.es} has incorrect visible author spacing.`,
+        );
+      }
     }
   }
 
@@ -1046,6 +1080,7 @@ if (existsSync(distDirectory)) {
     'src/data/es/yacht-survey-tips.ts',
     'src/data/es/yacht-survey-tips/check-yacht-steering.ts',
     'src/data/es/yacht-survey-tips/check-yacht-seacocks.ts',
+    'src/data/es/yacht-survey-tips/yacht-electrical-corrosion.ts',
     'src/data/es/yacht-survey-tips/deck-moisture-soft-spots.ts',
     'src/data/es/yacht-survey-tips/shiny-hull.ts',
     'src/data/es/yachts-for-sale.ts',
@@ -1077,6 +1112,7 @@ if (existsSync(distDirectory)) {
     'Enmasillado y alisado',
     'Relaminación',
     'Ósmosis',
+    'Barras colectoras',
   ]) {
     assert(
       terminologySources
@@ -1091,14 +1127,12 @@ if (existsSync(distDirectory)) {
   );
 
   const spanishHub = getBuiltPage('/es/yacht-survey-tips');
-  const featuredSection =
-    spanishHub.match(
-      /survey-tips-featured-section[\s\S]*?survey-tips-categories-section/u,
-    )?.[0] ?? '';
   const latestSection =
     spanishHub.match(
-      /survey-tips-latest-section[\s\S]*?survey-tips-trust-section/u,
+      /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const corrosionTitle =
+    'Corrosión en los sistemas eléctricos del yate: qué comprobar';
   const steeringTitle =
     'Compruebe el sistema de gobierno antes de confiar en él';
   const seacocksTitle = 'No ignore las válvulas de fondo';
@@ -1107,20 +1141,117 @@ if (existsSync(distDirectory)) {
   const deckTitle =
     'Humedad y zonas blandas en la cubierta: qué deben saber los compradores de yates';
   assert(
-    featuredSection.includes(deckTitle) &&
-      !featuredSection.includes(shinyTitle) &&
-      !featuredSection.includes(steeringTitle) &&
-      !featuredSection.includes(seacocksTitle),
-    'Deck Moisture must remain the Spanish Featured Guide.',
+    !spanishHub.includes('survey-tips-featured-section') &&
+      !visibleText(spanishHub).includes(
+        'Guía destacada de inspección de yates',
+      ),
+    'The Spanish Featured Guide must be removed.',
   );
   assert(
-    latestSection.indexOf(steeringTitle) >= 0 &&
+    spanishHub.indexOf('survey-tips-introduction') >= 0 &&
+      spanishHub.indexOf('survey-tips-introduction') <
+        spanishHub.indexOf('survey-tips-latest-section') &&
+      spanishHub.indexOf('survey-tips-latest-section') <
+        spanishHub.indexOf('survey-tips-categories-section'),
+    'The Spanish Latest Articles section must follow the introduction and precede Knowledge Areas.',
+  );
+  assert(
+    latestSection.indexOf(corrosionTitle) >= 0 &&
+      latestSection.indexOf(corrosionTitle) <
+        latestSection.indexOf(steeringTitle) &&
       latestSection.indexOf(steeringTitle) <
         latestSection.indexOf(seacocksTitle) &&
       latestSection.indexOf(seacocksTitle) <
         latestSection.indexOf(shinyTitle) &&
       latestSection.indexOf(shinyTitle) < latestSection.indexOf(deckTitle),
     'Spanish latest articles are not in newest-first order.',
+  );
+  assert(
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 5,
+    'The Spanish archive must contain all five published Survey Tips exactly once.',
+  );
+  const englishHub = getBuiltPage('/yacht-survey-tips');
+  const englishLatestSection =
+    englishHub.match(
+      /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
+    )?.[0] ?? '';
+  assert(
+    !englishHub.includes('survey-tips-featured-section') &&
+      !visibleText(englishHub).includes('Featured Yacht Survey Advice') &&
+      englishHub.indexOf('survey-tips-introduction') <
+        englishHub.indexOf('survey-tips-latest-section') &&
+      englishHub.indexOf('survey-tips-latest-section') <
+        englishHub.indexOf('survey-tips-categories-section') &&
+      englishLatestSection.indexOf(
+        'Electrical Corrosion on Yachts: What to Look For',
+      ) <
+        englishLatestSection.indexOf('Check the Steering Before You Trust It'),
+    'The English hub must remove Featured content and show the corrosion article first after the introduction.',
+  );
+  assert(
+    (englishLatestSection.match(/class="survey-article-card"/gu) ?? [])
+      .length === 5 &&
+      englishLatestSection.indexOf(
+        'Electrical Corrosion on Yachts: What to Look For',
+      ) <
+        englishLatestSection.indexOf(
+          'Check the Steering Before You Trust It',
+        ) &&
+      englishLatestSection.indexOf('Check the Steering Before You Trust It') <
+        englishLatestSection.indexOf('Do Not Ignore Seacocks') &&
+      englishLatestSection.indexOf('Do Not Ignore Seacocks') <
+        englishLatestSection.indexOf(
+          'Can You Trust a Shiny Hull? What Used-Yacht Buyers Should Check',
+        ) &&
+      englishLatestSection.indexOf(
+        'Can You Trust a Shiny Hull? What Used-Yacht Buyers Should Check',
+      ) <
+        englishLatestSection.indexOf(
+          'Deck Moisture and Soft Spots: What Yacht Buyers Should Know',
+        ),
+    'The English archive must contain all five articles in newest-first order.',
+  );
+  const englishCorrosionPath = '/yacht-survey-tips/yacht-electrical-corrosion';
+  const englishCorrosion = getBuiltPage(englishCorrosionPath);
+  const englishCorrosionSchemas = getSchemas(
+    englishCorrosion,
+    englishCorrosionPath,
+  );
+  const englishCorrosionArticleSchema = englishCorrosionSchemas.find(
+    (schema) => schema['@type'] === 'Article',
+  );
+  assert(
+    englishCorrosion.includes(
+      '<title>Electrical Corrosion on Yachts | All Yacht Service</title>',
+    ) &&
+      englishCorrosion.includes(
+        `<link rel="canonical" href="${absolute(englishCorrosionPath)}">`,
+      ) &&
+      englishCorrosion.includes(
+        `<meta property="og:url" content="${absolute(englishCorrosionPath)}">`,
+      ) &&
+      englishCorrosion.includes(
+        '<meta property="og:image" content="https://www.allyachtservice.com/images/yacht-survey-tips/electrical-corrosion-on-yachts.png">',
+      ) &&
+      englishCorrosion.includes('By Aleksandrs Tolkacovs'),
+    'The English corrosion article has incorrect metadata, image or author spacing.',
+  );
+  assert(
+    englishCorrosionArticleSchema?.['@id'] ===
+      `${absolute(englishCorrosionPath)}#article` &&
+      englishCorrosionArticleSchema.datePublished === '2026-08-25' &&
+      englishCorrosionArticleSchema.dateModified === '2026-08-25' &&
+      englishCorrosionArticleSchema.image ===
+        'https://www.allyachtservice.com/images/yacht-survey-tips/electrical-corrosion-on-yachts.png' &&
+      englishCorrosionArticleSchema.author?.name === 'Aleksandrs Tolkacovs' &&
+      englishCorrosionArticleSchema.author?.['@id'] ===
+        'https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs' &&
+      englishCorrosionArticleSchema.publisher?.['@id'] ===
+        'https://www.allyachtservice.com/#business' &&
+      englishCorrosionSchemas.some(
+        (schema) => schema['@type'] === 'BreadcrumbList',
+      ),
+    'The English corrosion article has incomplete or unstable structured data.',
   );
   const articleGraphicCss =
     read('src/styles/global.css').match(
@@ -1146,6 +1277,8 @@ if (existsSync(distDirectory)) {
       '6f19bb491e63b46e3b3e25bdd50ead416fcfede145f792644aedca6e4d7b2799',
     'public/images/yacht-survey-tips/check-yacht-seacocks-below-waterline.png':
       '243ed2c54a5b11406214480e7cf01a62765f5b855239462a3b736146d7643062',
+    'public/images/yacht-survey-tips/electrical-corrosion-on-yachts.png':
+      '0fb2ad0962ff4b359af0f00a7b3ec3e86035a8eb6ab36f99410da1f7bbd22396',
     'public/images/yacht-survey-tips/deck-moisture-soft-spots.png':
       '77c20ed2604f30518f9e56b2e122b24ddd15481261f1861d38504279ec006404',
     'public/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png':
@@ -1169,6 +1302,7 @@ if (existsSync(distDirectory)) {
     '/es',
     '/es/contact',
     ...translatedServiceRoutes,
+    ...spanishSurveyTipsPages.map(({ en }) => en),
     ...spanishSurveyTipsPages.map(({ es }) => es),
     ...spanishSurveyTipsPages.map(({ ru }) => ru),
     spanishYachtsForSalePage.es,

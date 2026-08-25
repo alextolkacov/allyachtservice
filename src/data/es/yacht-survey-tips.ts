@@ -6,6 +6,7 @@ import { spanishCheckYachtSeacocksArticle } from './yacht-survey-tips/check-yach
 import { spanishCheckYachtSteeringArticle } from './yacht-survey-tips/check-yacht-steering';
 import { spanishDeckMoistureSoftSpotsArticle } from './yacht-survey-tips/deck-moisture-soft-spots';
 import { spanishShinyHullArticle } from './yacht-survey-tips/shiny-hull';
+import { spanishYachtElectricalCorrosionArticle } from './yacht-survey-tips/yacht-electrical-corrosion';
 
 const surveyInspectionImage = {
   src: '/images/yacht-survey-tips-background.jpg',
@@ -38,7 +39,6 @@ export const spanishYachtSurveyTipsPage = {
     label: 'Ver servicios de inspección',
     href: '/es/pre-purchase-survey',
   },
-  featuredArticle: spanishDeckMoistureSoftSpotsArticle.card,
   categories: [
     {
       title: 'Estado estructural',
@@ -91,6 +91,7 @@ export const spanishYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    spanishYachtElectricalCorrosionArticle.card,
     spanishCheckYachtSteeringArticle.card,
     spanishCheckYachtSeacocksArticle.card,
     spanishShinyHullArticle.card,

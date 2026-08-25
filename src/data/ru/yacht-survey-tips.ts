@@ -6,6 +6,7 @@ import { russianCheckYachtSeacocksArticle } from './yacht-survey-tips/check-yach
 import { russianCheckYachtSteeringArticle } from './yacht-survey-tips/check-yacht-steering';
 import { russianDeckMoistureSoftSpotsArticle } from './yacht-survey-tips/deck-moisture-soft-spots';
 import { russianShinyHullArticle } from './yacht-survey-tips/shiny-hull';
+import { russianYachtElectricalCorrosionArticle } from './yacht-survey-tips/yacht-electrical-corrosion';
 
 const surveyInspectionImage = {
   src: '/images/yacht-survey-tips-background.jpg',
@@ -38,7 +39,6 @@ export const russianYachtSurveyTipsPage = {
     label: 'Услуги сюрвейерского осмотра',
     href: '/ru/pre-purchase-survey',
   },
-  featuredArticle: russianDeckMoistureSoftSpotsArticle.card,
   categories: [
     {
       title: 'Состояние конструкций',
@@ -91,6 +91,7 @@ export const russianYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    russianYachtElectricalCorrosionArticle.card,
     russianCheckYachtSteeringArticle.card,
     russianCheckYachtSeacocksArticle.card,
     russianShinyHullArticle.card,

@@ -101,6 +101,9 @@ const russianSteeringArticleSource = read(
 const russianSeacocksArticleSource = read(
   'src/data/ru/yacht-survey-tips/check-yacht-seacocks.ts',
 );
+const russianElectricalCorrosionArticleSource = read(
+  'src/data/ru/yacht-survey-tips/yacht-electrical-corrosion.ts',
+);
 const russianYachtsForSaleSource = read('src/data/ru/yachts-for-sale.ts');
 const russianYachtsForSalePageSource = read(
   'src/pages/ru/yachts-for-sale.astro',
@@ -113,6 +116,14 @@ const russianLegalPageSources = {
 };
 const surveyArticleCardSource = read('src/components/SurveyArticleCard.astro');
 const globalStyles = read('src/styles/global.css');
+
+assert(
+  !surveyArticleCardSource.includes('featured') &&
+    !globalStyles.includes('.survey-article-featured') &&
+    !globalStyles.includes('.survey-tips-featured-section') &&
+    !russianSurveyTipsSource.includes('featuredArticle'),
+  'Unused Featured Guide component, CSS or Russian hub data remains.',
+);
 
 assert(
   languageSource.includes(
@@ -262,6 +273,26 @@ const translatedSurveyTipsRoutes = [
       '/images/yacht-survey-tips/check-yacht-steering-before-you-trust-it.png',
     width: 1092,
     height: 1440,
+  },
+  {
+    en: '/yacht-survey-tips/yacht-electrical-corrosion',
+    es: '/es/yacht-survey-tips/yacht-electrical-corrosion',
+    ru: '/ru/yacht-survey-tips/yacht-electrical-corrosion',
+    title: 'Коррозия электрооборудования яхты | All Yacht Service',
+    description:
+      'Узнайте о видимых признаках коррозии электрооборудования яхты, их значении и безопасной визуальной проверке без разборки оборудования.',
+    heading:
+      'Коррозия в электрооборудовании яхты: признаки для покупателя и владельца',
+    article: true,
+    datePublished: '2026-08-25',
+    dateModified: '2026-08-25',
+    timeRequired: 'PT5M',
+    readingTime: '5 минут чтения',
+    articleSection: 'Электрооборудование · Коррозия и попадание воды',
+    image: '/images/yacht-survey-tips/electrical-corrosion-on-yachts.png',
+    width: 1122,
+    height: 1402,
+    authorLine: 'Материал подготовил Aleksandrs Tolkacovs',
   },
   {
     en: '/yacht-survey-tips/check-yacht-seacocks',
@@ -554,8 +585,8 @@ assert(
     footerSource.includes(
       "yachtSurveyTips: 'Советы по сюрвейерскому осмотру яхт'",
     ) &&
-    surveyArticleCardSource.includes("'Читать материал'") &&
     surveyArticleCardSource.includes("'Читать статью'") &&
+    !surveyArticleCardSource.includes("'Читать материал'") &&
     !footerSource.includes(
       "yachtSurveyTips: 'Советы по сюрвейерскому осмотру яхт — на английском'",
     ),
@@ -1215,6 +1246,7 @@ if (existsSync(distDirectory)) {
           articleSchema.dateModified === route.dateModified &&
           articleSchema.timeRequired === route.timeRequired &&
           articleSchema.articleSection === route.articleSection &&
+          articleSchema.author?.name === 'Aleksandrs Tolkacovs' &&
           articleSchema.author?.['@id'] ===
             'https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs' &&
           articleSchema.publisher?.['@id'] ===
@@ -1228,6 +1260,12 @@ if (existsSync(distDirectory)) {
           html.includes(`<dd>${route.readingTime}</dd>`),
         `${route.ru} does not preserve article image dimensions or reading time.`,
       );
+      if (route.authorLine) {
+        assert(
+          visibleText(html).includes(route.authorLine),
+          `${route.ru} has incorrect visible author spacing.`,
+        );
+      }
     }
     for (const unintended of [
       'Featured Guide',
@@ -1393,14 +1431,11 @@ if (existsSync(distDirectory)) {
   }
 
   const russianSurveyTipsHub = getBuiltPage('/ru/yacht-survey-tips');
-  const featuredSection =
-    russianSurveyTipsHub.match(
-      /survey-tips-featured-section[\s\S]*?survey-tips-categories-section/u,
-    )?.[0] ?? '';
   const latestSection =
     russianSurveyTipsHub.match(
-      /survey-tips-latest-section[\s\S]*?survey-tips-trust-section/u,
+      /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const corrosionTitle = 'Коррозия в электрооборудовании яхты: что проверить';
   const deckTitle =
     'Влага и мягкие участки палубы: что нужно знать покупателю яхты';
   const shinyTitle =
@@ -1408,20 +1443,34 @@ if (existsSync(distDirectory)) {
   const steeringTitle = 'Проверьте рулевое управление, прежде чем ему доверять';
   const seacocksTitle = 'Не игнорируйте кингстоны яхты';
   assert(
-    featuredSection.includes(deckTitle) &&
-      !featuredSection.includes(shinyTitle) &&
-      !featuredSection.includes(steeringTitle) &&
-      !featuredSection.includes(seacocksTitle),
-    'Deck Moisture must remain the Russian Featured Guide.',
+    !russianSurveyTipsHub.includes('survey-tips-featured-section') &&
+      !visibleText(russianSurveyTipsHub).includes(
+        'Главный материал о сюрвейерском осмотре',
+      ),
+    'The Russian Featured Guide must be removed.',
   );
   assert(
-    latestSection.indexOf(steeringTitle) >= 0 &&
+    russianSurveyTipsHub.indexOf('survey-tips-introduction') >= 0 &&
+      russianSurveyTipsHub.indexOf('survey-tips-introduction') <
+        russianSurveyTipsHub.indexOf('survey-tips-latest-section') &&
+      russianSurveyTipsHub.indexOf('survey-tips-latest-section') <
+        russianSurveyTipsHub.indexOf('survey-tips-categories-section'),
+    'The Russian Latest Articles section must follow the introduction and precede Knowledge Areas.',
+  );
+  assert(
+    latestSection.indexOf(corrosionTitle) >= 0 &&
+      latestSection.indexOf(corrosionTitle) <
+        latestSection.indexOf(steeringTitle) &&
       latestSection.indexOf(steeringTitle) <
         latestSection.indexOf(seacocksTitle) &&
       latestSection.indexOf(seacocksTitle) <
         latestSection.indexOf(shinyTitle) &&
       latestSection.indexOf(shinyTitle) < latestSection.indexOf(deckTitle),
     'Russian latest articles are not in newest-first order.',
+  );
+  assert(
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 5,
+    'The Russian archive must contain all five published Survey Tips exactly once.',
   );
   assert(
     russianSurveyTipsHub.includes(
@@ -1457,6 +1506,8 @@ if (existsSync(distDirectory)) {
       '6f19bb491e63b46e3b3e25bdd50ead416fcfede145f792644aedca6e4d7b2799',
     'public/images/yacht-survey-tips/check-yacht-seacocks-below-waterline.png':
       '243ed2c54a5b11406214480e7cf01a62765f5b855239462a3b736146d7643062',
+    'public/images/yacht-survey-tips/electrical-corrosion-on-yachts.png':
+      '0fb2ad0962ff4b359af0f00a7b3ec3e86035a8eb6ab36f99410da1f7bbd22396',
     'public/images/yacht-survey-tips/deck-moisture-soft-spots.png':
       '77c20ed2604f30518f9e56b2e122b24ddd15481261f1861d38504279ec006404',
     'public/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png':
@@ -1505,8 +1556,11 @@ if (existsSync(distDirectory)) {
       russianSeacocksArticleSource.includes(
         "src: '/images/yacht-survey-tips/check-yacht-seacocks-below-waterline.png'",
       ) &&
+      russianElectricalCorrosionArticleSource.includes(
+        "src: '/images/yacht-survey-tips/electrical-corrosion-on-yachts.png'",
+      ) &&
       !/\/images\/yacht-survey-tips\/ru\//u.test(
-        `${russianSurveyTipsSource}\n${russianDeckArticleSource}\n${russianShinyArticleSource}\n${russianSteeringArticleSource}\n${russianSeacocksArticleSource}`,
+        `${russianSurveyTipsSource}\n${russianDeckArticleSource}\n${russianShinyArticleSource}\n${russianSteeringArticleSource}\n${russianSeacocksArticleSource}\n${russianElectricalCorrosionArticleSource}`,
       ),
     'Russian pages do not reuse the protected English article graphics.',
   );
@@ -1643,9 +1697,9 @@ if (existsSync(distDirectory)) {
     );
   }
   for (const [locale, expectedCount] of [
-    ['en', 20],
-    ['es', 20],
-    ['ru', 20],
+    ['en', 21],
+    ['es', 21],
+    ['ru', 21],
   ]) {
     const actualCount = sitemapPathnames.filter((pathname) => {
       if (locale === 'en') {

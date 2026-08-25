@@ -104,21 +104,23 @@ const webPageSchema: StructuredData = {
     </section>
 
     <section
-      class="survey-tips-section survey-tips-featured-section"
-      aria-labelledby="featured-guide-heading"
+      class="survey-tips-section survey-tips-latest-section"
+      aria-labelledby="latest-survey-articles-heading"
     >
       <div class="site-container">
         <div class="survey-tips-section-heading">
-          <p class="eyebrow">Guía destacada</p>
-          <h2 id="featured-guide-heading">
-            Guía destacada de inspección de yates
+          <p class="eyebrow">Publicados recientemente</p>
+          <h2 id="latest-survey-articles-heading">
+            Últimos artículos sobre inspección de yates
           </h2>
         </div>
-        <SurveyArticleCard
-          {...page.featuredArticle}
-          featured={true}
-          locale="es"
-        />
+        <div class="survey-article-grid">
+          {
+            page.latestArticles.map((article) => (
+              <SurveyArticleCard {...article} locale="es" />
+            ))
+          }
+        </div>
       </div>
     </section>
 
@@ -153,27 +155,6 @@ const webPageSchema: StructuredData = {
                   ))}
                 </ul>
               </article>
-            ))
-          }
-        </div>
-      </div>
-    </section>
-
-    <section
-      class="survey-tips-section survey-tips-latest-section"
-      aria-labelledby="latest-survey-articles-heading"
-    >
-      <div class="site-container">
-        <div class="survey-tips-section-heading">
-          <p class="eyebrow">Publicados recientemente</p>
-          <h2 id="latest-survey-articles-heading">
-            Últimos artículos sobre inspección de yates
-          </h2>
-        </div>
-        <div class="survey-article-grid">
-          {
-            page.latestArticles.map((article) => (
-              <SurveyArticleCard {...article} locale="es" />
             ))
           }
         </div>

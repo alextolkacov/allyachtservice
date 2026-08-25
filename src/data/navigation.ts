@@ -13,6 +13,7 @@ export type RouteId =
   | 'yachtDelivery'
   | 'yachtsForSale'
   | 'yachtSurveyTips'
+  | 'yachtElectricalCorrosion'
   | 'checkYachtSteering'
   | 'checkYachtSeacocks'
   | 'deckMoistureSoftSpots'
@@ -90,6 +91,11 @@ export const translatedRoutes: Record<
     en: '/yacht-survey-tips',
     es: '/es/yacht-survey-tips',
     ru: '/ru/yacht-survey-tips',
+  },
+  yachtElectricalCorrosion: {
+    en: '/yacht-survey-tips/yacht-electrical-corrosion',
+    es: '/es/yacht-survey-tips/yacht-electrical-corrosion',
+    ru: '/ru/yacht-survey-tips/yacht-electrical-corrosion',
   },
   checkYachtSteering: {
     en: '/yacht-survey-tips/check-yacht-steering',
