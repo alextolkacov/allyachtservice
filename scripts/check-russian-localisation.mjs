@@ -104,6 +104,9 @@ const russianSeacocksArticleSource = read(
 const russianElectricalCorrosionArticleSource = read(
   'src/data/ru/yacht-survey-tips/yacht-electrical-corrosion.ts',
 );
+const russianStandingRiggingArticleSource = read(
+  'src/data/ru/yacht-survey-tips/standing-rigging-warning-signs.ts',
+);
 const russianYachtsForSaleSource = read('src/data/ru/yachts-for-sale.ts');
 const russianYachtsForSalePageSource = read(
   'src/pages/ru/yachts-for-sale.astro',
@@ -251,6 +254,26 @@ const translatedSurveyTipsRoutes = [
       'Профессиональные советы для покупателей и владельцев яхт о сюрвейерских осмотрах, типичных дефектах, техническом состоянии и обслуживании.',
     heading: 'Советы по сюрвейерскому осмотру яхт',
     article: false,
+  },
+  {
+    en: '/yacht-survey-tips/standing-rigging-warning-signs',
+    es: '/es/yacht-survey-tips/standing-rigging-warning-signs',
+    ru: '/ru/yacht-survey-tips/standing-rigging-warning-signs',
+    title: 'Признаки проблем стоячего такелажа | All Yacht Service',
+    description:
+      'Узнайте, какие признаки проблем стоячего такелажа можно проверить визуально и почему важны возраст, история и осмотр специалистом.',
+    heading:
+      'Не судите о стоячем такелаже по блеску: что проверить покупателю яхты',
+    article: true,
+    datePublished: '2026-09-01',
+    dateModified: '2026-09-01',
+    timeRequired: 'PT5M',
+    readingTime: '5 минут чтения',
+    articleSection: 'Предпокупочная проверка · Стоячий такелаж и паруса',
+    image: '/images/yacht-survey-tips/standing-rigging-warning-signs.png',
+    width: 1092,
+    height: 1440,
+    authorLine: 'Материал подготовил Aleksandrs Tolkacovs',
   },
   {
     en: '/yacht-survey-tips/check-yacht-steering',
@@ -1435,6 +1458,7 @@ if (existsSync(distDirectory)) {
     russianSurveyTipsHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const riggingTitle = 'Не судите о стоячем такелаже по блеску';
   const corrosionTitle = 'Коррозия в электрооборудовании яхты: что проверить';
   const deckTitle =
     'Влага и мягкие участки палубы: что нужно знать покупателю яхты';
@@ -1458,7 +1482,9 @@ if (existsSync(distDirectory)) {
     'The Russian Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(corrosionTitle) >= 0 &&
+    latestSection.indexOf(riggingTitle) >= 0 &&
+      latestSection.indexOf(riggingTitle) <
+        latestSection.indexOf(corrosionTitle) &&
       latestSection.indexOf(corrosionTitle) <
         latestSection.indexOf(steeringTitle) &&
       latestSection.indexOf(steeringTitle) <
@@ -1469,8 +1495,8 @@ if (existsSync(distDirectory)) {
     'Russian latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 5,
-    'The Russian archive must contain all five published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 6,
+    'The Russian archive must contain all six published Survey Tips exactly once.',
   );
   assert(
     russianSurveyTipsHub.includes(
@@ -1508,6 +1534,8 @@ if (existsSync(distDirectory)) {
       '243ed2c54a5b11406214480e7cf01a62765f5b855239462a3b736146d7643062',
     'public/images/yacht-survey-tips/electrical-corrosion-on-yachts.png':
       '0fb2ad0962ff4b359af0f00a7b3ec3e86035a8eb6ab36f99410da1f7bbd22396',
+    'public/images/yacht-survey-tips/standing-rigging-warning-signs.png':
+      '59ec4e30a3631944ffd41d6ab755e8c7af78b0f35c70ea7a84650706e869c596',
     'public/images/yacht-survey-tips/deck-moisture-soft-spots.png':
       '77c20ed2604f30518f9e56b2e122b24ddd15481261f1861d38504279ec006404',
     'public/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png':
@@ -1559,8 +1587,11 @@ if (existsSync(distDirectory)) {
       russianElectricalCorrosionArticleSource.includes(
         "src: '/images/yacht-survey-tips/electrical-corrosion-on-yachts.png'",
       ) &&
+      russianStandingRiggingArticleSource.includes(
+        "src: '/images/yacht-survey-tips/standing-rigging-warning-signs.png'",
+      ) &&
       !/\/images\/yacht-survey-tips\/ru\//u.test(
-        `${russianSurveyTipsSource}\n${russianDeckArticleSource}\n${russianShinyArticleSource}\n${russianSteeringArticleSource}\n${russianSeacocksArticleSource}\n${russianElectricalCorrosionArticleSource}`,
+        `${russianSurveyTipsSource}\n${russianDeckArticleSource}\n${russianShinyArticleSource}\n${russianSteeringArticleSource}\n${russianSeacocksArticleSource}\n${russianElectricalCorrosionArticleSource}\n${russianStandingRiggingArticleSource}`,
       ),
     'Russian pages do not reuse the protected English article graphics.',
   );
@@ -1697,9 +1728,9 @@ if (existsSync(distDirectory)) {
     );
   }
   for (const [locale, expectedCount] of [
-    ['en', 21],
-    ['es', 21],
-    ['ru', 21],
+    ['en', 22],
+    ['es', 22],
+    ['ru', 22],
   ]) {
     const actualCount = sitemapPathnames.filter((pathname) => {
       if (locale === 'en') {

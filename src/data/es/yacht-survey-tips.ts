@@ -6,6 +6,7 @@ import { spanishCheckYachtSeacocksArticle } from './yacht-survey-tips/check-yach
 import { spanishCheckYachtSteeringArticle } from './yacht-survey-tips/check-yacht-steering';
 import { spanishDeckMoistureSoftSpotsArticle } from './yacht-survey-tips/deck-moisture-soft-spots';
 import { spanishShinyHullArticle } from './yacht-survey-tips/shiny-hull';
+import { spanishStandingRiggingWarningSignsArticle } from './yacht-survey-tips/standing-rigging-warning-signs';
 import { spanishYachtElectricalCorrosionArticle } from './yacht-survey-tips/yacht-electrical-corrosion';
 
 const surveyInspectionImage = {
@@ -91,6 +92,7 @@ export const spanishYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    spanishStandingRiggingWarningSignsArticle.card,
     spanishYachtElectricalCorrosionArticle.card,
     spanishCheckYachtSteeringArticle.card,
     spanishCheckYachtSeacocksArticle.card,

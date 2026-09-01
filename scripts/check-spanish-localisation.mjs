@@ -301,6 +301,23 @@ const spanishSurveyTipsPages = [
     article: false,
   },
   {
+    en: '/yacht-survey-tips/standing-rigging-warning-signs',
+    es: '/es/yacht-survey-tips/standing-rigging-warning-signs',
+    ru: '/ru/yacht-survey-tips/standing-rigging-warning-signs',
+    title: 'Señales de alerta en el aparejo fijo | All Yacht Service',
+    description:
+      'Conozca las señales visibles del aparejo fijo que un comprador puede comprobar y por qué importan la antigüedad, el historial y una inspección especializada.',
+    h1: 'No juzgue el aparejo fijo por su brillo: qué debe comprobar un comprador',
+    article: true,
+    datePublished: '2026-09-01',
+    dateModified: '2026-09-01',
+    timeRequired: 'PT5M',
+    image: '/images/yacht-survey-tips/standing-rigging-warning-signs.png',
+    width: 1092,
+    height: 1440,
+    authorLine: 'Por Aleksandrs Tolkacovs',
+  },
+  {
     en: '/yacht-survey-tips/check-yacht-steering',
     es: '/es/yacht-survey-tips/check-yacht-steering',
     ru: '/ru/yacht-survey-tips/check-yacht-steering',
@@ -1078,6 +1095,7 @@ if (existsSync(distDirectory)) {
     'src/data/es/valuation-damage-survey.ts',
     'src/data/es/about-us.ts',
     'src/data/es/yacht-survey-tips.ts',
+    'src/data/es/yacht-survey-tips/standing-rigging-warning-signs.ts',
     'src/data/es/yacht-survey-tips/check-yacht-steering.ts',
     'src/data/es/yacht-survey-tips/check-yacht-seacocks.ts',
     'src/data/es/yacht-survey-tips/yacht-electrical-corrosion.ts',
@@ -1131,6 +1149,7 @@ if (existsSync(distDirectory)) {
     spanishHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const riggingTitle = 'No juzgue el aparejo fijo por su brillo';
   const corrosionTitle =
     'Corrosión en los sistemas eléctricos del yate: qué comprobar';
   const steeringTitle =
@@ -1156,7 +1175,9 @@ if (existsSync(distDirectory)) {
     'The Spanish Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(corrosionTitle) >= 0 &&
+    latestSection.indexOf(riggingTitle) >= 0 &&
+      latestSection.indexOf(riggingTitle) <
+        latestSection.indexOf(corrosionTitle) &&
       latestSection.indexOf(corrosionTitle) <
         latestSection.indexOf(steeringTitle) &&
       latestSection.indexOf(steeringTitle) <
@@ -1167,8 +1188,8 @@ if (existsSync(distDirectory)) {
     'Spanish latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 5,
-    'The Spanish archive must contain all five published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 6,
+    'The Spanish archive must contain all six published Survey Tips exactly once.',
   );
   const englishHub = getBuiltPage('/yacht-survey-tips');
   const englishLatestSection =
@@ -1183,14 +1204,22 @@ if (existsSync(distDirectory)) {
       englishHub.indexOf('survey-tips-latest-section') <
         englishHub.indexOf('survey-tips-categories-section') &&
       englishLatestSection.indexOf(
-        'Electrical Corrosion on Yachts: What to Look For',
+        'Don’t Judge Standing Rigging by Its Shine',
       ) <
-        englishLatestSection.indexOf('Check the Steering Before You Trust It'),
-    'The English hub must remove Featured content and show the corrosion article first after the introduction.',
+        englishLatestSection.indexOf(
+          'Electrical Corrosion on Yachts: What to Look For',
+        ),
+    'The English hub must remove Featured content and show the standing-rigging article first after the introduction.',
   );
   assert(
     (englishLatestSection.match(/class="survey-article-card"/gu) ?? [])
-      .length === 5 &&
+      .length === 6 &&
+      englishLatestSection.indexOf(
+        'Don’t Judge Standing Rigging by Its Shine',
+      ) <
+        englishLatestSection.indexOf(
+          'Electrical Corrosion on Yachts: What to Look For',
+        ) &&
       englishLatestSection.indexOf(
         'Electrical Corrosion on Yachts: What to Look For',
       ) <
@@ -1209,7 +1238,47 @@ if (existsSync(distDirectory)) {
         englishLatestSection.indexOf(
           'Deck Moisture and Soft Spots: What Yacht Buyers Should Know',
         ),
-    'The English archive must contain all five articles in newest-first order.',
+    'The English archive must contain all six articles in newest-first order.',
+  );
+  const englishRiggingPath =
+    '/yacht-survey-tips/standing-rigging-warning-signs';
+  const englishRigging = getBuiltPage(englishRiggingPath);
+  const englishRiggingSchemas = getSchemas(englishRigging, englishRiggingPath);
+  const englishRiggingArticleSchema = englishRiggingSchemas.find(
+    (schema) => schema['@type'] === 'Article',
+  );
+  assert(
+    englishRigging.includes(
+      '<title>Standing Rigging Warning Signs for Buyers | All Yacht Service</title>',
+    ) &&
+      englishRigging.includes(
+        `<link rel="canonical" href="${absolute(englishRiggingPath)}">`,
+      ) &&
+      englishRigging.includes(
+        `<meta property="og:url" content="${absolute(englishRiggingPath)}">`,
+      ) &&
+      englishRigging.includes(
+        '<meta property="og:image" content="https://www.allyachtservice.com/images/yacht-survey-tips/standing-rigging-warning-signs.png">',
+      ) &&
+      visibleText(englishRigging).includes('By Aleksandrs Tolkacovs'),
+    'The English standing-rigging article has incorrect metadata, image or author spacing.',
+  );
+  assert(
+    englishRiggingArticleSchema?.['@id'] ===
+      `${absolute(englishRiggingPath)}#article` &&
+      englishRiggingArticleSchema.datePublished === '2026-09-01' &&
+      englishRiggingArticleSchema.dateModified === '2026-09-01' &&
+      englishRiggingArticleSchema.image ===
+        'https://www.allyachtservice.com/images/yacht-survey-tips/standing-rigging-warning-signs.png' &&
+      englishRiggingArticleSchema.author?.name === 'Aleksandrs Tolkacovs' &&
+      englishRiggingArticleSchema.author?.['@id'] ===
+        'https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs' &&
+      englishRiggingArticleSchema.publisher?.['@id'] ===
+        'https://www.allyachtservice.com/#business' &&
+      englishRiggingSchemas.some(
+        (schema) => schema['@type'] === 'BreadcrumbList',
+      ),
+    'The English standing-rigging article has incomplete or unstable structured data.',
   );
   const englishCorrosionPath = '/yacht-survey-tips/yacht-electrical-corrosion';
   const englishCorrosion = getBuiltPage(englishCorrosionPath);
@@ -1279,6 +1348,8 @@ if (existsSync(distDirectory)) {
       '243ed2c54a5b11406214480e7cf01a62765f5b855239462a3b736146d7643062',
     'public/images/yacht-survey-tips/electrical-corrosion-on-yachts.png':
       '0fb2ad0962ff4b359af0f00a7b3ec3e86035a8eb6ab36f99410da1f7bbd22396',
+    'public/images/yacht-survey-tips/standing-rigging-warning-signs.png':
+      '59ec4e30a3631944ffd41d6ab755e8c7af78b0f35c70ea7a84650706e869c596',
     'public/images/yacht-survey-tips/deck-moisture-soft-spots.png':
       '77c20ed2604f30518f9e56b2e122b24ddd15481261f1861d38504279ec006404',
     'public/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png':
