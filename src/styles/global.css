@@ -1,4 +1,8 @@
 @import 'tailwindcss';
+@source not '../../docs';
+@source not '../../.agents';
+@source not '../../*.md';
+@source inline('grayscale');
 
 /*noinspection CssInvalidAtRule*/
 @theme {
