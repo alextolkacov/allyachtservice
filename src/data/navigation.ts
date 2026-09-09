@@ -13,6 +13,7 @@ export type RouteId =
   | 'yachtDelivery'
   | 'yachtsForSale'
   | 'yachtSurveyTips'
+  | 'checkYachtBilge'
   | 'standingRiggingWarningSigns'
   | 'yachtElectricalCorrosion'
   | 'checkYachtSteering'
@@ -92,6 +93,11 @@ export const translatedRoutes: Record<
     en: '/yacht-survey-tips',
     es: '/es/yacht-survey-tips',
     ru: '/ru/yacht-survey-tips',
+  },
+  checkYachtBilge: {
+    en: '/yacht-survey-tips/check-yacht-bilge',
+    es: '/es/yacht-survey-tips/check-yacht-bilge',
+    ru: '/ru/yacht-survey-tips/check-yacht-bilge',
   },
   standingRiggingWarningSigns: {
     en: '/yacht-survey-tips/standing-rigging-warning-signs',

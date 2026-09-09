@@ -301,6 +301,23 @@ const spanishSurveyTipsPages = [
     article: false,
   },
   {
+    en: '/yacht-survey-tips/check-yacht-bilge',
+    es: '/es/yacht-survey-tips/check-yacht-bilge',
+    ru: '/ru/yacht-survey-tips/check-yacht-bilge',
+    title: 'Qué revisar en la sentina de un yate usado | All Yacht Service',
+    description:
+      'Sepa qué pueden revelar el agua estancada, los residuos, la corrosión y el estado de la bomba de achique al revisar un yate usado.',
+    h1: 'Revise la sentina antes de confiar en el barco: qué debe comprobar un comprador de yate',
+    article: true,
+    datePublished: '2026-09-08',
+    dateModified: '2026-09-08',
+    timeRequired: 'PT5M',
+    image: '/images/yacht-survey-tips/check-yacht-bilge.png',
+    width: 1122,
+    height: 1402,
+    authorLine: 'Por Aleksandrs Tolkacovs',
+  },
+  {
     en: '/yacht-survey-tips/standing-rigging-warning-signs',
     es: '/es/yacht-survey-tips/standing-rigging-warning-signs',
     ru: '/ru/yacht-survey-tips/standing-rigging-warning-signs',
@@ -988,8 +1005,11 @@ if (existsSync(distDirectory)) {
   );
   assert(
     getBuiltPage('/es/yacht-survey-tips').includes(
-      'href="/es/yacht-survey-tips/check-yacht-steering"',
+      'href="/es/yacht-survey-tips/check-yacht-bilge"',
     ) &&
+      getBuiltPage('/es/yacht-survey-tips').includes(
+        'href="/es/yacht-survey-tips/check-yacht-steering"',
+      ) &&
       getBuiltPage('/es/yacht-survey-tips').includes(
         'href="/es/yacht-survey-tips/check-yacht-seacocks"',
       ) &&
@@ -1095,6 +1115,7 @@ if (existsSync(distDirectory)) {
     'src/data/es/valuation-damage-survey.ts',
     'src/data/es/about-us.ts',
     'src/data/es/yacht-survey-tips.ts',
+    'src/data/es/yacht-survey-tips/check-yacht-bilge.ts',
     'src/data/es/yacht-survey-tips/standing-rigging-warning-signs.ts',
     'src/data/es/yacht-survey-tips/check-yacht-steering.ts',
     'src/data/es/yacht-survey-tips/check-yacht-seacocks.ts',
@@ -1149,6 +1170,7 @@ if (existsSync(distDirectory)) {
     spanishHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const bilgeTitle = 'Revise la sentina antes de confiar en el barco';
   const riggingTitle = 'No juzgue el aparejo fijo por su brillo';
   const corrosionTitle =
     'Corrosión en los sistemas eléctricos del yate: qué comprobar';
@@ -1175,7 +1197,8 @@ if (existsSync(distDirectory)) {
     'The Spanish Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(riggingTitle) >= 0 &&
+    latestSection.indexOf(bilgeTitle) >= 0 &&
+      latestSection.indexOf(bilgeTitle) < latestSection.indexOf(riggingTitle) &&
       latestSection.indexOf(riggingTitle) <
         latestSection.indexOf(corrosionTitle) &&
       latestSection.indexOf(corrosionTitle) <
@@ -1188,8 +1211,8 @@ if (existsSync(distDirectory)) {
     'Spanish latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 6,
-    'The Spanish archive must contain all six published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 7,
+    'The Spanish archive must contain all seven published Survey Tips exactly once.',
   );
   const englishHub = getBuiltPage('/yacht-survey-tips');
   const englishLatestSection =
@@ -1204,16 +1227,28 @@ if (existsSync(distDirectory)) {
       englishHub.indexOf('survey-tips-latest-section') <
         englishHub.indexOf('survey-tips-categories-section') &&
       englishLatestSection.indexOf(
+        'Check the Bilge Before You Trust the Boat',
+      ) <
+        englishLatestSection.indexOf(
+          'Don’t Judge Standing Rigging by Its Shine',
+        ) &&
+      englishLatestSection.indexOf(
         'Don’t Judge Standing Rigging by Its Shine',
       ) <
         englishLatestSection.indexOf(
           'Electrical Corrosion on Yachts: What to Look For',
         ),
-    'The English hub must remove Featured content and show the standing-rigging article first after the introduction.',
+    'The English hub must remove Featured content and show the bilge article first after the introduction.',
   );
   assert(
     (englishLatestSection.match(/class="survey-article-card"/gu) ?? [])
-      .length === 6 &&
+      .length === 7 &&
+      englishLatestSection.indexOf(
+        'Check the Bilge Before You Trust the Boat',
+      ) <
+        englishLatestSection.indexOf(
+          'Don’t Judge Standing Rigging by Its Shine',
+        ) &&
       englishLatestSection.indexOf(
         'Don’t Judge Standing Rigging by Its Shine',
       ) <
@@ -1238,7 +1273,46 @@ if (existsSync(distDirectory)) {
         englishLatestSection.indexOf(
           'Deck Moisture and Soft Spots: What Yacht Buyers Should Know',
         ),
-    'The English archive must contain all six articles in newest-first order.',
+    'The English archive must contain all seven articles in newest-first order.',
+  );
+  const englishBilgePath = '/yacht-survey-tips/check-yacht-bilge';
+  const englishBilge = getBuiltPage(englishBilgePath);
+  const englishBilgeSchemas = getSchemas(englishBilge, englishBilgePath);
+  const englishBilgeArticleSchema = englishBilgeSchemas.find(
+    (schema) => schema['@type'] === 'Article',
+  );
+  assert(
+    englishBilge.includes(
+      '<title>Yacht Bilge Checks for Used-Boat Buyers | All Yacht Service</title>',
+    ) &&
+      englishBilge.includes(
+        `<link rel="canonical" href="${absolute(englishBilgePath)}">`,
+      ) &&
+      englishBilge.includes(
+        `<meta property="og:url" content="${absolute(englishBilgePath)}">`,
+      ) &&
+      englishBilge.includes(
+        '<meta property="og:image" content="https://www.allyachtservice.com/images/yacht-survey-tips/check-yacht-bilge.png">',
+      ) &&
+      visibleText(englishBilge).includes('By Aleksandrs Tolkacovs'),
+    'The English bilge article has incorrect metadata, image or author spacing.',
+  );
+  assert(
+    englishBilgeArticleSchema?.['@id'] ===
+      `${absolute(englishBilgePath)}#article` &&
+      englishBilgeArticleSchema.datePublished === '2026-09-08' &&
+      englishBilgeArticleSchema.dateModified === '2026-09-08' &&
+      englishBilgeArticleSchema.image ===
+        'https://www.allyachtservice.com/images/yacht-survey-tips/check-yacht-bilge.png' &&
+      englishBilgeArticleSchema.author?.name === 'Aleksandrs Tolkacovs' &&
+      englishBilgeArticleSchema.author?.['@id'] ===
+        'https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs' &&
+      englishBilgeArticleSchema.publisher?.['@id'] ===
+        'https://www.allyachtservice.com/#business' &&
+      englishBilgeSchemas.some(
+        (schema) => schema['@type'] === 'BreadcrumbList',
+      ),
+    'The English bilge article has incomplete or unstable structured data.',
   );
   const englishRiggingPath =
     '/yacht-survey-tips/standing-rigging-warning-signs';
@@ -1342,6 +1416,8 @@ if (existsSync(distDirectory)) {
     'Article graphics must retain the shared full-image no-crop rules.',
   );
   const englishImageHashes = {
+    'public/images/yacht-survey-tips/check-yacht-bilge.png':
+      '78dc74b2eb45f324371a054226ddf33bef4796c7d7b0a12bbc8aaef29aa15da4',
     'public/images/yacht-survey-tips/check-yacht-steering-before-you-trust-it.png':
       '6f19bb491e63b46e3b3e25bdd50ead416fcfede145f792644aedca6e4d7b2799',
     'public/images/yacht-survey-tips/check-yacht-seacocks-below-waterline.png':

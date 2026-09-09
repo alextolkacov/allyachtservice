@@ -1,3 +1,4 @@
+import { checkYachtBilgeArticle } from './yacht-survey-tips/check-yacht-bilge';
 import { checkYachtSeacocksArticle } from './yacht-survey-tips/check-yacht-seacocks';
 import { checkYachtSteeringArticle } from './yacht-survey-tips/check-yacht-steering';
 import { deckMoistureSoftSpotsArticle } from './yacht-survey-tips/deck-moisture-soft-spots';
@@ -89,6 +90,7 @@ export const yachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    checkYachtBilgeArticle.card,
     standingRiggingWarningSignsArticle.card,
     yachtElectricalCorrosionArticle.card,
     checkYachtSteeringArticle.card,

@@ -89,6 +89,9 @@ const russianBuyerRepresentationSource = read(
   'src/data/ru/buyer-representation.ts',
 );
 const russianSurveyTipsSource = read('src/data/ru/yacht-survey-tips.ts');
+const russianBilgeArticleSource = read(
+  'src/data/ru/yacht-survey-tips/check-yacht-bilge.ts',
+);
 const russianDeckArticleSource = read(
   'src/data/ru/yacht-survey-tips/deck-moisture-soft-spots.ts',
 );
@@ -254,6 +257,26 @@ const translatedSurveyTipsRoutes = [
       'Профессиональные советы для покупателей и владельцев яхт о сюрвейерских осмотрах, типичных дефектах, техническом состоянии и обслуживании.',
     heading: 'Советы по сюрвейерскому осмотру яхт',
     article: false,
+  },
+  {
+    en: '/yacht-survey-tips/check-yacht-bilge',
+    es: '/es/yacht-survey-tips/check-yacht-bilge',
+    ru: '/ru/yacht-survey-tips/check-yacht-bilge',
+    title: 'Проверка трюма яхты перед покупкой | All Yacht Service',
+    description:
+      'Узнайте, что могут показать вода, остатки жидкостей, коррозия и состояние трюмного насоса при осмотре подержанной яхты.',
+    heading:
+      'Проверьте трюм, прежде чем доверять яхте: на что обратить внимание покупателю',
+    article: true,
+    datePublished: '2026-09-08',
+    dateModified: '2026-09-08',
+    timeRequired: 'PT5M',
+    readingTime: '5 минут чтения',
+    articleSection: 'Предпокупочная проверка · Трюм и бортовые системы',
+    image: '/images/yacht-survey-tips/check-yacht-bilge.png',
+    width: 1122,
+    height: 1402,
+    authorLine: 'Материал подготовил Aleksandrs Tolkacovs',
   },
   {
     en: '/yacht-survey-tips/standing-rigging-warning-signs',
@@ -1458,6 +1481,7 @@ if (existsSync(distDirectory)) {
     russianSurveyTipsHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const bilgeTitle = 'Проверьте трюм, прежде чем доверять яхте';
   const riggingTitle = 'Не судите о стоячем такелаже по блеску';
   const corrosionTitle = 'Коррозия в электрооборудовании яхты: что проверить';
   const deckTitle =
@@ -1482,7 +1506,8 @@ if (existsSync(distDirectory)) {
     'The Russian Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(riggingTitle) >= 0 &&
+    latestSection.indexOf(bilgeTitle) >= 0 &&
+      latestSection.indexOf(bilgeTitle) < latestSection.indexOf(riggingTitle) &&
       latestSection.indexOf(riggingTitle) <
         latestSection.indexOf(corrosionTitle) &&
       latestSection.indexOf(corrosionTitle) <
@@ -1495,8 +1520,8 @@ if (existsSync(distDirectory)) {
     'Russian latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 6,
-    'The Russian archive must contain all six published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 7,
+    'The Russian archive must contain all seven published Survey Tips exactly once.',
   );
   assert(
     russianSurveyTipsHub.includes(
@@ -1528,6 +1553,8 @@ if (existsSync(distDirectory)) {
     'Russian Survey Tips must retain the shared full-image no-crop rules.',
   );
   const protectedImageHashes = {
+    'public/images/yacht-survey-tips/check-yacht-bilge.png':
+      '78dc74b2eb45f324371a054226ddf33bef4796c7d7b0a12bbc8aaef29aa15da4',
     'public/images/yacht-survey-tips/check-yacht-steering-before-you-trust-it.png':
       '6f19bb491e63b46e3b3e25bdd50ead416fcfede145f792644aedca6e4d7b2799',
     'public/images/yacht-survey-tips/check-yacht-seacocks-below-waterline.png':
@@ -1572,9 +1599,12 @@ if (existsSync(distDirectory)) {
     );
   }
   assert(
-    russianDeckArticleSource.includes(
-      "src: '/images/yacht-survey-tips/deck-moisture-soft-spots.png'",
+    russianBilgeArticleSource.includes(
+      "src: '/images/yacht-survey-tips/check-yacht-bilge.png'",
     ) &&
+      russianDeckArticleSource.includes(
+        "src: '/images/yacht-survey-tips/deck-moisture-soft-spots.png'",
+      ) &&
       russianShinyArticleSource.includes(
         "src: '/images/yacht-survey-tips/shiny-yacht-hull-hidden-repairs.png'",
       ) &&
@@ -1591,7 +1621,7 @@ if (existsSync(distDirectory)) {
         "src: '/images/yacht-survey-tips/standing-rigging-warning-signs.png'",
       ) &&
       !/\/images\/yacht-survey-tips\/ru\//u.test(
-        `${russianSurveyTipsSource}\n${russianDeckArticleSource}\n${russianShinyArticleSource}\n${russianSteeringArticleSource}\n${russianSeacocksArticleSource}\n${russianElectricalCorrosionArticleSource}\n${russianStandingRiggingArticleSource}`,
+        `${russianSurveyTipsSource}\n${russianBilgeArticleSource}\n${russianDeckArticleSource}\n${russianShinyArticleSource}\n${russianSteeringArticleSource}\n${russianSeacocksArticleSource}\n${russianElectricalCorrosionArticleSource}\n${russianStandingRiggingArticleSource}`,
       ),
     'Russian pages do not reuse the protected English article graphics.',
   );
@@ -1728,9 +1758,9 @@ if (existsSync(distDirectory)) {
     );
   }
   for (const [locale, expectedCount] of [
-    ['en', 22],
-    ['es', 22],
-    ['ru', 22],
+    ['en', 23],
+    ['es', 23],
+    ['ru', 23],
   ]) {
     const actualCount = sitemapPathnames.filter((pathname) => {
       if (locale === 'en') {
