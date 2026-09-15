@@ -89,6 +89,9 @@ const russianBuyerRepresentationSource = read(
   'src/data/ru/buyer-representation.ts',
 );
 const russianSurveyTipsSource = read('src/data/ru/yacht-survey-tips.ts');
+const russianAntifoulingArticleSource = read(
+  'src/data/ru/yacht-survey-tips/antifouling-tells-a-story.ts',
+);
 const russianBilgeArticleSource = read(
   'src/data/ru/yacht-survey-tips/check-yacht-bilge.ts',
 );
@@ -257,6 +260,26 @@ const translatedSurveyTipsRoutes = [
       'Профессиональные советы для покупателей и владельцев яхт о сюрвейерских осмотрах, типичных дефектах, техническом состоянии и обслуживании.',
     heading: 'Советы по сюрвейерскому осмотру яхт',
     article: false,
+  },
+  {
+    en: '/yacht-survey-tips/antifouling-tells-a-story',
+    es: '/es/yacht-survey-tips/antifouling-tells-a-story',
+    ru: '/ru/yacht-survey-tips/antifouling-tells-a-story',
+    title: 'Антифоулинг подержанной яхты: что проверить | All Yacht Service',
+    description:
+      'Узнайте, что могут показать отслоение антифоулинга, обрастание, вздутия и ремонт подводной части корпуса перед покупкой яхты.',
+    heading:
+      'Противообрастающее покрытие рассказывает историю: что проверить покупателю подержанной яхты',
+    article: true,
+    datePublished: '2026-09-15',
+    dateModified: '2026-09-15',
+    timeRequired: 'PT6M',
+    readingTime: '6 минут чтения',
+    articleSection: 'Предпокупочная проверка · Корпус и подводные элементы',
+    image: '/images/yacht-survey-tips/antifouling-tells-a-story.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Материал подготовил Aleksandrs Tolkacovs',
   },
   {
     en: '/yacht-survey-tips/check-yacht-bilge',
@@ -1481,6 +1504,7 @@ if (existsSync(distDirectory)) {
     russianSurveyTipsHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const antifoulingTitle = 'Что рассказывает противообрастающее покрытие';
   const bilgeTitle = 'Проверьте трюм, прежде чем доверять яхте';
   const riggingTitle = 'Не судите о стоячем такелаже по блеску';
   const corrosionTitle = 'Коррозия в электрооборудовании яхты: что проверить';
@@ -1506,7 +1530,9 @@ if (existsSync(distDirectory)) {
     'The Russian Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(bilgeTitle) >= 0 &&
+    latestSection.indexOf(antifoulingTitle) >= 0 &&
+      latestSection.indexOf(antifoulingTitle) <
+        latestSection.indexOf(bilgeTitle) &&
       latestSection.indexOf(bilgeTitle) < latestSection.indexOf(riggingTitle) &&
       latestSection.indexOf(riggingTitle) <
         latestSection.indexOf(corrosionTitle) &&
@@ -1520,8 +1546,8 @@ if (existsSync(distDirectory)) {
     'Russian latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 7,
-    'The Russian archive must contain all seven published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 8,
+    'The Russian archive must contain all eight published Survey Tips exactly once.',
   );
   assert(
     russianSurveyTipsHub.includes(
@@ -1553,6 +1579,8 @@ if (existsSync(distDirectory)) {
     'Russian Survey Tips must retain the shared full-image no-crop rules.',
   );
   const protectedImageHashes = {
+    'public/images/yacht-survey-tips/antifouling-tells-a-story.png':
+      '991a489c0e1c0e8755af334790729ada42a86c850fea36c6034b6b441d3a6522',
     'public/images/yacht-survey-tips/check-yacht-bilge.png':
       '78dc74b2eb45f324371a054226ddf33bef4796c7d7b0a12bbc8aaef29aa15da4',
     'public/images/yacht-survey-tips/check-yacht-steering-before-you-trust-it.png':
@@ -1599,9 +1627,12 @@ if (existsSync(distDirectory)) {
     );
   }
   assert(
-    russianBilgeArticleSource.includes(
-      "src: '/images/yacht-survey-tips/check-yacht-bilge.png'",
+    russianAntifoulingArticleSource.includes(
+      "src: '/images/yacht-survey-tips/antifouling-tells-a-story.png'",
     ) &&
+      russianBilgeArticleSource.includes(
+        "src: '/images/yacht-survey-tips/check-yacht-bilge.png'",
+      ) &&
       russianDeckArticleSource.includes(
         "src: '/images/yacht-survey-tips/deck-moisture-soft-spots.png'",
       ) &&
@@ -1621,7 +1652,7 @@ if (existsSync(distDirectory)) {
         "src: '/images/yacht-survey-tips/standing-rigging-warning-signs.png'",
       ) &&
       !/\/images\/yacht-survey-tips\/ru\//u.test(
-        `${russianSurveyTipsSource}\n${russianBilgeArticleSource}\n${russianDeckArticleSource}\n${russianShinyArticleSource}\n${russianSteeringArticleSource}\n${russianSeacocksArticleSource}\n${russianElectricalCorrosionArticleSource}\n${russianStandingRiggingArticleSource}`,
+        `${russianSurveyTipsSource}\n${russianAntifoulingArticleSource}\n${russianBilgeArticleSource}\n${russianDeckArticleSource}\n${russianShinyArticleSource}\n${russianSteeringArticleSource}\n${russianSeacocksArticleSource}\n${russianElectricalCorrosionArticleSource}\n${russianStandingRiggingArticleSource}`,
       ),
     'Russian pages do not reuse the protected English article graphics.',
   );
@@ -1758,9 +1789,9 @@ if (existsSync(distDirectory)) {
     );
   }
   for (const [locale, expectedCount] of [
-    ['en', 23],
-    ['es', 23],
-    ['ru', 23],
+    ['en', 24],
+    ['es', 24],
+    ['ru', 24],
   ]) {
     const actualCount = sitemapPathnames.filter((pathname) => {
       if (locale === 'en') {

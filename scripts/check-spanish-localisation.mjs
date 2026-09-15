@@ -301,6 +301,23 @@ const spanishSurveyTipsPages = [
     article: false,
   },
   {
+    en: '/yacht-survey-tips/antifouling-tells-a-story',
+    es: '/es/yacht-survey-tips/antifouling-tells-a-story',
+    ru: '/ru/yacht-survey-tips/antifouling-tells-a-story',
+    title: 'Antiincrustante en yates usados: qué revisar | All Yacht Service',
+    description:
+      'Sepa qué pueden revelar el antiincrustante desprendido, la incrustación marina, las ampollas y las reparaciones antes de comprar un yate usado.',
+    h1: 'El antiincrustante cuenta una historia: qué debe comprobar al comprar un yate usado',
+    article: true,
+    datePublished: '2026-09-15',
+    dateModified: '2026-09-15',
+    timeRequired: 'PT6M',
+    image: '/images/yacht-survey-tips/antifouling-tells-a-story.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Por Aleksandrs Tolkacovs',
+  },
+  {
     en: '/yacht-survey-tips/check-yacht-bilge',
     es: '/es/yacht-survey-tips/check-yacht-bilge',
     ru: '/ru/yacht-survey-tips/check-yacht-bilge',
@@ -1005,8 +1022,11 @@ if (existsSync(distDirectory)) {
   );
   assert(
     getBuiltPage('/es/yacht-survey-tips').includes(
-      'href="/es/yacht-survey-tips/check-yacht-bilge"',
+      'href="/es/yacht-survey-tips/antifouling-tells-a-story"',
     ) &&
+      getBuiltPage('/es/yacht-survey-tips').includes(
+        'href="/es/yacht-survey-tips/check-yacht-bilge"',
+      ) &&
       getBuiltPage('/es/yacht-survey-tips').includes(
         'href="/es/yacht-survey-tips/check-yacht-steering"',
       ) &&
@@ -1115,6 +1135,7 @@ if (existsSync(distDirectory)) {
     'src/data/es/valuation-damage-survey.ts',
     'src/data/es/about-us.ts',
     'src/data/es/yacht-survey-tips.ts',
+    'src/data/es/yacht-survey-tips/antifouling-tells-a-story.ts',
     'src/data/es/yacht-survey-tips/check-yacht-bilge.ts',
     'src/data/es/yacht-survey-tips/standing-rigging-warning-signs.ts',
     'src/data/es/yacht-survey-tips/check-yacht-steering.ts',
@@ -1150,6 +1171,7 @@ if (existsSync(distDirectory)) {
     'Regularidad de las líneas del casco',
     'Enmasillado y alisado',
     'Relaminación',
+    'Antiincrustante',
     'Ósmosis',
     'Barras colectoras',
   ]) {
@@ -1170,6 +1192,7 @@ if (existsSync(distDirectory)) {
     spanishHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const antifoulingTitle = 'El antiincrustante cuenta una historia';
   const bilgeTitle = 'Revise la sentina antes de confiar en el barco';
   const riggingTitle = 'No juzgue el aparejo fijo por su brillo';
   const corrosionTitle =
@@ -1197,7 +1220,9 @@ if (existsSync(distDirectory)) {
     'The Spanish Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(bilgeTitle) >= 0 &&
+    latestSection.indexOf(antifoulingTitle) >= 0 &&
+      latestSection.indexOf(antifoulingTitle) <
+        latestSection.indexOf(bilgeTitle) &&
       latestSection.indexOf(bilgeTitle) < latestSection.indexOf(riggingTitle) &&
       latestSection.indexOf(riggingTitle) <
         latestSection.indexOf(corrosionTitle) &&
@@ -1211,8 +1236,8 @@ if (existsSync(distDirectory)) {
     'Spanish latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 7,
-    'The Spanish archive must contain all seven published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 8,
+    'The Spanish archive must contain all eight published Survey Tips exactly once.',
   );
   const englishHub = getBuiltPage('/yacht-survey-tips');
   const englishLatestSection =
@@ -1226,6 +1251,10 @@ if (existsSync(distDirectory)) {
         englishHub.indexOf('survey-tips-latest-section') &&
       englishHub.indexOf('survey-tips-latest-section') <
         englishHub.indexOf('survey-tips-categories-section') &&
+      englishLatestSection.indexOf('Antifouling Tells a Story') <
+        englishLatestSection.indexOf(
+          'Check the Bilge Before You Trust the Boat',
+        ) &&
       englishLatestSection.indexOf(
         'Check the Bilge Before You Trust the Boat',
       ) <
@@ -1238,11 +1267,15 @@ if (existsSync(distDirectory)) {
         englishLatestSection.indexOf(
           'Electrical Corrosion on Yachts: What to Look For',
         ),
-    'The English hub must remove Featured content and show the bilge article first after the introduction.',
+    'The English hub must remove Featured content and show the antifouling article first after the introduction.',
   );
   assert(
     (englishLatestSection.match(/class="survey-article-card"/gu) ?? [])
-      .length === 7 &&
+      .length === 8 &&
+      englishLatestSection.indexOf('Antifouling Tells a Story') <
+        englishLatestSection.indexOf(
+          'Check the Bilge Before You Trust the Boat',
+        ) &&
       englishLatestSection.indexOf(
         'Check the Bilge Before You Trust the Boat',
       ) <
@@ -1273,7 +1306,50 @@ if (existsSync(distDirectory)) {
         englishLatestSection.indexOf(
           'Deck Moisture and Soft Spots: What Yacht Buyers Should Know',
         ),
-    'The English archive must contain all seven articles in newest-first order.',
+    'The English archive must contain all eight articles in newest-first order.',
+  );
+  const englishAntifoulingPath = '/yacht-survey-tips/antifouling-tells-a-story';
+  const englishAntifouling = getBuiltPage(englishAntifoulingPath);
+  const englishAntifoulingSchemas = getSchemas(
+    englishAntifouling,
+    englishAntifoulingPath,
+  );
+  const englishAntifoulingArticleSchema = englishAntifoulingSchemas.find(
+    (schema) => schema['@type'] === 'Article',
+  );
+  assert(
+    englishAntifouling.includes(
+      '<title>Antifouling on Used Yachts: What Buyers Should Check | All Yacht Service</title>',
+    ) &&
+      englishAntifouling.includes(
+        `<link rel="canonical" href="${absolute(englishAntifoulingPath)}">`,
+      ) &&
+      englishAntifouling.includes(
+        `<meta property="og:url" content="${absolute(englishAntifoulingPath)}">`,
+      ) &&
+      englishAntifouling.includes(
+        '<meta property="og:image" content="https://www.allyachtservice.com/images/yacht-survey-tips/antifouling-tells-a-story.png">',
+      ) &&
+      visibleText(englishAntifouling).includes('By Aleksandrs Tolkacovs') &&
+      englishAntifouling.includes('<h3 id="peeling-flaking-antifouling">'),
+    'The English antifouling article has incorrect metadata, heading hierarchy, image or author spacing.',
+  );
+  assert(
+    englishAntifoulingArticleSchema?.['@id'] ===
+      `${absolute(englishAntifoulingPath)}#article` &&
+      englishAntifoulingArticleSchema.datePublished === '2026-09-15' &&
+      englishAntifoulingArticleSchema.dateModified === '2026-09-15' &&
+      englishAntifoulingArticleSchema.image ===
+        'https://www.allyachtservice.com/images/yacht-survey-tips/antifouling-tells-a-story.png' &&
+      englishAntifoulingArticleSchema.author?.name === 'Aleksandrs Tolkacovs' &&
+      englishAntifoulingArticleSchema.author?.['@id'] ===
+        'https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs' &&
+      englishAntifoulingArticleSchema.publisher?.['@id'] ===
+        'https://www.allyachtservice.com/#business' &&
+      englishAntifoulingSchemas.some(
+        (schema) => schema['@type'] === 'BreadcrumbList',
+      ),
+    'The English antifouling article has incomplete or unstable structured data.',
   );
   const englishBilgePath = '/yacht-survey-tips/check-yacht-bilge';
   const englishBilge = getBuiltPage(englishBilgePath);
@@ -1416,6 +1492,8 @@ if (existsSync(distDirectory)) {
     'Article graphics must retain the shared full-image no-crop rules.',
   );
   const englishImageHashes = {
+    'public/images/yacht-survey-tips/antifouling-tells-a-story.png':
+      '991a489c0e1c0e8755af334790729ada42a86c850fea36c6034b6b441d3a6522',
     'public/images/yacht-survey-tips/check-yacht-bilge.png':
       '78dc74b2eb45f324371a054226ddf33bef4796c7d7b0a12bbc8aaef29aa15da4',
     'public/images/yacht-survey-tips/check-yacht-steering-before-you-trust-it.png':

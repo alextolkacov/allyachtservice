@@ -3144,6 +3144,14 @@
     line-height: 1.15;
   }
 
+  .survey-guide-body section > h3 {
+    margin: 2.25rem 0 0;
+    font-size: clamp(1.3rem, 4.5vw, 1.6rem);
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    scroll-margin-top: 6rem;
+  }
+
   .survey-guide-body section > p {
     margin: 1.15rem 0 0;
     color: rgb(37 43 49 / 86%);

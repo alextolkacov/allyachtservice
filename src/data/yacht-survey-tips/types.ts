@@ -31,6 +31,16 @@ export interface SurveyTipContentSection {
   items?: readonly string[];
   closingParagraphs?: readonly string[];
   note?: string;
+  subsections?: readonly SurveyTipContentSubsection[];
+}
+
+export interface SurveyTipContentSubsection {
+  id: string;
+  title: string;
+  paragraphs: readonly string[];
+  items?: readonly string[];
+  closingParagraphs?: readonly string[];
+  note?: string;
 }
 
 export interface SurveyTipRelatedLink {

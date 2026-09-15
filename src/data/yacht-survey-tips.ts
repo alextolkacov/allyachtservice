@@ -1,3 +1,4 @@
+import { antifoulingTellsAStoryArticle } from './yacht-survey-tips/antifouling-tells-a-story';
 import { checkYachtBilgeArticle } from './yacht-survey-tips/check-yacht-bilge';
 import { checkYachtSeacocksArticle } from './yacht-survey-tips/check-yacht-seacocks';
 import { checkYachtSteeringArticle } from './yacht-survey-tips/check-yacht-steering';
@@ -90,6 +91,7 @@ export const yachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    antifoulingTellsAStoryArticle.card,
     checkYachtBilgeArticle.card,
     standingRiggingWarningSignsArticle.card,
     yachtElectricalCorrosionArticle.card,

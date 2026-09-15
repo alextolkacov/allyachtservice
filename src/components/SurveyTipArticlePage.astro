@@ -176,6 +176,29 @@ const articleSchema: StructuredData = {
                   <strong>{section.note}</strong>
                 </aside>
               )}
+              {section.subsections?.map((subsection) => (
+                <>
+                  <h3 id={subsection.id}>{subsection.title}</h3>
+                  {subsection.paragraphs.map((paragraph) => (
+                    <p>{paragraph}</p>
+                  ))}
+                  {subsection.items && subsection.items.length > 0 && (
+                    <ul class="survey-guide-list-grid">
+                      {subsection.items.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {subsection.closingParagraphs?.map((paragraph) => (
+                    <p>{paragraph}</p>
+                  ))}
+                  {subsection.note && (
+                    <aside class="survey-guide-key-point">
+                      <strong>{subsection.note}</strong>
+                    </aside>
+                  )}
+                </>
+              ))}
             </section>
           ))
         }

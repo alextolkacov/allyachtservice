@@ -2,6 +2,7 @@ import type {
   SurveyTipsCategory,
   SurveyTipsImage,
 } from '../yacht-survey-tips/types';
+import { russianAntifoulingTellsAStoryArticle } from './yacht-survey-tips/antifouling-tells-a-story';
 import { russianCheckYachtBilgeArticle } from './yacht-survey-tips/check-yacht-bilge';
 import { russianCheckYachtSeacocksArticle } from './yacht-survey-tips/check-yacht-seacocks';
 import { russianCheckYachtSteeringArticle } from './yacht-survey-tips/check-yacht-steering';
@@ -93,6 +94,7 @@ export const russianYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    russianAntifoulingTellsAStoryArticle.card,
     russianCheckYachtBilgeArticle.card,
     russianStandingRiggingWarningSignsArticle.card,
     russianYachtElectricalCorrosionArticle.card,
