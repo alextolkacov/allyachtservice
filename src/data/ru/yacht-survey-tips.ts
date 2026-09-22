@@ -10,6 +10,7 @@ import { russianDeckMoistureSoftSpotsArticle } from './yacht-survey-tips/deck-mo
 import { russianShinyHullArticle } from './yacht-survey-tips/shiny-hull';
 import { russianStandingRiggingWarningSignsArticle } from './yacht-survey-tips/standing-rigging-warning-signs';
 import { russianYachtElectricalCorrosionArticle } from './yacht-survey-tips/yacht-electrical-corrosion';
+import { russianYachtEngineMountsArticle } from './yacht-survey-tips/yacht-engine-mounts';
 
 const surveyInspectionImage = {
   src: '/images/yacht-survey-tips-background.jpg',
@@ -94,6 +95,7 @@ export const russianYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    russianYachtEngineMountsArticle.card,
     russianAntifoulingTellsAStoryArticle.card,
     russianCheckYachtBilgeArticle.card,
     russianStandingRiggingWarningSignsArticle.card,

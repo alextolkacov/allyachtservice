@@ -301,6 +301,23 @@ const spanishSurveyTipsPages = [
     article: false,
   },
   {
+    en: '/yacht-survey-tips/yacht-engine-mounts',
+    es: '/es/yacht-survey-tips/yacht-engine-mounts',
+    ru: '/ru/yacht-survey-tips/yacht-engine-mounts',
+    title: 'Soportes del motor de un yate: qué revisar | All Yacht Service',
+    description:
+      'Aprenda a reconocer señales visibles de deterioro en los soportes del motor, vibraciones y fijaciones dañadas antes de comprar un yate.',
+    h1: 'Soportes del motor de un yate: señales que conviene revisar antes de comprar',
+    article: true,
+    datePublished: '2026-09-22',
+    dateModified: '2026-09-22',
+    timeRequired: 'PT5M',
+    image: '/images/yacht-survey-tips/yacht-engine-mounts.png',
+    width: 1092,
+    height: 1440,
+    authorLine: 'Por Aleksandrs Tolkacovs',
+  },
+  {
     en: '/yacht-survey-tips/antifouling-tells-a-story',
     es: '/es/yacht-survey-tips/antifouling-tells-a-story',
     ru: '/ru/yacht-survey-tips/antifouling-tells-a-story',
@@ -1022,8 +1039,11 @@ if (existsSync(distDirectory)) {
   );
   assert(
     getBuiltPage('/es/yacht-survey-tips').includes(
-      'href="/es/yacht-survey-tips/antifouling-tells-a-story"',
+      'href="/es/yacht-survey-tips/yacht-engine-mounts"',
     ) &&
+      getBuiltPage('/es/yacht-survey-tips').includes(
+        'href="/es/yacht-survey-tips/antifouling-tells-a-story"',
+      ) &&
       getBuiltPage('/es/yacht-survey-tips').includes(
         'href="/es/yacht-survey-tips/check-yacht-bilge"',
       ) &&
@@ -1135,6 +1155,7 @@ if (existsSync(distDirectory)) {
     'src/data/es/valuation-damage-survey.ts',
     'src/data/es/about-us.ts',
     'src/data/es/yacht-survey-tips.ts',
+    'src/data/es/yacht-survey-tips/yacht-engine-mounts.ts',
     'src/data/es/yacht-survey-tips/antifouling-tells-a-story.ts',
     'src/data/es/yacht-survey-tips/check-yacht-bilge.ts',
     'src/data/es/yacht-survey-tips/standing-rigging-warning-signs.ts',
@@ -1192,6 +1213,8 @@ if (existsSync(distDirectory)) {
     spanishHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const engineMountsTitle =
+    'Soportes del motor: piezas pequeñas, consecuencias costosas';
   const antifoulingTitle = 'El antiincrustante cuenta una historia';
   const bilgeTitle = 'Revise la sentina antes de confiar en el barco';
   const riggingTitle = 'No juzgue el aparejo fijo por su brillo';
@@ -1220,7 +1243,9 @@ if (existsSync(distDirectory)) {
     'The Spanish Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(antifoulingTitle) >= 0 &&
+    latestSection.indexOf(engineMountsTitle) >= 0 &&
+      latestSection.indexOf(engineMountsTitle) <
+        latestSection.indexOf(antifoulingTitle) &&
       latestSection.indexOf(antifoulingTitle) <
         latestSection.indexOf(bilgeTitle) &&
       latestSection.indexOf(bilgeTitle) < latestSection.indexOf(riggingTitle) &&
@@ -1236,8 +1261,8 @@ if (existsSync(distDirectory)) {
     'Spanish latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 8,
-    'The Spanish archive must contain all eight published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 9,
+    'The Spanish archive must contain all nine published Survey Tips exactly once.',
   );
   const englishHub = getBuiltPage('/yacht-survey-tips');
   const englishLatestSection =
@@ -1251,6 +1276,12 @@ if (existsSync(distDirectory)) {
         englishHub.indexOf('survey-tips-latest-section') &&
       englishHub.indexOf('survey-tips-latest-section') <
         englishHub.indexOf('survey-tips-categories-section') &&
+      englishLatestSection.indexOf(
+        'Engine Mounts: Small Components, Expensive Consequences',
+      ) >= 0 &&
+      englishLatestSection.indexOf(
+        'Engine Mounts: Small Components, Expensive Consequences',
+      ) < englishLatestSection.indexOf('Antifouling Tells a Story') &&
       englishLatestSection.indexOf('Antifouling Tells a Story') <
         englishLatestSection.indexOf(
           'Check the Bilge Before You Trust the Boat',
@@ -1267,11 +1298,11 @@ if (existsSync(distDirectory)) {
         englishLatestSection.indexOf(
           'Electrical Corrosion on Yachts: What to Look For',
         ),
-    'The English hub must remove Featured content and show the antifouling article first after the introduction.',
+    'The English hub must remove Featured content and show the engine-mount article first after the introduction.',
   );
   assert(
     (englishLatestSection.match(/class="survey-article-card"/gu) ?? [])
-      .length === 8 &&
+      .length === 9 &&
       englishLatestSection.indexOf('Antifouling Tells a Story') <
         englishLatestSection.indexOf(
           'Check the Bilge Before You Trust the Boat',
@@ -1306,7 +1337,50 @@ if (existsSync(distDirectory)) {
         englishLatestSection.indexOf(
           'Deck Moisture and Soft Spots: What Yacht Buyers Should Know',
         ),
-    'The English archive must contain all eight articles in newest-first order.',
+    'The English archive must contain all nine articles in newest-first order.',
+  );
+  const englishEngineMountsPath = '/yacht-survey-tips/yacht-engine-mounts';
+  const englishEngineMounts = getBuiltPage(englishEngineMountsPath);
+  const englishEngineMountsSchemas = getSchemas(
+    englishEngineMounts,
+    englishEngineMountsPath,
+  );
+  const englishEngineMountsArticleSchema = englishEngineMountsSchemas.find(
+    (schema) => schema['@type'] === 'Article',
+  );
+  assert(
+    englishEngineMounts.includes(
+      '<title>Yacht Engine Mounts: Warning Signs for Buyers | All Yacht Service</title>',
+    ) &&
+      englishEngineMounts.includes(
+        `<link rel="canonical" href="${absolute(englishEngineMountsPath)}">`,
+      ) &&
+      englishEngineMounts.includes(
+        `<meta property="og:url" content="${absolute(englishEngineMountsPath)}">`,
+      ) &&
+      englishEngineMounts.includes(
+        '<meta property="og:image" content="https://www.allyachtservice.com/images/yacht-survey-tips/yacht-engine-mounts.png">',
+      ) &&
+      visibleText(englishEngineMounts).includes('By Aleksandrs Tolkacovs'),
+    'The English engine-mount article has incorrect metadata, image or author spacing.',
+  );
+  assert(
+    englishEngineMountsArticleSchema?.['@id'] ===
+      `${absolute(englishEngineMountsPath)}#article` &&
+      englishEngineMountsArticleSchema.datePublished === '2026-09-22' &&
+      englishEngineMountsArticleSchema.dateModified === '2026-09-22' &&
+      englishEngineMountsArticleSchema.image ===
+        'https://www.allyachtservice.com/images/yacht-survey-tips/yacht-engine-mounts.png' &&
+      englishEngineMountsArticleSchema.author?.name ===
+        'Aleksandrs Tolkacovs' &&
+      englishEngineMountsArticleSchema.author?.['@id'] ===
+        'https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs' &&
+      englishEngineMountsArticleSchema.publisher?.['@id'] ===
+        'https://www.allyachtservice.com/#business' &&
+      englishEngineMountsSchemas.some(
+        (schema) => schema['@type'] === 'BreadcrumbList',
+      ),
+    'The English engine-mount article has incomplete or unstable structured data.',
   );
   const englishAntifoulingPath = '/yacht-survey-tips/antifouling-tells-a-story';
   const englishAntifouling = getBuiltPage(englishAntifoulingPath);
@@ -1492,6 +1566,8 @@ if (existsSync(distDirectory)) {
     'Article graphics must retain the shared full-image no-crop rules.',
   );
   const englishImageHashes = {
+    'public/images/yacht-survey-tips/yacht-engine-mounts.png':
+      '4d877f28bb8802f5b807a2400cbb71d5c398a611b92e9c12dea0b066a5e4d953',
     'public/images/yacht-survey-tips/antifouling-tells-a-story.png':
       '991a489c0e1c0e8755af334790729ada42a86c850fea36c6034b6b441d3a6522',
     'public/images/yacht-survey-tips/check-yacht-bilge.png':

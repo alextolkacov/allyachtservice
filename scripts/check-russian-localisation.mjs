@@ -89,6 +89,9 @@ const russianBuyerRepresentationSource = read(
   'src/data/ru/buyer-representation.ts',
 );
 const russianSurveyTipsSource = read('src/data/ru/yacht-survey-tips.ts');
+const russianEngineMountsArticleSource = read(
+  'src/data/ru/yacht-survey-tips/yacht-engine-mounts.ts',
+);
 const russianAntifoulingArticleSource = read(
   'src/data/ru/yacht-survey-tips/antifouling-tells-a-story.ts',
 );
@@ -260,6 +263,26 @@ const translatedSurveyTipsRoutes = [
       'Профессиональные советы для покупателей и владельцев яхт о сюрвейерских осмотрах, типичных дефектах, техническом состоянии и обслуживании.',
     heading: 'Советы по сюрвейерскому осмотру яхт',
     article: false,
+  },
+  {
+    en: '/yacht-survey-tips/yacht-engine-mounts',
+    es: '/es/yacht-survey-tips/yacht-engine-mounts',
+    ru: '/ru/yacht-survey-tips/yacht-engine-mounts',
+    title: 'Опоры двигателя яхты: признаки износа | All Yacht Service',
+    description:
+      'Какие признаки износа опор двигателя, вибрации и повреждения крепежа можно заметить перед покупкой яхты и когда нужен специалист.',
+    heading: 'Опоры двигателя на яхте: на что обратить внимание перед покупкой',
+    article: true,
+    datePublished: '2026-09-22',
+    dateModified: '2026-09-22',
+    timeRequired: 'PT5M',
+    readingTime: '5 минут чтения',
+    articleSection:
+      'Предпокупочная проверка · Двигатель и движительная установка',
+    image: '/images/yacht-survey-tips/yacht-engine-mounts.png',
+    width: 1092,
+    height: 1440,
+    authorLine: 'Материал подготовил Aleksandrs Tolkacovs',
   },
   {
     en: '/yacht-survey-tips/antifouling-tells-a-story',
@@ -1504,6 +1527,8 @@ if (existsSync(distDirectory)) {
     russianSurveyTipsHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const engineMountsTitle =
+    'Опоры двигателя: небольшие детали, серьёзные последствия';
   const antifoulingTitle = 'Что рассказывает противообрастающее покрытие';
   const bilgeTitle = 'Проверьте трюм, прежде чем доверять яхте';
   const riggingTitle = 'Не судите о стоячем такелаже по блеску';
@@ -1530,7 +1555,9 @@ if (existsSync(distDirectory)) {
     'The Russian Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(antifoulingTitle) >= 0 &&
+    latestSection.indexOf(engineMountsTitle) >= 0 &&
+      latestSection.indexOf(engineMountsTitle) <
+        latestSection.indexOf(antifoulingTitle) &&
       latestSection.indexOf(antifoulingTitle) <
         latestSection.indexOf(bilgeTitle) &&
       latestSection.indexOf(bilgeTitle) < latestSection.indexOf(riggingTitle) &&
@@ -1546,8 +1573,8 @@ if (existsSync(distDirectory)) {
     'Russian latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 8,
-    'The Russian archive must contain all eight published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 9,
+    'The Russian archive must contain all nine published Survey Tips exactly once.',
   );
   assert(
     russianSurveyTipsHub.includes(
@@ -1579,6 +1606,8 @@ if (existsSync(distDirectory)) {
     'Russian Survey Tips must retain the shared full-image no-crop rules.',
   );
   const protectedImageHashes = {
+    'public/images/yacht-survey-tips/yacht-engine-mounts.png':
+      '4d877f28bb8802f5b807a2400cbb71d5c398a611b92e9c12dea0b066a5e4d953',
     'public/images/yacht-survey-tips/antifouling-tells-a-story.png':
       '991a489c0e1c0e8755af334790729ada42a86c850fea36c6034b6b441d3a6522',
     'public/images/yacht-survey-tips/check-yacht-bilge.png':
@@ -1627,9 +1656,12 @@ if (existsSync(distDirectory)) {
     );
   }
   assert(
-    russianAntifoulingArticleSource.includes(
-      "src: '/images/yacht-survey-tips/antifouling-tells-a-story.png'",
+    russianEngineMountsArticleSource.includes(
+      "src: '/images/yacht-survey-tips/yacht-engine-mounts.png'",
     ) &&
+      russianAntifoulingArticleSource.includes(
+        "src: '/images/yacht-survey-tips/antifouling-tells-a-story.png'",
+      ) &&
       russianBilgeArticleSource.includes(
         "src: '/images/yacht-survey-tips/check-yacht-bilge.png'",
       ) &&
@@ -1652,7 +1684,7 @@ if (existsSync(distDirectory)) {
         "src: '/images/yacht-survey-tips/standing-rigging-warning-signs.png'",
       ) &&
       !/\/images\/yacht-survey-tips\/ru\//u.test(
-        `${russianSurveyTipsSource}\n${russianAntifoulingArticleSource}\n${russianBilgeArticleSource}\n${russianDeckArticleSource}\n${russianShinyArticleSource}\n${russianSteeringArticleSource}\n${russianSeacocksArticleSource}\n${russianElectricalCorrosionArticleSource}\n${russianStandingRiggingArticleSource}`,
+        `${russianSurveyTipsSource}\n${russianEngineMountsArticleSource}\n${russianAntifoulingArticleSource}\n${russianBilgeArticleSource}\n${russianDeckArticleSource}\n${russianShinyArticleSource}\n${russianSteeringArticleSource}\n${russianSeacocksArticleSource}\n${russianElectricalCorrosionArticleSource}\n${russianStandingRiggingArticleSource}`,
       ),
     'Russian pages do not reuse the protected English article graphics.',
   );
@@ -1788,11 +1820,8 @@ if (existsSync(distDirectory)) {
       `The sitemap contains unsupported route ${pathname}.`,
     );
   }
-  for (const [locale, expectedCount] of [
-    ['en', 24],
-    ['es', 24],
-    ['ru', 24],
-  ]) {
+  const expectedLocaleRouteCount = russianEquivalentPages.size / 3;
+  for (const locale of ['en', 'es', 'ru']) {
     const actualCount = sitemapPathnames.filter((pathname) => {
       if (locale === 'en') {
         return !pathname.startsWith('/es') && !pathname.startsWith('/ru');
@@ -1800,8 +1829,8 @@ if (existsSync(distDirectory)) {
       return pathname === `/${locale}` || pathname.startsWith(`/${locale}/`);
     }).length;
     assert(
-      actualCount === expectedCount,
-      `The sitemap must contain ${expectedCount} ${locale.toUpperCase()} routes; found ${actualCount}.`,
+      actualCount === expectedLocaleRouteCount,
+      `The sitemap must contain ${expectedLocaleRouteCount} ${locale.toUpperCase()} routes; found ${actualCount}.`,
     );
   }
   for (const { loc, links } of sitemapEntries) {
