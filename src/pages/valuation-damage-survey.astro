@@ -1,5 +1,6 @@
 ---
 import { valuationDamageSurveyPage } from '../data/valuation-damage-survey';
+import SurveyorCredentials from '../components/SurveyorCredentials.astro';
 import ServiceLayout from '../layouts/ServiceLayout.astro';
 import {
   businessEntityId,
@@ -82,6 +83,8 @@ const serviceSchemas: StructuredData[] =
       and Small Craft Marine Surveyor and licensed captain.
     </p>
   </section>
+
+  <SurveyorCredentials locale="en" />
 
   <section aria-labelledby="professional-valuation-heading">
     <h2 id="professional-valuation-heading">Professional Yacht Valuation</h2>

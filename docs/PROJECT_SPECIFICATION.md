@@ -1,6 +1,6 @@
 # Project specification
 
-Last reviewed: 2026-09-02
+Last reviewed: 2026-09-25
 
 ## Product
 
@@ -59,6 +59,7 @@ Every published translation must be a genuine page equivalent. See [Content and 
 - Independent survey findings must not be influenced by brokerage, repair or other commercial interests. Relevant relationships or conflicts are disclosed and an assignment may be declined where independence cannot be maintained.
 - Buyer representation supplies technical support; the buyer retains purchase decisions and responsibility for legal, tax, registration, customs and contractual advice.
 - Valuation and damage work does not determine legal liability, insurance cover, claim settlement or a repair contract.
+- Professional qualification evidence is associated with Aleksandrs Tolkacovs as the individual surveyor. Full evidence belongs on the localized About pages; compact references may appear only on directly relevant survey-service pages and must link to the matching localized About section.
 
 ## Non-goals and prohibited implications
 

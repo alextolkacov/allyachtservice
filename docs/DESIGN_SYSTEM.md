@@ -1,6 +1,6 @@
 # Design system
 
-Last reviewed: 2026-09-02
+Last reviewed: 2026-09-25
 
 This document records maintained visual and accessibility intent. Exact selectors and dimensions remain authoritative in [`src/styles/global.css`](../src/styles/global.css) and the shared components.
 
@@ -83,6 +83,10 @@ See [Yacht Survey Tips](features/YACHT_SURVEY_TIPS.md).
 - Load above-the-fold hero/article images eagerly with high fetch priority; lazy-load archive/card images.
 - Do not use prominent artificial people or invented yacht-inspection scenes as factual illustration.
 - Store stable site assets under [`public/images`](../public/images); the supplied logo lives under [`public/logo`](../public/logo).
+
+### Professional credential evidence
+
+[`SurveyorCredentials.astro`](../src/components/SurveyorCredentials.astro) provides two restrained variants: the full credential and certificate viewer on localized About pages, and a compact trust panel on survey services where the qualification is directly relevant. The official IIMS mark remains visually separate from All Yacht Service branding and must not be redrawn, recolored, distorted, overlaid or decorated. The source certificate remains an unchanged PDF; its derived preview preserves the complete page and aspect ratio. The native dialog must retain keyboard operation, an explicit close control and a direct link to the original PDF.
 
 ## Accessibility
 

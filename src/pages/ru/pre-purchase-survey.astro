@@ -1,5 +1,6 @@
 ---
 import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import SurveyorCredentials from '../../components/SurveyorCredentials.astro';
 import { russianPrePurchaseSurveyPage } from '../../data/ru/pre-purchase-survey';
 import ServiceLayout from '../../layouts/ServiceLayout.astro';
 import { createLocalizedServicePageSchemas } from '../../utils/localizedSeo';
@@ -38,7 +39,12 @@ const schemas = createLocalizedServicePageSchemas({
   structuredData={schemas}
 >
   <LocalizedServiceSections
-    sections={russianPrePurchaseSurveyPage.sections}
+    sections={russianPrePurchaseSurveyPage.sections.slice(0, 1)}
+    locale="ru"
+  />
+  <SurveyorCredentials locale="ru" />
+  <LocalizedServiceSections
+    sections={russianPrePurchaseSurveyPage.sections.slice(1)}
     locale="ru"
   />
 </ServiceLayout>

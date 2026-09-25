@@ -1,19 +1,17 @@
 ---
 import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import SurveyorCredentials from '../../components/SurveyorCredentials.astro';
 import { spanishAboutUsPage } from '../../data/es/about-us';
-import { siteConfig } from '../../data/site';
 import ServiceLayout from '../../layouts/ServiceLayout.astro';
 import {
   businessEntityId,
+  surveyorEntityId,
   toAbsoluteUrl,
   type StructuredData,
 } from '../../utils/seo';
 
 const pageUrl = toAbsoluteUrl(spanishAboutUsPage.pathname);
-const personId = new URL(
-  spanishAboutUsPage.person.id,
-  siteConfig.url,
-).toString();
+const personId = surveyorEntityId;
 const aboutPageSchema: StructuredData = {
   '@context': 'https://schema.org',
   '@type': 'AboutPage',
@@ -63,5 +61,9 @@ const personSchema: StructuredData = {
   finalCtaEyebrow="Contacto"
   structuredData={[aboutPageSchema, personSchema]}
 >
-  <LocalizedServiceSections sections={spanishAboutUsPage.sections} />
+  <LocalizedServiceSections
+    sections={spanishAboutUsPage.sections.slice(0, 2)}
+  />
+  <SurveyorCredentials locale="es" variant="full" />
+  <LocalizedServiceSections sections={spanishAboutUsPage.sections.slice(2)} />
 </ServiceLayout>

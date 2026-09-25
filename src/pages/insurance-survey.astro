@@ -1,5 +1,6 @@
 ---
 import { insuranceSurveyPage } from '../data/insurance-survey';
+import SurveyorCredentials from '../components/SurveyorCredentials.astro';
 import ServiceLayout from '../layouts/ServiceLayout.astro';
 import { createServiceSchema } from '../utils/seo';
 
@@ -56,6 +57,8 @@ const serviceSchema = createServiceSchema({
       management.
     </p>
   </section>
+
+  <SurveyorCredentials locale="en" />
 
   <section aria-labelledby="survey-required-heading">
     <h2 id="survey-required-heading">

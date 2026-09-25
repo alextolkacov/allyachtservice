@@ -1,5 +1,6 @@
 ---
 import { prePurchaseSurveyPage } from '../data/pre-purchase-survey';
+import SurveyorCredentials from '../components/SurveyorCredentials.astro';
 import ServiceLayout from '../layouts/ServiceLayout.astro';
 import { createServiceSchema } from '../utils/seo';
 
@@ -51,6 +52,8 @@ const serviceSchema = createServiceSchema({
       management.
     </p>
   </section>
+
+  <SurveyorCredentials locale="en" />
 
   <section class="service-tool-cta" aria-labelledby="survey-calculator-cta">
     <div>

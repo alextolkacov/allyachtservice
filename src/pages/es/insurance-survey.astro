@@ -1,5 +1,6 @@
 ---
 import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import SurveyorCredentials from '../../components/SurveyorCredentials.astro';
 import { spanishInsuranceSurveyPage } from '../../data/es/insurance-survey';
 import ServiceLayout from '../../layouts/ServiceLayout.astro';
 import { createLocalizedServicePageSchemas } from '../../utils/localizedSeo';
@@ -37,5 +38,11 @@ const schemas = createLocalizedServicePageSchemas({
   finalCtaEyebrow="Contacto"
   structuredData={schemas}
 >
-  <LocalizedServiceSections sections={spanishInsuranceSurveyPage.sections} />
+  <LocalizedServiceSections
+    sections={spanishInsuranceSurveyPage.sections.slice(0, 1)}
+  />
+  <SurveyorCredentials locale="es" />
+  <LocalizedServiceSections
+    sections={spanishInsuranceSurveyPage.sections.slice(1)}
+  />
 </ServiceLayout>

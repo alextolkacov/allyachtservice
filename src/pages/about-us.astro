@@ -2,15 +2,17 @@
 import { aboutUsPage } from '../data/about-us';
 import { legalConfig } from '../data/legal';
 import { siteConfig } from '../data/site';
+import SurveyorCredentials from '../components/SurveyorCredentials.astro';
 import ServiceLayout from '../layouts/ServiceLayout.astro';
 import {
   businessEntityId,
+  surveyorEntityId,
   toAbsoluteUrl,
   type StructuredData,
 } from '../utils/seo';
 
 const pageUrl = toAbsoluteUrl(aboutUsPage.pathname);
-const personId = new URL(aboutUsPage.person.id, siteConfig.url).toString();
+const personId = surveyorEntityId;
 const aboutPageSchema: StructuredData = {
   '@context': 'https://schema.org',
   '@type': 'AboutPage',
@@ -123,6 +125,8 @@ const personSchema: StructuredData = {
     </div>
   </section>
 
+  <SurveyorCredentials locale="en" variant="full" />
+
   <section aria-labelledby="qualifications-heading">
     <h2 id="qualifications-heading">
       Qualifications and Professional Background
@@ -137,7 +141,6 @@ const personSchema: StructuredData = {
         ))
       }
     </div>
-    <!-- TODO: Add an approved IIMS certificate image or qualification document here when publication permission and the asset are available. -->
   </section>
 
   <section aria-labelledby="professional-services-heading">

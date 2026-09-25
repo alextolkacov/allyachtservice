@@ -1,6 +1,6 @@
 # Business and legal invariants
 
-Last reviewed: 2026-09-02
+Last reviewed: 2026-09-25
 
 This is internal engineering guidance, not legal advice. Legal/business documentation is not a substitute for the source-of-truth legal configuration and must be updated whenever approved legal facts change.
 
@@ -38,6 +38,8 @@ Use only approved professional descriptions and separate a professional role fro
 - Aleksandrs Tolkacovs is presented as an **IIMS-Certified Yacht and Small Craft Marine Surveyor and Licensed Captain**.
 - The site also records a Yacht & Small Craft Professional Qualification.
 - Current public company context identifies him as Chief Operating Officer of Premium Yachts Spain.
+
+The IIMS qualification and its supporting certificate belong to Aleksandrs personally. The full credential evidence is presented on the localized About pages, while relevant survey-service pages may use the compact [`SurveyorCredentials`](../src/components/SurveyorCredentials.astro) presentation. Never describe the trading brand or legal operator as IIMS-certified, and never imply IIMS endorsement of the business or a guaranteed survey outcome.
 
 Do not describe him as statutory administrator or legal representative unless verified and approved. Do not describe IIMS as a Spanish regulator or imply that IIMS certification makes every survey legally mandatory.
 

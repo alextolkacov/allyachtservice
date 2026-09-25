@@ -1,5 +1,6 @@
 ---
 import LocalizedServiceSections from '../../components/LocalizedServiceSections.astro';
+import SurveyorCredentials from '../../components/SurveyorCredentials.astro';
 import { russianValuationDamageSurveyPage } from '../../data/ru/valuation-damage-survey';
 import ServiceLayout from '../../layouts/ServiceLayout.astro';
 import {
@@ -57,7 +58,12 @@ const serviceSchemas: StructuredData[] =
   structuredData={[webPageSchema, ...serviceSchemas]}
 >
   <LocalizedServiceSections
-    sections={russianValuationDamageSurveyPage.sections}
+    sections={russianValuationDamageSurveyPage.sections.slice(0, 1)}
+    locale="ru"
+  />
+  <SurveyorCredentials locale="ru" />
+  <LocalizedServiceSections
+    sections={russianValuationDamageSurveyPage.sections.slice(1)}
     locale="ru"
   />
 </ServiceLayout>

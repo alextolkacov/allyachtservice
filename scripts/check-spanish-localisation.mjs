@@ -1115,8 +1115,11 @@ if (existsSync(distDirectory)) {
       if (!href.startsWith('/') || href.startsWith('//')) continue;
       const pathname = href.split(/[?#]/u)[0] || '/';
       if (pathname.startsWith('/api/')) continue;
+      const builtAssetExists = existsSync(
+        resolve(projectRoot, 'dist', pathname.slice(1)),
+      );
       assert(
-        builtRouteSet.has(pathname),
+        builtRouteSet.has(pathname) || builtAssetExists,
         `dist/${path} contains a broken internal link to ${href}.`,
       );
     }

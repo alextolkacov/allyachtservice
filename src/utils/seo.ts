@@ -24,6 +24,7 @@ export interface SeoMetadata {
 }
 
 export const businessEntityId = `${siteConfig.url}/#business`;
+export const surveyorEntityId = `${siteConfig.url}/about-us#aleksandrs-tolkacovs`;
 
 export function normalizePathname(pathname: string): string {
   const pathOnly = pathname.split(/[?#]/u, 1)[0] ?? '/';
@@ -84,6 +85,7 @@ export function createProfessionalServiceSchema(): StructuredData {
     description: siteConfig.professionalDescription,
     founder: {
       '@type': 'Person',
+      '@id': surveyorEntityId,
       name: siteConfig.surveyor,
     },
     address: {
