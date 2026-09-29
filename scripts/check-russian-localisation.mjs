@@ -89,6 +89,9 @@ const russianBuyerRepresentationSource = read(
   'src/data/ru/buyer-representation.ts',
 );
 const russianSurveyTipsSource = read('src/data/ru/yacht-survey-tips.ts');
+const russianDocumentsBeforeSurveyArticleSource = read(
+  'src/data/ru/yacht-survey-tips/documents-before-yacht-survey.ts',
+);
 const russianEngineMountsArticleSource = read(
   'src/data/ru/yacht-survey-tips/yacht-engine-mounts.ts',
 );
@@ -263,6 +266,26 @@ const translatedSurveyTipsRoutes = [
       'Профессиональные советы для покупателей и владельцев яхт о сюрвейерских осмотрах, типичных дефектах, техническом состоянии и обслуживании.',
     heading: 'Советы по сюрвейерскому осмотру яхт',
     article: false,
+  },
+  {
+    en: '/yacht-survey-tips/documents-before-yacht-survey',
+    es: '/es/yacht-survey-tips/documents-before-yacht-survey',
+    ru: '/ru/yacht-survey-tips/documents-before-yacht-survey',
+    title: 'Документы перед предпокупочным осмотром яхты | All Yacht Service',
+    description:
+      'Какие документы и записи об обслуживании запросить до предпокупочного осмотра яхты, что сравнить и как использовать их при проверке.',
+    heading:
+      'Перед сюрвейерским осмотром яхты: какие документы запросить покупателю?',
+    article: true,
+    datePublished: '2026-09-29',
+    dateModified: '2026-09-29',
+    timeRequired: 'PT6M',
+    readingTime: '6 минут чтения',
+    articleSection: 'Предпокупочная проверка · Документы и история',
+    image: '/images/yacht-survey-tips/documents-before-yacht-survey.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Материал подготовил Aleksandrs Tolkacovs',
   },
   {
     en: '/yacht-survey-tips/yacht-engine-mounts',
@@ -1527,6 +1550,7 @@ if (existsSync(distDirectory)) {
     russianSurveyTipsHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const documentsTitle = 'До осмотра запросите документы';
   const engineMountsTitle =
     'Опоры двигателя: небольшие детали, серьёзные последствия';
   const antifoulingTitle = 'Что рассказывает противообрастающее покрытие';
@@ -1555,7 +1579,10 @@ if (existsSync(distDirectory)) {
     'The Russian Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(engineMountsTitle) >= 0 &&
+    latestSection.indexOf(documentsTitle) >= 0 &&
+      latestSection.indexOf(documentsTitle) <
+        latestSection.indexOf(engineMountsTitle) &&
+      latestSection.indexOf(engineMountsTitle) >= 0 &&
       latestSection.indexOf(engineMountsTitle) <
         latestSection.indexOf(antifoulingTitle) &&
       latestSection.indexOf(antifoulingTitle) <
@@ -1573,8 +1600,8 @@ if (existsSync(distDirectory)) {
     'Russian latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 9,
-    'The Russian archive must contain all nine published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 10,
+    'The Russian archive must contain all ten published Survey Tips exactly once.',
   );
   assert(
     russianSurveyTipsHub.includes(
@@ -1606,6 +1633,8 @@ if (existsSync(distDirectory)) {
     'Russian Survey Tips must retain the shared full-image no-crop rules.',
   );
   const protectedImageHashes = {
+    'public/images/yacht-survey-tips/documents-before-yacht-survey.png':
+      'b2364af49b45b83fe2cdce222f85379c9e97ed6d2e9e115b68121e7e8e33de84',
     'public/images/yacht-survey-tips/yacht-engine-mounts.png':
       '4d877f28bb8802f5b807a2400cbb71d5c398a611b92e9c12dea0b066a5e4d953',
     'public/images/yacht-survey-tips/antifouling-tells-a-story.png':
@@ -1656,9 +1685,12 @@ if (existsSync(distDirectory)) {
     );
   }
   assert(
-    russianEngineMountsArticleSource.includes(
-      "src: '/images/yacht-survey-tips/yacht-engine-mounts.png'",
+    russianDocumentsBeforeSurveyArticleSource.includes(
+      "src: '/images/yacht-survey-tips/documents-before-yacht-survey.png'",
     ) &&
+      russianEngineMountsArticleSource.includes(
+        "src: '/images/yacht-survey-tips/yacht-engine-mounts.png'",
+      ) &&
       russianAntifoulingArticleSource.includes(
         "src: '/images/yacht-survey-tips/antifouling-tells-a-story.png'",
       ) &&
