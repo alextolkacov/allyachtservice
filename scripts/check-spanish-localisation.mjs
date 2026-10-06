@@ -301,6 +301,24 @@ const spanishSurveyTipsPages = [
     article: false,
   },
   {
+    en: '/yacht-survey-tips/keel-to-hull-joint',
+    es: '/es/yacht-survey-tips/keel-to-hull-joint',
+    ru: '/ru/yacht-survey-tips/keel-to-hull-joint',
+    title:
+      'Revisión de la unión quilla-casco para compradores | All Yacht Service',
+    description:
+      'Conozca las señales visibles en la unión quilla-casco de un velero que pueden justificar una investigación más detallada antes de comprar.',
+    h1: 'Unión quilla-casco: señales de alerta que debe revisar el comprador de un yate',
+    article: true,
+    datePublished: '2026-10-06',
+    dateModified: '2026-10-06',
+    timeRequired: 'PT6M',
+    image: '/images/yacht-survey-tips/keel-to-hull-joint.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Por Aleksandrs Tolkacovs',
+  },
+  {
     en: '/yacht-survey-tips/documents-before-yacht-survey',
     es: '/es/yacht-survey-tips/documents-before-yacht-survey',
     ru: '/ru/yacht-survey-tips/documents-before-yacht-survey',
@@ -1056,8 +1074,11 @@ if (existsSync(distDirectory)) {
   );
   assert(
     getBuiltPage('/es/yacht-survey-tips').includes(
-      'href="/es/yacht-survey-tips/documents-before-yacht-survey"',
+      'href="/es/yacht-survey-tips/keel-to-hull-joint"',
     ) &&
+      getBuiltPage('/es/yacht-survey-tips').includes(
+        'href="/es/yacht-survey-tips/documents-before-yacht-survey"',
+      ) &&
       getBuiltPage('/es/yacht-survey-tips').includes(
         'href="/es/yacht-survey-tips/yacht-engine-mounts"',
       ) &&
@@ -1178,6 +1199,7 @@ if (existsSync(distDirectory)) {
     'src/data/es/valuation-damage-survey.ts',
     'src/data/es/about-us.ts',
     'src/data/es/yacht-survey-tips.ts',
+    'src/data/es/yacht-survey-tips/keel-to-hull-joint.ts',
     'src/data/es/yacht-survey-tips/documents-before-yacht-survey.ts',
     'src/data/es/yacht-survey-tips/yacht-engine-mounts.ts',
     'src/data/es/yacht-survey-tips/antifouling-tells-a-story.ts',
@@ -1237,6 +1259,7 @@ if (existsSync(distDirectory)) {
     spanishHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const keelTitle = 'Revise la unión quilla-casco';
   const documentsTitle = 'Antes de la inspección, pida los documentos';
   const engineMountsTitle =
     'Soportes del motor: piezas pequeñas, consecuencias costosas';
@@ -1268,7 +1291,10 @@ if (existsSync(distDirectory)) {
     'The Spanish Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(documentsTitle) >= 0 &&
+    latestSection.indexOf(keelTitle) >= 0 &&
+      latestSection.indexOf(keelTitle) <
+        latestSection.indexOf(documentsTitle) &&
+      latestSection.indexOf(documentsTitle) >= 0 &&
       latestSection.indexOf(documentsTitle) <
         latestSection.indexOf(engineMountsTitle) &&
       latestSection.indexOf(engineMountsTitle) >= 0 &&
@@ -1289,8 +1315,8 @@ if (existsSync(distDirectory)) {
     'Spanish latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 10,
-    'The Spanish archive must contain all ten published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 11,
+    'The Spanish archive must contain all eleven published Survey Tips exactly once.',
   );
   const englishHub = getBuiltPage('/yacht-survey-tips');
   const englishLatestSection =
@@ -1304,6 +1330,11 @@ if (existsSync(distDirectory)) {
         englishHub.indexOf('survey-tips-latest-section') &&
       englishHub.indexOf('survey-tips-latest-section') <
         englishHub.indexOf('survey-tips-categories-section') &&
+      englishLatestSection.indexOf('Check the Keel-to-Hull Joint') >= 0 &&
+      englishLatestSection.indexOf('Check the Keel-to-Hull Joint') <
+        englishLatestSection.indexOf(
+          'Before the Survey, Ask for the Documents',
+        ) &&
       englishLatestSection.indexOf(
         'Before the Survey, Ask for the Documents',
       ) >= 0 &&
@@ -1333,11 +1364,15 @@ if (existsSync(distDirectory)) {
         englishLatestSection.indexOf(
           'Electrical Corrosion on Yachts: What to Look For',
         ),
-    'The English hub must remove Featured content and show the documents article first after the introduction.',
+    'The English hub must remove Featured content and show the keel-to-hull article first after the introduction.',
   );
   assert(
     (englishLatestSection.match(/class="survey-article-card"/gu) ?? [])
-      .length === 10 &&
+      .length === 11 &&
+      englishLatestSection.indexOf('Check the Keel-to-Hull Joint') <
+        englishLatestSection.indexOf(
+          'Before the Survey, Ask for the Documents',
+        ) &&
       englishLatestSection.indexOf('Before the Survey, Ask for the Documents') <
         englishLatestSection.indexOf(
           'Engine Mounts: Small Components, Expensive Consequences',
@@ -1379,7 +1414,48 @@ if (existsSync(distDirectory)) {
         englishLatestSection.indexOf(
           'Deck Moisture and Soft Spots: What Yacht Buyers Should Know',
         ),
-    'The English archive must contain all ten articles in newest-first order.',
+    'The English archive must contain all eleven articles in newest-first order.',
+  );
+  const englishKeelPath = '/yacht-survey-tips/keel-to-hull-joint';
+  const englishKeel = getBuiltPage(englishKeelPath);
+  const englishKeelSchemas = getSchemas(englishKeel, englishKeelPath);
+  const englishKeelArticleSchema = englishKeelSchemas.find(
+    (schema) => schema['@type'] === 'Article',
+  );
+  assert(
+    englishKeel.includes(
+      '<title>Keel-to-Hull Joint Checks for Yacht Buyers | All Yacht Service</title>',
+    ) &&
+      englishKeel.includes(
+        '<meta name="description" content="Learn which visible signs at a sailing yacht’s keel-to-hull joint may warrant closer investigation before purchase and why context matters.">',
+      ) &&
+      englishKeel.includes(
+        `<link rel="canonical" href="${absolute(englishKeelPath)}">`,
+      ) &&
+      englishKeel.includes(
+        `<meta property="og:url" content="${absolute(englishKeelPath)}">`,
+      ) &&
+      englishKeel.includes(
+        '<meta property="og:image" content="https://www.allyachtservice.com/images/yacht-survey-tips/keel-to-hull-joint.png">',
+      ) &&
+      visibleText(englishKeel).includes('By Aleksandrs Tolkacovs'),
+    'The English keel-to-hull article has incorrect metadata, image or author spacing.',
+  );
+  assert(
+    englishKeelArticleSchema?.['@id'] ===
+      `${absolute(englishKeelPath)}#article` &&
+      englishKeelArticleSchema.datePublished === '2026-10-06' &&
+      englishKeelArticleSchema.dateModified === '2026-10-06' &&
+      englishKeelArticleSchema.timeRequired === 'PT6M' &&
+      englishKeelArticleSchema.image ===
+        'https://www.allyachtservice.com/images/yacht-survey-tips/keel-to-hull-joint.png' &&
+      englishKeelArticleSchema.author?.name === 'Aleksandrs Tolkacovs' &&
+      englishKeelArticleSchema.author?.['@id'] ===
+        'https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs' &&
+      englishKeelArticleSchema.publisher?.['@id'] ===
+        'https://www.allyachtservice.com/#business' &&
+      englishKeelSchemas.some((schema) => schema['@type'] === 'BreadcrumbList'),
+    'The English keel-to-hull article has incomplete or unstable structured data.',
   );
   const englishDocumentsPath =
     '/yacht-survey-tips/documents-before-yacht-survey';
@@ -1655,6 +1731,8 @@ if (existsSync(distDirectory)) {
     'Article graphics must retain the shared full-image no-crop rules.',
   );
   const englishImageHashes = {
+    'public/images/yacht-survey-tips/keel-to-hull-joint.png':
+      'e15be265bc2ce4d40147233d0c46a58e9faeefe313342711d3733fa2fa8655ef',
     'public/images/yacht-survey-tips/documents-before-yacht-survey.png':
       'b2364af49b45b83fe2cdce222f85379c9e97ed6d2e9e115b68121e7e8e33de84',
     'public/images/yacht-survey-tips/yacht-engine-mounts.png':

@@ -89,6 +89,9 @@ const russianBuyerRepresentationSource = read(
   'src/data/ru/buyer-representation.ts',
 );
 const russianSurveyTipsSource = read('src/data/ru/yacht-survey-tips.ts');
+const russianKeelToHullJointArticleSource = read(
+  'src/data/ru/yacht-survey-tips/keel-to-hull-joint.ts',
+);
 const russianDocumentsBeforeSurveyArticleSource = read(
   'src/data/ru/yacht-survey-tips/documents-before-yacht-survey.ts',
 );
@@ -266,6 +269,26 @@ const translatedSurveyTipsRoutes = [
       'Профессиональные советы для покупателей и владельцев яхт о сюрвейерских осмотрах, типичных дефектах, техническом состоянии и обслуживании.',
     heading: 'Советы по сюрвейерскому осмотру яхт',
     article: false,
+  },
+  {
+    en: '/yacht-survey-tips/keel-to-hull-joint',
+    es: '/es/yacht-survey-tips/keel-to-hull-joint',
+    ru: '/ru/yacht-survey-tips/keel-to-hull-joint',
+    title: 'Проверка соединения киля с корпусом | All Yacht Service',
+    description:
+      'Какие видимые признаки в месте соединения киля с корпусом парусной яхты могут потребовать дополнительной проверки перед покупкой.',
+    heading:
+      'Соединение киля с корпусом: на что обратить внимание покупателю яхты',
+    article: true,
+    datePublished: '2026-10-06',
+    dateModified: '2026-10-06',
+    timeRequired: 'PT6M',
+    readingTime: '6 минут чтения',
+    articleSection: 'Предпокупочный осмотр · Корпус и конструкции',
+    image: '/images/yacht-survey-tips/keel-to-hull-joint.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Материал подготовил Aleksandrs Tolkacovs',
   },
   {
     en: '/yacht-survey-tips/documents-before-yacht-survey',
@@ -1550,6 +1573,7 @@ if (existsSync(distDirectory)) {
     russianSurveyTipsHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const keelTitle = 'Проверьте соединение киля с корпусом';
   const documentsTitle = 'До осмотра запросите документы';
   const engineMountsTitle =
     'Опоры двигателя: небольшие детали, серьёзные последствия';
@@ -1579,7 +1603,10 @@ if (existsSync(distDirectory)) {
     'The Russian Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(documentsTitle) >= 0 &&
+    latestSection.indexOf(keelTitle) >= 0 &&
+      latestSection.indexOf(keelTitle) <
+        latestSection.indexOf(documentsTitle) &&
+      latestSection.indexOf(documentsTitle) >= 0 &&
       latestSection.indexOf(documentsTitle) <
         latestSection.indexOf(engineMountsTitle) &&
       latestSection.indexOf(engineMountsTitle) >= 0 &&
@@ -1600,8 +1627,8 @@ if (existsSync(distDirectory)) {
     'Russian latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 10,
-    'The Russian archive must contain all ten published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 11,
+    'The Russian archive must contain all eleven published Survey Tips exactly once.',
   );
   assert(
     russianSurveyTipsHub.includes(
@@ -1633,6 +1660,8 @@ if (existsSync(distDirectory)) {
     'Russian Survey Tips must retain the shared full-image no-crop rules.',
   );
   const protectedImageHashes = {
+    'public/images/yacht-survey-tips/keel-to-hull-joint.png':
+      'e15be265bc2ce4d40147233d0c46a58e9faeefe313342711d3733fa2fa8655ef',
     'public/images/yacht-survey-tips/documents-before-yacht-survey.png':
       'b2364af49b45b83fe2cdce222f85379c9e97ed6d2e9e115b68121e7e8e33de84',
     'public/images/yacht-survey-tips/yacht-engine-mounts.png':
@@ -1685,9 +1714,12 @@ if (existsSync(distDirectory)) {
     );
   }
   assert(
-    russianDocumentsBeforeSurveyArticleSource.includes(
-      "src: '/images/yacht-survey-tips/documents-before-yacht-survey.png'",
+    russianKeelToHullJointArticleSource.includes(
+      "src: '/images/yacht-survey-tips/keel-to-hull-joint.png'",
     ) &&
+      russianDocumentsBeforeSurveyArticleSource.includes(
+        "src: '/images/yacht-survey-tips/documents-before-yacht-survey.png'",
+      ) &&
       russianEngineMountsArticleSource.includes(
         "src: '/images/yacht-survey-tips/yacht-engine-mounts.png'",
       ) &&

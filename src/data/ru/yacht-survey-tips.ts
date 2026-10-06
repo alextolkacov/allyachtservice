@@ -8,6 +8,7 @@ import { russianCheckYachtSeacocksArticle } from './yacht-survey-tips/check-yach
 import { russianCheckYachtSteeringArticle } from './yacht-survey-tips/check-yacht-steering';
 import { russianDeckMoistureSoftSpotsArticle } from './yacht-survey-tips/deck-moisture-soft-spots';
 import { russianDocumentsBeforeYachtSurveyArticle } from './yacht-survey-tips/documents-before-yacht-survey';
+import { russianKeelToHullJointArticle } from './yacht-survey-tips/keel-to-hull-joint';
 import { russianShinyHullArticle } from './yacht-survey-tips/shiny-hull';
 import { russianStandingRiggingWarningSignsArticle } from './yacht-survey-tips/standing-rigging-warning-signs';
 import { russianYachtElectricalCorrosionArticle } from './yacht-survey-tips/yacht-electrical-corrosion';
@@ -96,6 +97,7 @@ export const russianYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    russianKeelToHullJointArticle.card,
     russianDocumentsBeforeYachtSurveyArticle.card,
     russianYachtEngineMountsArticle.card,
     russianAntifoulingTellsAStoryArticle.card,

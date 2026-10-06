@@ -13,6 +13,7 @@ export type RouteId =
   | 'yachtDelivery'
   | 'yachtsForSale'
   | 'yachtSurveyTips'
+  | 'keelToHullJoint'
   | 'documentsBeforeYachtSurvey'
   | 'yachtEngineMounts'
   | 'antifoulingTellsAStory'
@@ -96,6 +97,11 @@ export const translatedRoutes: Record<
     en: '/yacht-survey-tips',
     es: '/es/yacht-survey-tips',
     ru: '/ru/yacht-survey-tips',
+  },
+  keelToHullJoint: {
+    en: '/yacht-survey-tips/keel-to-hull-joint',
+    es: '/es/yacht-survey-tips/keel-to-hull-joint',
+    ru: '/ru/yacht-survey-tips/keel-to-hull-joint',
   },
   documentsBeforeYachtSurvey: {
     en: '/yacht-survey-tips/documents-before-yacht-survey',
