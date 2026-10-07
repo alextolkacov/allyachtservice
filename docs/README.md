@@ -1,6 +1,6 @@
 # All Yacht Service documentation
 
-Last reviewed: 2026-09-02
+Last reviewed: 2026-10-07
 
 This documentation preserves the current product, engineering and operating context that cannot be inferred safely from a single source file. It is intended for maintainers and coding agents; it does not replace executable configuration, approved legal data or provider settings.
 
@@ -14,6 +14,7 @@ This documentation preserves the current product, engineering and operating cont
 | How should pages look and behave responsively?               | [Design System](DESIGN_SYSTEM.md)                         |
 | How do EN/ES/RU content and routes work?                     | [Content and Localisation](CONTENT_AND_LOCALISATION.md)   |
 | How do SEO, schema and indexability work?                    | [SEO and Indexing](SEO_AND_INDEXING.md)                   |
+| How are old ES/RU subdomain URLs consolidated?               | [Legacy Language Redirects](LEGACY_LANGUAGE_REDIRECTS.md) |
 | What must not be changed casually in business/legal content? | [Business and Legal](BUSINESS_AND_LEGAL.md)               |
 | How is production built and deployed?                        | [Deployment and Operations](DEPLOYMENT_AND_OPERATIONS.md) |
 | Where do secrets belong?                                     | [Security and Secrets](SECURITY_AND_SECRETS.md)           |

@@ -208,7 +208,7 @@ export const spanishPrePurchaseSurveyPage = {
       eyebrow: 'Herramienta de planificación en línea',
       heading: 'Calcule un coste inicial de inspección',
       description:
-        'Utilice la eslora, el tipo de embarcación y el alcance de la inspección para obtener una estimación aproximada y no vinculante antes de solicitar un presupuesto formal.',
+        'Utilice la eslora, el tipo de embarcación y el alcance de la inspección para obtener una estimación aproximada y no vinculante. El coste también depende del acceso, la ubicación, el desplazamiento y las pruebas solicitadas, como varada, prueba de mar, motores o aparejo. Los gastos de puerto, varadero y operación pueden cobrarse por separado.',
       link: {
         label: 'Calcular el coste de la inspección',
         href: '/es/pre-purchase-survey-calculator',

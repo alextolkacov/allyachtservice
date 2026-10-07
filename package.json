@@ -21,6 +21,7 @@
     "check:ru": "node scripts/check-russian-localisation.mjs",
     "check:calculators": "node scripts/check-calculator-localisation.mjs",
     "check:docs": "node scripts/check-documentation.mjs",
+    "check:seo": "node scripts/check-seo-output.mjs",
     "typecheck": "astro check && tsc --project functions/tsconfig.json --noEmit",
     "functions:types": "wrangler types --path=./functions/types.d.ts",
     "preview:cloudflare": "npm run build && wrangler pages dev dist"

@@ -14,9 +14,9 @@ export interface HomeService {
 
 export const homeContent = {
   hero: {
-    heading: 'All Yacht Service',
+    heading: 'Independent Yacht Surveyor in Spain',
     supportingText:
-      'Trusted Yacht Services Backed by Experience, Precision and Personal Attention',
+      'Independent, buyer-focused yacht surveying backed by technical experience and clear reporting',
     serviceLine:
       'Pre-purchase, insurance and valuation surveys, yacht delivery and buyer representation throughout Spain and the Mediterranean.',
     image: {
@@ -28,7 +28,7 @@ export const homeContent = {
   },
   introduction: {
     heading: 'Independent Yacht Surveyor in Costa Blanca, Spain',
-    body: 'Pre-purchase, insurance and valuation surveys, yacht delivery and buyer representation throughout Spain and the Mediterranean.',
+    body: 'All Yacht Service provides independent professional yacht surveys from Altea, Alicante, across Spain and the Mediterranean. Pre-purchase inspections, insurance condition surveys and valuation or damage assessments help buyers and owners understand a yacht’s condition before important decisions.',
     trustLine:
       'Services provided by an IIMS-Certified Yacht and Small Craft Marine Surveyor and Licensed Captain.',
   },
@@ -139,6 +139,20 @@ export const homeContent = {
       },
     ],
   },
+  knowledgeResources: [
+    {
+      title: 'Yacht Survey Tips',
+      description:
+        'Practical yacht inspection advice on common defects, maintenance observations and survey preparation.',
+      href: '/yacht-survey-tips',
+      image: {
+        src: '/images/yacht-survey-tips-background.jpg',
+        alt: 'Yacht hull reflected in marina water',
+        width: 1536,
+        height: 1024,
+      },
+    },
+  ] satisfies readonly HomeService[],
   whyChooseUs: {
     heading: 'Why Choose All Yacht Service?',
     introduction:

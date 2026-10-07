@@ -22,21 +22,21 @@ const surveyInspectionImage = {
 } as const satisfies SurveyTipsImage;
 
 export const yachtSurveyTipsPage = {
-  title: 'Yacht Survey Tips and Expert Advice | All Yacht Service',
+  title: 'Yacht Survey Tips & Inspection Advice | All Yacht Service',
   description:
-    'Practical yacht survey tips covering common defects, inspection methods and buying advice from an independent yacht surveyor in Spain.',
+    'Practical yacht inspection advice for buyers and owners: common defects, maintenance observations and ways to prepare for a professional survey.',
   pathname: '/yacht-survey-tips',
-  heading: 'Yacht Survey Tips and Expert Advice',
+  heading: 'Yacht Survey Tips and Inspection Advice',
   summary:
-    'Practical guidance from an independent yacht surveyor to help owners and buyers better understand yacht condition, common defects and survey preparation.',
+    'Practical inspection and maintenance observations to help owners and buyers recognise common defects and prepare useful questions.',
   heroImage: surveyInspectionImage,
   breadcrumbs: [
     { label: 'Home', href: '/' },
     { label: 'Yacht Survey Tips', href: '/yacht-survey-tips' },
   ],
   primaryCta: {
-    label: 'Request a Yacht Survey Quote',
-    href: '/contact?service=pre-purchase-survey',
+    label: 'Read Latest Survey Tips',
+    href: '#latest-survey-articles-heading',
   },
   secondaryCta: {
     label: 'View Survey Services',

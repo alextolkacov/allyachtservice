@@ -9,8 +9,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout
-  title="Yacht Surveyor in Spain | All Yacht Service"
-  description="Independent yacht surveys, yacht delivery and buyer representation throughout Spain and the Mediterranean from Marina Greenwich in Altea."
+  title="Yacht Surveyor Spain | IIMS-Certified Marine Surveyor"
+  description="Independent yacht surveyor in Spain offering pre-purchase, insurance condition and valuation surveys from Altea, Alicante, across the Mediterranean."
   locale="en"
   routeId="home"
   pathname="/"
@@ -58,6 +58,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
     </div>
   </section>
+  <ServicesGrid
+    heading="Yacht Survey Tips and Inspection Advice"
+    eyebrow="Knowledge centre"
+    services={homeContent.knowledgeResources}
+    linkLabel="Read the tips"
+    sectionId="knowledge-resources"
+  />
   <WhyChooseUs {...homeContent.whyChooseUs} />
   <AboutSection {...homeContent.about} />
   <ContactSection />

@@ -1,9 +1,9 @@
 import type { HomeService } from '../home';
 
 export const spanishHomeHero = {
-  heading: 'All Yacht Service',
+  heading: 'Inspector naval independiente de yates en España',
   supportingText:
-    'Servicios náuticos de confianza respaldados por experiencia, precisión y atención personalizada',
+    'Inspecciones independientes de yates con experiencia técnica, criterio imparcial e informes claros',
   serviceLine:
     'Peritajes de precompra, para seguros y de valoración, traslado de yates y representación de compradores en toda España y el Mediterráneo.',
   image: {
@@ -17,7 +17,7 @@ export const spanishHomeHero = {
 export const spanishHomeIntroduction = {
   eyebrow: 'Inspección de yates en España',
   heading: 'Inspector naval independiente en la Costa Blanca, España',
-  body: 'Inspecciones precompra, para seguros y de valoración, entrega de yates y representación del comprador en toda España y el Mediterráneo.',
+  body: 'All Yacht Service realiza inspecciones técnicas independientes de yates desde Altea, Alicante, en toda España y el Mediterráneo. Las inspecciones precompra, de condición para seguros y de valoración o daños ayudan a compradores y propietarios a conocer el estado de la embarcación.',
   trustLine:
     'Servicios prestados por un inspector naval de yates y embarcaciones menores certificado por IIMS y capitán titulado.',
 } as const;

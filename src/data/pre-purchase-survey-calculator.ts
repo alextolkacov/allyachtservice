@@ -1,12 +1,12 @@
 import { siteConfig } from './site';
 
 export const prePurchaseSurveyCalculatorPage = {
-  title: 'Yacht Survey Cost Calculator | All Yacht Service',
+  title: 'Yacht Survey Cost Calculator Spain | Estimate Survey Price',
   description:
-    'Calculate an approximate pre-purchase yacht survey cost based on vessel length, yacht type, inspection scope and selected services.',
+    'Estimate a pre-purchase yacht survey fee in Spain by yacht length, type and inspection scope. See what may affect the final quotation and what costs are separate.',
   pathname: '/pre-purchase-survey-calculator',
   eyebrow: 'Survey planning tool',
-  heading: 'Pre-Purchase Yacht Survey Cost Calculator',
+  heading: 'Yacht Survey Cost Calculator',
   summary:
     'Calculate an approximate survey fee based on yacht length, vessel type and the required inspection scope.',
   heroImage: {

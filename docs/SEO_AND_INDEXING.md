@@ -1,6 +1,6 @@
 # SEO and indexing
 
-Last reviewed: 2026-09-02
+Last reviewed: 2026-10-07
 
 ## Canonical origin and URLs
 
@@ -23,6 +23,10 @@ The sitemap integration applies the same English `x-default` rule. Language-spec
 ## Sitemap and robots
 
 `@astrojs/sitemap` generates `sitemap-index.xml` and its child sitemap from the static route set. [`public/robots.txt`](../public/robots.txt) allows crawling and references the canonical sitemap index. Do not create or hand-maintain duplicate XML sitemap files.
+
+The sitemap serializer preserves the English `x-default` equivalent and does not add synthetic `lastmod` values. With `trailingSlash: 'never'`, Astro's sitemap writer serializes the root `<loc>` as the bare origin; this resolves to the same homepage as the `/` self-canonical.
+
+Legacy Spanish/Russian subdomain consolidation is specified in [Legacy Language Redirects](LEGACY_LANGUAGE_REDIRECTS.md). The reviewed CSV is a provider import artifact; it is not an Astro/Pages redirect file and does not affect the generated sitemap.
 
 Route and sitemap counts are deliberately not architectural requirements; they change with content.
 

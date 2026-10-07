@@ -1,6 +1,6 @@
 # Testing and quality
 
-Last reviewed: 2026-09-02
+Last reviewed: 2026-10-07
 
 Always inspect [`package.json`](../package.json) before running checks; scripts are executable truth and may evolve faster than this summary.
 
@@ -17,6 +17,7 @@ Always inspect [`package.json`](../package.json) before running checks; scripts 
 | `npm run check:ru`           | Russian portion of localization regression.                                                                                                                              |
 | `npm run check:calculators`  | Canonical survey/delivery formula cases, route graph, language equality and stored payload tamper/reference/expiry behavior.                                             |
 | `npm run check:docs`         | Required docs, relative links, ADR naming, docs index and AGENTS links.                                                                                                  |
+| `npm run check:seo`          | Built canonicals, titles, descriptions, H1s, hreflang reciprocity, sitemap, JSON-LD, and legacy redirect-map targets. Requires a current `dist`.                         |
 | `npm run build`              | Static production artifact and sitemap; behavior of robots metadata depends on `PUBLIC_SITE_INDEXABLE`.                                                                  |
 | `npm run preview`            | Astro static preview of the existing build.                                                                                                                              |
 | `npm run preview:cloudflare` | Build plus local Cloudflare Pages/Functions emulation.                                                                                                                   |

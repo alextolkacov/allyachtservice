@@ -38,8 +38,8 @@ export const spanishYachtSurveyTipsPage = {
     },
   ],
   primaryCta: {
-    label: 'Solicitar presupuesto de inspección',
-    href: '/es/contact?service=pre-purchase-survey',
+    label: 'Leer los últimos consejos',
+    href: '#latest-survey-articles-heading',
   },
   secondaryCta: {
     label: 'Ver servicios de inspección',

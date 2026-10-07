@@ -38,8 +38,8 @@ export const russianYachtSurveyTipsPage = {
     },
   ],
   primaryCta: {
-    label: 'Запросить предложение на осмотр',
-    href: '/ru/contact?service=pre-purchase-survey',
+    label: 'Читать последние статьи',
+    href: '#latest-survey-articles-heading',
   },
   secondaryCta: {
     label: 'Услуги сюрвейерского осмотра',

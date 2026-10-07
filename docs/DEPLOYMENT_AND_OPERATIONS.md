@@ -1,6 +1,6 @@
 # Deployment and operations
 
-Last reviewed: 2026-09-02
+Last reviewed: 2026-10-07
 
 ## Production model
 
@@ -39,6 +39,8 @@ Owner-supplied current context:
 - `allyachtservice.pages.dev` redirects to the canonical `www` origin to prevent a duplicate public site.
 
 **Verify in provider UI before changing; repository code alone cannot prove current provider state.** Do not modify Namecheap, Cloudflare redirects or Search Console without explicit authorization.
+
+Spanish and Russian legacy subdomains are a separate consolidation task: import and activate the exact [legacy redirect map](LEGACY_LANGUAGE_REDIRECTS.md) in a hostname-capable redirect provider after their DNS/HTTPS routing is verified. A Pages `_redirects` file cannot do this cross-host work. As checked on 2026-10-07, the old subdomains did not resolve publicly, so the redirect artifact is not yet live.
 
 ## Deployment checklist
 

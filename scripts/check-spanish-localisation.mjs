@@ -620,7 +620,7 @@ if (existsSync(distDirectory)) {
   );
   assert(
     spanishHome.includes(
-      'Servicios náuticos de confianza respaldados por experiencia, precisión y atención personalizada',
+      'Inspecciones independientes de yates con experiencia técnica, criterio imparcial e informes claros',
     ) &&
       spanishHome.includes(
         'Peritajes de precompra, para seguros y de valoración, traslado de yates y representación de compradores en toda España y el Mediterráneo.',
