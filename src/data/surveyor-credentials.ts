@@ -1,11 +1,6 @@
 import type { Locale } from './languages';
 
 export const surveyorCredentialAssets = {
-  logo: {
-    src: '/images/credentials/iims-logo.png',
-    width: 1254,
-    height: 1254,
-  },
   certificate: {
     src: '/images/credentials/aleksandrs-tolkacovs-iims-certificate.pdf',
     previewSrc:
@@ -23,7 +18,6 @@ export const surveyorCredentialCopy = {
     title: 'IIMS-Certified Yacht and Small Craft Marine Surveyor',
     description:
       'Aleksandrs Tolkacovs holds the IIMS Professional Qualification in Yacht and Small Craft Marine Surveying. His qualification supports a structured, independent approach to yacht condition assessment, pre-purchase surveys and related marine surveying assignments.',
-    logoAlt: 'International Institute of Marine Surveying (IIMS) logo',
     certificateAlt: 'IIMS certificate for Aleksandrs Tolkacovs',
     viewCertificate: 'View IIMS Certificate',
     certificateDialogTitle: 'IIMS certificate for Aleksandrs Tolkacovs',
@@ -41,7 +35,6 @@ export const surveyorCredentialCopy = {
       'Inspector naval de yates y embarcaciones menores certificado por IIMS',
     description:
       'Aleksandrs Tolkacovs cuenta con la cualificación profesional de IIMS en inspección de yates y embarcaciones menores. Su cualificación respalda un enfoque estructurado e independiente de la evaluación del estado de yates, las inspecciones precompra y otros encargos de inspección naval.',
-    logoAlt: 'Logotipo del International Institute of Marine Surveying (IIMS)',
     certificateAlt: 'Certificado IIMS de Aleksandrs Tolkacovs',
     viewCertificate: 'Ver certificado IIMS',
     certificateDialogTitle: 'Certificado IIMS de Aleksandrs Tolkacovs',
@@ -58,7 +51,6 @@ export const surveyorCredentialCopy = {
     title: 'Сертифицированный IIMS сюрвейер яхт и маломерных судов',
     description:
       'Aleksandrs Tolkacovs имеет профессиональную квалификацию IIMS в области сюрвейерских осмотров яхт и маломерных судов. Эта квалификация поддерживает системный и независимый подход к оценке технического состояния яхт, предпокупочным осмотрам и другим сюрвейерским заданиям.',
-    logoAlt: 'Логотип International Institute of Marine Surveying (IIMS)',
     certificateAlt: 'Сертификат IIMS Aleksandrs Tolkacovs',
     viewCertificate: 'Посмотреть сертификат IIMS',
     certificateDialogTitle: 'Сертификат IIMS Aleksandrs Tolkacovs',

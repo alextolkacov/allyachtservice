@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import process from 'node:process';
 
@@ -29,10 +29,25 @@ assert(
   'The supplied IIMS certificate has changed.',
 );
 assert(
+  sha256(
+    'public/images/credentials/aleksandrs-tolkacovs-iims-certificate-preview.png',
+  ) === '951651afc58f4c07ba32acbb343e4d66ada85af6b775198782a1cc790fce536c',
+  'The IIMS certificate preview has changed.',
+);
+assert(
   component.includes('data-certificate-dialog') &&
     component.includes('dialog.showModal()') &&
-    component.includes('href={copy.aboutHref}'),
+    component.includes('href={copy.aboutHref}') &&
+    component.includes('src={assets.certificate.previewSrc}') &&
+    component.includes('href={assets.certificate.src}'),
   'The reusable credential component has lost its dialog or localized About link.',
+);
+assert(
+  !component.includes('assets.logo') &&
+    !component.includes('surveyor-credential-logo') &&
+    !credentialData.includes('iims-logo.png') &&
+    !credentialData.includes('logoAlt:'),
+  'The IIMS logo is still configured for website display.',
 );
 assert(
   credentialData.includes(
@@ -74,12 +89,37 @@ const builtAboutPages = [
   ['dist/ru/about-us.html', 'Профессиональная квалификация'],
 ];
 if (existsSync(resolve(projectRoot, 'dist'))) {
+  const builtFiles = (directory) =>
+    readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+      const path = resolve(directory, entry.name);
+      return entry.isDirectory()
+        ? builtFiles(path)
+        : /\.(?:html|css)$/u.test(entry.name)
+          ? [path]
+          : [];
+    });
+  for (const path of builtFiles(resolve(projectRoot, 'dist'))) {
+    assert(
+      !/iims-logo\.png|surveyor-credential-logo/iu.test(
+        readFileSync(path, 'utf8'),
+      ),
+      `${path} still references the IIMS logo in rendered HTML or CSS.`,
+    );
+  }
   for (const [path, heading] of builtAboutPages) {
     const html = read(path);
     assert(
       html.includes('id="professional-qualifications"') &&
         html.includes(heading) &&
-        html.includes('data-certificate-dialog'),
+        html.includes('data-certificate-dialog') &&
+        html.includes('data-certificate-open') &&
+        html.includes('data-certificate-close') &&
+        html.includes(
+          '/images/credentials/aleksandrs-tolkacovs-iims-certificate-preview.png',
+        ) &&
+        html.includes(
+          '/images/credentials/aleksandrs-tolkacovs-iims-certificate.pdf',
+        ),
       `${path} is missing its localized full credential section.`,
     );
     const schemas = [
