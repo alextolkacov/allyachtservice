@@ -53,10 +53,10 @@ export const russianHomeServices = [
       'Независимая оценка стоимости с учётом состояния яхты и документированная оценка ущерба в рамках согласованного задания.',
     href: '/ru/valuation-damage-survey',
     image: {
-      src: '/images/pre-purchase-survey.webp',
-      alt: 'Измерение влажности при техническом осмотре яхты',
-      width: 1200,
-      height: 674,
+      src: '/images/yacht-damage-assessment.webp',
+      alt: 'Повреждённая парусная яхта на берегу у пирса',
+      width: 638,
+      height: 480,
     },
   },
   {

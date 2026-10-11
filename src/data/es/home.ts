@@ -53,10 +53,10 @@ export const spanishHomeServices = [
       'Valoración independiente basada en el estado y evaluación documentada de daños para un propósito acordado.',
     href: '/es/valuation-damage-survey',
     image: {
-      src: '/images/pre-purchase-survey.webp',
-      alt: 'Medición de humedad durante una inspección técnica de un yate',
-      width: 1200,
-      height: 674,
+      src: '/images/yacht-damage-assessment.webp',
+      alt: 'Velero dañado en tierra junto a un muelle',
+      width: 638,
+      height: 480,
     },
   },
   {

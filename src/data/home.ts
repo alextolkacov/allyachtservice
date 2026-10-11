@@ -63,10 +63,10 @@ export const homeContent = {
         'Independent condition-based valuation and damage reporting for an agreed purpose and inspection scope.',
       href: '/valuation-damage-survey',
       image: {
-        src: '/images/pre-purchase-survey.webp',
-        alt: 'Moisture measurement during a technical yacht inspection',
-        width: 1200,
-        height: 674,
+        src: '/images/yacht-damage-assessment.webp',
+        alt: 'Damaged sailing yacht ashore near a pier',
+        width: 638,
+        height: 480,
       },
     },
     {

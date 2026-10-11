@@ -1,4 +1,5 @@
 import type { Locale } from '../data/languages';
+import { siteConfig } from '../data/site';
 
 export interface FooterCopy {
   description: string;
@@ -38,6 +39,27 @@ export const footerCopy = {
     legal: 'Юридическая информация',
   },
 } as const satisfies Record<Locale, FooterCopy>;
+
+export const englishFooter = {
+  address: siteConfig.address.lines,
+  phone: 'Phone',
+  whatsapp: 'WhatsApp',
+  email: 'Email',
+  openingHours: 'Opening hours',
+  hours: siteConfig.workingHours.label,
+  appointments: 'Appointments are recommended.',
+  yachtSurveyTips: 'Yacht Survey Tips',
+  tools: {
+    survey: 'Survey Cost Calculator',
+    delivery: 'Yacht Delivery Cost Calculator',
+  },
+  legal: {
+    privacy: 'Privacy Policy',
+    cookies: 'Cookie Policy',
+    notice: 'Legal Notice',
+    terms: 'Terms and Conditions',
+  },
+} as const;
 
 export const spanishFooter = {
   address: [

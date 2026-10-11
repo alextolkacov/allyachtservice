@@ -9,7 +9,12 @@ import {
   type RouteId,
 } from '../data/navigation';
 import { siteConfig } from '../data/site';
-import { footerCopy, russianFooter, spanishFooter } from '../i18n/footer';
+import {
+  englishFooter,
+  footerCopy,
+  russianFooter,
+  spanishFooter,
+} from '../i18n/footer';
 import { getSharedUi, isEnglishFallback } from '../i18n/ui';
 import SocialLinks from './SocialLinks.astro';
 
@@ -21,13 +26,12 @@ interface Props {
 const { currentLocale, routeId } = Astro.props;
 const text = footerCopy[currentLocale];
 const ui = getSharedUi(currentLocale);
-const isSpanish = currentLocale === 'es';
-const isRussian = currentLocale === 'ru';
-const localizedFooter = isSpanish
-  ? spanishFooter
-  : isRussian
-    ? russianFooter
-    : undefined;
+const localizedFooter =
+  currentLocale === 'es'
+    ? spanishFooter
+    : currentLocale === 'ru'
+      ? russianFooter
+      : englishFooter;
 ---
 
 <footer class="site-footer">
@@ -53,51 +57,37 @@ const localizedFooter = isSpanish
     <div>
       <h2>{text.contact}</h2>
       <address>
-        {
-          (localizedFooter?.address ?? siteConfig.address.lines).map((line) => (
-            <span>{line}</span>
-          ))
-        }
+        {localizedFooter.address.map((line) => <span>{line}</span>)}
       </address>
       <ul class="footer-link-list" role="list">
         <li>
           <a href={siteConfig.contact.phoneHref}>
-            {localizedFooter && `${localizedFooter.phone}: `}
-            {siteConfig.contact.phone}
+            {`${localizedFooter.phone}: ${siteConfig.contact.phone}`}
           </a>
         </li>
-        {
-          localizedFooter && (
-            <li>
-              <a
-                href={siteConfig.contact.whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {localizedFooter.whatsapp}: {siteConfig.contact.whatsapp}
-                <span class="sr-only">, {ui.opensNewTab}</span>
-              </a>
-            </li>
-          )
-        }
+        <li>
+          <a
+            href={siteConfig.contact.whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {localizedFooter.whatsapp}: {siteConfig.contact.whatsapp}
+            <span class="sr-only">, {ui.opensNewTab}</span>
+          </a>
+        </li>
         <li>
           <a href={siteConfig.contact.emailHref}>
-            {localizedFooter && `${localizedFooter.email}: `}
-            {siteConfig.contact.email}
+            {`${localizedFooter.email}: ${siteConfig.contact.email}`}
           </a>
         </li>
       </ul>
-      {
-        localizedFooter && (
-          <div class="footer-office-details">
-            <p>
-              <strong>{localizedFooter.openingHours}:</strong>{' '}
-              {localizedFooter.hours}
-            </p>
-            <p>{localizedFooter.appointments}</p>
-          </div>
-        )
-      }
+      <div class="footer-office-details">
+        <p>
+          <strong>{localizedFooter.openingHours}:</strong>{' '}
+          {localizedFooter.hours}
+        </p>
+        <p>{localizedFooter.appointments}</p>
+      </div>
     </div>
 
     <div>
@@ -139,13 +129,7 @@ const localizedFooter = isSpanish
               ? 'page'
               : undefined}
           >
-            {
-              isSpanish
-                ? spanishFooter.yachtSurveyTips
-                : isRussian
-                  ? russianFooter.yachtSurveyTips
-                  : 'Yacht Survey Tips'
-            }
+            {localizedFooter.yachtSurveyTips}
           </a>
         </li>
       </ul>
@@ -158,34 +142,20 @@ const localizedFooter = isSpanish
           <a
             href={getRequiredRoutePath(
               'prePurchaseSurveyCalculator',
-              isSpanish ? 'es' : isRussian ? 'ru' : 'en',
+              currentLocale,
             )}
-            lang={isSpanish || isRussian ? undefined : 'en'}
           >
-            {
-              isSpanish
-                ? spanishFooter.tools.survey
-                : isRussian
-                  ? russianFooter.tools.survey
-                  : 'Survey Cost Calculator'
-            }
+            {localizedFooter.tools.survey}
           </a>
         </li>
         <li>
           <a
             href={getRequiredRoutePath(
               'yachtDeliveryCalculator',
-              isSpanish ? 'es' : isRussian ? 'ru' : 'en',
+              currentLocale,
             )}
-            lang={isSpanish || isRussian ? undefined : 'en'}
           >
-            {
-              isSpanish
-                ? spanishFooter.tools.delivery
-                : isRussian
-                  ? russianFooter.tools.delivery
-                  : 'Yacht Delivery Cost Calculator'
-            }
+            {localizedFooter.tools.delivery}
           </a>
         </li>
       </ul>
@@ -200,13 +170,7 @@ const localizedFooter = isSpanish
             lang={undefined}
             aria-current={routeId === 'privacyPolicy' ? 'page' : undefined}
           >
-            {
-              isSpanish
-                ? spanishFooter.legal.privacy
-                : isRussian
-                  ? russianFooter.legal.privacy
-                  : 'Privacy Policy'
-            }
+            {localizedFooter.legal.privacy}
           </a>
         </li>
         <li>
@@ -215,13 +179,7 @@ const localizedFooter = isSpanish
             lang={undefined}
             aria-current={routeId === 'cookiePolicy' ? 'page' : undefined}
           >
-            {
-              isSpanish
-                ? spanishFooter.legal.cookies
-                : isRussian
-                  ? russianFooter.legal.cookies
-                  : 'Cookie Policy'
-            }
+            {localizedFooter.legal.cookies}
           </a>
         </li>
         <li>
@@ -230,13 +188,7 @@ const localizedFooter = isSpanish
             lang={undefined}
             aria-current={routeId === 'legalNotice' ? 'page' : undefined}
           >
-            {
-              isSpanish
-                ? spanishFooter.legal.notice
-                : isRussian
-                  ? russianFooter.legal.notice
-                  : 'Legal Notice'
-            }
+            {localizedFooter.legal.notice}
           </a>
         </li>
         <li>
@@ -245,13 +197,7 @@ const localizedFooter = isSpanish
             lang={undefined}
             aria-current={routeId === 'termsAndConditions' ? 'page' : undefined}
           >
-            {
-              isSpanish
-                ? spanishFooter.legal.terms
-                : isRussian
-                  ? russianFooter.legal.terms
-                  : 'Terms and Conditions'
-            }
+            {localizedFooter.legal.terms}
           </a>
         </li>
       </ul>
