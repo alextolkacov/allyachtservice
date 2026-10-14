@@ -301,6 +301,23 @@ const spanishSurveyTipsPages = [
     article: false,
   },
   {
+    en: '/yacht-survey-tips/yacht-sail-condition-checks',
+    es: '/es/yacht-survey-tips/yacht-sail-condition-checks',
+    ru: '/ru/yacht-survey-tips/yacht-sail-condition-checks',
+    title: 'Estado de las velas antes de comprar un yate | All Yacht Service',
+    description:
+      'Aprenda a revisar las velas de un yate antes de comprar: protección UV, costuras, rozaduras, reparaciones, forma y límites de la inspección.',
+    h1: 'Estado de las velas de un yate: qué revisar antes de comprar',
+    article: true,
+    datePublished: '2026-10-13',
+    dateModified: '2026-10-13',
+    timeRequired: 'PT6M',
+    image: '/images/yacht-survey-tips/yacht-sail-condition-checks.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Por Aleksandrs Tolkacovs',
+  },
+  {
     en: '/yacht-survey-tips/keel-to-hull-joint',
     es: '/es/yacht-survey-tips/keel-to-hull-joint',
     ru: '/ru/yacht-survey-tips/keel-to-hull-joint',
@@ -1199,6 +1216,7 @@ if (existsSync(distDirectory)) {
     'src/data/es/valuation-damage-survey.ts',
     'src/data/es/about-us.ts',
     'src/data/es/yacht-survey-tips.ts',
+    'src/data/es/yacht-survey-tips/yacht-sail-condition-checks.ts',
     'src/data/es/yacht-survey-tips/keel-to-hull-joint.ts',
     'src/data/es/yacht-survey-tips/documents-before-yacht-survey.ts',
     'src/data/es/yacht-survey-tips/yacht-engine-mounts.ts',
@@ -1259,6 +1277,7 @@ if (existsSync(distDirectory)) {
     spanishHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const sailTitle = 'Estado de las velas: qué revisar antes de comprar';
   const keelTitle = 'Revise la unión quilla-casco';
   const documentsTitle = 'Antes de la inspección, pida los documentos';
   const engineMountsTitle =
@@ -1291,7 +1310,9 @@ if (existsSync(distDirectory)) {
     'The Spanish Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(keelTitle) >= 0 &&
+    latestSection.indexOf(sailTitle) >= 0 &&
+      latestSection.indexOf(sailTitle) < latestSection.indexOf(keelTitle) &&
+      latestSection.indexOf(keelTitle) >= 0 &&
       latestSection.indexOf(keelTitle) <
         latestSection.indexOf(documentsTitle) &&
       latestSection.indexOf(documentsTitle) >= 0 &&
@@ -1315,8 +1336,8 @@ if (existsSync(distDirectory)) {
     'Spanish latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 11,
-    'The Spanish archive must contain all eleven published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 12,
+    'The Spanish archive must contain all twelve published Survey Tips exactly once.',
   );
   const englishHub = getBuiltPage('/yacht-survey-tips');
   const englishLatestSection =
@@ -1330,6 +1351,12 @@ if (existsSync(distDirectory)) {
         englishHub.indexOf('survey-tips-latest-section') &&
       englishHub.indexOf('survey-tips-latest-section') <
         englishHub.indexOf('survey-tips-categories-section') &&
+      englishLatestSection.indexOf(
+        'Yacht Sail Condition: What Buyers Should Check',
+      ) >= 0 &&
+      englishLatestSection.indexOf(
+        'Yacht Sail Condition: What Buyers Should Check',
+      ) < englishLatestSection.indexOf('Check the Keel-to-Hull Joint') &&
       englishLatestSection.indexOf('Check the Keel-to-Hull Joint') >= 0 &&
       englishLatestSection.indexOf('Check the Keel-to-Hull Joint') <
         englishLatestSection.indexOf(
@@ -1364,11 +1391,14 @@ if (existsSync(distDirectory)) {
         englishLatestSection.indexOf(
           'Electrical Corrosion on Yachts: What to Look For',
         ),
-    'The English hub must remove Featured content and show the keel-to-hull article first after the introduction.',
+    'The English hub must remove Featured content and show the sail-condition article first after the introduction.',
   );
   assert(
     (englishLatestSection.match(/class="survey-article-card"/gu) ?? [])
-      .length === 11 &&
+      .length === 12 &&
+      englishLatestSection.indexOf(
+        'Yacht Sail Condition: What Buyers Should Check',
+      ) < englishLatestSection.indexOf('Check the Keel-to-Hull Joint') &&
       englishLatestSection.indexOf('Check the Keel-to-Hull Joint') <
         englishLatestSection.indexOf(
           'Before the Survey, Ask for the Documents',
@@ -1414,7 +1444,45 @@ if (existsSync(distDirectory)) {
         englishLatestSection.indexOf(
           'Deck Moisture and Soft Spots: What Yacht Buyers Should Know',
         ),
-    'The English archive must contain all eleven articles in newest-first order.',
+    'The English archive must contain all twelve articles in newest-first order.',
+  );
+  const englishSailPath = '/yacht-survey-tips/yacht-sail-condition-checks';
+  const englishSail = getBuiltPage(englishSailPath);
+  const englishSailSchemas = getSchemas(englishSail, englishSailPath);
+  const englishSailArticleSchema = englishSailSchemas.find(
+    (schema) => schema['@type'] === 'Article',
+  );
+  assert(
+    englishSail.includes(
+      '<title>Yacht Sail Condition Checks for Buyers | All Yacht Service</title>',
+    ) &&
+      englishSail.includes(
+        '<meta name="description" content="Learn how to inspect yacht sails for UV damage, failed stitching, chafe, repairs and poor shape before buying a used sailing yacht.">',
+      ) &&
+      englishSail.includes(
+        `<link rel="canonical" href="${absolute(englishSailPath)}">`,
+      ) &&
+      englishSail.includes(
+        '<meta property="og:image" content="https://www.allyachtservice.com/images/yacht-survey-tips/yacht-sail-condition-checks.png">',
+      ) &&
+      visibleText(englishSail).includes('By Aleksandrs Tolkacovs'),
+    'The English sail-condition article has incorrect metadata, image or author spacing.',
+  );
+  assert(
+    englishSailArticleSchema?.['@id'] ===
+      `${absolute(englishSailPath)}#article` &&
+      englishSailArticleSchema.datePublished === '2026-10-13' &&
+      englishSailArticleSchema.dateModified === '2026-10-13' &&
+      englishSailArticleSchema.timeRequired === 'PT6M' &&
+      englishSailArticleSchema.image ===
+        'https://www.allyachtservice.com/images/yacht-survey-tips/yacht-sail-condition-checks.png' &&
+      englishSailArticleSchema.author?.name === 'Aleksandrs Tolkacovs' &&
+      englishSailArticleSchema.author?.['@id'] ===
+        'https://www.allyachtservice.com/about-us#aleksandrs-tolkacovs' &&
+      englishSailArticleSchema.publisher?.['@id'] ===
+        'https://www.allyachtservice.com/#business' &&
+      englishSailSchemas.some((schema) => schema['@type'] === 'BreadcrumbList'),
+    'The English sail-condition article has incomplete or unstable structured data.',
   );
   const englishKeelPath = '/yacht-survey-tips/keel-to-hull-joint';
   const englishKeel = getBuiltPage(englishKeelPath);
@@ -1731,6 +1799,8 @@ if (existsSync(distDirectory)) {
     'Article graphics must retain the shared full-image no-crop rules.',
   );
   const englishImageHashes = {
+    'public/images/yacht-survey-tips/yacht-sail-condition-checks.png':
+      'dd7978f16943d7b6e0a52f30fcb814ae3ca64a3ea88601b5ab95ef6549bf9da8',
     'public/images/yacht-survey-tips/keel-to-hull-joint.png':
       'e15be265bc2ce4d40147233d0c46a58e9faeefe313342711d3733fa2fa8655ef',
     'public/images/yacht-survey-tips/documents-before-yacht-survey.png':

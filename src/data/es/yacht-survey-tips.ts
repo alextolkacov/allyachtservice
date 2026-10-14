@@ -13,6 +13,7 @@ import { spanishShinyHullArticle } from './yacht-survey-tips/shiny-hull';
 import { spanishStandingRiggingWarningSignsArticle } from './yacht-survey-tips/standing-rigging-warning-signs';
 import { spanishYachtElectricalCorrosionArticle } from './yacht-survey-tips/yacht-electrical-corrosion';
 import { spanishYachtEngineMountsArticle } from './yacht-survey-tips/yacht-engine-mounts';
+import { spanishYachtSailConditionChecksArticle } from './yacht-survey-tips/yacht-sail-condition-checks';
 
 const surveyInspectionImage = {
   src: '/images/yacht-survey-tips-background.jpg',
@@ -97,6 +98,7 @@ export const spanishYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    spanishYachtSailConditionChecksArticle.card,
     spanishKeelToHullJointArticle.card,
     spanishDocumentsBeforeYachtSurveyArticle.card,
     spanishYachtEngineMountsArticle.card,

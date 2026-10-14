@@ -89,6 +89,9 @@ const russianBuyerRepresentationSource = read(
   'src/data/ru/buyer-representation.ts',
 );
 const russianSurveyTipsSource = read('src/data/ru/yacht-survey-tips.ts');
+const russianSailConditionArticleSource = read(
+  'src/data/ru/yacht-survey-tips/yacht-sail-condition-checks.ts',
+);
 const russianKeelToHullJointArticleSource = read(
   'src/data/ru/yacht-survey-tips/keel-to-hull-joint.ts',
 );
@@ -269,6 +272,25 @@ const translatedSurveyTipsRoutes = [
       'Профессиональные советы для покупателей и владельцев яхт о сюрвейерских осмотрах, типичных дефектах, техническом состоянии и обслуживании.',
     heading: 'Советы по сюрвейерскому осмотру яхт',
     article: false,
+  },
+  {
+    en: '/yacht-survey-tips/yacht-sail-condition-checks',
+    es: '/es/yacht-survey-tips/yacht-sail-condition-checks',
+    ru: '/ru/yacht-survey-tips/yacht-sail-condition-checks',
+    title: 'Проверка парусов перед покупкой яхты | All Yacht Service',
+    description:
+      'Что проверить на парусах яхты перед покупкой: УФ-защита, швы, истирание, ремонт, форма под нагрузкой и ограничения осмотра.',
+    heading: 'Состояние парусов яхты: что проверить перед покупкой',
+    article: true,
+    datePublished: '2026-10-13',
+    dateModified: '2026-10-13',
+    timeRequired: 'PT6M',
+    readingTime: '6 минут чтения',
+    articleSection: 'Предпокупочный осмотр · Такелаж и паруса',
+    image: '/images/yacht-survey-tips/yacht-sail-condition-checks.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Материал подготовил Aleksandrs Tolkacovs',
   },
   {
     en: '/yacht-survey-tips/keel-to-hull-joint',
@@ -1573,6 +1595,7 @@ if (existsSync(distDirectory)) {
     russianSurveyTipsHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const sailTitle = 'Состояние парусов: что проверить перед покупкой';
   const keelTitle = 'Проверьте соединение киля с корпусом';
   const documentsTitle = 'До осмотра запросите документы';
   const engineMountsTitle =
@@ -1603,7 +1626,9 @@ if (existsSync(distDirectory)) {
     'The Russian Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(keelTitle) >= 0 &&
+    latestSection.indexOf(sailTitle) >= 0 &&
+      latestSection.indexOf(sailTitle) < latestSection.indexOf(keelTitle) &&
+      latestSection.indexOf(keelTitle) >= 0 &&
       latestSection.indexOf(keelTitle) <
         latestSection.indexOf(documentsTitle) &&
       latestSection.indexOf(documentsTitle) >= 0 &&
@@ -1627,8 +1652,8 @@ if (existsSync(distDirectory)) {
     'Russian latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 11,
-    'The Russian archive must contain all eleven published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 12,
+    'The Russian archive must contain all twelve published Survey Tips exactly once.',
   );
   assert(
     russianSurveyTipsHub.includes(
@@ -1660,6 +1685,8 @@ if (existsSync(distDirectory)) {
     'Russian Survey Tips must retain the shared full-image no-crop rules.',
   );
   const protectedImageHashes = {
+    'public/images/yacht-survey-tips/yacht-sail-condition-checks.png':
+      'dd7978f16943d7b6e0a52f30fcb814ae3ca64a3ea88601b5ab95ef6549bf9da8',
     'public/images/yacht-survey-tips/keel-to-hull-joint.png':
       'e15be265bc2ce4d40147233d0c46a58e9faeefe313342711d3733fa2fa8655ef',
     'public/images/yacht-survey-tips/documents-before-yacht-survey.png':
@@ -1714,9 +1741,12 @@ if (existsSync(distDirectory)) {
     );
   }
   assert(
-    russianKeelToHullJointArticleSource.includes(
-      "src: '/images/yacht-survey-tips/keel-to-hull-joint.png'",
+    russianSailConditionArticleSource.includes(
+      "src: '/images/yacht-survey-tips/yacht-sail-condition-checks.png'",
     ) &&
+      russianKeelToHullJointArticleSource.includes(
+        "src: '/images/yacht-survey-tips/keel-to-hull-joint.png'",
+      ) &&
       russianDocumentsBeforeSurveyArticleSource.includes(
         "src: '/images/yacht-survey-tips/documents-before-yacht-survey.png'",
       ) &&
