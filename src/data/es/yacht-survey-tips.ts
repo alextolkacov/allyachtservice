@@ -9,6 +9,7 @@ import { spanishCheckYachtSteeringArticle } from './yacht-survey-tips/check-yach
 import { spanishDeckMoistureSoftSpotsArticle } from './yacht-survey-tips/deck-moisture-soft-spots';
 import { spanishDocumentsBeforeYachtSurveyArticle } from './yacht-survey-tips/documents-before-yacht-survey';
 import { spanishKeelToHullJointArticle } from './yacht-survey-tips/keel-to-hull-joint';
+import { spanishPropellerShaftInspectionArticle } from './yacht-survey-tips/propeller-shaft-inspection';
 import { spanishShinyHullArticle } from './yacht-survey-tips/shiny-hull';
 import { spanishStandingRiggingWarningSignsArticle } from './yacht-survey-tips/standing-rigging-warning-signs';
 import { spanishYachtElectricalCorrosionArticle } from './yacht-survey-tips/yacht-electrical-corrosion';
@@ -82,7 +83,6 @@ export const spanishYachtSurveyTipsPage = {
         'Quillas, timones, hélices, ejes y equipos situados bajo la línea de flotación.',
       futureArticles: [
         'Inspección con varada',
-        'Inspección de la hélice y el eje',
         'Consideraciones sobre el antiincrustante',
       ],
     },
@@ -98,6 +98,7 @@ export const spanishYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    spanishPropellerShaftInspectionArticle.card,
     spanishYachtSailConditionChecksArticle.card,
     spanishKeelToHullJointArticle.card,
     spanishDocumentsBeforeYachtSurveyArticle.card,

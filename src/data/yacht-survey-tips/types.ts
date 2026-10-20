@@ -83,6 +83,16 @@ export interface SurveyTipArticlePageData {
     title: string;
     body: string;
   };
+  authorBio?: {
+    id: string;
+    title: string;
+    paragraphs: readonly string[];
+  };
+  sources?: {
+    id: string;
+    title: string;
+    links: readonly SurveyTipRelatedLink[];
+  };
   relatedServices: readonly {
     title: string;
     description: string;

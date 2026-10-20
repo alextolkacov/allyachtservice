@@ -9,6 +9,7 @@ import { russianCheckYachtSteeringArticle } from './yacht-survey-tips/check-yach
 import { russianDeckMoistureSoftSpotsArticle } from './yacht-survey-tips/deck-moisture-soft-spots';
 import { russianDocumentsBeforeYachtSurveyArticle } from './yacht-survey-tips/documents-before-yacht-survey';
 import { russianKeelToHullJointArticle } from './yacht-survey-tips/keel-to-hull-joint';
+import { russianPropellerShaftInspectionArticle } from './yacht-survey-tips/propeller-shaft-inspection';
 import { russianShinyHullArticle } from './yacht-survey-tips/shiny-hull';
 import { russianStandingRiggingWarningSignsArticle } from './yacht-survey-tips/standing-rigging-warning-signs';
 import { russianYachtElectricalCorrosionArticle } from './yacht-survey-tips/yacht-electrical-corrosion';
@@ -82,7 +83,6 @@ export const russianYachtSurveyTipsPage = {
         'Киль, руль, гребной винт, вал и оборудование ниже ватерлинии.',
       futureArticles: [
         'Осмотр яхты после подъёма',
-        'Осмотр гребного винта и вала',
         'Состояние противообрастающего покрытия',
       ],
     },
@@ -98,6 +98,7 @@ export const russianYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    russianPropellerShaftInspectionArticle.card,
     russianYachtSailConditionChecksArticle.card,
     russianKeelToHullJointArticle.card,
     russianDocumentsBeforeYachtSurveyArticle.card,

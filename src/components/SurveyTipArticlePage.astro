@@ -209,6 +209,37 @@ const articleSchema: StructuredData = {
             <p>{article.keyPoint.body}</p>
           </aside>
         </section>
+
+        {
+          article.authorBio && (
+            <section aria-labelledby={article.authorBio.id}>
+              <h2 id={article.authorBio.id}>{article.authorBio.title}</h2>
+              {article.authorBio.paragraphs.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+            </section>
+          )
+        }
+
+        {
+          article.sources && (
+            <section
+              class="survey-guide-sources"
+              aria-labelledby={article.sources.id}
+            >
+              <h2 id={article.sources.id}>{article.sources.title}</h2>
+              <ul>
+                {article.sources.links.map((source) => (
+                  <li>
+                    <a href={source.href} rel="noreferrer" target="_blank">
+                      {source.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
       </div>
     </div>
 

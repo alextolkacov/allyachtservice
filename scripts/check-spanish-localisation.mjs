@@ -301,6 +301,23 @@ const spanishSurveyTipsPages = [
     article: false,
   },
   {
+    en: '/yacht-survey-tips/propeller-shaft-inspection',
+    es: '/es/yacht-survey-tips/propeller-shaft-inspection',
+    ru: '/ru/yacht-survey-tips/propeller-shaft-inspection',
+    title: 'Inspección de la hélice y el eje antes de comprar un yate',
+    description:
+      'Aprenda qué revisar en la hélice, el eje, el cojinete y el sello del eje durante la varada y la prueba de mar antes de comprar un yate usado.',
+    h1: 'Hélice y eje de un yate: qué revisar antes de comprar',
+    article: true,
+    datePublished: '2026-10-20',
+    dateModified: '2026-10-20',
+    timeRequired: 'PT6M',
+    image: '/images/yacht-survey-tips/propeller-shaft-inspection.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Por Aleksandrs Tolkacovs',
+  },
+  {
     en: '/yacht-survey-tips/yacht-sail-condition-checks',
     es: '/es/yacht-survey-tips/yacht-sail-condition-checks',
     ru: '/ru/yacht-survey-tips/yacht-sail-condition-checks',
@@ -1216,6 +1233,7 @@ if (existsSync(distDirectory)) {
     'src/data/es/valuation-damage-survey.ts',
     'src/data/es/about-us.ts',
     'src/data/es/yacht-survey-tips.ts',
+    'src/data/es/yacht-survey-tips/propeller-shaft-inspection.ts',
     'src/data/es/yacht-survey-tips/yacht-sail-condition-checks.ts',
     'src/data/es/yacht-survey-tips/keel-to-hull-joint.ts',
     'src/data/es/yacht-survey-tips/documents-before-yacht-survey.ts',
@@ -1277,6 +1295,8 @@ if (existsSync(distDirectory)) {
     spanishHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const propellerTitle =
+    'Hélice y eje de un yate: qué revisar antes de comprar';
   const sailTitle = 'Estado de las velas: qué revisar antes de comprar';
   const keelTitle = 'Revise la unión quilla-casco';
   const documentsTitle = 'Antes de la inspección, pida los documentos';
@@ -1310,7 +1330,10 @@ if (existsSync(distDirectory)) {
     'The Spanish Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(sailTitle) >= 0 &&
+    latestSection.indexOf(propellerTitle) >= 0 &&
+      latestSection.indexOf(propellerTitle) <
+        latestSection.indexOf(sailTitle) &&
+      latestSection.indexOf(sailTitle) >= 0 &&
       latestSection.indexOf(sailTitle) < latestSection.indexOf(keelTitle) &&
       latestSection.indexOf(keelTitle) >= 0 &&
       latestSection.indexOf(keelTitle) <
@@ -1336,8 +1359,8 @@ if (existsSync(distDirectory)) {
     'Spanish latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 12,
-    'The Spanish archive must contain all twelve published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 13,
+    'The Spanish archive must contain all thirteen published Survey Tips exactly once.',
   );
   const englishHub = getBuiltPage('/yacht-survey-tips');
   const englishLatestSection =
@@ -1351,6 +1374,15 @@ if (existsSync(distDirectory)) {
         englishHub.indexOf('survey-tips-latest-section') &&
       englishHub.indexOf('survey-tips-latest-section') <
         englishHub.indexOf('survey-tips-categories-section') &&
+      englishLatestSection.indexOf(
+        'Propeller and Shaft Inspection: What Yacht Buyers Should Check',
+      ) >= 0 &&
+      englishLatestSection.indexOf(
+        'Propeller and Shaft Inspection: What Yacht Buyers Should Check',
+      ) <
+        englishLatestSection.indexOf(
+          'Yacht Sail Condition: What Buyers Should Check',
+        ) &&
       englishLatestSection.indexOf(
         'Yacht Sail Condition: What Buyers Should Check',
       ) >= 0 &&
@@ -1391,11 +1423,11 @@ if (existsSync(distDirectory)) {
         englishLatestSection.indexOf(
           'Electrical Corrosion on Yachts: What to Look For',
         ),
-    'The English hub must remove Featured content and show the sail-condition article first after the introduction.',
+    'The English hub must remove Featured content and show the newest articles first after the introduction.',
   );
   assert(
     (englishLatestSection.match(/class="survey-article-card"/gu) ?? [])
-      .length === 12 &&
+      .length === 13 &&
       englishLatestSection.indexOf(
         'Yacht Sail Condition: What Buyers Should Check',
       ) < englishLatestSection.indexOf('Check the Keel-to-Hull Joint') &&
@@ -1799,6 +1831,8 @@ if (existsSync(distDirectory)) {
     'Article graphics must retain the shared full-image no-crop rules.',
   );
   const englishImageHashes = {
+    'public/images/yacht-survey-tips/propeller-shaft-inspection.png':
+      'fdd68311c1df6601bb5b4ee53812a7948cb5fcc44150fbb298c05920213535e3',
     'public/images/yacht-survey-tips/yacht-sail-condition-checks.png':
       'dd7978f16943d7b6e0a52f30fcb814ae3ca64a3ea88601b5ab95ef6549bf9da8',
     'public/images/yacht-survey-tips/keel-to-hull-joint.png':

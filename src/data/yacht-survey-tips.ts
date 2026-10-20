@@ -5,6 +5,7 @@ import { checkYachtSteeringArticle } from './yacht-survey-tips/check-yacht-steer
 import { deckMoistureSoftSpotsArticle } from './yacht-survey-tips/deck-moisture-soft-spots';
 import { documentsBeforeYachtSurveyArticle } from './yacht-survey-tips/documents-before-yacht-survey';
 import { keelToHullJointArticle } from './yacht-survey-tips/keel-to-hull-joint';
+import { propellerShaftInspectionArticle } from './yacht-survey-tips/propeller-shaft-inspection';
 import { shinyHullArticle } from './yacht-survey-tips/shiny-hull';
 import { standingRiggingWarningSignsArticle } from './yacht-survey-tips/standing-rigging-warning-signs';
 import { yachtElectricalCorrosionArticle } from './yacht-survey-tips/yacht-electrical-corrosion';
@@ -77,11 +78,7 @@ export const yachtSurveyTipsPage = {
       title: 'Underwater and Hull Condition',
       description:
         'Keels, rudders, propellers, shafts and underwater equipment.',
-      futureArticles: [
-        'Hull-out survey',
-        'Propeller and shaft inspection',
-        'Antifouling considerations',
-      ],
+      futureArticles: ['Hull-out survey', 'Antifouling considerations'],
     },
     {
       title: 'Survey Preparation',
@@ -95,6 +92,7 @@ export const yachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    propellerShaftInspectionArticle.card,
     yachtSailConditionChecksArticle.card,
     keelToHullJointArticle.card,
     documentsBeforeYachtSurveyArticle.card,

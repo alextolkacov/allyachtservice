@@ -89,6 +89,9 @@ const russianBuyerRepresentationSource = read(
   'src/data/ru/buyer-representation.ts',
 );
 const russianSurveyTipsSource = read('src/data/ru/yacht-survey-tips.ts');
+const russianPropellerShaftArticleSource = read(
+  'src/data/ru/yacht-survey-tips/propeller-shaft-inspection.ts',
+);
 const russianSailConditionArticleSource = read(
   'src/data/ru/yacht-survey-tips/yacht-sail-condition-checks.ts',
 );
@@ -272,6 +275,25 @@ const translatedSurveyTipsRoutes = [
       'Профессиональные советы для покупателей и владельцев яхт о сюрвейерских осмотрах, типичных дефектах, техническом состоянии и обслуживании.',
     heading: 'Советы по сюрвейерскому осмотру яхт',
     article: false,
+  },
+  {
+    en: '/yacht-survey-tips/propeller-shaft-inspection',
+    es: '/es/yacht-survey-tips/propeller-shaft-inspection',
+    ru: '/ru/yacht-survey-tips/propeller-shaft-inspection',
+    title: 'Проверка гребного винта и вала перед покупкой яхты',
+    description:
+      'Узнайте, как проверить гребной винт, вал, подшипник и уплотнение после подъёма яхты и во время ходовых испытаний перед покупкой.',
+    heading: 'Гребной винт и вал: что проверить перед покупкой яхты',
+    article: true,
+    datePublished: '2026-10-20',
+    dateModified: '2026-10-20',
+    timeRequired: 'PT6M',
+    readingTime: '6 минут чтения',
+    articleSection: 'Предпокупочный осмотр · Подводное оборудование',
+    image: '/images/yacht-survey-tips/propeller-shaft-inspection.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Материал подготовил Aleksandrs Tolkacovs',
   },
   {
     en: '/yacht-survey-tips/yacht-sail-condition-checks',
@@ -1595,6 +1617,8 @@ if (existsSync(distDirectory)) {
     russianSurveyTipsHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const propellerTitle =
+    'Гребной винт и вал: что проверить перед покупкой яхты';
   const sailTitle = 'Состояние парусов: что проверить перед покупкой';
   const keelTitle = 'Проверьте соединение киля с корпусом';
   const documentsTitle = 'До осмотра запросите документы';
@@ -1626,7 +1650,10 @@ if (existsSync(distDirectory)) {
     'The Russian Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(sailTitle) >= 0 &&
+    latestSection.indexOf(propellerTitle) >= 0 &&
+      latestSection.indexOf(propellerTitle) <
+        latestSection.indexOf(sailTitle) &&
+      latestSection.indexOf(sailTitle) >= 0 &&
       latestSection.indexOf(sailTitle) < latestSection.indexOf(keelTitle) &&
       latestSection.indexOf(keelTitle) >= 0 &&
       latestSection.indexOf(keelTitle) <
@@ -1652,8 +1679,8 @@ if (existsSync(distDirectory)) {
     'Russian latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 12,
-    'The Russian archive must contain all twelve published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 13,
+    'The Russian archive must contain all thirteen published Survey Tips exactly once.',
   );
   assert(
     russianSurveyTipsHub.includes(
@@ -1685,6 +1712,8 @@ if (existsSync(distDirectory)) {
     'Russian Survey Tips must retain the shared full-image no-crop rules.',
   );
   const protectedImageHashes = {
+    'public/images/yacht-survey-tips/propeller-shaft-inspection.png':
+      'fdd68311c1df6601bb5b4ee53812a7948cb5fcc44150fbb298c05920213535e3',
     'public/images/yacht-survey-tips/yacht-sail-condition-checks.png':
       'dd7978f16943d7b6e0a52f30fcb814ae3ca64a3ea88601b5ab95ef6549bf9da8',
     'public/images/yacht-survey-tips/keel-to-hull-joint.png':
@@ -1741,9 +1770,12 @@ if (existsSync(distDirectory)) {
     );
   }
   assert(
-    russianSailConditionArticleSource.includes(
-      "src: '/images/yacht-survey-tips/yacht-sail-condition-checks.png'",
+    russianPropellerShaftArticleSource.includes(
+      "src: '/images/yacht-survey-tips/propeller-shaft-inspection.png'",
     ) &&
+      russianSailConditionArticleSource.includes(
+        "src: '/images/yacht-survey-tips/yacht-sail-condition-checks.png'",
+      ) &&
       russianKeelToHullJointArticleSource.includes(
         "src: '/images/yacht-survey-tips/keel-to-hull-joint.png'",
       ) &&
