@@ -167,11 +167,13 @@ for (const url of listed) {
   );
 }
 for (const [url, page] of pages) {
-  if (page.robots === 'index, follow')
-    assert.ok(
-      listed.includes(url === `${origin}/` ? origin : url),
-      `${page.route}: missing sitemap URL`,
-    );
+  if (page.robots === 'index, follow') {
+    const sitemapUrlPresent =
+      url === `${origin}/`
+        ? listed.includes(origin) || listed.includes(`${origin}/`)
+        : listed.includes(url);
+    assert.ok(sitemapUrlPresent, `${page.route}: missing sitemap URL`);
+  }
 }
 assert.ok(
   !sitemap.includes('es.allyachtservice.com') &&

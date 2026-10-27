@@ -13,6 +13,7 @@ export type RouteId =
   | 'yachtDelivery'
   | 'yachtsForSale'
   | 'yachtSurveyTips'
+  | 'yachtGeneratorChecksBeforePurchase'
   | 'propellerShaftInspection'
   | 'yachtSailConditionChecks'
   | 'keelToHullJoint'
@@ -99,6 +100,11 @@ export const translatedRoutes: Record<
     en: '/yacht-survey-tips',
     es: '/es/yacht-survey-tips',
     ru: '/ru/yacht-survey-tips',
+  },
+  yachtGeneratorChecksBeforePurchase: {
+    en: '/yacht-survey-tips/yacht-generator-checks-before-purchase',
+    es: '/es/yacht-survey-tips/yacht-generator-checks-before-purchase',
+    ru: '/ru/yacht-survey-tips/yacht-generator-checks-before-purchase',
   },
   propellerShaftInspection: {
     en: '/yacht-survey-tips/propeller-shaft-inspection',

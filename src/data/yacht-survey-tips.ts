@@ -10,6 +10,7 @@ import { shinyHullArticle } from './yacht-survey-tips/shiny-hull';
 import { standingRiggingWarningSignsArticle } from './yacht-survey-tips/standing-rigging-warning-signs';
 import { yachtElectricalCorrosionArticle } from './yacht-survey-tips/yacht-electrical-corrosion';
 import { yachtEngineMountsArticle } from './yacht-survey-tips/yacht-engine-mounts';
+import { yachtGeneratorChecksBeforePurchaseArticle } from './yacht-survey-tips/yacht-generator-checks-before-purchase';
 import { yachtSailConditionChecksArticle } from './yacht-survey-tips/yacht-sail-condition-checks';
 import type {
   SurveyTipsCategory,
@@ -62,7 +63,6 @@ export const yachtSurveyTipsPage = {
       futureArticles: [
         'Engine checks before purchase',
         'Common electrical issues',
-        'Generator inspection',
       ],
     },
     {
@@ -92,6 +92,7 @@ export const yachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    yachtGeneratorChecksBeforePurchaseArticle.card,
     propellerShaftInspectionArticle.card,
     yachtSailConditionChecksArticle.card,
     keelToHullJointArticle.card,

@@ -14,6 +14,7 @@ import { russianShinyHullArticle } from './yacht-survey-tips/shiny-hull';
 import { russianStandingRiggingWarningSignsArticle } from './yacht-survey-tips/standing-rigging-warning-signs';
 import { russianYachtElectricalCorrosionArticle } from './yacht-survey-tips/yacht-electrical-corrosion';
 import { russianYachtEngineMountsArticle } from './yacht-survey-tips/yacht-engine-mounts';
+import { russianYachtGeneratorChecksBeforePurchaseArticle } from './yacht-survey-tips/yacht-generator-checks-before-purchase';
 import { russianYachtSailConditionChecksArticle } from './yacht-survey-tips/yacht-sail-condition-checks';
 
 const surveyInspectionImage = {
@@ -65,7 +66,6 @@ export const russianYachtSurveyTipsPage = {
       futureArticles: [
         'Проверка двигателя перед покупкой',
         'Распространённые неисправности электрооборудования',
-        'Осмотр генератора',
       ],
     },
     {
@@ -98,6 +98,7 @@ export const russianYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    russianYachtGeneratorChecksBeforePurchaseArticle.card,
     russianPropellerShaftInspectionArticle.card,
     russianYachtSailConditionChecksArticle.card,
     russianKeelToHullJointArticle.card,

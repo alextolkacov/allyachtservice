@@ -89,6 +89,9 @@ const russianBuyerRepresentationSource = read(
   'src/data/ru/buyer-representation.ts',
 );
 const russianSurveyTipsSource = read('src/data/ru/yacht-survey-tips.ts');
+const russianGeneratorArticleSource = read(
+  'src/data/ru/yacht-survey-tips/yacht-generator-checks-before-purchase.ts',
+);
 const russianPropellerShaftArticleSource = read(
   'src/data/ru/yacht-survey-tips/propeller-shaft-inspection.ts',
 );
@@ -275,6 +278,27 @@ const translatedSurveyTipsRoutes = [
       'Профессиональные советы для покупателей и владельцев яхт о сюрвейерских осмотрах, типичных дефектах, техническом состоянии и обслуживании.',
     heading: 'Советы по сюрвейерскому осмотру яхт',
     article: false,
+  },
+  {
+    en: '/yacht-survey-tips/yacht-generator-checks-before-purchase',
+    es: '/es/yacht-survey-tips/yacht-generator-checks-before-purchase',
+    ru: '/ru/yacht-survey-tips/yacht-generator-checks-before-purchase',
+    title: 'Проверка генератора яхты перед покупкой | All Yacht Service',
+    description:
+      'Что спросить и проверить при демонстрации судового генератора перед покупкой яхты: обслуживание, охлаждение, выхлоп, утечки и работа под нагрузкой.',
+    heading:
+      'Проверка генератора яхты перед покупкой: одного запуска недостаточно',
+    article: true,
+    datePublished: '2026-10-27',
+    dateModified: '2026-10-27',
+    timeRequired: 'PT6M',
+    readingTime: '6 минут чтения',
+    articleSection: 'Предпокупочный осмотр · Механизмы и бортовые системы',
+    image:
+      '/images/yacht-survey-tips/yacht-generator-checks-before-purchase.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Материал подготовил Aleksandrs Tolkacovs',
   },
   {
     en: '/yacht-survey-tips/propeller-shaft-inspection',
@@ -1617,6 +1641,8 @@ if (existsSync(distDirectory)) {
     russianSurveyTipsHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const generatorTitle =
+    'Проверка генератора яхты: одного запуска недостаточно';
   const propellerTitle =
     'Гребной винт и вал: что проверить перед покупкой яхты';
   const sailTitle = 'Состояние парусов: что проверить перед покупкой';
@@ -1650,7 +1676,10 @@ if (existsSync(distDirectory)) {
     'The Russian Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(propellerTitle) >= 0 &&
+    latestSection.indexOf(generatorTitle) >= 0 &&
+      latestSection.indexOf(generatorTitle) <
+        latestSection.indexOf(propellerTitle) &&
+      latestSection.indexOf(propellerTitle) >= 0 &&
       latestSection.indexOf(propellerTitle) <
         latestSection.indexOf(sailTitle) &&
       latestSection.indexOf(sailTitle) >= 0 &&
@@ -1679,8 +1708,8 @@ if (existsSync(distDirectory)) {
     'Russian latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 13,
-    'The Russian archive must contain all thirteen published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 14,
+    'The Russian archive must contain all fourteen published Survey Tips exactly once.',
   );
   assert(
     russianSurveyTipsHub.includes(
@@ -1712,6 +1741,8 @@ if (existsSync(distDirectory)) {
     'Russian Survey Tips must retain the shared full-image no-crop rules.',
   );
   const protectedImageHashes = {
+    'public/images/yacht-survey-tips/yacht-generator-checks-before-purchase.png':
+      '895148f49898e39a5a006781adb40f9d1e55e0626f3152f4c8f3dc4df0e667bd',
     'public/images/yacht-survey-tips/propeller-shaft-inspection.png':
       'fdd68311c1df6601bb5b4ee53812a7948cb5fcc44150fbb298c05920213535e3',
     'public/images/yacht-survey-tips/yacht-sail-condition-checks.png':
@@ -1770,9 +1801,12 @@ if (existsSync(distDirectory)) {
     );
   }
   assert(
-    russianPropellerShaftArticleSource.includes(
-      "src: '/images/yacht-survey-tips/propeller-shaft-inspection.png'",
+    russianGeneratorArticleSource.includes(
+      "src: '/images/yacht-survey-tips/yacht-generator-checks-before-purchase.png'",
     ) &&
+      russianPropellerShaftArticleSource.includes(
+        "src: '/images/yacht-survey-tips/propeller-shaft-inspection.png'",
+      ) &&
       russianSailConditionArticleSource.includes(
         "src: '/images/yacht-survey-tips/yacht-sail-condition-checks.png'",
       ) &&

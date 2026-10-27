@@ -14,6 +14,7 @@ import { spanishShinyHullArticle } from './yacht-survey-tips/shiny-hull';
 import { spanishStandingRiggingWarningSignsArticle } from './yacht-survey-tips/standing-rigging-warning-signs';
 import { spanishYachtElectricalCorrosionArticle } from './yacht-survey-tips/yacht-electrical-corrosion';
 import { spanishYachtEngineMountsArticle } from './yacht-survey-tips/yacht-engine-mounts';
+import { spanishYachtGeneratorChecksBeforePurchaseArticle } from './yacht-survey-tips/yacht-generator-checks-before-purchase';
 import { spanishYachtSailConditionChecksArticle } from './yacht-survey-tips/yacht-sail-condition-checks';
 
 const surveyInspectionImage = {
@@ -65,7 +66,6 @@ export const spanishYachtSurveyTipsPage = {
       futureArticles: [
         'Comprobaciones del motor antes de la compra',
         'Problemas eléctricos habituales',
-        'Inspección del generador',
       ],
     },
     {
@@ -98,6 +98,7 @@ export const spanishYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    spanishYachtGeneratorChecksBeforePurchaseArticle.card,
     spanishPropellerShaftInspectionArticle.card,
     spanishYachtSailConditionChecksArticle.card,
     spanishKeelToHullJointArticle.card,
