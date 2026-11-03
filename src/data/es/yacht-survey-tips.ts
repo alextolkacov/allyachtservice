@@ -15,6 +15,7 @@ import { spanishStandingRiggingWarningSignsArticle } from './yacht-survey-tips/s
 import { spanishYachtElectricalCorrosionArticle } from './yacht-survey-tips/yacht-electrical-corrosion';
 import { spanishYachtEngineMountsArticle } from './yacht-survey-tips/yacht-engine-mounts';
 import { spanishYachtGeneratorChecksBeforePurchaseArticle } from './yacht-survey-tips/yacht-generator-checks-before-purchase';
+import { spanishYachtHatchPortlightLeakChecksArticle } from './yacht-survey-tips/yacht-hatch-portlight-leak-checks';
 import { spanishYachtSailConditionChecksArticle } from './yacht-survey-tips/yacht-sail-condition-checks';
 
 const surveyInspectionImage = {
@@ -98,6 +99,7 @@ export const spanishYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    spanishYachtHatchPortlightLeakChecksArticle.card,
     spanishYachtGeneratorChecksBeforePurchaseArticle.card,
     spanishPropellerShaftInspectionArticle.card,
     spanishYachtSailConditionChecksArticle.card,

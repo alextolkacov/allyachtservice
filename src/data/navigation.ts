@@ -13,6 +13,7 @@ export type RouteId =
   | 'yachtDelivery'
   | 'yachtsForSale'
   | 'yachtSurveyTips'
+  | 'yachtHatchPortlightLeakChecks'
   | 'yachtGeneratorChecksBeforePurchase'
   | 'propellerShaftInspection'
   | 'yachtSailConditionChecks'
@@ -100,6 +101,11 @@ export const translatedRoutes: Record<
     en: '/yacht-survey-tips',
     es: '/es/yacht-survey-tips',
     ru: '/ru/yacht-survey-tips',
+  },
+  yachtHatchPortlightLeakChecks: {
+    en: '/yacht-survey-tips/yacht-hatch-portlight-leak-checks',
+    es: '/es/yacht-survey-tips/yacht-hatch-portlight-leak-checks',
+    ru: '/ru/yacht-survey-tips/yacht-hatch-portlight-leak-checks',
   },
   yachtGeneratorChecksBeforePurchase: {
     en: '/yacht-survey-tips/yacht-generator-checks-before-purchase',

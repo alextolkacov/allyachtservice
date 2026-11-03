@@ -301,6 +301,23 @@ const spanishSurveyTipsPages = [
     article: false,
   },
   {
+    en: '/yacht-survey-tips/yacht-hatch-portlight-leak-checks',
+    es: '/es/yacht-survey-tips/yacht-hatch-portlight-leak-checks',
+    ru: '/ru/yacht-survey-tips/yacht-hatch-portlight-leak-checks',
+    title: 'Filtraciones en escotillas y portillos antes de comprar un yate',
+    description:
+      'Qué pueden indicar las manchas, juntas gastadas y reparaciones alrededor de escotillas y portillos, y por qué conviene localizar el origen de la filtración.',
+    h1: 'Escotillas y portillos de un yate: siga el recorrido del agua',
+    article: true,
+    datePublished: '2026-11-03',
+    dateModified: '2026-11-03',
+    timeRequired: 'PT6M',
+    image: '/images/yacht-survey-tips/yacht-hatch-portlight-leak-checks.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Por Aleksandrs Tolkacovs',
+  },
+  {
     en: '/yacht-survey-tips/yacht-generator-checks-before-purchase',
     es: '/es/yacht-survey-tips/yacht-generator-checks-before-purchase',
     ru: '/ru/yacht-survey-tips/yacht-generator-checks-before-purchase',
@@ -1251,6 +1268,7 @@ if (existsSync(distDirectory)) {
     'src/data/es/valuation-damage-survey.ts',
     'src/data/es/about-us.ts',
     'src/data/es/yacht-survey-tips.ts',
+    'src/data/es/yacht-survey-tips/yacht-hatch-portlight-leak-checks.ts',
     'src/data/es/yacht-survey-tips/yacht-generator-checks-before-purchase.ts',
     'src/data/es/yacht-survey-tips/propeller-shaft-inspection.ts',
     'src/data/es/yacht-survey-tips/yacht-sail-condition-checks.ts',
@@ -1314,6 +1332,7 @@ if (existsSync(distDirectory)) {
     spanishHub.match(
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
+  const hatchTitle = 'Escotillas y portillos: siga el recorrido del agua';
   const generatorTitle =
     'Generador de un yate: por qué no basta con arrancarlo';
   const propellerTitle =
@@ -1351,7 +1370,10 @@ if (existsSync(distDirectory)) {
     'The Spanish Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(generatorTitle) >= 0 &&
+    latestSection.indexOf(hatchTitle) >= 0 &&
+      latestSection.indexOf(hatchTitle) <
+        latestSection.indexOf(generatorTitle) &&
+      latestSection.indexOf(generatorTitle) >= 0 &&
       latestSection.indexOf(generatorTitle) <
         latestSection.indexOf(propellerTitle) &&
       latestSection.indexOf(propellerTitle) >= 0 &&
@@ -1383,8 +1405,8 @@ if (existsSync(distDirectory)) {
     'Spanish latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 14,
-    'The Spanish archive must contain all fourteen published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 15,
+    'The Spanish archive must contain all fifteen published Survey Tips exactly once.',
   );
   const englishHub = getBuiltPage('/yacht-survey-tips');
   const englishLatestSection =
@@ -1398,6 +1420,15 @@ if (existsSync(distDirectory)) {
         englishHub.indexOf('survey-tips-latest-section') &&
       englishHub.indexOf('survey-tips-latest-section') <
         englishHub.indexOf('survey-tips-categories-section') &&
+      englishLatestSection.indexOf(
+        'Yacht Hatches and Portlights: Follow the Water',
+      ) >= 0 &&
+      englishLatestSection.indexOf(
+        'Yacht Hatches and Portlights: Follow the Water',
+      ) <
+        englishLatestSection.indexOf(
+          'Yacht Generator Checks: Why Starting Is Not Enough',
+        ) &&
       englishLatestSection.indexOf(
         'Yacht Generator Checks: Why Starting Is Not Enough',
       ) >= 0 &&
@@ -1460,7 +1491,7 @@ if (existsSync(distDirectory)) {
   );
   assert(
     (englishLatestSection.match(/class="survey-article-card"/gu) ?? [])
-      .length === 14 &&
+      .length === 15 &&
       englishLatestSection.indexOf(
         'Yacht Sail Condition: What Buyers Should Check',
       ) < englishLatestSection.indexOf('Check the Keel-to-Hull Joint') &&
@@ -1509,7 +1540,7 @@ if (existsSync(distDirectory)) {
         englishLatestSection.indexOf(
           'Deck Moisture and Soft Spots: What Yacht Buyers Should Know',
         ),
-    'The English archive must contain all fourteen articles in newest-first order.',
+    'The English archive must contain all fifteen articles in newest-first order.',
   );
   const englishSailPath = '/yacht-survey-tips/yacht-sail-condition-checks';
   const englishSail = getBuiltPage(englishSailPath);
@@ -1864,6 +1895,8 @@ if (existsSync(distDirectory)) {
     'Article graphics must retain the shared full-image no-crop rules.',
   );
   const englishImageHashes = {
+    'public/images/yacht-survey-tips/yacht-hatch-portlight-leak-checks.png':
+      'c206adc239c0d5c5ad6947c1f919f2ed805a23c5df27622c8d71700c0b74dcf0',
     'public/images/yacht-survey-tips/yacht-generator-checks-before-purchase.png':
       '895148f49898e39a5a006781adb40f9d1e55e0626f3152f4c8f3dc4df0e667bd',
     'public/images/yacht-survey-tips/propeller-shaft-inspection.png':

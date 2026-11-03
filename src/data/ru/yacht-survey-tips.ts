@@ -15,6 +15,7 @@ import { russianStandingRiggingWarningSignsArticle } from './yacht-survey-tips/s
 import { russianYachtElectricalCorrosionArticle } from './yacht-survey-tips/yacht-electrical-corrosion';
 import { russianYachtEngineMountsArticle } from './yacht-survey-tips/yacht-engine-mounts';
 import { russianYachtGeneratorChecksBeforePurchaseArticle } from './yacht-survey-tips/yacht-generator-checks-before-purchase';
+import { russianYachtHatchPortlightLeakChecksArticle } from './yacht-survey-tips/yacht-hatch-portlight-leak-checks';
 import { russianYachtSailConditionChecksArticle } from './yacht-survey-tips/yacht-sail-condition-checks';
 
 const surveyInspectionImage = {
@@ -98,6 +99,7 @@ export const russianYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    russianYachtHatchPortlightLeakChecksArticle.card,
     russianYachtGeneratorChecksBeforePurchaseArticle.card,
     russianPropellerShaftInspectionArticle.card,
     russianYachtSailConditionChecksArticle.card,
