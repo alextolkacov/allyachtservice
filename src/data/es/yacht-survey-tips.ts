@@ -9,6 +9,7 @@ import { spanishCheckYachtSteeringArticle } from './yacht-survey-tips/check-yach
 import { spanishDeckMoistureSoftSpotsArticle } from './yacht-survey-tips/deck-moisture-soft-spots';
 import { spanishDocumentsBeforeYachtSurveyArticle } from './yacht-survey-tips/documents-before-yacht-survey';
 import { spanishKeelToHullJointArticle } from './yacht-survey-tips/keel-to-hull-joint';
+import { spanishPlanPrePurchaseYachtSeaTrialArticle } from './yacht-survey-tips/plan-pre-purchase-yacht-sea-trial';
 import { spanishPropellerShaftInspectionArticle } from './yacht-survey-tips/propeller-shaft-inspection';
 import { spanishShinyHullArticle } from './yacht-survey-tips/shiny-hull';
 import { spanishStandingRiggingWarningSignsArticle } from './yacht-survey-tips/standing-rigging-warning-signs';
@@ -94,11 +95,11 @@ export const spanishYachtSurveyTipsPage = {
       futureArticles: [
         'Documentos que deben prepararse',
         'Qué ocurre durante una inspección',
-        'Preparación de la prueba de mar',
       ],
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    spanishPlanPrePurchaseYachtSeaTrialArticle.card,
     spanishYachtHatchPortlightLeakChecksArticle.card,
     spanishYachtGeneratorChecksBeforePurchaseArticle.card,
     spanishPropellerShaftInspectionArticle.card,

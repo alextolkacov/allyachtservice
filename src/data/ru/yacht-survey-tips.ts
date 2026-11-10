@@ -9,6 +9,7 @@ import { russianCheckYachtSteeringArticle } from './yacht-survey-tips/check-yach
 import { russianDeckMoistureSoftSpotsArticle } from './yacht-survey-tips/deck-moisture-soft-spots';
 import { russianDocumentsBeforeYachtSurveyArticle } from './yacht-survey-tips/documents-before-yacht-survey';
 import { russianKeelToHullJointArticle } from './yacht-survey-tips/keel-to-hull-joint';
+import { russianPlanPrePurchaseYachtSeaTrialArticle } from './yacht-survey-tips/plan-pre-purchase-yacht-sea-trial';
 import { russianPropellerShaftInspectionArticle } from './yacht-survey-tips/propeller-shaft-inspection';
 import { russianShinyHullArticle } from './yacht-survey-tips/shiny-hull';
 import { russianStandingRiggingWarningSignsArticle } from './yacht-survey-tips/standing-rigging-warning-signs';
@@ -94,11 +95,11 @@ export const russianYachtSurveyTipsPage = {
       futureArticles: [
         'Документы для подготовки',
         'Как проходит сюрвейерский осмотр',
-        'Подготовка к ходовым испытаниям',
       ],
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    russianPlanPrePurchaseYachtSeaTrialArticle.card,
     russianYachtHatchPortlightLeakChecksArticle.card,
     russianYachtGeneratorChecksBeforePurchaseArticle.card,
     russianPropellerShaftInspectionArticle.card,

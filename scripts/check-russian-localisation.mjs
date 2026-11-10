@@ -92,6 +92,9 @@ const russianSurveyTipsSource = read('src/data/ru/yacht-survey-tips.ts');
 const russianHatchArticleSource = read(
   'src/data/ru/yacht-survey-tips/yacht-hatch-portlight-leak-checks.ts',
 );
+const russianSeaTrialArticleSource = read(
+  'src/data/ru/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial.ts',
+);
 const russianGeneratorArticleSource = read(
   'src/data/ru/yacht-survey-tips/yacht-generator-checks-before-purchase.ts',
 );
@@ -281,6 +284,26 @@ const translatedSurveyTipsRoutes = [
       'Профессиональные советы для покупателей и владельцев яхт о сюрвейерских осмотрах, типичных дефектах, техническом состоянии и обслуживании.',
     heading: 'Советы по сюрвейерскому осмотру яхт',
     article: false,
+  },
+  {
+    en: '/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial',
+    es: '/es/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial',
+    ru: '/ru/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial',
+    title: 'Как спланировать ходовые испытания яхты перед покупкой',
+    description:
+      'Подготовьте ходовые испытания яхты перед покупкой: заранее согласуйте объём проверок, капитана, маршрут, погодные ограничения и наблюдения.',
+    heading:
+      'Планирование ходовых испытаний перед покупкой яхты: согласуйте проверки заранее',
+    article: true,
+    datePublished: '2026-11-10',
+    dateModified: '2026-11-10',
+    timeRequired: 'PT6M',
+    readingTime: '6 минут чтения',
+    articleSection: 'Предпокупочный осмотр · Подготовка к ходовым испытаниям',
+    image: '/images/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Материал подготовил Aleksandrs Tolkacovs',
   },
   {
     en: '/yacht-survey-tips/yacht-hatch-portlight-leak-checks',
@@ -1664,6 +1687,7 @@ if (existsSync(distDirectory)) {
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
   const hatchTitle = 'Люки и иллюминаторы: проследите путь воды';
+  const seaTrialTitle = 'Планирование ходовых испытаний перед покупкой яхты';
   const generatorTitle =
     'Проверка генератора яхты: одного запуска недостаточно';
   const propellerTitle =
@@ -1699,7 +1723,10 @@ if (existsSync(distDirectory)) {
     'The Russian Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(hatchTitle) >= 0 &&
+    latestSection.indexOf(seaTrialTitle) >= 0 &&
+      latestSection.indexOf(seaTrialTitle) <
+        latestSection.indexOf(hatchTitle) &&
+      latestSection.indexOf(hatchTitle) >= 0 &&
       latestSection.indexOf(hatchTitle) <
         latestSection.indexOf(generatorTitle) &&
       latestSection.indexOf(generatorTitle) >= 0 &&
@@ -1734,8 +1761,8 @@ if (existsSync(distDirectory)) {
     'Russian latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 15,
-    'The Russian archive must contain all fifteen published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 16,
+    'The Russian archive must contain all sixteen published Survey Tips exactly once.',
   );
   assert(
     russianSurveyTipsHub.includes(
@@ -1767,6 +1794,8 @@ if (existsSync(distDirectory)) {
     'Russian Survey Tips must retain the shared full-image no-crop rules.',
   );
   const protectedImageHashes = {
+    'public/images/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial.png':
+      '4ea5f6b7bcb2e2cc0b40bd3cae0c00dded2d5d2c2b58a541a24389053bd92ea2',
     'public/images/yacht-survey-tips/yacht-hatch-portlight-leak-checks.png':
       'c206adc239c0d5c5ad6947c1f919f2ed805a23c5df27622c8d71700c0b74dcf0',
     'public/images/yacht-survey-tips/yacht-generator-checks-before-purchase.png':
@@ -1829,9 +1858,12 @@ if (existsSync(distDirectory)) {
     );
   }
   assert(
-    russianHatchArticleSource.includes(
-      "src: '/images/yacht-survey-tips/yacht-hatch-portlight-leak-checks.png'",
+    russianSeaTrialArticleSource.includes(
+      "src: '/images/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial.png'",
     ) &&
+      russianHatchArticleSource.includes(
+        "src: '/images/yacht-survey-tips/yacht-hatch-portlight-leak-checks.png'",
+      ) &&
       russianGeneratorArticleSource.includes(
         "src: '/images/yacht-survey-tips/yacht-generator-checks-before-purchase.png'",
       ) &&

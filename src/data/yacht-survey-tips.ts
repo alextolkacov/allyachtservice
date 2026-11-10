@@ -5,6 +5,7 @@ import { checkYachtSteeringArticle } from './yacht-survey-tips/check-yacht-steer
 import { deckMoistureSoftSpotsArticle } from './yacht-survey-tips/deck-moisture-soft-spots';
 import { documentsBeforeYachtSurveyArticle } from './yacht-survey-tips/documents-before-yacht-survey';
 import { keelToHullJointArticle } from './yacht-survey-tips/keel-to-hull-joint';
+import { planPrePurchaseYachtSeaTrialArticle } from './yacht-survey-tips/plan-pre-purchase-yacht-sea-trial';
 import { propellerShaftInspectionArticle } from './yacht-survey-tips/propeller-shaft-inspection';
 import { shinyHullArticle } from './yacht-survey-tips/shiny-hull';
 import { standingRiggingWarningSignsArticle } from './yacht-survey-tips/standing-rigging-warning-signs';
@@ -85,14 +86,11 @@ export const yachtSurveyTipsPage = {
       title: 'Survey Preparation',
       description:
         'How owners and buyers can prepare for a successful yacht survey.',
-      futureArticles: [
-        'Documents to prepare',
-        'What happens during a survey',
-        'Sea trial preparation',
-      ],
+      futureArticles: ['Documents to prepare', 'What happens during a survey'],
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    planPrePurchaseYachtSeaTrialArticle.card,
     yachtHatchPortlightLeakChecksArticle.card,
     yachtGeneratorChecksBeforePurchaseArticle.card,
     propellerShaftInspectionArticle.card,

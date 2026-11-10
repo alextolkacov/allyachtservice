@@ -301,6 +301,23 @@ const spanishSurveyTipsPages = [
     article: false,
   },
   {
+    en: '/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial',
+    es: '/es/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial',
+    ru: '/ru/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial',
+    title: 'Cómo planificar una prueba de mar antes de comprar un yate',
+    description:
+      'Prepare una prueba de mar precompra útil: acuerde el alcance, el patrón, la ruta, los límites meteorológicos y las observaciones antes de zarpar.',
+    h1: 'Planificar una prueba de mar antes de comprar un yate: acuerde las comprobaciones',
+    article: true,
+    datePublished: '2026-11-10',
+    dateModified: '2026-11-10',
+    timeRequired: 'PT6M',
+    image: '/images/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Por Aleksandrs Tolkacovs',
+  },
+  {
     en: '/yacht-survey-tips/yacht-hatch-portlight-leak-checks',
     es: '/es/yacht-survey-tips/yacht-hatch-portlight-leak-checks',
     ru: '/ru/yacht-survey-tips/yacht-hatch-portlight-leak-checks',
@@ -1268,6 +1285,7 @@ if (existsSync(distDirectory)) {
     'src/data/es/valuation-damage-survey.ts',
     'src/data/es/about-us.ts',
     'src/data/es/yacht-survey-tips.ts',
+    'src/data/es/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial.ts',
     'src/data/es/yacht-survey-tips/yacht-hatch-portlight-leak-checks.ts',
     'src/data/es/yacht-survey-tips/yacht-generator-checks-before-purchase.ts',
     'src/data/es/yacht-survey-tips/propeller-shaft-inspection.ts',
@@ -1333,6 +1351,7 @@ if (existsSync(distDirectory)) {
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
   const hatchTitle = 'Escotillas y portillos: siga el recorrido del agua';
+  const seaTrialTitle = 'Planificar una prueba de mar precompra';
   const generatorTitle =
     'Generador de un yate: por qué no basta con arrancarlo';
   const propellerTitle =
@@ -1370,7 +1389,10 @@ if (existsSync(distDirectory)) {
     'The Spanish Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(hatchTitle) >= 0 &&
+    latestSection.indexOf(seaTrialTitle) >= 0 &&
+      latestSection.indexOf(seaTrialTitle) <
+        latestSection.indexOf(hatchTitle) &&
+      latestSection.indexOf(hatchTitle) >= 0 &&
       latestSection.indexOf(hatchTitle) <
         latestSection.indexOf(generatorTitle) &&
       latestSection.indexOf(generatorTitle) >= 0 &&
@@ -1405,7 +1427,7 @@ if (existsSync(distDirectory)) {
     'Spanish latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 15,
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 16,
     'The Spanish archive must contain all fifteen published Survey Tips exactly once.',
   );
   const englishHub = getBuiltPage('/yacht-survey-tips');
@@ -1420,6 +1442,12 @@ if (existsSync(distDirectory)) {
         englishHub.indexOf('survey-tips-latest-section') &&
       englishHub.indexOf('survey-tips-latest-section') <
         englishHub.indexOf('survey-tips-categories-section') &&
+      englishLatestSection.indexOf('Planning a Pre-Purchase Yacht Sea Trial') >=
+        0 &&
+      englishLatestSection.indexOf('Planning a Pre-Purchase Yacht Sea Trial') <
+        englishLatestSection.indexOf(
+          'Yacht Hatches and Portlights: Follow the Water',
+        ) &&
       englishLatestSection.indexOf(
         'Yacht Hatches and Portlights: Follow the Water',
       ) >= 0 &&
@@ -1491,7 +1519,7 @@ if (existsSync(distDirectory)) {
   );
   assert(
     (englishLatestSection.match(/class="survey-article-card"/gu) ?? [])
-      .length === 15 &&
+      .length === 16 &&
       englishLatestSection.indexOf(
         'Yacht Sail Condition: What Buyers Should Check',
       ) < englishLatestSection.indexOf('Check the Keel-to-Hull Joint') &&
@@ -1895,6 +1923,8 @@ if (existsSync(distDirectory)) {
     'Article graphics must retain the shared full-image no-crop rules.',
   );
   const englishImageHashes = {
+    'public/images/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial.png':
+      '4ea5f6b7bcb2e2cc0b40bd3cae0c00dded2d5d2c2b58a541a24389053bd92ea2',
     'public/images/yacht-survey-tips/yacht-hatch-portlight-leak-checks.png':
       'c206adc239c0d5c5ad6947c1f919f2ed805a23c5df27622c8d71700c0b74dcf0',
     'public/images/yacht-survey-tips/yacht-generator-checks-before-purchase.png':
