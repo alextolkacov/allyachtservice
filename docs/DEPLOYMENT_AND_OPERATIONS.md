@@ -1,6 +1,6 @@
 # Deployment and operations
 
-Last reviewed: 2026-10-07
+Last reviewed: 2026-11-13
 
 ## Production model
 
@@ -23,7 +23,7 @@ Production/Preview build and runtime settings use these current names:
 - Non-secret runtime variables: `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL`, `TURNSTILE_EXPECTED_HOSTNAMES`.
 - Encrypted secrets: `TURNSTILE_SECRET_KEY`, `GOOGLE_OAUTH_CLIENT_ID`, `GOOGLE_OAUTH_CLIENT_SECRET`, `GOOGLE_OAUTH_REFRESH_TOKEN`.
 
-Values belong in the provider's environment/secret UI, not documentation or git. See [Security and Secrets](SECURITY_AND_SECRETS.md).
+Public build values and private secrets must be configured for the intended Cloudflare environment. Non-secret Function defaults are versioned in [`wrangler.jsonc`](../wrangler.jsonc); verify any provider overrides before a release. Do not put credential values in documentation or git. See [Security and Secrets](SECURITY_AND_SECRETS.md).
 
 ## Indexability environments
 
@@ -40,7 +40,7 @@ Owner-supplied current context:
 
 **Verify in provider UI before changing; repository code alone cannot prove current provider state.** Do not modify Namecheap, Cloudflare redirects or Search Console without explicit authorization.
 
-Spanish and Russian legacy subdomains are a separate consolidation task: import and activate the exact [legacy redirect map](LEGACY_LANGUAGE_REDIRECTS.md) in a hostname-capable redirect provider after their DNS/HTTPS routing is verified. A Pages `_redirects` file cannot do this cross-host work. As checked on 2026-10-07, the old subdomains did not resolve publicly, so the redirect artifact is not yet live.
+Spanish and Russian legacy subdomains are a separate consolidation concern. A Pages `_redirects` file cannot do cross-host work. On 2026-11-13, one historical Spanish pre-purchase URL returned a permanent redirect to the `/es` equivalent with its query string preserved; this does not verify the complete map or Russian host. Check the [legacy redirect map and status](LEGACY_LANGUAGE_REDIRECTS.md) and the provider before changing any DNS or rule.
 
 ## Deployment checklist
 

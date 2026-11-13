@@ -1,6 +1,6 @@
 # Security and secrets
 
-Last reviewed: 2026-09-02
+Last reviewed: 2026-11-13
 
 ## Rule
 
@@ -17,6 +17,8 @@ Names only:
 | Secrets                          | `TURNSTILE_SECRET_KEY`, `GOOGLE_OAUTH_CLIENT_ID`, `GOOGLE_OAUTH_CLIENT_SECRET`, `GOOGLE_OAUTH_REFRESH_TOKEN` | Store encrypted in Cloudflare and untracked local `.dev.vars`; never expose client-side. Treat the OAuth client ID conservatively with the credential set. |
 
 Tracked `.env.example` and `.dev.vars.example` document names and local setup. The latter uses provider-supplied local test values/placeholders; it is not a source for production credentials. `.gitignore` excludes real `.env*` and `.dev.vars*` files while retaining the examples.
+
+[`wrangler.jsonc`](../wrangler.jsonc) also versions non-secret Function defaults for sender, recipient and expected hostnames. Those are not secret values; provider overrides and encrypted secrets still require separate verification. On a new Mac, copy examples only to ignored local files, then obtain any authorized test credentials through the approved secret holder rather than Git.
 
 ## Contact security controls
 

@@ -1,13 +1,13 @@
 # Architecture
 
-Last reviewed: 2026-09-02
+Last reviewed: 2026-11-13
 
 ## Stack and runtime contract
 
 The declared runtime and dependency ranges are authoritative in [`package.json`](../package.json) and the exact dependency graph is locked in `package-lock.json`.
 
 - Node.js 24 (`.nvmrc`; package engine `>=24 <25`) and npm 11 or later.
-- Astro 7.1 with static output.
+- Astro 7 with static output (current declared range: `^7.4.1`; use `package-lock.json` for the installed version).
 - TypeScript 6 with Astro strict mode, `exactOptionalPropertyTypes` and `noUncheckedIndexedAccess`.
 - Tailwind CSS 4.3 through the Vite integration, plus project components in [`src/styles/global.css`](../src/styles/global.css).
 - Cloudflare Pages for static delivery and Cloudflare Pages Functions for `/api/*`.

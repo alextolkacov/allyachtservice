@@ -7,7 +7,7 @@ Supported languages are exactly English, Spanish and Russian. Do not add another
 ## Before modifying code
 
 1. Inspect the current local worktree; do not rely on an old README, remote snapshot or chat history.
-2. Read the [documentation index](docs/README.md) and the relevant architecture, design, operations or feature document.
+2. For a fresh clone or new Mac, start with the [development handoff](docs/DEVELOPMENT_HANDOFF.md); otherwise use the [documentation index](docs/README.md) and the relevant architecture, design, operations or feature document.
 3. Check the applicable [ADRs](docs/adr/README.md).
 4. Preserve EN/ES/RU parity for public localized features.
 5. Inspect `package.json` and [Testing and Quality](docs/TESTING_AND_QUALITY.md) for current validation.

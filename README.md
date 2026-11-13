@@ -15,12 +15,14 @@ The repository currently requires Node.js 24 and npm 11 or later; inspect `packa
 ## Local development
 
 ```sh
+nvm install
 nvm use
-npm install
+npm ci
+cp .env.example .env
 npm run dev
 ```
 
-Copy `.env.example` to `.env` when a local build needs explicit public build settings. For local Cloudflare Pages/Functions emulation, copy `.dev.vars.example` to the ignored `.dev.vars`, configure only authorized test values, and run the current `preview:cloudflare` package script. Never commit credentials.
+These commands assume `nvm` is installed and the checkout does not already contain a local `.env`; review an existing file instead of overwriting it. For local Cloudflare Pages/Functions emulation, copy `.dev.vars.example` to the ignored `.dev.vars`, configure only authorized test values, and run the current `preview:cloudflare` package script. Never commit credentials. See the [fresh-Mac development handoff](docs/DEVELOPMENT_HANDOFF.md) for prerequisites, validation and safe Git transfer.
 
 ## Supported languages
 
@@ -29,6 +31,7 @@ The public site supports exactly English, Spanish and Russian. English uses root
 ## Documentation
 
 - [Documentation index](docs/README.md)
+- [Development handoff](docs/DEVELOPMENT_HANDOFF.md)
 - [Agent instructions](AGENTS.md)
 - [Project specification](docs/PROJECT_SPECIFICATION.md)
 - [Architecture](docs/ARCHITECTURE.md)

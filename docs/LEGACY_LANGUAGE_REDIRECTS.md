@@ -1,12 +1,12 @@
 # Legacy language-subdomain redirects
 
-Last reviewed: 2026-10-07
+Last reviewed: 2026-11-13
 
 ## Status and scope
 
-The canonical public host is `www.allyachtservice.com`; the published languages are English at the root, Spanish under `/es` and Russian under `/ru`. The import-ready [Cloudflare Bulk Redirect CSV](../ops/legacy-language-redirects.csv) maps exact URLs on `es.allyachtservice.com` and `ru.allyachtservice.com` to live equivalent pages. It includes the owner-reported historical Spanish slug `/inspecciones-previas-a-la-compra` → `/es/pre-purchase-survey`. Current-path mappings cover each published translated route. Every row is a 301 with query-string preservation.
+The canonical public host is `www.allyachtservice.com`; the published languages are English at the root, Spanish under `/es` and Russian under `/ru`. The [Cloudflare Bulk Redirect CSV](../ops/legacy-language-redirects.csv) maps exact URLs on `es.allyachtservice.com` and `ru.allyachtservice.com` to equivalent pages. It includes the owner-reported historical Spanish slug `/inspecciones-previas-a-la-compra` → `/es/pre-purchase-survey`. Its current-path mappings are a dated snapshot, **not** an inventory of every route published since; for example, the latest Survey Tip paths are absent. Add a row only after confirming that a corresponding legacy URL existed or otherwise needs consolidation. Every existing row specifies a 301 with query-string preservation.
 
-This file is a **deployment artifact, not an active redirect configuration**. Cloudflare Pages' `_redirects` file cannot match a different hostname. As checked on 2026-10-07, the two legacy hostnames did not resolve publicly; therefore no HTTP redirect could be verified. The source hosts must first resolve through a Cloudflare-proxied zone (or an equivalent provider that serves the same permanent redirects), and the CSV must be imported into an enabled Cloudflare Bulk Redirect rule. The owner/provider should verify whether the authoritative DNS arrangement permits this and provision valid HTTPS certificates. Do not point the legacy hosts to the canonical site without activating the redirects.
+This file is a **deployment artifact, not an active redirect configuration**. Cloudflare Pages' `_redirects` file cannot match a different hostname. On 2026-11-13, `https://es.allyachtservice.com/inspecciones-previas-a-la-compra?handoff_probe=1` returned HTTP 301 to `https://www.allyachtservice.com/es/pre-purchase-survey?handoff_probe=1`. That confirms one Spanish mapping and query-string preservation, not import/activation of every CSV row. A Russian legacy-host request timed out in this audit, so its current DNS/HTTPS and redirect behavior remain unverified. Verify the provider configuration and all required historical URLs before considering consolidation complete. Do not point legacy hosts to duplicate HTML pages or a blanket homepage fallback.
 
 ## Mapping and activation workflow
 

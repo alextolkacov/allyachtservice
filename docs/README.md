@@ -1,6 +1,6 @@
 # All Yacht Service documentation
 
-Last reviewed: 2026-10-07
+Last reviewed: 2026-11-13
 
 This documentation preserves the current product, engineering and operating context that cannot be inferred safely from a single source file. It is intended for maintainers and coding agents; it does not replace executable configuration, approved legal data or provider settings.
 
@@ -8,6 +8,7 @@ This documentation preserves the current product, engineering and operating cont
 
 | Question                                                     | Read                                                      |
 | ------------------------------------------------------------ | --------------------------------------------------------- |
+| How do I resume on a new Mac or in a fresh Codex session?    | [Development Handoff](DEVELOPMENT_HANDOFF.md)             |
 | What does the product do?                                    | [Project Specification](PROJECT_SPECIFICATION.md)         |
 | How is it built?                                             | [Architecture](ARCHITECTURE.md)                           |
 | Why was an architectural decision made?                      | [Architecture Decision Records](adr/README.md)            |
