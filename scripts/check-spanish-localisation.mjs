@@ -301,6 +301,23 @@ const spanishSurveyTipsPages = [
     article: false,
   },
   {
+    en: '/yacht-survey-tips/yacht-anchoring-gear-before-purchase',
+    es: '/es/yacht-survey-tips/yacht-anchoring-gear-before-purchase',
+    ru: '/ru/yacht-survey-tips/yacht-anchoring-gear-before-purchase',
+    title: 'Inspección precompra del fondeo: cadena, molinete y caja',
+    description:
+      'El ancla visible no muestra el estado de toda la cadena, el cabo, las conexiones, el molinete ni la caja de cadenas. Qué revisar antes de comprar un yate.',
+    h1: 'Equipo de fondeo antes de comprar un yate: revise todo el sistema',
+    article: true,
+    datePublished: '2026-11-17',
+    dateModified: '2026-11-17',
+    timeRequired: 'PT5M',
+    image: '/images/yacht-survey-tips/yacht-anchoring-gear-before-purchase.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Por Aleksandrs Tolkacovs',
+  },
+  {
     en: '/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial',
     es: '/es/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial',
     ru: '/ru/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial',
@@ -1285,6 +1302,7 @@ if (existsSync(distDirectory)) {
     'src/data/es/valuation-damage-survey.ts',
     'src/data/es/about-us.ts',
     'src/data/es/yacht-survey-tips.ts',
+    'src/data/es/yacht-survey-tips/yacht-anchoring-gear-before-purchase.ts',
     'src/data/es/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial.ts',
     'src/data/es/yacht-survey-tips/yacht-hatch-portlight-leak-checks.ts',
     'src/data/es/yacht-survey-tips/yacht-generator-checks-before-purchase.ts',
@@ -1351,6 +1369,7 @@ if (existsSync(distDirectory)) {
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
   const hatchTitle = 'Escotillas y portillos: siga el recorrido del agua';
+  const anchoringTitle = 'Equipo de fondeo del yate: revise todo el sistema';
   const seaTrialTitle = 'Planificar una prueba de mar precompra';
   const generatorTitle =
     'Generador de un yate: por qué no basta con arrancarlo';
@@ -1389,7 +1408,10 @@ if (existsSync(distDirectory)) {
     'The Spanish Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(seaTrialTitle) >= 0 &&
+    latestSection.indexOf(anchoringTitle) >= 0 &&
+      latestSection.indexOf(anchoringTitle) <
+        latestSection.indexOf(seaTrialTitle) &&
+      latestSection.indexOf(seaTrialTitle) >= 0 &&
       latestSection.indexOf(seaTrialTitle) <
         latestSection.indexOf(hatchTitle) &&
       latestSection.indexOf(hatchTitle) >= 0 &&
@@ -1427,8 +1449,8 @@ if (existsSync(distDirectory)) {
     'Spanish latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 16,
-    'The Spanish archive must contain all fifteen published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 17,
+    'The Spanish archive must contain all seventeen published Survey Tips exactly once.',
   );
   const englishHub = getBuiltPage('/yacht-survey-tips');
   const englishLatestSection =
@@ -1442,6 +1464,15 @@ if (existsSync(distDirectory)) {
         englishHub.indexOf('survey-tips-latest-section') &&
       englishHub.indexOf('survey-tips-latest-section') <
         englishHub.indexOf('survey-tips-categories-section') &&
+      englishLatestSection.indexOf(
+        'Yacht Anchoring Gear: Check the Whole System',
+      ) >= 0 &&
+      englishLatestSection.indexOf(
+        'Yacht Anchoring Gear: Check the Whole System',
+      ) <
+        englishLatestSection.indexOf(
+          'Planning a Pre-Purchase Yacht Sea Trial',
+        ) &&
       englishLatestSection.indexOf('Planning a Pre-Purchase Yacht Sea Trial') >=
         0 &&
       englishLatestSection.indexOf('Planning a Pre-Purchase Yacht Sea Trial') <
@@ -1519,7 +1550,7 @@ if (existsSync(distDirectory)) {
   );
   assert(
     (englishLatestSection.match(/class="survey-article-card"/gu) ?? [])
-      .length === 16 &&
+      .length === 17 &&
       englishLatestSection.indexOf(
         'Yacht Sail Condition: What Buyers Should Check',
       ) < englishLatestSection.indexOf('Check the Keel-to-Hull Joint') &&
@@ -1923,6 +1954,8 @@ if (existsSync(distDirectory)) {
     'Article graphics must retain the shared full-image no-crop rules.',
   );
   const englishImageHashes = {
+    'public/images/yacht-survey-tips/yacht-anchoring-gear-before-purchase.png':
+      'bd27f2287404dfa38ef83182dc726e72d723e7fd6d865216df2b0e9b481e384e',
     'public/images/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial.png':
       '4ea5f6b7bcb2e2cc0b40bd3cae0c00dded2d5d2c2b58a541a24389053bd92ea2',
     'public/images/yacht-survey-tips/yacht-hatch-portlight-leak-checks.png':

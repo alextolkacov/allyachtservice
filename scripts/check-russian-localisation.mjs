@@ -94,6 +94,7 @@ const russianHatchArticleSource = read(
 );
 const russianSeaTrialArticleSource = read(
   'src/data/ru/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial.ts',
+  'src/data/ru/yacht-survey-tips/yacht-anchoring-gear-before-purchase.ts',
 );
 const russianGeneratorArticleSource = read(
   'src/data/ru/yacht-survey-tips/yacht-generator-checks-before-purchase.ts',
@@ -284,6 +285,25 @@ const translatedSurveyTipsRoutes = [
       'Профессиональные советы для покупателей и владельцев яхт о сюрвейерских осмотрах, типичных дефектах, техническом состоянии и обслуживании.',
     heading: 'Советы по сюрвейерскому осмотру яхт',
     article: false,
+  },
+  {
+    en: '/yacht-survey-tips/yacht-anchoring-gear-before-purchase',
+    es: '/es/yacht-survey-tips/yacht-anchoring-gear-before-purchase',
+    ru: '/ru/yacht-survey-tips/yacht-anchoring-gear-before-purchase',
+    title: 'Якорное устройство яхты перед покупкой: цепь, брашпиль и ящик',
+    description:
+      'Якорь на носу не показывает состояние всей цепи, каната, соединений, брашпиля и цепного ящика. Что проверить перед покупкой яхты.',
+    heading: 'Якорное устройство яхты перед покупкой: проверяйте всю систему',
+    article: true,
+    datePublished: '2026-11-17',
+    dateModified: '2026-11-17',
+    timeRequired: 'PT5M',
+    readingTime: '5 минут чтения',
+    articleSection: 'Предпокупочный осмотр · Якорное устройство',
+    image: '/images/yacht-survey-tips/yacht-anchoring-gear-before-purchase.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Материал подготовил Aleksandrs Tolkacovs',
   },
   {
     en: '/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial',
@@ -1687,6 +1707,7 @@ if (existsSync(distDirectory)) {
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
   const hatchTitle = 'Люки и иллюминаторы: проследите путь воды';
+  const anchoringTitle = 'Якорное устройство яхты: проверяйте всю систему';
   const seaTrialTitle = 'Планирование ходовых испытаний перед покупкой яхты';
   const generatorTitle =
     'Проверка генератора яхты: одного запуска недостаточно';
@@ -1723,7 +1744,10 @@ if (existsSync(distDirectory)) {
     'The Russian Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(seaTrialTitle) >= 0 &&
+    latestSection.indexOf(anchoringTitle) >= 0 &&
+      latestSection.indexOf(anchoringTitle) <
+        latestSection.indexOf(seaTrialTitle) &&
+      latestSection.indexOf(seaTrialTitle) >= 0 &&
       latestSection.indexOf(seaTrialTitle) <
         latestSection.indexOf(hatchTitle) &&
       latestSection.indexOf(hatchTitle) >= 0 &&
@@ -1761,8 +1785,8 @@ if (existsSync(distDirectory)) {
     'Russian latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 16,
-    'The Russian archive must contain all sixteen published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 17,
+    'The Russian archive must contain all seventeen published Survey Tips exactly once.',
   );
   assert(
     russianSurveyTipsHub.includes(
@@ -1794,6 +1818,8 @@ if (existsSync(distDirectory)) {
     'Russian Survey Tips must retain the shared full-image no-crop rules.',
   );
   const protectedImageHashes = {
+    'public/images/yacht-survey-tips/yacht-anchoring-gear-before-purchase.png':
+      'bd27f2287404dfa38ef83182dc726e72d723e7fd6d865216df2b0e9b481e384e',
     'public/images/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial.png':
       '4ea5f6b7bcb2e2cc0b40bd3cae0c00dded2d5d2c2b58a541a24389053bd92ea2',
     'public/images/yacht-survey-tips/yacht-hatch-portlight-leak-checks.png':
