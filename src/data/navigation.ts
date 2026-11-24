@@ -13,6 +13,7 @@ export type RouteId =
   | 'yachtDelivery'
   | 'yachtsForSale'
   | 'yachtSurveyTips'
+  | 'yachtWinchChecksBeforePurchase'
   | 'yachtAnchoringGearBeforePurchase'
   | 'planPrePurchaseYachtSeaTrial'
   | 'yachtHatchPortlightLeakChecks'
@@ -103,6 +104,11 @@ export const translatedRoutes: Record<
     en: '/yacht-survey-tips',
     es: '/es/yacht-survey-tips',
     ru: '/ru/yacht-survey-tips',
+  },
+  yachtWinchChecksBeforePurchase: {
+    en: '/yacht-survey-tips/yacht-winch-checks-before-purchase',
+    es: '/es/yacht-survey-tips/yacht-winch-checks-before-purchase',
+    ru: '/ru/yacht-survey-tips/yacht-winch-checks-before-purchase',
   },
   yachtAnchoringGearBeforePurchase: {
     en: '/yacht-survey-tips/yacht-anchoring-gear-before-purchase',

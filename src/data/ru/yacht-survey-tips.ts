@@ -11,6 +11,7 @@ import { russianDocumentsBeforeYachtSurveyArticle } from './yacht-survey-tips/do
 import { russianKeelToHullJointArticle } from './yacht-survey-tips/keel-to-hull-joint';
 import { russianPlanPrePurchaseYachtSeaTrialArticle } from './yacht-survey-tips/plan-pre-purchase-yacht-sea-trial';
 import { russianYachtAnchoringGearBeforePurchaseArticle } from './yacht-survey-tips/yacht-anchoring-gear-before-purchase';
+import { russianYachtWinchChecksBeforePurchaseArticle } from './yacht-survey-tips/yacht-winch-checks-before-purchase';
 import { russianPropellerShaftInspectionArticle } from './yacht-survey-tips/propeller-shaft-inspection';
 import { russianShinyHullArticle } from './yacht-survey-tips/shiny-hull';
 import { russianStandingRiggingWarningSignsArticle } from './yacht-survey-tips/standing-rigging-warning-signs';
@@ -100,6 +101,7 @@ export const russianYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    russianYachtWinchChecksBeforePurchaseArticle.card,
     russianYachtAnchoringGearBeforePurchaseArticle.card,
     russianPlanPrePurchaseYachtSeaTrialArticle.card,
     russianYachtHatchPortlightLeakChecksArticle.card,

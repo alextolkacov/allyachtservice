@@ -287,6 +287,26 @@ const translatedSurveyTipsRoutes = [
     article: false,
   },
   {
+    en: '/yacht-survey-tips/yacht-winch-checks-before-purchase',
+    es: '/es/yacht-survey-tips/yacht-winch-checks-before-purchase',
+    ru: '/ru/yacht-survey-tips/yacht-winch-checks-before-purchase',
+    title: 'Проверка лебёдок яхты: работа, стопоры и крепление',
+    description:
+      'Лебёдка, которая свободно вращается рукой, всё равно может нуждаться в обслуживании. Что попросить осмотреть и показать перед покупкой парусной яхты.',
+    heading:
+      'Проверка яхтенных лебёдок перед покупкой: смотрите глубже барабана',
+    article: true,
+    datePublished: '2026-11-24',
+    dateModified: '2026-11-24',
+    timeRequired: 'PT5M',
+    readingTime: '5 минут чтения',
+    articleSection: 'Предпокупочный осмотр · Палубное оборудование',
+    image: '/images/yacht-survey-tips/yacht-winch-checks-before-purchase.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Материал подготовил Aleksandrs Tolkacovs',
+  },
+  {
     en: '/yacht-survey-tips/yacht-anchoring-gear-before-purchase',
     es: '/es/yacht-survey-tips/yacht-anchoring-gear-before-purchase',
     ru: '/ru/yacht-survey-tips/yacht-anchoring-gear-before-purchase',
@@ -1707,6 +1727,7 @@ if (existsSync(distDirectory)) {
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
   const hatchTitle = 'Люки и иллюминаторы: проследите путь воды';
+  const winchTitle = 'Проверка яхтенных лебёдок: смотрите глубже барабана';
   const anchoringTitle = 'Якорное устройство яхты: проверяйте всю систему';
   const seaTrialTitle = 'Планирование ходовых испытаний перед покупкой яхты';
   const generatorTitle =
@@ -1744,7 +1765,10 @@ if (existsSync(distDirectory)) {
     'The Russian Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(anchoringTitle) >= 0 &&
+    latestSection.indexOf(winchTitle) >= 0 &&
+      latestSection.indexOf(winchTitle) <
+        latestSection.indexOf(anchoringTitle) &&
+      latestSection.indexOf(anchoringTitle) >= 0 &&
       latestSection.indexOf(anchoringTitle) <
         latestSection.indexOf(seaTrialTitle) &&
       latestSection.indexOf(seaTrialTitle) >= 0 &&
@@ -1785,9 +1809,23 @@ if (existsSync(distDirectory)) {
     'Russian latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 17,
-    'The Russian archive must contain all seventeen published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 18,
+    'The Russian archive must contain all eighteen published Survey Tips exactly once.',
   );
+  const russianWinch = getBuiltPage(
+    '/ru/yacht-survey-tips/yacht-winch-checks-before-purchase',
+  );
+  for (const heading of [
+    'Если лебёдка свободно вращается, значит ли это, что она исправна?',
+    'Следует ли покупателю разбирать лебёдку во время просмотра?',
+    'Что делать, если храповой механизм проскальзывает?',
+    'Можно ли включить электрические лебёдки в сюрвейерский осмотр?',
+  ]) {
+    assert(
+      visibleText(russianWinch).includes(heading),
+      `The Russian winch article is missing FAQ: ${heading}`,
+    );
+  }
   assert(
     russianSurveyTipsHub.includes(
       'src="/images/yacht-survey-tips-background.jpg"',
@@ -1818,6 +1856,8 @@ if (existsSync(distDirectory)) {
     'Russian Survey Tips must retain the shared full-image no-crop rules.',
   );
   const protectedImageHashes = {
+    'public/images/yacht-survey-tips/yacht-winch-checks-before-purchase.png':
+      '994956d60d65ad474dd6a47ff6647f7f0fe34539041cf79c0d8336000882bcff',
     'public/images/yacht-survey-tips/yacht-anchoring-gear-before-purchase.png':
       'bd27f2287404dfa38ef83182dc726e72d723e7fd6d865216df2b0e9b481e384e',
     'public/images/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial.png':

@@ -13,6 +13,7 @@ import { yachtElectricalCorrosionArticle } from './yacht-survey-tips/yacht-elect
 import { yachtEngineMountsArticle } from './yacht-survey-tips/yacht-engine-mounts';
 import { yachtGeneratorChecksBeforePurchaseArticle } from './yacht-survey-tips/yacht-generator-checks-before-purchase';
 import { yachtAnchoringGearBeforePurchaseArticle } from './yacht-survey-tips/yacht-anchoring-gear-before-purchase';
+import { yachtWinchChecksBeforePurchaseArticle } from './yacht-survey-tips/yacht-winch-checks-before-purchase';
 import { yachtHatchPortlightLeakChecksArticle } from './yacht-survey-tips/yacht-hatch-portlight-leak-checks';
 import { yachtSailConditionChecksArticle } from './yacht-survey-tips/yacht-sail-condition-checks';
 import type {
@@ -91,6 +92,7 @@ export const yachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    yachtWinchChecksBeforePurchaseArticle.card,
     yachtAnchoringGearBeforePurchaseArticle.card,
     planPrePurchaseYachtSeaTrialArticle.card,
     yachtHatchPortlightLeakChecksArticle.card,

@@ -11,6 +11,7 @@ import { spanishDocumentsBeforeYachtSurveyArticle } from './yacht-survey-tips/do
 import { spanishKeelToHullJointArticle } from './yacht-survey-tips/keel-to-hull-joint';
 import { spanishPlanPrePurchaseYachtSeaTrialArticle } from './yacht-survey-tips/plan-pre-purchase-yacht-sea-trial';
 import { spanishYachtAnchoringGearBeforePurchaseArticle } from './yacht-survey-tips/yacht-anchoring-gear-before-purchase';
+import { spanishYachtWinchChecksBeforePurchaseArticle } from './yacht-survey-tips/yacht-winch-checks-before-purchase';
 import { spanishPropellerShaftInspectionArticle } from './yacht-survey-tips/propeller-shaft-inspection';
 import { spanishShinyHullArticle } from './yacht-survey-tips/shiny-hull';
 import { spanishStandingRiggingWarningSignsArticle } from './yacht-survey-tips/standing-rigging-warning-signs';
@@ -100,6 +101,7 @@ export const spanishYachtSurveyTipsPage = {
     },
   ] satisfies readonly SurveyTipsCategory[],
   latestArticles: [
+    spanishYachtWinchChecksBeforePurchaseArticle.card,
     spanishYachtAnchoringGearBeforePurchaseArticle.card,
     spanishPlanPrePurchaseYachtSeaTrialArticle.card,
     spanishYachtHatchPortlightLeakChecksArticle.card,

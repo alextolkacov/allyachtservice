@@ -301,6 +301,23 @@ const spanishSurveyTipsPages = [
     article: false,
   },
   {
+    en: '/yacht-survey-tips/yacht-winch-checks-before-purchase',
+    es: '/es/yacht-survey-tips/yacht-winch-checks-before-purchase',
+    ru: '/ru/yacht-survey-tips/yacht-winch-checks-before-purchase',
+    title: 'Winches de un yate usado: funcionamiento, trinquetes y fijación',
+    description:
+      'Un winche que gira a mano puede necesitar mantenimiento. Sepa qué pedir que se inspeccione y demuestre antes de comprar un velero.',
+    h1: 'Revisar los winches antes de comprar un yate: más allá del tambor',
+    article: true,
+    datePublished: '2026-11-24',
+    dateModified: '2026-11-24',
+    timeRequired: 'PT5M',
+    image: '/images/yacht-survey-tips/yacht-winch-checks-before-purchase.png',
+    width: 1080,
+    height: 1350,
+    authorLine: 'Por Aleksandrs Tolkacovs',
+  },
+  {
     en: '/yacht-survey-tips/yacht-anchoring-gear-before-purchase',
     es: '/es/yacht-survey-tips/yacht-anchoring-gear-before-purchase',
     ru: '/ru/yacht-survey-tips/yacht-anchoring-gear-before-purchase',
@@ -1302,6 +1319,7 @@ if (existsSync(distDirectory)) {
     'src/data/es/valuation-damage-survey.ts',
     'src/data/es/about-us.ts',
     'src/data/es/yacht-survey-tips.ts',
+    'src/data/es/yacht-survey-tips/yacht-winch-checks-before-purchase.ts',
     'src/data/es/yacht-survey-tips/yacht-anchoring-gear-before-purchase.ts',
     'src/data/es/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial.ts',
     'src/data/es/yacht-survey-tips/yacht-hatch-portlight-leak-checks.ts',
@@ -1369,6 +1387,7 @@ if (existsSync(distDirectory)) {
       /survey-tips-latest-section[\s\S]*?survey-tips-categories-section/u,
     )?.[0] ?? '';
   const hatchTitle = 'Escotillas y portillos: siga el recorrido del agua';
+  const winchTitle = 'Winches del yate: más allá del tambor';
   const anchoringTitle = 'Equipo de fondeo del yate: revise todo el sistema';
   const seaTrialTitle = 'Planificar una prueba de mar precompra';
   const generatorTitle =
@@ -1408,7 +1427,10 @@ if (existsSync(distDirectory)) {
     'The Spanish Latest Articles section must follow the introduction and precede Knowledge Areas.',
   );
   assert(
-    latestSection.indexOf(anchoringTitle) >= 0 &&
+    latestSection.indexOf(winchTitle) >= 0 &&
+      latestSection.indexOf(winchTitle) <
+        latestSection.indexOf(anchoringTitle) &&
+      latestSection.indexOf(anchoringTitle) >= 0 &&
       latestSection.indexOf(anchoringTitle) <
         latestSection.indexOf(seaTrialTitle) &&
       latestSection.indexOf(seaTrialTitle) >= 0 &&
@@ -1449,9 +1471,37 @@ if (existsSync(distDirectory)) {
     'Spanish latest articles are not in newest-first order.',
   );
   assert(
-    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 17,
-    'The Spanish archive must contain all seventeen published Survey Tips exactly once.',
+    (latestSection.match(/class="survey-article-card"/gu) ?? []).length === 18,
+    'The Spanish archive must contain all eighteen published Survey Tips exactly once.',
   );
+  const spanishWinch = getBuiltPage(
+    '/es/yacht-survey-tips/yacht-winch-checks-before-purchase',
+  );
+  const englishWinch = getBuiltPage(
+    '/yacht-survey-tips/yacht-winch-checks-before-purchase',
+  );
+  for (const heading of [
+    '¿Que un winche gire libremente significa que está en buen estado?',
+    '¿Debe el comprador desmontar un winche durante la visita?',
+    '¿Qué hacer si la carraca parece patinar?',
+    '¿Puede una inspección incluir winches eléctricos?',
+  ]) {
+    assert(
+      visibleText(spanishWinch).includes(heading),
+      `The Spanish winch article is missing FAQ: ${heading}`,
+    );
+  }
+  for (const heading of [
+    'Does a Winch Turning Freely Mean It Is in Good Condition?',
+    'Should a Buyer Dismantle a Winch During the Viewing?',
+    'What if the Ratchet Seems to Slip?',
+    'Can a Survey Include Electric Winches?',
+  ]) {
+    assert(
+      visibleText(englishWinch).includes(heading),
+      `The English winch article is missing FAQ: ${heading}`,
+    );
+  }
   const englishHub = getBuiltPage('/yacht-survey-tips');
   const englishLatestSection =
     englishHub.match(
@@ -1464,6 +1514,13 @@ if (existsSync(distDirectory)) {
         englishHub.indexOf('survey-tips-latest-section') &&
       englishHub.indexOf('survey-tips-latest-section') <
         englishHub.indexOf('survey-tips-categories-section') &&
+      englishLatestSection.indexOf(
+        'Yacht Winch Checks: Look Beyond the Drum',
+      ) >= 0 &&
+      englishLatestSection.indexOf('Yacht Winch Checks: Look Beyond the Drum') <
+        englishLatestSection.indexOf(
+          'Yacht Anchoring Gear: Check the Whole System',
+        ) &&
       englishLatestSection.indexOf(
         'Yacht Anchoring Gear: Check the Whole System',
       ) >= 0 &&
@@ -1550,7 +1607,7 @@ if (existsSync(distDirectory)) {
   );
   assert(
     (englishLatestSection.match(/class="survey-article-card"/gu) ?? [])
-      .length === 17 &&
+      .length === 18 &&
       englishLatestSection.indexOf(
         'Yacht Sail Condition: What Buyers Should Check',
       ) < englishLatestSection.indexOf('Check the Keel-to-Hull Joint') &&
@@ -1954,6 +2011,8 @@ if (existsSync(distDirectory)) {
     'Article graphics must retain the shared full-image no-crop rules.',
   );
   const englishImageHashes = {
+    'public/images/yacht-survey-tips/yacht-winch-checks-before-purchase.png':
+      '994956d60d65ad474dd6a47ff6647f7f0fe34539041cf79c0d8336000882bcff',
     'public/images/yacht-survey-tips/yacht-anchoring-gear-before-purchase.png':
       'bd27f2287404dfa38ef83182dc726e72d723e7fd6d865216df2b0e9b481e384e',
     'public/images/yacht-survey-tips/plan-pre-purchase-yacht-sea-trial.png':
